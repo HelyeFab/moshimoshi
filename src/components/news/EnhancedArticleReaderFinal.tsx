@@ -1137,7 +1137,13 @@ export default function EnhancedArticleReader({
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
         // Fall back to AI translation for stories without pre-stored translations
         try {
-          const result = await getFullTranslation(currentContent)
+          const result = await getFullTranslation(currentContent, {
+            onProgress: (partial) => {
+              if (partial?.translatedText) {
+                setTranslatedContent(partial.translatedText)
+              }
+            },
+          })
           if (result?.translatedText) {
             setTranslatedContent(result.translatedText)
           }
@@ -1162,7 +1168,13 @@ export default function EnhancedArticleReader({
         // Fetch from API (will use Firebase cache if available)
         console.log(`[Translation] Fetching news translation via API (mode: ${settings.translationMode})`)
         try {
-          const result = await getFullTranslation(currentContent)
+          const result = await getFullTranslation(currentContent, {
+            onProgress: (partial) => {
+              if (partial?.translatedText) {
+                setTranslatedContent(partial.translatedText)
+              }
+            },
+          })
           if (result?.translatedText) {
             setTranslatedContent(result.translatedText)
             // Cache locally for this session (using ref to avoid effect re-trigger)
@@ -2943,17 +2955,6 @@ export default function EnhancedArticleReader({
                 {t('news.reader.translation')}
               </h3>
               <div className="flex items-center gap-3">
-                {settings.translationMode !== 'off' && (
-                  <span
-                    className="px-2 py-1 rounded-full font-medium text-xs"
-                    style={{
-                      backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
-                      color: 'rgb(var(--palette-primary-600))',
-                    }}
-                  >
-                    {settings.translationMode}
-                  </span>
-                )}
                 {isTranslationExpanded ? (
                   <ChevronUp className="w-5 h-5" style={{ color: 'var(--article-text)' }} />
                 ) : (
@@ -2970,7 +2971,7 @@ export default function EnhancedArticleReader({
                   <div className="flex items-center gap-3 py-8">
                     <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
                     <span style={{ color: 'var(--article-text-secondary)' }}>
-                      Translating with AI • Firebase caching enabled...
+                      Translating with AI...
                     </span>
                   </div>
                 ) : translationError && !isStoryMode ? (
@@ -3039,7 +3040,7 @@ export default function EnhancedArticleReader({
                 {article.metadata.wordCount} words
               </span>
             )}
-            {article.url && !isStoryMode && (
+            {article.url && contentType === 'article' && (
               <a
                 href={article.url}
                 target="_blank"

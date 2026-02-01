@@ -53,17 +53,26 @@ async function getLevelSummaries(): Promise<GrammarLevelSummary[]> {
 
 export async function buildGrammarHubMetadata(
   locale: string,
-  level: GrammarHubLevel
+  level: GrammarHubLevel,
+  mode: 'lesson' | 'practice' = 'lesson'
 ): Promise<Metadata> {
   const indexData = await getGrammarIndex(level)
   const levelLabel = indexData.jlptLevel
   const totalPoints = indexData.totalPoints
   const hubPath = getLevelPath(level)
   const audienceLabel = getAudienceLabel(levelLabel)
+  const isPractice = mode === 'practice'
+  const titlePrefix = isPractice ? 'Practice' : 'Free'
+  const descriptionPrefix = isPractice ? 'Practice Japanese grammar with' : 'Master Japanese grammar with'
+  const canonicalPath = isPractice
+    ? level === 'n5'
+      ? '/learn/grammar/practice'
+      : `/learn/grammar/practice/${level}`
+    : hubPath
 
   return {
-    title: `Free Japanese Grammar Course - Complete JLPT ${levelLabel} Guide (${totalPoints} Lessons)`,
-    description: `Master Japanese grammar with ${totalPoints} free interactive JLPT ${levelLabel} lessons. Clear explanations, example sentences, practice exercises, and no sign-up required.`,
+    title: `${titlePrefix} Japanese Grammar - Complete JLPT ${levelLabel} Guide (${totalPoints} Lessons)`,
+    description: `${descriptionPrefix} ${totalPoints} JLPT ${levelLabel} lessons. Clear explanations, example sentences, practice exercises, and no sign-up required.`,
     keywords: [
       // Primary keywords
       'japanese grammar course',
@@ -93,7 +102,7 @@ export async function buildGrammarHubMetadata(
       title: `Free Japanese Grammar Course - ${totalPoints} JLPT ${levelLabel} Lessons`,
       description: `Complete JLPT ${levelLabel} grammar course with interactive exercises. Learn particles, verbs, adjectives, and more. No sign-up required!`,
       type: 'website',
-      url: `${baseUrl}/${locale}${hubPath}`,
+      url: `${baseUrl}/${locale}${canonicalPath}`,
       siteName: 'Moshimoshi',
       locale: locale,
       images: [
@@ -107,27 +116,31 @@ export async function buildGrammarHubMetadata(
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Free Japanese Grammar Course - ${totalPoints} JLPT ${levelLabel} Lessons`,
+      title: `${titlePrefix} Japanese Grammar - ${totalPoints} JLPT ${levelLabel} Lessons`,
       description:
-        'Master Japanese grammar with free interactive lessons. Clear explanations, examples, and practice exercises!',
+        'Master Japanese grammar with interactive lessons. Clear explanations, examples, and practice exercises!',
       images: [`${baseUrl}/moshimoshi-logo.png`],
     },
     alternates: {
-      canonical: `${baseUrl}/${locale}${hubPath}`,
+      canonical: `${baseUrl}/${locale}${canonicalPath}`,
       languages: {
-        en: `${baseUrl}/en${hubPath}`,
-        ja: `${baseUrl}/ja${hubPath}`,
-        de: `${baseUrl}/de${hubPath}`,
-        es: `${baseUrl}/es${hubPath}`,
-        fr: `${baseUrl}/fr${hubPath}`,
-        it: `${baseUrl}/it${hubPath}`,
-        'x-default': `${baseUrl}/en${hubPath}`,
+        en: `${baseUrl}/en${canonicalPath}`,
+        ja: `${baseUrl}/ja${canonicalPath}`,
+        de: `${baseUrl}/de${canonicalPath}`,
+        es: `${baseUrl}/es${canonicalPath}`,
+        fr: `${baseUrl}/fr${canonicalPath}`,
+        it: `${baseUrl}/it${canonicalPath}`,
+        'x-default': `${baseUrl}/en${canonicalPath}`,
       },
     },
   }
 }
 
-export async function renderGrammarHubPage(locale: string, level: GrammarHubLevel) {
+export async function renderGrammarHubPage(
+  locale: string,
+  level: GrammarHubLevel,
+  mode: 'lesson' | 'practice' = 'lesson'
+) {
   const [indexData, levelSummaries, chapters, categoryLabels, searchIndex] = await Promise.all([
     getGrammarIndex(level),
     getLevelSummaries(),
@@ -200,6 +213,7 @@ export async function renderGrammarHubPage(locale: string, level: GrammarHubLeve
           chapters={chapters}
           categoryLabels={categoryLabels}
           searchIndex={searchIndex}
+          primaryAction={mode === 'practice' ? 'practice' : 'lesson'}
         />
       </Suspense>
     </>

@@ -25,6 +25,72 @@ function getDedupeKey(text: string): string {
   return `translate_${text.substring(0, 100)}_${text.length}`
 }
 
+const CHUNK_MAX_CHARS = 800
+
+function splitIntoChunks(text: string, maxChars: number): string[] {
+  const sentences = text
+    .split(/(?<=[。！？!?\n])/)
+    .map(s => s.trim())
+    .filter(Boolean)
+
+  if (sentences.length <= 1 || text.length <= maxChars) {
+    return [text]
+  }
+
+  const chunks: string[] = []
+  let current = ''
+  for (const sentence of sentences) {
+    if ((current + sentence).length > maxChars && current.length > 0) {
+      chunks.push(current.trim())
+      current = sentence
+    } else {
+      current += sentence
+    }
+  }
+  if (current.trim()) chunks.push(current.trim())
+  return chunks.length > 0 ? chunks : [text]
+}
+
+function mergeTranslationResults(
+  results: TranslationResult[],
+  originalText: string,
+  mode: TranslationMode
+): TranslationResult {
+  const translatedText = results.map(r => r.translatedText || '').join('\n').trim()
+  const avgConfidence =
+    results.length > 0
+      ? results.reduce((sum, r) => sum + (r?.confidence || 0), 0) / results.length
+      : 0.8
+
+  const merged: TranslationResult = {
+    originalText,
+    translatedText,
+    mode,
+    confidence: Math.max(0, Math.min(1, avgConfidence)),
+    hints: results.flatMap(r => r.hints || []),
+    grammarNotes: results.flatMap(r => r.grammarNotes || []),
+    keyVocabulary: results.flatMap(r => r.keyVocabulary || []),
+    alternatives: results.flatMap(r => r.alternatives || []),
+    learningPoints: results.flatMap(r => r.learningPoints || []),
+    nextSteps: results.flatMap(r => r.nextSteps || []),
+    partialTranslation: undefined,
+  }
+
+  if (mode === 'partial') {
+    merged.partialTranslation = {
+      original: originalText,
+      partial: results
+        .map(r => r.partialTranslation?.partial || r.translatedText || '')
+        .join('\n')
+        .trim(),
+      translatedParts: results.flatMap(r => r.partialTranslation?.translatedParts || []),
+      remainingJapanese: results.flatMap(r => r.partialTranslation?.remainingJapanese || []),
+    }
+  }
+
+  return merged
+}
+
 // Client-side types (avoiding server-side imports)
 interface TranslationCacheDocument {
   textHash: string
@@ -69,10 +135,21 @@ export interface UseContentTranslationReturn {
   updateSettings: (updates: Partial<ContentTranslationSettings>) => void
 
   // Translation functions
-  translateText: (text: string, mode?: TranslationMode) => Promise<TranslationResult | null>
+  translateText: (
+    text: string,
+    mode?: TranslationMode,
+    options?: {
+      onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
+    }
+  ) => Promise<TranslationResult | null>
   getHints: (text: string) => Promise<string[]>
   getPartialTranslation: (text: string) => Promise<TranslationResult | null>
-  getFullTranslation: (text: string) => Promise<TranslationResult | null>
+  getFullTranslation: (
+    text: string,
+    options?: {
+      onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
+    }
+  ) => Promise<TranslationResult | null>
 
   // Batch operations
   translateBatch: (texts: string[], mode?: TranslationMode) => Promise<TranslationResult[]>
@@ -179,7 +256,10 @@ export function useContentTranslation(
   const translateText = useCallback(
     async (
       text: string,
-      mode: TranslationMode = settings.mode
+      mode: TranslationMode = settings.mode,
+      options?: {
+        onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
+      }
     ): Promise<TranslationResult | null> => {
       console.log(`[Translation] translateText called with:`, {
         text: text.substring(0, 50) + '...',
@@ -301,89 +381,118 @@ export function useContentTranslation(
           }
 
           // 🤖 STEP 1: Make AI request via server-side API with Firebase caching
-          console.log(`🔍 Making translation API call for: "${text.substring(0, 50)}..." (${mode})`)
-
-          const requestBody = {
-            text,
-            mode,
-            userLevel: settings.userLevel,
-            includeGrammarNotes: settings.includeGrammarNotes,
-            preserveGrammarStructure: true, // Default to true for better learning experience
-          }
-          console.log(`[Translation] Request body:`, requestBody)
-
-          const apiResponse = await fetch('/api/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody),
-          })
-
-          console.log(`[Translation] API Response status:`, {
-            ok: apiResponse.ok,
-            status: apiResponse.status,
-            statusText: apiResponse.statusText,
-          })
-
-          if (!apiResponse.ok) {
-            throw new Error(`Translation API error: ${apiResponse.statusText}`)
+          const chunks = splitIntoChunks(text, CHUNK_MAX_CHARS)
+          const totalChunks = chunks.length
+          if (totalChunks > 1) {
+            console.log(`[Translation] Chunking into ${totalChunks} parts (max ${CHUNK_MAX_CHARS} chars)`)
           }
 
-          const response = await apiResponse.json()
-          console.log(`[Translation] API Response:`, {
-            success: response.success,
-            hasData: !!response.data,
-            error: response.error,
-            cached: response.cached,
-            responseTime: response.responseTime,
-          })
+          const results: TranslationResult[] = []
 
-          if (response.success && response.data) {
-            const result = response.data
+          for (let i = 0; i < chunks.length; i += 1) {
+            const chunk = chunks[i]
+            console.log(`🔍 Making translation API call for chunk ${i + 1}/${totalChunks}`)
 
-            // Log cache status
-            if (response.cached) {
-              console.log(
-                '%c[Translation] SOURCE: API CACHE (Firebase translation_cache)',
-                'color: #00ff00; font-weight: bold',
-                { responseTime: response.responseTime + 'ms' }
-              )
-              setUsageStats(prev => ({
-                ...prev,
-                cacheHits: prev.cacheHits + 1,
-                firebaseCacheHits: prev.firebaseCacheHits + 1,
-                lastUsed: new Date(),
-              }))
-            } else {
-              console.log(
-                '%c[Translation] SOURCE: API (OpenAI)',
-                'color: #ff0000; font-weight: bold',
-                { responseTime: response.responseTime + 'ms' }
-              )
-              setUsageStats(prev => ({
-                ...prev,
-                translationsRequested: prev.translationsRequested + 1,
-                hintsRequested: mode === 'hints' ? prev.hintsRequested + 1 : prev.hintsRequested,
-                cacheMisses: prev.cacheMisses + 1,
-                costSaved: prev.costSaved + (response.usage?.estimatedCost || 0),
-                lastUsed: new Date(),
-              }))
+            const requestBody = {
+              text: chunk,
+              mode,
+              userLevel: settings.userLevel,
+              includeGrammarNotes: settings.includeGrammarNotes,
+              preserveGrammarStructure: true, // Default to true for better learning experience
+              clientChunked: totalChunks > 1,
+            }
+            console.log(`[Translation] Request body:`, requestBody)
+
+            const apiResponse = await fetch('/api/translate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(requestBody),
+            })
+
+            console.log(`[Translation] API Response status:`, {
+              ok: apiResponse.ok,
+              status: apiResponse.status,
+              statusText: apiResponse.statusText,
+            })
+
+            if (!apiResponse.ok) {
+              const errorText = await apiResponse.text().catch(() => '')
+              let detail = errorText || apiResponse.statusText
+              try {
+                const parsed = JSON.parse(errorText)
+                detail = parsed.error || parsed.details || detail
+              } catch {
+                // ignore parse
+              }
+              throw new Error(`Translation API error: ${apiResponse.status} ${detail}`)
             }
 
-            // Auto-add vocabulary if enabled
-            if (settings.autoAddToVocabulary && result.keyVocabulary) {
-              result.keyVocabulary.forEach(
-                (vocab: { word: string; meaning: string; difficulty: string }) => {
-                  if (vocab.difficulty === 'medium' || vocab.difficulty === 'hard') {
-                    addToVocabulary(vocab.word, vocab.meaning)
+            const response = await apiResponse.json()
+            console.log(`[Translation] API Response:`, {
+              success: response.success,
+              hasData: !!response.data,
+              error: response.error,
+              cached: response.cached,
+              responseTime: response.responseTime,
+            })
+
+            if (response.success && response.data) {
+              const result = response.data as TranslationResult
+
+              // Log cache status
+              if (response.cached) {
+                console.log(
+                  '%c[Translation] SOURCE: API CACHE (Firebase translation_cache)',
+                  'color: #00ff00; font-weight: bold',
+                  { responseTime: response.responseTime + 'ms' }
+                )
+                setUsageStats(prev => ({
+                  ...prev,
+                  cacheHits: prev.cacheHits + 1,
+                  firebaseCacheHits: prev.firebaseCacheHits + 1,
+                  lastUsed: new Date(),
+                }))
+              } else {
+                console.log(
+                  '%c[Translation] SOURCE: API (OpenAI)',
+                  'color: #ff0000; font-weight: bold',
+                  { responseTime: response.responseTime + 'ms' }
+                )
+                setUsageStats(prev => ({
+                  ...prev,
+                  translationsRequested: prev.translationsRequested + 1,
+                  hintsRequested: mode === 'hints' ? prev.hintsRequested + 1 : prev.hintsRequested,
+                  cacheMisses: prev.cacheMisses + 1,
+                  costSaved: prev.costSaved + (response.usage?.estimatedCost || 0),
+                  lastUsed: new Date(),
+                }))
+              }
+
+              // Auto-add vocabulary if enabled
+              if (settings.autoAddToVocabulary && result.keyVocabulary) {
+                result.keyVocabulary.forEach(
+                  (vocab: { word: string; meaning: string; difficulty: string }) => {
+                    if (vocab.difficulty === 'medium' || vocab.difficulty === 'hard') {
+                      addToVocabulary(vocab.word, vocab.meaning)
+                    }
                   }
-                }
-              )
-            }
+                )
+              }
 
-            return result
-          } else {
-            throw new Error(response.error || 'Translation failed')
+              results.push(result)
+
+              if (options?.onProgress && totalChunks > 1) {
+                const partial = mergeTranslationResults(results, text, mode)
+                options.onProgress(partial, { chunkIndex: i + 1, totalChunks })
+              }
+            } else {
+              throw new Error(response.error || 'Translation failed')
+            }
           }
+
+          if (results.length === 0) return null
+          if (results.length === 1) return results[0]
+          return mergeTranslationResults(results, text, mode)
         } catch (err) {
           const errorMessage = err instanceof Error ? err.message : 'Translation failed'
           setError(errorMessage)
@@ -424,8 +533,13 @@ export function useContentTranslation(
   )
 
   const getFullTranslation = useCallback(
-    async (text: string): Promise<TranslationResult | null> => {
-      return translateText(text, 'full')
+    async (
+      text: string,
+      options?: {
+        onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
+      }
+    ): Promise<TranslationResult | null> => {
+      return translateText(text, 'full', options)
     },
     [translateText]
   )

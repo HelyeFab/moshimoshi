@@ -30,12 +30,16 @@ interface GrammarPageClientProps {
   chapters?: GrammarChaptersFile | null
   categoryLabels?: GrammarCategoryLabelsFile | null
   searchIndex?: GrammarSearchIndexFile | null
+  primaryAction?: 'lesson' | 'practice'
 }
 
-function getLevelHref(locale: string, level: string) {
-  return level === 'n5'
-    ? `/${locale}/learn/grammar`
-    : `/${locale}/learn/grammar/${level}`
+function getLevelHref(locale: string, level: string, mode: 'lesson' | 'practice') {
+  if (mode === 'practice') {
+    return level === 'n5'
+      ? `/${locale}/learn/grammar/practice`
+      : `/${locale}/learn/grammar/practice/${level}`
+  }
+  return level === 'n5' ? `/${locale}/learn/grammar` : `/${locale}/learn/grammar/${level}`
 }
 
 export default function GrammarPageClient({
@@ -46,12 +50,20 @@ export default function GrammarPageClient({
   chapters,
   categoryLabels,
   searchIndex,
+  primaryAction = 'lesson',
 }: GrammarPageClientProps) {
   const { t } = useI18n()
   const { user } = useAuth()
   const hasMultipleLevels = levels.length > 1
   const [groupBy, setGroupBy] = useState<'chapter' | 'category'>('chapter')
   const [query, setQuery] = useState('')
+  const mode = primaryAction === 'practice' ? 'practice' : 'lesson'
+  const modeToggleHref =
+    mode === 'practice'
+      ? getLevelHref(locale, currentLevel, 'lesson')
+      : getLevelHref(locale, currentLevel, 'practice')
+  const modeToggleLabel =
+    mode === 'practice' ? t('grammarStall.lessonMode') : t('grammarStall.practiceMode')
 
   const pointsById = useMemo(() => {
     return new Map(indexData.points.map((point) => [point.id, point]))
@@ -143,15 +155,31 @@ export default function GrammarPageClient({
         description={t('grammarStall.description', { count: indexData.totalPoints })}
         backHref="/dashboard"
         actions={(
-          <span className="hidden sm:inline-flex items-center px-4 py-2 rounded-lg bg-primary-600 dark:bg-primary-500 text-white text-sm font-medium">
-            {t('grammarStall.jlptBadge', { level: indexData.jlptLevel })}
-          </span>
+          <div className="hidden sm:flex items-center gap-2">
+            <Link
+              href={modeToggleHref}
+              className="inline-flex items-center rounded-lg border border-gray-200 dark:border-dark-700 bg-white/70 dark:bg-dark-800/70 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 transition hover:border-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
+            >
+              {modeToggleLabel}
+            </Link>
+            <span className="inline-flex items-center px-4 py-2 rounded-lg bg-primary-600 dark:bg-primary-500 text-white text-sm font-medium">
+              {t('grammarStall.jlptBadge', { level: indexData.jlptLevel })}
+            </span>
+          </div>
         )}
       />
       <div className="sm:hidden px-4 -mt-2 mb-4">
-        <span className="inline-flex items-center px-4 py-2 rounded-lg bg-primary-600 dark:bg-primary-500 text-white text-sm font-medium">
-          {t('grammarStall.jlptBadge', { level: indexData.jlptLevel })}
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={modeToggleHref}
+            className="inline-flex items-center rounded-lg border border-gray-200 dark:border-dark-700 bg-white/70 dark:bg-dark-800/70 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 transition hover:border-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
+          >
+            {modeToggleLabel}
+          </Link>
+          <span className="inline-flex items-center px-4 py-2 rounded-lg bg-primary-600 dark:bg-primary-500 text-white text-sm font-medium">
+            {t('grammarStall.jlptBadge', { level: indexData.jlptLevel })}
+          </span>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -167,7 +195,7 @@ export default function GrammarPageClient({
                   return (
                     <Link
                       key={levelInfo.level}
-                      href={getLevelHref(locale, levelInfo.level)}
+                      href={getLevelHref(locale, levelInfo.level, mode)}
                       className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-colors ${
                         isActive
                           ? 'bg-primary-600 text-white shadow-sm'
@@ -250,10 +278,14 @@ export default function GrammarPageClient({
                     </span>
                   </div>
                   <div className="divide-y divide-gray-200 dark:divide-dark-700 rounded-lg border border-gray-200 dark:border-dark-700 bg-white/70 dark:bg-dark-800/70">
-                    {group.entries.map((entry) => (
-                      <Link
+                {group.entries.map((entry) => (
+                  <Link
                         key={entry.id}
-                        href={`/${locale}/learn/grammar/${entry.id}`}
+                        href={
+                          mode === 'practice'
+                            ? `/${locale}/learn/grammar/${entry.id}/practice`
+                            : `/${locale}/learn/grammar/${entry.id}`
+                        }
                         className="flex flex-col gap-1 px-4 py-3 transition-colors hover:bg-primary-50 dark:hover:bg-dark-700"
                       >
                         <div className="flex flex-wrap items-center gap-2">
@@ -283,17 +315,23 @@ export default function GrammarPageClient({
         ) : (
           <div className="space-y-10">
             {sections.map((section) => (
-              <div key={section.id}>
-                <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                    {section.title}
-                  </h2>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {section.points.length}
-                  </span>
+                <div key={section.id}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                      {section.title}
+                    </h2>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      {section.points.length}
+                    </span>
+                  </div>
+                <GrammarPointGrid
+                  points={section.points}
+                  locale={locale}
+                  primaryAction={primaryAction}
+                  lessonLabel={t('grammarStall.lessonAction')}
+                  practiceLabel={t('grammarStall.practiceAction')}
+                />
                 </div>
-                <GrammarPointGrid points={section.points} locale={locale} />
-              </div>
             ))}
           </div>
         )}
