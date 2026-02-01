@@ -25,7 +25,8 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── textbook-vocabulary/           # Textbook vocabulary feature documentation
 ├── tts/                           # Text-to-Speech system documentation
 ├── user-agent-tracking/           # User agent tracking for support forms
-└── entertainment-system/          # Games, achievements, leaderboard, review hub
+├── entertainment-system/          # Games, achievements, leaderboard, review hub
+└── user-analytics/                # User retention and engagement analysis scripts
 ```
 
 ---
@@ -431,6 +432,49 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - ✅ Customizing leaderboard display
 - ✅ Integrating gamification into new features
 - ✅ Troubleshooting XP/achievement issues
+
+**Implementation Date:** 2026-02-01
+
+---
+
+### User Analytics (`user-analytics/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./user-analytics/README.md) | Overview, quick start, and key findings |
+| [SCRIPTS_REFERENCE.md](./user-analytics/SCRIPTS_REFERENCE.md) | Detailed guide for each analytics script |
+
+**Key Topics:**
+- User signup analysis by date
+- Day-1 retention metrics
+- Multi-day return frequency analysis
+- Cohort-based retention breakdown
+- Premium subscriber tracking
+- Post-launch analytics (Jan 23, 2026)
+
+**Available Scripts:**
+- `check-new-users-by-date.js` - Find users by signup date
+- `check-returning-users.js` - Analyze return rates for cohorts
+- `check-launch-retention.js` - Comprehensive post-launch retention
+- `check-user-return-frequency.js` - Unique days visited per user
+
+**Key Metrics:**
+- Day-1 Retention: ~18-19%
+- Multi-day Users: 8.2%
+- Total signups since launch: 636
+
+**Key Files:**
+- `scripts/check-new-users-by-date.js` - Query users by date
+- `scripts/check-returning-users.js` - Return analysis
+- `scripts/check-launch-retention.js` - Full retention report
+- `scripts/check-user-return-frequency.js` - Visit frequency analysis
+- `moshimoshi-service-account.json` - Firebase credentials (required)
+
+**Essential Reading for:**
+- ✅ Understanding user retention and engagement
+- ✅ Running cohort analysis
+- ✅ Tracking premium conversion
+- ✅ Measuring launch success
 
 **Implementation Date:** 2026-02-01
 

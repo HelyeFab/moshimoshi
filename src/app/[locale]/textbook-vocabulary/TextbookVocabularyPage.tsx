@@ -356,12 +356,15 @@ export default function TextbookVocabularyPage() {
     showToast('Review session complete!', 'success')
   }, [showToast])
 
-  // Determine if in selection mode (browse, study, or review mode before session starts)
-  const isSelectionMode = selectedTextbook !== null && (
-    viewMode === 'browse' ||
-    (viewMode === 'study' && selectedVocabData.length === 0) ||
-    (viewMode === 'review' && reviewContent.length === 0)
-  )
+  const isPreSession =
+    selectedTextbook !== null &&
+    (viewMode === 'browse' ||
+      (viewMode === 'study' && selectedVocabData.length === 0) ||
+      (viewMode === 'review' && reviewContent.length === 0))
+  const allowSelection =
+    selectedTextbook !== null &&
+    ((viewMode === 'study' && selectedVocabData.length === 0) ||
+      (viewMode === 'review' && reviewContent.length === 0))
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
@@ -398,14 +401,14 @@ export default function TextbookVocabularyPage() {
       )}
 
       {/* Learning Header with mode switching - shown when textbook selected */}
-      {selectedTextbook && isSelectionMode && (
+      {selectedTextbook && isPreSession && (
         <LearningPageHeader
           title={'Textbook Vocabulary'}
           description={'Study vocabulary from your textbook'}
           stats={stats}
           mode={viewMode}
           onModeChange={handleModeChange}
-          selectionMode={isSelectionMode}
+          selectionMode={allowSelection}
           selectedCount={selectedVocab.size}
           onSelectAll={handleSelectAll}
           onClearSelection={handleClearSelection}
@@ -414,7 +417,7 @@ export default function TextbookVocabularyPage() {
           backHref="/dashboard"
         />
       )}
-      {selectedTextbook && isSelectionMode && (
+      {selectedTextbook && isPreSession && (
         <>
           <div className="hidden sm:flex justify-end px-4 pt-4">
             {usageData.hasData ? (
@@ -447,7 +450,7 @@ export default function TextbookVocabularyPage() {
           )}
 
           {/* Browse/Selection Mode - show vocabulary grid for selection */}
-          {selectedTextbook && isSelectionMode && (
+          {selectedTextbook && isPreSession && (
             <motion.div
               key="browse"
               initial={{ opacity: 0 }}
@@ -457,7 +460,7 @@ export default function TextbookVocabularyPage() {
               <VocabularyDisplay
                 textbookId={selectedTextbook}
                 onBack={handleBack}
-                selectionMode={isSelectionMode}
+                selectionMode={allowSelection}
                 selectedItems={selectedVocab}
                 onToggleSelection={handleToggleSelection}
                 progressMap={vocabProgress}

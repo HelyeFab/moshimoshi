@@ -4,10 +4,20 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
-import { ChevronLeftIcon, SpeakerWaveIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import {
+  ChevronLeftIcon,
+  SpeakerWaveIcon,
+  ArrowPathIcon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { TextbookVocabProgressData } from '@/utils/textbookVocabularyProgressManager'
+import { ValidationUtils } from '@/lib/review-engine/validation/validation-utils'
 import { Select } from '@/components/ui/Select'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { kanjiService } from '@/services/kanjiService'
+import type { Kanji } from '@/types/kanji'
 
 export interface VocabularyItem {
   id: string
@@ -92,6 +102,8 @@ export function VocabularyDisplay({
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'cards'>('grid')
   const [selectedWord, setSelectedWord] = useState<VocabularyItem | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
+  const [kanjiModalOpen, setKanjiModalOpen] = useState(false)
 
   // Load vocabulary data
   useEffect(() => {
@@ -132,12 +144,38 @@ export function VocabularyDisplay({
 
     // Filter by search query
     if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(item =>
-        item.japanese.includes(query) ||
-        item.reading.toLowerCase().includes(query) ||
-        item.meaning.toLowerCase().includes(query)
-      )
+      const query = searchQuery.trim().toLowerCase()
+      if (query) {
+        const hasRomaji = /[a-z]/i.test(query)
+        const romajiToHiragana = hasRomaji ? ValidationUtils.romajiToHiragana(query) : ''
+        const romajiToKatakana = hasRomaji ? ValidationUtils.romajiToKatakana(query) : ''
+
+        filtered = filtered.filter(item => {
+          const japanese = item.japanese || ''
+          const reading = item.reading || ''
+          const meaning = item.meaning || ''
+
+          if (
+            japanese.includes(query) ||
+            reading.toLowerCase().includes(query) ||
+            meaning.toLowerCase().includes(query)
+          ) {
+            return true
+          }
+
+          if (!hasRomaji) return false
+
+          const japaneseHiragana = ValidationUtils.katakanaToHiragana(japanese)
+          const readingHiragana = ValidationUtils.katakanaToHiragana(reading)
+
+          return (
+            japaneseHiragana.includes(romajiToHiragana) ||
+            readingHiragana.includes(romajiToHiragana) ||
+            japanese.includes(romajiToKatakana) ||
+            reading.includes(romajiToKatakana)
+          )
+        })
+      }
     }
 
     setFilteredVocab(filtered)
@@ -214,6 +252,31 @@ export function VocabularyDisplay({
     setSelectedWord(word)
   }
 
+  const handleKanjiClick = useCallback(async (kanjiChar: string) => {
+    try {
+      const details = await kanjiService.getKanjiDetails(kanjiChar)
+      if (details) {
+        setSelectedKanji(details)
+        setKanjiModalOpen(true)
+      } else {
+        console.warn(`[VocabularyDisplay] No kanji details found for: ${kanjiChar}`)
+      }
+    } catch (error) {
+      console.error('[VocabularyDisplay] Error fetching kanji details:', error)
+    }
+  }, [])
+
+  const getKanjiChars = (text: string) => {
+    const matches = text.match(/[\u4e00-\u9faf]/g)
+    return matches ? [...new Set(matches)] : []
+  }
+
+  const isKanji = (char: string) => {
+    if (!char || char.length === 0) return false
+    const code = char.charCodeAt(0)
+    return code >= 0x4e00 && code <= 0x9fff
+  }
+
   if (isLoading) {
     return <LoadingOverlay />
   }
@@ -252,18 +315,7 @@ export function VocabularyDisplay({
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Search */}
-        <div className="flex-1">
-          <input
-            type="text"
-            placeholder={strings.common?.searchPlaceholder || 'Search vocabulary...'}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-          />
-        </div>
-
+      <div className="flex flex-col gap-4">
         {/* Lesson Filter */}
         {lessons.length > 0 && (
           <Select
@@ -276,9 +328,33 @@ export function VocabularyDisplay({
                 label: `${strings.common?.lesson || 'Lesson'} ${lesson}`
               }))
             ]}
-            className="w-auto min-w-[200px]"
+            className="w-full md:w-auto md:min-w-[200px]"
           />
         )}
+
+        {/* Search */}
+        <div className="flex-1">
+          <div className="relative">
+            <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              type="search"
+              placeholder={strings.common?.searchPlaceholder || 'Search romaji, kana, kanji, or meaning...'}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 py-2 pl-9 pr-10 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-dark-700"
+                aria-label={strings.common?.clear || 'Clear search'}
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Stats */}
@@ -602,6 +678,39 @@ export function VocabularyDisplay({
                 </div>
               )}
 
+              {selectedWord.japanese && getKanjiChars(selectedWord.japanese).length > 0 && (
+                <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                    Kanji Breakdown
+                  </p>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-3 italic">
+                    Tap a kanji to see stroke order and writing practice
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {getKanjiChars(selectedWord.japanese).map((kanjiChar) => {
+                      const clickable = isKanji(kanjiChar)
+                      return clickable ? (
+                        <button
+                          key={kanjiChar}
+                          onClick={() => handleKanjiClick(kanjiChar)}
+                          className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-gray-50 dark:bg-dark-700/40 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors"
+                          title={`Open details for ${kanjiChar}`}
+                        >
+                          <span className="text-lg">{kanjiChar}</span>
+                        </button>
+                      ) : (
+                        <div
+                          key={kanjiChar}
+                          className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-gray-50 dark:bg-dark-700/30 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 opacity-70"
+                        >
+                          <span className="text-lg">{kanjiChar}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
               <div className="flex justify-end gap-3 mt-6">
                 <button
                   onClick={() => setSelectedWord(null)}
@@ -614,6 +723,12 @@ export function VocabularyDisplay({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <KanjiDetailsModal
+        kanji={selectedKanji}
+        isOpen={kanjiModalOpen}
+        onClose={() => setKanjiModalOpen(false)}
+      />
     </div>
   )
 }
