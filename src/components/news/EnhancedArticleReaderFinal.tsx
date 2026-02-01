@@ -802,6 +802,7 @@ export default function EnhancedArticleReader({
     playing: ttsPlaying,
     stop: ttsStop,
     currentText: currentTTSText,
+    audioRef: ttsAudioRef,
   } = useTTS({
     cacheFirst: true,
     onError: err => {
@@ -1410,6 +1411,14 @@ export default function EnhancedArticleReader({
     // Also update pre-generated audio if currently playing
     if (preGeneratedAudioRef.current) {
       preGeneratedAudioRef.current.playbackRate = speed
+    }
+    // Update app TTS audio if currently playing
+    if (ttsAudioRef.current) {
+      ttsAudioRef.current.playbackRate = speed
+    }
+    // Update sentence audio if currently playing
+    if (sentenceAudioRef.current) {
+      sentenceAudioRef.current.playbackRate = speed
     }
   }, [settings.playbackSpeed, setNhkPlaybackRate])
 
@@ -2539,6 +2548,29 @@ export default function EnhancedArticleReader({
           [index]: result,
         }))
         console.log(`[Translation] Successfully translated segment ${index}`)
+
+        // Persist translation to Firebase (so it's cached for future reads)
+        const translationData = {
+          originalText: segment,
+          translatedText: result.translatedText,
+          grammarNotes: result.grammarNotes || [],
+          keyVocabulary: result.keyVocabulary || [],
+          confidence: result.confidence || 0.9,
+        }
+
+        if (contentType === 'book' && bookSentenceData.updateSentenceTranslation) {
+          bookSentenceData.updateSentenceTranslation(segment, translationData).catch(err => {
+            console.warn('[Translation] Failed to persist translation to cache:', err)
+          })
+        } else if (contentType === 'article' && articleSentenceData.updateSentenceTranslation) {
+          articleSentenceData.updateSentenceTranslation(segment, translationData).catch(err => {
+            console.warn('[Translation] Failed to persist translation to cache:', err)
+          })
+        } else if (contentType === 'story' && storySentenceData.updateSentenceTranslation) {
+          storySentenceData.updateSentenceTranslation(segment, translationData).catch(err => {
+            console.warn('[Translation] Failed to persist translation to cache:', err)
+          })
+        }
       } else {
         console.error(`[Translation] Failed to translate segment ${index}: No result returned`)
       }
@@ -2668,7 +2700,7 @@ export default function EnhancedArticleReader({
       </header>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 pb-32 pt-8">
+      <article className="max-w-4xl mx-auto px-0 sm:px-6 pb-32 pt-8">
         {/* Hero Image Section */}
         <div className="mb-10 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10 aspect-[21/9] relative bg-gray-100 dark:bg-gray-800 group">
           {/* Story mode with missing image - show beautiful gradient with emojis */}
@@ -2844,7 +2876,7 @@ export default function EnhancedArticleReader({
 
         {/* Main Content - Elevated Card */}
         <div
-          className="animate-fade-in-up p-6 sm:p-8 md:p-10 rounded-2xl shadow-sm dark:shadow-lg mx-auto"
+          className="animate-fade-in-up p-3 sm:p-8 md:p-10 rounded-none sm:rounded-2xl shadow-sm dark:shadow-lg mx-auto"
           style={{
             maxWidth: 'var(--article-content-width)',
             animationDelay: '0.3s',

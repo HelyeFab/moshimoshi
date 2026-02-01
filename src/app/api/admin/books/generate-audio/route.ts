@@ -81,7 +81,6 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         text: bookData.content,
         language: 'ja',
-        speed: 1.0,
       }),
     })
 

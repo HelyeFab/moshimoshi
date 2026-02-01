@@ -353,7 +353,14 @@ html {
   --paragraph-spacing: 2em; /* Improved from 1.75em for clearer breaks */
 
   /* Content max width (66-75 chars per line optimal) */
-  --article-content-width: 42.5rem; /* 680px at 16px base */
+  --article-content-width: 100%; /* Full width on mobile */
+}
+
+/* Larger screens: constrain article width for readability */
+@media (min-width: 640px) {
+  :root {
+    --article-content-width: 42.5rem; /* 680px at 16px base */
+  }
 }
 
 html,

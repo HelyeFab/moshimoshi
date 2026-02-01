@@ -413,6 +413,12 @@ export function VocabularyDisplay({
                       ✓
                     </div>
                   )}
+                  {/* JLPT Level badge */}
+                  {item.jlptLevel && (
+                    <span className="absolute top-2 right-2 px-1.5 py-0.5 text-[10px] bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
+                      {item.jlptLevel}
+                    </span>
+                  )}
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
                       {item.japanese}
@@ -431,11 +437,6 @@ export function VocabularyDisplay({
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                     {item.meaning}
                   </p>
-                  {item.jlptLevel && (
-                    <span className="inline-block mt-2 px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
-                      {item.jlptLevel}
-                    </span>
-                  )}
                 </motion.div>
               )
             })}

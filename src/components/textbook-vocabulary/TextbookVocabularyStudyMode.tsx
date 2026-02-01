@@ -9,6 +9,8 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { useTTS } from '@/hooks/useTTS'
 import { textbookVocabularyProgressManager } from '@/utils/textbookVocabularyProgressManager'
 import { IoCheckmarkCircle, IoPlayForward, IoClose } from 'react-icons/io5'
+import Dialog from '@/components/ui/Dialog'
+import { useI18n } from '@/i18n/I18nContext'
 
 export interface VocabularyItem {
   id: string
@@ -49,8 +51,11 @@ export default function TextbookVocabularyStudyMode({
   const { showToast } = useToast()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const { t } = useI18n()
   const [isFlipped, setIsFlipped] = useState(false)
+  const [showExitConfirm, setShowExitConfirm] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
+  const [isMarkedLearned, setIsMarkedLearned] = useState(false)
   const { play, preload, loading: ttsLoading, playing: ttsPlaying, currentText } = useTTS({ cacheFirst: true })
 
   // Interactive pill states
@@ -140,6 +145,7 @@ export default function TextbookVocabularyStudyMode({
 
     setIsFlipped(false)
     setHasTrackedView(false)
+    setIsMarkedLearned(false)
     setShowMeaning(false)
     setShowReading(false)
     setShowExamples(false)
@@ -189,6 +195,9 @@ export default function TextbookVocabularyStudyMode({
   }
 
   const handleMarkAsLearned = () => {
+    if (isMarkedLearned) return // Already marked, prevent double tap
+
+    setIsMarkedLearned(true)
     if (user) {
       textbookVocabularyProgressManager
         .markVocabLearned(vocabulary.id, user, isPremium ?? false, {
@@ -211,18 +220,6 @@ export default function TextbookVocabularyStudyMode({
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4 relative">
-      {/* Exit Button - Top Right */}
-      <button
-        onClick={onBack}
-        className="absolute top-4 right-4 p-3 rounded-xl bg-gray-100 dark:bg-dark-700
-                 hover:bg-gray-200 dark:hover:bg-dark-600
-                 text-gray-600 dark:text-gray-400
-                 transition-all transform hover:scale-105 active:scale-95 z-10"
-        title="Exit Study"
-      >
-        <IoClose className="w-6 h-6" />
-      </button>
-
       {/* Progress Indicator */}
       <div className="w-full max-w-2xl mb-8">
         <div className="flex items-center justify-between mb-2">
@@ -574,10 +571,12 @@ export default function TextbookVocabularyStudyMode({
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleMarkAsLearned}
-            className="p-4 rounded-xl bg-green-500 hover:bg-green-600
-                     text-white font-medium transition-all
-                     shadow-lg shadow-green-500/30
-                     hover:scale-105 active:scale-95"
+            className={`p-4 rounded-xl text-white font-medium transition-all
+                     shadow-lg hover:scale-105 active:scale-95 ${
+                       isMarkedLearned
+                         ? 'bg-green-500 hover:bg-green-600 shadow-green-500/30'
+                         : 'bg-gray-400 hover:bg-gray-500 shadow-gray-400/30'
+                     }`}
             title="Mark as Learned"
           >
             <IoCheckmarkCircle className="w-6 h-6" />
@@ -591,6 +590,16 @@ export default function TextbookVocabularyStudyMode({
             title="Skip"
           >
             <IoPlayForward className="w-6 h-6" />
+          </button>
+          <button
+            onClick={() => setShowExitConfirm(true)}
+            className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
+                     hover:bg-gray-200 dark:hover:bg-dark-600
+                     text-gray-600 dark:text-gray-400 font-medium transition-all
+                     hover:scale-105 active:scale-95"
+            title="Exit Study"
+          >
+            <IoClose className="w-6 h-6" />
           </button>
         </div>
 
@@ -625,6 +634,18 @@ export default function TextbookVocabularyStudyMode({
           </button>
         </div>
       </div>
+
+      {/* Exit Confirmation Dialog */}
+      <Dialog
+        isOpen={showExitConfirm}
+        onClose={() => setShowExitConfirm(false)}
+        title={t('blastMode.session.exitConfirm.title')}
+        message={t('blastMode.session.exitConfirm.message')}
+        confirmText={t('blastMode.buttons.exit')}
+        cancelText={t('blastMode.buttons.continue')}
+        onConfirm={onBack}
+        type="warning"
+      />
     </div>
   )
 }

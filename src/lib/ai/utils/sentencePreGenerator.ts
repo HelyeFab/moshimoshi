@@ -143,47 +143,63 @@ async function generateSentenceAudio(
 
 /**
  * Generate translation with grammar notes for a sentence
+ * Includes retry logic for transient failures
  */
 async function generateSentenceTranslation(
   sentence: string,
-  baseUrl: string
+  baseUrl: string,
+  maxRetries: number = 3
 ): Promise<SentenceTranslation> {
-  const response = await fetch(`${baseUrl}/api/translate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      text: sentence,
-      mode: 'learning',
-      userLevel: 'N4',
-      includeGrammarNotes: true,
-      preserveGrammarStructure: true,
-    }),
-  })
+  let lastError: Error | null = null
 
-  if (!response.ok) {
-    const errorText = await response.text()
-    throw new Error(`Translation API error (${response.status}): ${errorText}`)
-  }
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(`${baseUrl}/api/translate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: sentence,
+          mode: 'learning',
+          userLevel: 'N4',
+          includeGrammarNotes: true,
+          preserveGrammarStructure: true,
+        }),
+      })
 
-  const result = await response.json()
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`Translation API error (${response.status}): ${errorText}`)
+      }
 
-  if (result.success && result.data) {
-    return {
-      originalText: sentence,
-      translatedText: result.data.translatedText || '',
-      grammarNotes: result.data.grammarNotes || [],
-      keyVocabulary: result.data.keyVocabulary || [],
-      confidence: result.data.confidence || 0.9,
+      const result = await response.json()
+
+      if (result.success && result.data && result.data.translatedText) {
+        return {
+          originalText: sentence,
+          translatedText: result.data.translatedText,
+          grammarNotes: result.data.grammarNotes || [],
+          keyVocabulary: result.data.keyVocabulary || [],
+          confidence: result.data.confidence || 0.9,
+        }
+      }
+
+      // If response is successful but no translation, treat as error for retry
+      throw new Error('Translation API returned empty result')
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error))
+      console.warn(`[SentencePreGen] Translation attempt ${attempt}/${maxRetries} failed:`, lastError.message)
+
+      if (attempt < maxRetries) {
+        // Exponential backoff: 1s, 2s, 4s
+        const delay = Math.pow(2, attempt - 1) * 1000
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
     }
   }
 
-  return {
-    originalText: sentence,
-    translatedText: '',
-    grammarNotes: [],
-    keyVocabulary: [],
-    confidence: 0,
-  }
+  // All retries failed - throw to let caller handle
+  console.error(`[SentencePreGen] Translation failed after ${maxRetries} attempts for: ${sentence.substring(0, 50)}...`)
+  throw lastError || new Error('Translation failed after all retries')
 }
 
 // ============================================
@@ -242,9 +258,11 @@ export async function preGenerateSentences(
         await new Promise(resolve => setTimeout(resolve, 300))
       }
     } catch (error) {
-      console.error(`[SentencePreGen] Error processing sentence ${index}:`, error)
+      const errorMsg = error instanceof Error ? error.message : String(error)
+      console.error(`[SentencePreGen] FAILED sentence ${index} after retries:`, errorMsg)
 
-      // Add partial data
+      // Track failed sentences but continue processing
+      // Mark with confidence: -1 to indicate failure (distinct from untranslated)
       sentenceData.push({
         index,
         text: sentence,
@@ -254,10 +272,16 @@ export async function preGenerateSentences(
           translatedText: '',
           grammarNotes: [],
           keyVocabulary: [],
-          confidence: 0,
+          confidence: -1, // Negative indicates failed, not just empty
         },
       })
     }
+  }
+
+  // Log summary of failures
+  const failedCount = sentenceData.filter(s => s.translation.confidence === -1).length
+  if (failedCount > 0) {
+    console.warn(`[SentencePreGen] Completed with ${failedCount}/${sentenceData.length} failed translations`)
   }
 
   return sentenceData

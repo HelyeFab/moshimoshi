@@ -7,7 +7,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '@/lib/firebase/client'
 
 // ============================================
@@ -163,6 +163,122 @@ export function useArticleSentenceData(articleId: string | null) {
     return map
   }, [sentenceData])
 
+  /**
+   * Update a sentence's translation in Firebase and local state
+   * Called after user fetches a translation on-demand
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceTranslation = useCallback(
+    async (
+      sentenceText: string,
+      translation: SentenceTranslation
+    ): Promise<boolean> => {
+      if (!articleId || !sentenceText || !translation.translatedText) {
+        return false
+      }
+
+      try {
+        // Find the sentence index
+        const sentenceIndex = sentenceData.findIndex(
+          s => s.text === sentenceText || s.translation?.originalText === sentenceText
+        )
+
+        if (sentenceIndex === -1) {
+          console.warn('[SentenceData] Sentence not found for update:', sentenceText.substring(0, 30))
+          return false
+        }
+
+        // Update local state first (optimistic update)
+        const updatedSentences = [...sentenceData]
+        updatedSentences[sentenceIndex] = {
+          ...updatedSentences[sentenceIndex],
+          translation,
+        }
+        setSentenceData(updatedSentences)
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentId: articleId,
+            contentType: 'article',
+            sentenceIndex,
+            translation,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated translation for sentence ${sentenceIndex} in article ${articleId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence translation:', err)
+        return false
+      }
+    },
+    [articleId, sentenceData]
+  )
+
+  /**
+   * Update a sentence's audio URL in Firebase and local state
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceAudio = useCallback(
+    async (sentenceText: string, audioUrl: string): Promise<boolean> => {
+      if (!articleId || !sentenceText || !audioUrl) {
+        return false
+      }
+
+      try {
+        const sentenceIndex = sentenceData.findIndex(
+          s => s.text === sentenceText || s.translation?.originalText === sentenceText
+        )
+
+        if (sentenceIndex === -1) {
+          return false
+        }
+
+        // Update local state (optimistic update)
+        const updatedSentences = [...sentenceData]
+        updatedSentences[sentenceIndex] = {
+          ...updatedSentences[sentenceIndex],
+          audioUrl,
+        }
+        setSentenceData(updatedSentences)
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentId: articleId,
+            contentType: 'article',
+            sentenceIndex,
+            audioUrl,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated audio for sentence ${sentenceIndex} in article ${articleId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence audio:', err)
+        return false
+      }
+    },
+    [articleId, sentenceData]
+  )
+
   return {
     sentenceData,
     sentenceMap,
@@ -173,6 +289,8 @@ export function useArticleSentenceData(articleId: string | null) {
     getSentenceByIndex,
     getAudioUrl,
     getTranslation,
+    updateSentenceTranslation,
+    updateSentenceAudio,
   }
 }
 
@@ -253,6 +371,149 @@ export function useStorySentenceData(storyId: string | null) {
     [pageData]
   )
 
+  /**
+   * Find which page and sentence index contains the given text
+   */
+  const findSentenceLocation = useCallback(
+    (sentenceText: string): { pageNumber: number; sentenceIndex: number } | null => {
+      for (const page of pageData) {
+        const sentenceIndex = page.sentences.findIndex(
+          s => s.text === sentenceText || s.translation?.originalText === sentenceText
+        )
+        if (sentenceIndex !== -1) {
+          return { pageNumber: page.pageNumber, sentenceIndex }
+        }
+      }
+      return null
+    },
+    [pageData]
+  )
+
+  /**
+   * Update a sentence's translation in Firebase and local state
+   * Called after user fetches a translation on-demand
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceTranslation = useCallback(
+    async (
+      sentenceText: string,
+      translation: SentenceTranslation
+    ): Promise<boolean> => {
+      if (!storyId || !sentenceText || !translation.translatedText) {
+        return false
+      }
+
+      try {
+        const location = findSentenceLocation(sentenceText)
+        if (!location) {
+          console.warn('[SentenceData] Sentence not found for update:', sentenceText.substring(0, 30))
+          return false
+        }
+
+        const { pageNumber, sentenceIndex } = location
+
+        // Update local state first (optimistic update)
+        const updatedPages = [...pageData]
+        const pageIndex = updatedPages.findIndex(p => p.pageNumber === pageNumber)
+        if (pageIndex !== -1) {
+          updatedPages[pageIndex] = {
+            ...updatedPages[pageIndex],
+            sentences: updatedPages[pageIndex].sentences.map((s, idx) =>
+              idx === sentenceIndex ? { ...s, translation } : s
+            ),
+          }
+          setPageData(updatedPages)
+        }
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentId: storyId,
+            contentType: 'story',
+            pageNumber,
+            sentenceIndex,
+            translation,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated translation for page ${pageNumber} sentence ${sentenceIndex} in story ${storyId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence translation:', err)
+        return false
+      }
+    },
+    [storyId, pageData, findSentenceLocation]
+  )
+
+  /**
+   * Update a sentence's audio URL in Firebase and local state
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceAudio = useCallback(
+    async (sentenceText: string, audioUrl: string): Promise<boolean> => {
+      if (!storyId || !sentenceText || !audioUrl) {
+        return false
+      }
+
+      try {
+        const location = findSentenceLocation(sentenceText)
+        if (!location) {
+          return false
+        }
+
+        const { pageNumber, sentenceIndex } = location
+
+        // Update local state (optimistic update)
+        const updatedPages = [...pageData]
+        const pageIndex = updatedPages.findIndex(p => p.pageNumber === pageNumber)
+        if (pageIndex !== -1) {
+          updatedPages[pageIndex] = {
+            ...updatedPages[pageIndex],
+            sentences: updatedPages[pageIndex].sentences.map((s, idx) =>
+              idx === sentenceIndex ? { ...s, audioUrl } : s
+            ),
+          }
+          setPageData(updatedPages)
+        }
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentId: storyId,
+            contentType: 'story',
+            pageNumber,
+            sentenceIndex,
+            audioUrl,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated audio for page ${pageNumber} sentence ${sentenceIndex} in story ${storyId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence audio:', err)
+        return false
+      }
+    },
+    [storyId, pageData, findSentenceLocation]
+  )
+
   return {
     pageData,
     isLoading,
@@ -260,6 +521,8 @@ export function useStorySentenceData(storyId: string | null) {
     hasCachedData,
     getPageSentences,
     getSentenceByText,
+    updateSentenceTranslation,
+    updateSentenceAudio,
   }
 }
 
@@ -345,6 +608,120 @@ export function useBookSentenceData(bookId: string | null) {
     return map
   }, [sentenceData])
 
+  /**
+   * Update a sentence's translation in Firebase and local state
+   * Called after user fetches a translation on-demand
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceTranslation = useCallback(
+    async (
+      sentenceText: string,
+      translation: SentenceTranslation
+    ): Promise<boolean> => {
+      if (!bookId || !sentenceText || !translation.translatedText) {
+        return false
+      }
+
+      try {
+        // Find the sentence index
+        const sentenceIndex = sentenceData.findIndex(
+          s => s.text === sentenceText || s.translation?.originalText === sentenceText
+        )
+
+        if (sentenceIndex === -1) {
+          console.warn('[SentenceData] Sentence not found for update:', sentenceText.substring(0, 30))
+          return false
+        }
+
+        // Update local state first (optimistic update)
+        const updatedSentences = [...sentenceData]
+        updatedSentences[sentenceIndex] = {
+          ...updatedSentences[sentenceIndex],
+          translation,
+        }
+        setSentenceData(updatedSentences)
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bookId,
+            sentenceIndex,
+            translation,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated translation for sentence ${sentenceIndex} in book ${bookId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence translation:', err)
+        return false
+      }
+    },
+    [bookId, sentenceData]
+  )
+
+  /**
+   * Update a sentence's audio URL in Firebase and local state
+   * Uses API endpoint to bypass Firestore security rules
+   */
+  const updateSentenceAudio = useCallback(
+    async (sentenceText: string, audioUrl: string): Promise<boolean> => {
+      if (!bookId || !sentenceText || !audioUrl) {
+        return false
+      }
+
+      try {
+        const sentenceIndex = sentenceData.findIndex(
+          s => s.text === sentenceText || s.translation?.originalText === sentenceText
+        )
+
+        if (sentenceIndex === -1) {
+          return false
+        }
+
+        // Update local state (optimistic update)
+        const updatedSentences = [...sentenceData]
+        updatedSentences[sentenceIndex] = {
+          ...updatedSentences[sentenceIndex],
+          audioUrl,
+        }
+        setSentenceData(updatedSentences)
+
+        // Persist to Firebase via API endpoint
+        const response = await fetch('/api/books/cache-sentence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bookId,
+            sentenceIndex,
+            audioUrl,
+          }),
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          console.error('[SentenceData] API error:', data.error)
+          return false
+        }
+
+        console.log(`[SentenceData] Updated audio for sentence ${sentenceIndex} in book ${bookId}`)
+        return true
+      } catch (err) {
+        console.error('[SentenceData] Failed to update sentence audio:', err)
+        return false
+      }
+    },
+    [bookId, sentenceData]
+  )
+
   return {
     sentenceData,
     sentenceMap,
@@ -353,6 +730,8 @@ export function useBookSentenceData(bookId: string | null) {
     hasCachedData,
     getSentenceByText,
     getSentenceByIndex,
+    updateSentenceTranslation,
+    updateSentenceAudio,
   }
 }
 

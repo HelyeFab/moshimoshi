@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, CheckSquare, Square } from 'lucide-react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import PillBackButton from '@/components/common/PillBackButton'
 import { useI18n } from '@/i18n/I18nContext'
@@ -154,26 +154,6 @@ export default function LearningPageHeader({
             <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
               {selectedCount} selected
             </span>
-
-            <div className="flex gap-2">
-              {onSelectAll && !allSelected && (
-                <button
-                  onClick={onSelectAll}
-                  className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-                >
-                  Select All
-                </button>
-              )}
-
-              {onClearSelection && (
-                <button
-                  onClick={onClearSelection}
-                  className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
           </div>
 
           <button
@@ -576,12 +556,24 @@ export default function LearningPageHeader({
                     <div className="flex-1">
                       {renderModeSelector()}
                     </div>
-                    {selectedCount === 0 && onSelectAll && (
+                    {(onSelectAll || onClearSelection) && (
                       <button
-                        onClick={onSelectAll}
-                        className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 whitespace-nowrap"
+                        onClick={() => {
+                          const allSelected = stats?.total && selectedCount >= stats.total
+                          if (allSelected) {
+                            onClearSelection?.()
+                          } else {
+                            onSelectAll?.()
+                          }
+                        }}
+                        className="p-2 rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+                        aria-label={stats?.total && selectedCount >= stats.total ? 'Deselect all' : 'Select all'}
                       >
-                        Select All
+                        {stats?.total && selectedCount >= stats.total ? (
+                          <CheckSquare className="w-5 h-5 text-primary-500" />
+                        ) : (
+                          <Square className="w-5 h-5" />
+                        )}
                       </button>
                     )}
                   </div>
