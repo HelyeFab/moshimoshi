@@ -2641,6 +2641,12 @@ export const strings = {
       title: 'Welcome to the Learning Village',
       subtitle: 'Choose your path to Japanese mastery',
       clickToStart: 'Click any stall to begin your journey!',
+      badges: {
+        new: 'New Content',
+        updated: 'Updated',
+        popular: 'Popular',
+        featured: 'Featured',
+      },
     },
     districts: {
       foundation: "Beginner's Plaza",

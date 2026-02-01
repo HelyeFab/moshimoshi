@@ -1118,6 +1118,12 @@ export const strings = {
       title: 'Benvenuto al Villaggio dell\'Apprendimento',
       subtitle: 'Scegli il tuo percorso verso la padronanza del giapponese',
       clickToStart: 'Clicca su qualsiasi bancarella per iniziare il tuo viaggio!',
+      badges: {
+        new: 'Nuovi Contenuti',
+        updated: 'Aggiornato',
+        popular: 'Popolare',
+        featured: 'In Evidenza',
+      },
     },
     districts: {
       foundation: 'Piazza dei Principianti',

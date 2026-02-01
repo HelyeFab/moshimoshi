@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-023192b93692';
+const CACHE_VERSION = 'moshimoshi-5c08c9ec31c8';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/1PhGmoENrrMNfY7ZdIooh/_buildManifest.js",
-  "/_next/static/1PhGmoENrrMNfY7ZdIooh/_ssgManifest.js",
+  "/_next/static/IAgotxdf6a9GN9GnFZxtg/_buildManifest.js",
+  "/_next/static/IAgotxdf6a9GN9GnFZxtg/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -191,7 +191,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/4164-4d3a9fe77c657fb1.js",
   "/_next/static/chunks/43197-6002b5f2f37837a7.js",
   "/_next/static/chunks/45001-1d6797dc52d563c5.js",
-  "/_next/static/chunks/45405-19b235bed20d58b6.js",
+  "/_next/static/chunks/45060-e71ceccbd543ae30.js",
   "/_next/static/chunks/4586-04d89b9120557c53.js",
   "/_next/static/chunks/46693-964286f43e066e11.js",
   "/_next/static/chunks/46788-d02ee9de88899d72.js",
@@ -210,7 +210,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/54469-9d212910eeb4c719.js",
   "/_next/static/chunks/54817-fd040988c7ffd330.js",
   "/_next/static/chunks/54a60aa6-3462a838c99f10b4.js",
-  "/_next/static/chunks/56526-21bdd033febcc3bb.js",
+  "/_next/static/chunks/56526-df6114daac9eeeee.js",
   "/_next/static/chunks/57578-5fe71dae6f68751b.js",
   "/_next/static/chunks/58126-ddb4f9779a7dcf02.js",
   "/_next/static/chunks/58448-e458de2a0b325839.js",
@@ -277,7 +277,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/91543-9e260f7b089d417b.js",
   "/_next/static/chunks/91979-b3beba1c376bf9da.js",
   "/_next/static/chunks/92758-2306713be271c488.js",
-  "/_next/static/chunks/94997-7a6a38f35fc26f32.js",
+  "/_next/static/chunks/94997-a1249f4f7745de1a.js",
   "/_next/static/chunks/95125-69d1051d31730985.js",
   "/_next/static/chunks/95858-65c8e079c3083475.js",
   "/_next/static/chunks/97825-4db850dd05bb0e8c.js",
@@ -324,7 +324,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/integrity-monitor/page-b3a1d40f2f987a3b.js",
   "/_next/static/chunks/app/[locale]/admin/layout-d3b87f72e9ae049e.js",
   "/_next/static/chunks/app/[locale]/admin/leaderboard/page-3ba1927e9d2316c7.js",
-  "/_next/static/chunks/app/[locale]/admin/learning-village/page-e50ee7422178e358.js",
+  "/_next/static/chunks/app/[locale]/admin/learning-village/page-89c28ce67eee1bff.js",
   "/_next/static/chunks/app/[locale]/admin/loading-4f780650351d0e4e.js",
   "/_next/static/chunks/app/[locale]/admin/monitoring/page-8cf29ce4baf72d6c.js",
   "/_next/static/chunks/app/[locale]/admin/moodboards/page-ba2352634548b841.js",
@@ -342,7 +342,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/stories/validate/page-6d085a60ce9e8f38.js",
   "/_next/static/chunks/app/[locale]/admin/streak/page-76be5d5349b57b4a.js",
   "/_next/static/chunks/app/[locale]/admin/stripe-testing/page-361e292c04b59115.js",
-  "/_next/static/chunks/app/[locale]/admin/subscriptions/page-a67e948e3a057fad.js",
+  "/_next/static/chunks/app/[locale]/admin/subscriptions/page-27daea11367ca4db.js",
   "/_next/static/chunks/app/[locale]/admin/user-lookup/page-984afa63fd52fa6c.js",
   "/_next/static/chunks/app/[locale]/admin/village-traffic/page-c517a3c5013e8831.js",
   "/_next/static/chunks/app/[locale]/admin/xp-config/page-9f942272f069d31b.js",
@@ -353,8 +353,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-8c4700c9cb61fde1.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-1ee8945f15fb95de.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-5c33608ebf11aad3.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-dabb45c65e9d5a53.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-0affee74bbe6d3ac.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-668753e88fbc9794.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-2cd43a571b5e369b.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-531b661c0447d655.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-80a3eb64a5bbb02b.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-fa7c84884e3b349a.js",
@@ -369,7 +369,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/credits/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/credits/page-294cf2714598f8f0.js",
   "/_next/static/chunks/app/[locale]/dashboard/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/dashboard/page-0bb8cacb245c990b.js",
+  "/_next/static/chunks/app/[locale]/dashboard/page-b4123ecce75cc1d3.js",
   "/_next/static/chunks/app/[locale]/demo/nhk/page-f6345b4f67ae4754.js",
   "/_next/static/chunks/app/[locale]/drill/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/drill/page-04072a861436bcaf.js",
@@ -383,7 +383,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/games/kanji-simon/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/games/kanji-simon/page-692fa4fa588635d4.js",
   "/_next/static/chunks/app/[locale]/games/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/games/page-7c37fa816532e1c8.js",
+  "/_next/static/chunks/app/[locale]/games/page-e4e278200bc382c9.js",
   "/_next/static/chunks/app/[locale]/games/reading-routes/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/games/reading-routes/page-5b94410498778ce3.js",
   "/_next/static/chunks/app/[locale]/games/sentence-scramble/layout-e7454b52327c4f10.js",
@@ -404,7 +404,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/kanji-moods/[boardId]/page-847d553b4f197919.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/page-430633c3f762a246.js",
-  "/_next/static/chunks/app/[locale]/layout-a062f54344265090.js",
+  "/_next/static/chunks/app/[locale]/layout-480cafe6c073e2ee.js",
   "/_next/static/chunks/app/[locale]/leaderboard/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/leaderboard/page-d4715e57053f121a.js",
   "/_next/static/chunks/app/[locale]/learn/conjugation/layout-e7454b52327c4f10.js",
@@ -457,7 +457,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/resources/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/resources/page-130ab9b49c60fb89.js",
   "/_next/static/chunks/app/[locale]/review-dashboard/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/review-dashboard/page-7a71be0d80e39734.js",
+  "/_next/static/chunks/app/[locale]/review-dashboard/page-de79bb74211d0301.js",
   "/_next/static/chunks/app/[locale]/review/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/review/page-9153d6b6ff1f8441.js",
   "/_next/static/chunks/app/[locale]/review/session/layout-e7454b52327c4f10.js",
@@ -482,7 +482,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/test-flashcards/page-cf797cfc7ee75eb5.js",
   "/_next/static/chunks/app/[locale]/test-furigana/page-02f73c1d8c80c0dc.js",
   "/_next/static/chunks/app/[locale]/test-install-toast/page-bb4f84830cf0a0e8.js",
-  "/_next/static/chunks/app/[locale]/test-limits-display/page-dfc2f98bed7e4e0c.js",
+  "/_next/static/chunks/app/[locale]/test-limits-display/page-64c0bfa042e7e190.js",
   "/_next/static/chunks/app/[locale]/test-modal/page-d6f10e034b9640e3.js",
   "/_next/static/chunks/app/[locale]/test-notifications/page-b35e280c9c2c4850.js",
   "/_next/static/chunks/app/[locale]/test-pricing/alternative/page-af030b8c9772e9a4.js",
@@ -490,7 +490,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/test-toast/page-f62e380581e2ea4c.js",
   "/_next/static/chunks/app/[locale]/test-village-personalization/page-756fac6fba38e768.js",
   "/_next/static/chunks/app/[locale]/textbook-vocabulary/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/textbook-vocabulary/page-b5319dd730c5acd3.js",
+  "/_next/static/chunks/app/[locale]/textbook-vocabulary/page-c20cc2bfecfbb8fa.js",
   "/_next/static/chunks/app/[locale]/todos/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/todos/page-c407f9d438605b91.js",
   "/_next/static/chunks/app/[locale]/tools/blast-mode/layout-e7454b52327c4f10.js",
@@ -528,9 +528,9 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/pages/_app-f365312a4d2529fb.js",
   "/_next/static/chunks/pages/_error-ff431fa75c297bd3.js",
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
-  "/_next/static/chunks/webpack-4bcddd23463a00b6.js",
+  "/_next/static/chunks/webpack-4e7f6728737d148c.js",
+  "/_next/static/css/341ceaa028d0c73a.css",
   "/_next/static/css/6e09cdf58928be98.css",
-  "/_next/static/css/81be123a5de80060.css",
   "/_next/static/css/a6ae4ab4bec43017.css",
   "/_next/static/css/af47b6060c4fddcc.css"
 ].concat(MANUAL_PRECACHE_URLS);

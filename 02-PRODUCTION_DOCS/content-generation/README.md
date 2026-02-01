@@ -20,6 +20,8 @@ The Content Generation system creates AI-powered learning materials including st
 |----------|-------------|
 | [SCHEDULED_STORY_GENERATION.md](./SCHEDULED_STORY_GENERATION.md) | Automated story generation system with scheduling |
 | [story-comics.md](./story-comics.md) | Comic/manga story feature documentation |
+| [STORY_GENERATION_DEEPDIVE.md](./STORY_GENERATION_DEEPDIVE.md) | End-to-end story generation deepdive (scheduler, admin, word precompute) |
+| [BOOK_GENERATION_DEEPDIVE.md](./BOOK_GENERATION_DEEPDIVE.md) | End-to-end book generation deepdive (admin flow, publish, word precompute) |
 
 ## Key Topics
 

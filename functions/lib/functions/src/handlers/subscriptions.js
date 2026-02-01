@@ -12,9 +12,12 @@ exports.applySubscriptionEvent = applySubscriptionEvent;
 exports.isSubscriptionActive = isSubscriptionActive;
 exports.daysUntilSubscriptionEnd = daysUntilSubscriptionEnd;
 exports.debugSubscription = debugSubscription;
+const firestore_1 = require("firebase-admin/firestore");
 const stripeMapping_1 = require("../mapping/stripeMapping");
-const firestore_1 = require("../firestore");
+const firestore_2 = require("../firestore");
+const alertNotifier_1 = require("../utils/alertNotifier");
 // Node.js 20+ has native fetch support
+const db = (0, firestore_1.getFirestore)();
 /**
  * Helper to invalidate ALL user caches via Next.js API
  * Comprehensive cache invalidation ensures users see updated subscription immediately
@@ -92,10 +95,10 @@ async function invalidateAllUserCaches(customerId, reason = 'stripe_webhook') {
  *
  * @param event - The Stripe webhook event
  */
-async function applySubscriptionEvent(event) {
+async function applySubscriptionEvent(event, resendApiKey) {
     const subscription = event.data.object;
     // Log the event with subscription details
-    await (0, firestore_1.logStripeEvent)(event, {
+    await (0, firestore_2.logStripeEvent)(event, {
         customerId: subscription.customer,
     });
     // Validate we have a customer ID
@@ -105,7 +108,7 @@ async function applySubscriptionEvent(event) {
         throw new Error('Missing customer ID in subscription');
     }
     // Check if we have a user mapping
-    const uid = await (0, firestore_1.getUidByCustomerId)(customerId);
+    const uid = await (0, firestore_2.getUidByCustomerId)(customerId);
     if (!uid) {
         console.warn(`No user mapped for customer ${customerId}, will retry later`);
         // Don't throw - the mapping might be created by checkout.completed
@@ -114,13 +117,13 @@ async function applySubscriptionEvent(event) {
     // Route to specific handler based on event type
     switch (event.type) {
         case 'customer.subscription.created':
-            await handleSubscriptionCreated(subscription, customerId);
+            await handleSubscriptionCreated(subscription, customerId, resendApiKey);
             break;
         case 'customer.subscription.updated':
-            await handleSubscriptionUpdated(subscription, customerId);
+            await handleSubscriptionUpdated(subscription, customerId, resendApiKey, event.data.previous_attributes);
             break;
         case 'customer.subscription.deleted':
-            await handleSubscriptionDeleted(subscription, customerId);
+            await handleSubscriptionDeleted(subscription, customerId, resendApiKey);
             break;
         default:
             console.warn(`Unhandled subscription event type: ${event.type}`);
@@ -132,16 +135,18 @@ async function applySubscriptionEvent(event) {
  * @param subscription - The Stripe subscription object
  * @param customerId - The Stripe customer ID
  */
-async function handleSubscriptionCreated(subscription, customerId) {
+async function handleSubscriptionCreated(subscription, customerId, resendApiKey) {
     console.log(`Processing subscription.created for ${subscription.id}`);
     // Extract subscription details
     const facts = extractSubscriptionFacts(subscription);
     // Upsert the subscription facts
     try {
-        await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
+        await (0, firestore_2.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Created subscription for customer ${customerId}:`, facts);
         // Invalidate ALL user caches so user sees update immediately
         await invalidateAllUserCaches(customerId, 'stripe_subscription_created');
+        // Send subscription alert (non-blocking)
+        await sendSubscriptionLifecycleAlert(resendApiKey, 'subscribed', subscription, customerId, facts);
     }
     catch (error) {
         console.error(`Failed to create subscription for customer ${customerId}:`, error);
@@ -155,7 +160,7 @@ async function handleSubscriptionCreated(subscription, customerId) {
  * @param subscription - The Stripe subscription object
  * @param customerId - The Stripe customer ID
  */
-async function handleSubscriptionUpdated(subscription, customerId) {
+async function handleSubscriptionUpdated(subscription, customerId, resendApiKey, previousAttributes) {
     console.log(`Processing subscription.updated for ${subscription.id}`);
     // Extract subscription details
     const facts = extractSubscriptionFacts(subscription);
@@ -170,10 +175,15 @@ async function handleSubscriptionUpdated(subscription, customerId) {
     }
     // Upsert the subscription facts
     try {
-        await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
+        await (0, firestore_2.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Updated subscription for customer ${customerId}:`, facts);
         // Invalidate ALL user caches so user sees update immediately
         await invalidateAllUserCaches(customerId, 'stripe_subscription_updated');
+        // Optional unsubscribe alert if status transitioned to canceled
+        const prevStatus = previousAttributes === null || previousAttributes === void 0 ? void 0 : previousAttributes.status;
+        if (prevStatus !== 'canceled' && subscription.status === 'canceled') {
+            await sendSubscriptionLifecycleAlert(resendApiKey, 'unsubscribed', subscription, customerId, facts);
+        }
     }
     catch (error) {
         console.error(`Failed to update subscription for customer ${customerId}:`, error);
@@ -187,7 +197,7 @@ async function handleSubscriptionUpdated(subscription, customerId) {
  * @param subscription - The Stripe subscription object
  * @param customerId - The Stripe customer ID
  */
-async function handleSubscriptionDeleted(subscription, customerId) {
+async function handleSubscriptionDeleted(subscription, customerId, resendApiKey) {
     console.log(`Processing subscription.deleted for ${subscription.id}`);
     // Set user to free plan
     const facts = {
@@ -199,14 +209,57 @@ async function handleSubscriptionDeleted(subscription, customerId) {
         cancelAtPeriodEnd: false,
     };
     try {
-        await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
+        await (0, firestore_2.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Deleted subscription for customer ${customerId}, reverted to free plan`);
         // Invalidate ALL user caches so user sees update immediately (critical for security)
         await invalidateAllUserCaches(customerId, 'stripe_subscription_deleted');
+        // Send unsubscribe alert (non-blocking)
+        await sendSubscriptionLifecycleAlert(resendApiKey, 'unsubscribed', subscription, customerId, facts);
     }
     catch (error) {
         console.error(`Failed to delete subscription for customer ${customerId}:`, error);
         throw error;
+    }
+}
+async function getUserIdentityByCustomerId(customerId) {
+    try {
+        const uid = await (0, firestore_2.getUidByCustomerId)(customerId);
+        if (!uid)
+            return { uid: null, email: null, name: null };
+        const userDoc = await db.collection('users').doc(uid).get();
+        if (!userDoc.exists)
+            return { uid, email: null, name: null };
+        const data = userDoc.data() || {};
+        return {
+            uid,
+            email: data.email || null,
+            name: data.displayName || null
+        };
+    }
+    catch (error) {
+        console.error(`Failed to resolve user identity for customer ${customerId}:`, error);
+        return { uid: null, email: null, name: null };
+    }
+}
+async function sendSubscriptionLifecycleAlert(resendApiKey, action, subscription, customerId, facts) {
+    var _a;
+    if (!resendApiKey)
+        return;
+    try {
+        const identity = await getUserIdentityByCustomerId(customerId);
+        await (0, alertNotifier_1.sendSubscriptionAlert)(resendApiKey, action, {
+            uid: identity.uid,
+            name: identity.name,
+            email: identity.email,
+            plan: facts.plan,
+            status: facts.status,
+            customerId,
+            subscriptionId: subscription.id,
+            cancelAtPeriodEnd: (_a = subscription.cancel_at_period_end) !== null && _a !== void 0 ? _a : false
+        });
+    }
+    catch (error) {
+        console.error(`[Webhook] Failed to send subscription ${action} alert:`, error);
     }
 }
 /**

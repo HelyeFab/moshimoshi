@@ -1060,6 +1060,12 @@ export const strings = {
       title: 'Willkommen im Lerndorf',
       subtitle: 'Wählen Sie Ihren Weg zur Japanisch-Meisterschaft',
       clickToStart: 'Klicken Sie auf einen beliebigen Stand, um Ihre Reise zu beginnen!',
+      badges: {
+        new: 'Neue Inhalte',
+        updated: 'Aktualisiert',
+        popular: 'Beliebt',
+        featured: 'Hervorgehoben',
+      },
     },
     districts: {
       foundation: 'Anfängerplatz',

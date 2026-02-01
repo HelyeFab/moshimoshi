@@ -68,6 +68,18 @@ const PROJECT_ID = process.env.GCLOUD_PROJECT ||
 const BATCH_TOPIC_NAME = PROJECT_ID
     ? `projects/${PROJECT_ID}/topics/${BATCH_TOPIC}`
     : BATCH_TOPIC;
+function stripUndefined(value) {
+    if (Array.isArray(value)) {
+        return value.map(stripUndefined);
+    }
+    if (value && typeof value === 'object') {
+        const entries = Object.entries(value)
+            .filter(([, v]) => v !== undefined)
+            .map(([k, v]) => [k, stripUndefined(v)]);
+        return Object.fromEntries(entries);
+    }
+    return value;
+}
 /**
  * Process a single batch of word explanations
  */
@@ -235,12 +247,12 @@ exports.processStoryWordBatch = (0, pubsub_1.onMessagePublished)({
                 mergedWords.set(exp.word, exp);
             }
         }
-        const mergedExplanations = Array.from(mergedWords.values());
+        const mergedExplanations = Array.from(mergedWords.values()).map(stripUndefined);
         const shouldMarkComplete = failedWords.length === 0;
         const includeBatchNumber = shouldMarkComplete || existingBatchNumbers.includes(batchNumber);
         const existingBatchCount = (_c = existingBatchWordCounts[String(batchNumber)]) !== null && _c !== void 0 ? _c : 0;
         const updatedBatchCount = existingBatchCount + explanations.length;
-        await docRef.set(Object.assign(Object.assign(Object.assign(Object.assign({ storyId, words: mergedExplanations, wordCount: mergedExplanations.length, total: mergedExplanations.length }, (includeBatchNumber
+        const payload = stripUndefined(Object.assign(Object.assign(Object.assign(Object.assign({ storyId, words: mergedExplanations, wordCount: mergedExplanations.length, total: mergedExplanations.length }, (includeBatchNumber
             ? { batchNumbers: admin.firestore.FieldValue.arrayUnion(batchNumber) }
             : {})), { batchWordCounts: Object.assign(Object.assign({}, existingBatchWordCounts), { [batchNumber]: updatedBatchCount }), costInfo: {
                 promptTokens: existingCostInfo.promptTokens + totalPromptTokens,
@@ -249,7 +261,8 @@ exports.processStoryWordBatch = (0, pubsub_1.onMessagePublished)({
                 estimatedCost: 0, // Qwen is self-hosted
             } }), (existingDoc.exists
             ? {}
-            : { generatedAt: admin.firestore.FieldValue.serverTimestamp() })), { lastUpdated: admin.firestore.FieldValue.serverTimestamp() }), { merge: true });
+            : { generatedAt: admin.firestore.FieldValue.serverTimestamp() })), { lastUpdated: admin.firestore.FieldValue.serverTimestamp() }));
+        await docRef.set(payload, { merge: true });
         if (!shouldMarkComplete) {
             logger.warn('[StoryBatchProcessor] Batch incomplete, scheduling retry', {
                 storyId,

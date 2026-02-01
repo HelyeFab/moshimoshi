@@ -32,7 +32,8 @@ import {
   Upload,
   Loader2,
   Eye,
-  EyeOff
+  EyeOff,
+  Sparkles
 } from 'lucide-react'
 
 // Stall display names for better UX
@@ -73,11 +74,13 @@ const STALL_NAMES: Record<StallId, string> = {
 function SortableStallItem({
   stall,
   onTogglePopular,
-  onToggleEnabled
+  onToggleEnabled,
+  onToggleBadge
 }: {
   stall: StallConfig
   onTogglePopular: (id: StallId) => void
   onToggleEnabled: (id: StallId) => void
+  onToggleBadge: (id: StallId) => void
 }) {
   const {
     attributes,
@@ -139,6 +142,19 @@ function SortableStallItem({
         ) : (
           <StarOff className="w-5 h-5" />
         )}
+      </button>
+
+      {/* New Content Badge Toggle */}
+      <button
+        onClick={() => onToggleBadge(stall.id)}
+        className={`p-2 rounded-lg transition-colors ${
+          stall.badge && stall.badge.type === 'new'
+            ? 'bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900/30 dark:to-pink-900/30 text-orange-600 dark:text-orange-400'
+            : 'bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+        }`}
+        title={stall.badge && stall.badge.type === 'new' ? 'Remove New Content badge (auto-expires in 6 days)' : 'Add New Content badge'}
+      >
+        <Sparkles className={`w-5 h-5 ${stall.badge && stall.badge.type === 'new' ? 'fill-current' : ''}`} />
       </button>
 
       {/* Enabled Toggle */}
@@ -226,6 +242,31 @@ export default function LearningVillageAdminPage() {
       items.map((item) =>
         item.id === id ? { ...item, enabled: !item.enabled } : item
       )
+    )
+    setHasChanges(true)
+  }, [])
+
+  // Toggle new content badge
+  const handleToggleBadge = useCallback((id: StallId) => {
+    setLocalStalls((items) =>
+      items.map((item) => {
+        if (item.id === id) {
+          // If badge exists, remove it; otherwise add it
+          if (item.badge && item.badge.type === 'new') {
+            const { badge, ...rest } = item
+            return rest as StallConfig
+          } else {
+            return {
+              ...item,
+              badge: {
+                type: 'new' as const,
+                addedAt: new Date().toISOString()
+              }
+            }
+          }
+        }
+        return item
+      })
     )
     setHasChanges(true)
   }, [])
@@ -340,7 +381,7 @@ export default function LearningVillageAdminPage() {
           Learning Village Configuration
         </h1>
         <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Drag to reorder stalls, toggle the star to add/remove the Popular badge,
+          Drag to reorder stalls, toggle the star for Popular badge, sparkles for New Content badge (auto-expires in 6 days),
           and use the eye icon to show/hide stalls.
         </p>
       </div>
@@ -408,7 +449,7 @@ export default function LearningVillageAdminPage() {
       )}
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="p-4 bg-white dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             {localStalls.length}
@@ -420,6 +461,12 @@ export default function LearningVillageAdminPage() {
             {localStalls.filter(s => s.isPopular).length}
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">Popular Badges</p>
+        </div>
+        <div className="p-4 bg-white dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+            {localStalls.filter(s => s.badge && s.badge.type === 'new').length}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">New Content</p>
         </div>
         <div className="p-4 bg-white dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-2xl font-bold text-green-600 dark:text-green-400">
@@ -446,6 +493,7 @@ export default function LearningVillageAdminPage() {
                 stall={stall}
                 onTogglePopular={handleTogglePopular}
                 onToggleEnabled={handleToggleEnabled}
+                onToggleBadge={handleToggleBadge}
               />
             ))}
           </SortableContext>

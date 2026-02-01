@@ -17,6 +17,7 @@ exports.getUserDailyUsage = getUserDailyUsage;
 exports.setAdminClaims = setAdminClaims;
 exports.isAdminUser = isAdminUser;
 exports.isAdminUserCached = isAdminUserCached;
+require("server-only");
 const app_1 = require("firebase-admin/app");
 const auth_1 = require("firebase-admin/auth");
 const firestore_1 = require("firebase-admin/firestore");

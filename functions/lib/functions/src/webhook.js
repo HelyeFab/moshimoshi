@@ -19,6 +19,7 @@ const invoices_1 = require("./handlers/invoices");
 // Define secrets for webhook
 const stripeSecretKey = (0, params_1.defineSecret)('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = (0, params_1.defineSecret)('STRIPE_WEBHOOK_SECRET');
+const resendApiKey = (0, params_1.defineSecret)('RESEND_API_KEY');
 /**
  * Main Stripe webhook handler
  *
@@ -32,7 +33,7 @@ const stripeWebhookSecret = (0, params_1.defineSecret)('STRIPE_WEBHOOK_SECRET');
 exports.stripeWebhook = (0, https_1.onRequest)({
     region: 'europe-west1',
     maxInstances: 100,
-    secrets: [stripeSecretKey, stripeWebhookSecret]
+    secrets: [stripeSecretKey, stripeWebhookSecret, resendApiKey]
 }, async (req, res) => {
     // Only accept POST requests
     if (req.method !== 'POST') {
@@ -115,7 +116,7 @@ exports.stripeWebhook = (0, https_1.onRequest)({
             case 'customer.subscription.pending_update_applied':
             case 'customer.subscription.pending_update_expired':
             case 'customer.subscription.trial_will_end':
-                await (0, subscriptions_1.applySubscriptionEvent)(event);
+                await (0, subscriptions_1.applySubscriptionEvent)(event, resendApiKey.value());
                 break;
             // Invoice events
             case 'invoice.created':

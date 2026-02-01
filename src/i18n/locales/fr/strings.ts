@@ -1367,6 +1367,12 @@ export const strings = {
       title: 'Bienvenue au Village d\'Apprentissage',
       subtitle: 'Choisissez votre chemin vers la maîtrise du japonais',
       clickToStart: 'Cliquez sur n\'importe quel stand pour commencer votre voyage !',
+      badges: {
+        new: 'Nouveau Contenu',
+        updated: 'Mis à Jour',
+        popular: 'Populaire',
+        featured: 'En Vedette',
+      },
     },
     districts: {
       foundation: 'Place des Débutants',

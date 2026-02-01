@@ -840,6 +840,12 @@ export const strings = {
       title: 'Bienvenido a la Villa de Aprendizaje',
       subtitle: 'Elige tu camino hacia el dominio del japonés',
       clickToStart: '¡Haz clic en cualquier puesto para comenzar tu viaje!',
+      badges: {
+        new: 'Contenido Nuevo',
+        updated: 'Actualizado',
+        popular: 'Popular',
+        featured: 'Destacado',
+      },
     },
     districts: {
       foundation: 'Plaza de Principiantes',

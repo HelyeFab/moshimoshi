@@ -43,6 +43,7 @@ exports.sendStoryGenerationFailureAlert = sendStoryGenerationFailureAlert;
 exports.sendStoryGenerationWarningAlert = sendStoryGenerationWarningAlert;
 exports.sendTeaHouseQuestionAlert = sendTeaHouseQuestionAlert;
 exports.sendTeaHouseAnswerAlert = sendTeaHouseAnswerAlert;
+exports.sendSubscriptionAlert = sendSubscriptionAlert;
 const logger = __importStar(require("firebase-functions/logger"));
 // Configuration - alert recipients
 const ALERT_EMAILS = [
@@ -249,6 +250,41 @@ async function sendTeaHouseAnswerAlert(apiKey, answerId, questionId, questionTit
             questionTitle,
             authorName: author.name,
             authorEmail: author.email,
+            timestamp: new Date().toISOString(),
+        },
+        severity: 'info',
+    });
+}
+/**
+ * Send alert for subscription lifecycle events
+ */
+async function sendSubscriptionAlert(apiKey, action, details) {
+    var _a;
+    const subject = action === 'subscribed'
+        ? 'User Subscribed'
+        : 'User Unsubscribed';
+    const userLabel = `${details.name || 'Unknown'} (${details.email || 'Unknown'})`;
+    return sendAlert(apiKey, {
+        subject,
+        message: `
+      <strong>${subject}</strong><br><br>
+      <strong>User:</strong> ${userLabel}<br>
+      <strong>Plan:</strong> ${details.plan || 'unknown'}<br>
+      <strong>Status:</strong> ${details.status || 'unknown'}<br>
+      <strong>Cancel at Period End:</strong> ${details.cancelAtPeriodEnd ? 'yes' : 'no'}<br><br>
+      <strong>Stripe Customer:</strong> ${details.customerId || 'unknown'}<br>
+      <strong>Stripe Subscription:</strong> ${details.subscriptionId || 'unknown'}
+    `,
+        details: {
+            action,
+            uid: details.uid || null,
+            name: details.name || null,
+            email: details.email || null,
+            plan: details.plan || null,
+            status: details.status || null,
+            cancelAtPeriodEnd: (_a = details.cancelAtPeriodEnd) !== null && _a !== void 0 ? _a : null,
+            customerId: details.customerId || null,
+            subscriptionId: details.subscriptionId || null,
             timestamp: new Date().toISOString(),
         },
         severity: 'info',

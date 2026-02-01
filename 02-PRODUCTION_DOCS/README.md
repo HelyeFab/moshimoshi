@@ -24,7 +24,8 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── onboarding/                    # Developer onboarding guides
 ├── textbook-vocabulary/           # Textbook vocabulary feature documentation
 ├── tts/                           # Text-to-Speech system documentation
-└── user-agent-tracking/           # User agent tracking for support forms
+├── user-agent-tracking/           # User agent tracking for support forms
+└── entertainment-system/          # Games, achievements, leaderboard, review hub
 ```
 
 ---
@@ -367,6 +368,74 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Entertainment System (`entertainment-system/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./entertainment-system/README.md) | Entertainment System overview, architecture, and quick start |
+| [FEATURE_GUIDE.md](./entertainment-system/FEATURE_GUIDE.md) | Complete implementation guide with code examples |
+| [TROUBLESHOOTING.md](./entertainment-system/TROUBLESHOOTING.md) | Common issues, debugging, and solutions |
+
+**Key Topics:**
+- Games system (8 interactive learning games)
+- Review Hub (SRS review dashboard with analytics)
+- Achievements system (progress-based rewards)
+- Leaderboard (competitive ranking with privacy controls)
+- Gamification core (XP calculation, streak management)
+- Universal Review Engine integration
+- Feature flag system
+- Learning Village integration
+- Command Palette shortcuts
+
+**Core Components:**
+
+**Games:**
+- Kanji Simon - Memory pattern matching game
+- Kanji Quest - Pokemon-style kanji battles
+- Kana Drop - Falling kana arcade game
+- Reading Routes - Kanji reading navigation
+- Stroke Order Practice - Drawing canvas for kanji
+- Matching Game - Memory card matching
+- Sentence Scramble - Grammar reconstruction
+- Word Assembly - Build kana from audio
+
+**Gamification:**
+- XP calculation with accuracy and speed bonuses
+- Streak tracking with 24-hour grace period
+- Achievement engine with condition evaluation
+- Level progression system (1-50 levels)
+- Completion ledger to prevent duplicate XP
+- Optimistic updates with rollback support
+
+**Leaderboard:**
+- Redis caching (5-minute TTL)
+- Firestore snapshots for persistence
+- Privacy opt-out controls
+- Paginated API (20-100 entries per page)
+- Top 100 player tracking
+- Subscription tier display
+
+**Key Files:**
+- `src/app/[locale]/games/page.tsx:18` - Games directory with feature flag
+- `src/lib/gamification/services/gamification-coordinator.ts:1` - Server-side entry point
+- `src/state/userGamification.ts:1` - Zustand store for client state
+- `src/config/gamification/achievements.json:1` - Achievement definitions
+- `src/app/api/leaderboard/route.ts:1` - Leaderboard API
+- `src/components/dashboard/LearningVillage.tsx:1455` - Entertainment District config
+- `src/lib/features/featureFlags.ts:35` - Feature flag system
+
+**Essential Reading for:**
+- ✅ Adding new learning games
+- ✅ Implementing XP rewards for activities
+- ✅ Creating new achievements
+- ✅ Customizing leaderboard display
+- ✅ Integrating gamification into new features
+- ✅ Troubleshooting XP/achievement issues
+
+**Implementation Date:** 2026-02-01
+
+---
+
 ## Document Standards
 
 ### Status Indicators
@@ -513,4 +582,4 @@ Add a link to your new feature documentation in the appropriate section:
 
 ---
 
-*Last Updated: 2026-01-31*
+*Last Updated: 2026-02-01*

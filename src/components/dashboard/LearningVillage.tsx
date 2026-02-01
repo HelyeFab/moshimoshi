@@ -18,11 +18,14 @@ import {
   OfflineSupport,
   DistrictId,
   DEFAULT_DISTRICT_ORDER,
+  StallConfig,
 } from '@/config/learning-village-types'
 import { ChevronDown, Wifi, WifiOff } from 'lucide-react'
 import { ReactNode } from 'react'
 import Tooltip from '@/components/ui/Tooltip'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import StallBadge from '@/components/learning-village/StallBadge'
+import { shouldShowBadge } from '@/lib/learning-village/badgeUtils'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -208,12 +211,14 @@ function StallCard({
   isPopular,
   isOnline,
   lowPower,
+  stallConfig,
 }: {
   stall: any
   index: number
   isPopular: boolean
   isOnline: boolean
   lowPower: boolean
+  stallConfig?: StallConfig
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
@@ -237,7 +242,7 @@ function StallCard({
   const cardContent = (
     <div
       className={`
-          relative overflow-hidden rounded-2xl
+          relative overflow-visible rounded-2xl
           bg-white/5 dark:bg-dark-800/5 ${lowPower ? '' : 'backdrop-blur-md'}
           border border-white/40 dark:border-white/20
           hover:border-primary-400/80 dark:hover:border-primary-500/80
@@ -290,6 +295,11 @@ function StallCard({
           <div className="absolute top-3 right-3 p-1.5 bg-amber-500/80 dark:bg-amber-600/80 backdrop-blur-md rounded-full border border-amber-400/50 z-10">
             <WifiOff className="w-3 h-3 text-white" />
           </div>
+        )}
+
+        {/* New Content Badge */}
+        {stallConfig?.badge && shouldShowBadge(stallConfig.badge) && (
+          <StallBadge type={stallConfig.badge.type} />
         )}
 
         {/* NEW: Content Wrapper to add padding if featured */}
@@ -381,11 +391,13 @@ function MobileStallCard({
   isPopular,
   isOnline,
   lowPower,
+  stallConfig,
 }: {
   stall: any
   isPopular: boolean
   isOnline: boolean
   lowPower: boolean
+  stallConfig?: StallConfig
 }) {
   const { strings } = useI18n()
 
@@ -401,7 +413,7 @@ function MobileStallCard({
         whileTap={{ scale: 0.98 }}
         className={`relative flex items-center p-3 sm:p-4 rounded-xl bg-white/10 dark:bg-dark-800/10 ${lowPower ? '' : 'backdrop-blur-md'}
                    border border-white/40 dark:border-white/20 hover:border-primary-400/80 dark:hover:border-primary-500/80
-                   shadow-none ${lowPower ? '' : `group-hover:${stall.glow}`} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-hidden
+                   shadow-none ${lowPower ? '' : `group-hover:${stall.glow}`} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-visible
                    group-hover:scale-[1.01] gap-x-2`} // Added subtle lift on hover and glow effect, and gap-x-2
       >
         {/* Top-left curved white border accent */}
@@ -436,6 +448,11 @@ function MobileStallCard({
           <div className="absolute top-1 right-1 p-1 bg-amber-500/80 rounded-full z-10">
             <WifiOff className="w-3 h-3 text-white" />
           </div>
+        )}
+
+        {/* New Content Badge */}
+        {stallConfig?.badge && shouldShowBadge(stallConfig.badge) && (
+          <StallBadge type={stallConfig.badge.type} className="scale-90" />
         )}
 
         {/* Content */}
@@ -1441,7 +1458,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'kanji-connections',
         'conjugation',
       ] as StallId[],
-      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards', 'mood-boards', 'drill'] as StallId[],
+      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards', 'mood-boards', 'drill', 'todos'] as StallId[],
       immersion: [
         'stories',
         'news',
@@ -1452,14 +1469,11 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'youtube-series',
         'my-videos',
       ] as StallId[],
-      play: ['games', 'review-hub'] as StallId[],
+      play: ['games', 'review-hub', 'achievements', 'leaderboard'] as StallId[],
       community: [
         'grammar',
-        'achievements',
-        'leaderboard',
         'resources',
         'blog',
-        'todos',
         'qa',
       ] as StallId[],
     }),
@@ -1973,17 +1987,21 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="space-y-3 overflow-hidden"
+                      className="space-y-3 overflow-visible"
                     >
-                      {orderedStalls.map((stall, index) => (
-                        <MobileStallCard
-                          key={stall.id}
-                          stall={stall}
-                          isPopular={isPopular(stall.id as StallId)}
-                          isOnline={isOnline}
-                          lowPower={lowPower}
-                        />
-                      ))}
+                      {orderedStalls.map((stall, index) => {
+                        const stallConfig = config.stalls.find(s => s.id === stall.id)
+                        return (
+                          <MobileStallCard
+                            key={stall.id}
+                            stall={stall}
+                            isPopular={isPopular(stall.id as StallId)}
+                            isOnline={isOnline}
+                            lowPower={lowPower}
+                            stallConfig={stallConfig}
+                          />
+                        )
+                      })}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -2038,19 +2056,23 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                     640: 2, // sm
                   }}
                   className="flex -ml-3 sm:-ml-6 w-auto"
-                  columnClassName="pl-3 sm:pl-6 bg-clip-padding"
+                  columnClassName="pl-3 sm:pl-6 pr-3 sm:pr-6 bg-clip-padding"
                 >
-                  {orderedStalls.map((stall, index) => (
-                    <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
-                      <StallCard
-                        stall={stall}
-                        index={index}
-                        isPopular={isPopular(stall.id as StallId)}
-                        isOnline={isOnline}
-                        lowPower={lowPower}
-                      />
-                    </div>
-                  ))}
+                  {orderedStalls.map((stall, index) => {
+                    const stallConfig = config.stalls.find(s => s.id === stall.id)
+                    return (
+                      <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
+                        <StallCard
+                          stall={stall}
+                          index={index}
+                          isPopular={isPopular(stall.id as StallId)}
+                          isOnline={isOnline}
+                          lowPower={lowPower}
+                          stallConfig={stallConfig}
+                        />
+                      </div>
+                    )
+                  })}
                 </Masonry>
               </div>
             )

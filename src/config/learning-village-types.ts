@@ -107,13 +107,27 @@ export const DEFAULT_DISTRICT_ORDER: DistrictId[] = [
 ]
 
 /**
+ * Badge types for stalls
+ */
+export type StallBadgeType = 'new' | 'updated' | 'popular' | 'featured'
+
+/**
+ * Badge configuration
+ */
+export interface StallBadge {
+  type: StallBadgeType
+  addedAt: string // ISO timestamp when badge was added
+}
+
+/**
  * Configuration for a single stall
  */
 export interface StallConfig {
   id: StallId
   order: number // Display order (lower = first)
-  isPopular: boolean // Show "Popular" badge
+  isPopular: boolean // Show "Popular" badge (legacy - will be migrated to badge system)
   enabled: boolean // Whether stall is visible (respects feature flags too)
+  badge?: StallBadge // Optional badge (e.g., "New Content")
 }
 
 /**

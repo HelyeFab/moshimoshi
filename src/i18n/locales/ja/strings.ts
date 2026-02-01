@@ -921,6 +921,12 @@ export const strings = {
       title: '学習の村へようこそ',
       subtitle: '日本語マスターへの道を選びましょう',
       clickToStart: 'どの学習エリアでもクリックして旅を始めましょう！',
+      badges: {
+        new: '新着コンテンツ',
+        updated: '更新済み',
+        popular: '人気',
+        featured: '注目',
+      },
     },
     districts: {
       foundation: '初心者の広場',
