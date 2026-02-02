@@ -1,3 +1,23 @@
+#!/usr/bin/env node
+
+/**
+ * View User Data Script
+ *
+ * Displays comprehensive user data including:
+ * - Authentication details
+ * - User profile
+ * - Subcollections (usage, etc.)
+ * - Waitlist status
+ * - Discount eligibility
+ * - Other collections
+ *
+ * Usage:
+ *   node scripts/view-user-data.js <email>
+ *
+ * Example:
+ *   node scripts/view-user-data.js seanconnery23@gmail.com
+ */
+
 const admin = require('firebase-admin');
 const path = require('path');
 
@@ -10,20 +30,36 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const userId = '8onZzlQg3tQxkw8pinSF9ow4Q6j2';
+
+// Get email from command line
+const email = process.argv[2];
+
+if (!email) {
+  console.error('\n❌ Error: Missing email argument\n');
+  console.log('Usage:');
+  console.log('  node scripts/view-user-data.js <email>\n');
+  console.log('Example:');
+  console.log('  node scripts/view-user-data.js seanconnery23@gmail.com\n');
+  process.exit(1);
+}
 
 async function viewUserData() {
   console.log('='.repeat(80));
-  console.log(`FIREBASE USER DATA FOR: ${userId}`);
+  console.log(`FIREBASE USER DATA FOR: ${email}`);
   console.log('='.repeat(80));
   console.log();
 
   try {
-    // Get authentication details
+    // Get user by email
+    let userId;
+    let userRecord;
+
     console.log('📧 AUTHENTICATION DETAILS');
     console.log('-'.repeat(80));
     try {
-      const userRecord = await admin.auth().getUser(userId);
+      userRecord = await admin.auth().getUserByEmail(email);
+      userId = userRecord.uid;
+      console.log('UID:', userRecord.uid);
       console.log('Email:', userRecord.email);
       console.log('Email Verified:', userRecord.emailVerified);
       console.log('Display Name:', userRecord.displayName || 'Not set');
@@ -33,24 +69,63 @@ async function viewUserData() {
       console.log('Disabled:', userRecord.disabled);
       console.log('Custom Claims:', JSON.stringify(userRecord.customClaims || {}, null, 2));
     } catch (error) {
-      console.log('Error fetching auth details:', error.message);
+      console.log('❌ Error fetching auth details:', error.message);
+      process.exit(1);
     }
     console.log();
 
-    // Common collections to check
-    const collectionsToCheck = [
-      'users',
-      'userStats',
-      'userProgress',
-      'achievements',
-      'streaks',
-      'flashcards',
-      'reviewSessions',
-      'watchHistory',
-      'leaderboard',
-      'preferences',
-      'subscriptions'
-    ];
+    // Check waitlist status
+    console.log('📋 WAITLIST STATUS');
+    console.log('-'.repeat(80));
+    try {
+      const waitlistSnapshot = await db.collection('waitlist')
+        .where('email', '==', email)
+        .limit(1)
+        .get();
+
+      if (waitlistSnapshot.empty) {
+        console.log('❌ Not on waitlist');
+      } else {
+        const waitlistData = waitlistSnapshot.docs[0].data();
+        console.log('✅ On waitlist');
+        console.log('   linkedUid:', waitlistData.linkedUid || 'null');
+        console.log('   discountGranted:', waitlistData.discountGranted || false);
+        console.log('   joinedAt:', waitlistData.joinedAt ? waitlistData.joinedAt.toDate() : 'null');
+      }
+    } catch (error) {
+      console.log('Error checking waitlist:', error.message);
+    }
+    console.log();
+
+    // Check discount eligibility
+    console.log('💰 DISCOUNT ELIGIBILITY');
+    console.log('-'.repeat(80));
+    try {
+      const discountRef = db.collection('stripe').doc('discounts').collection('users').doc(userId);
+      const discountDoc = await discountRef.get();
+
+      console.log('Path: stripe/discounts/users/' + userId);
+      if (!discountDoc.exists) {
+        console.log('❌ No discount document found');
+      } else {
+        const data = discountDoc.data();
+        console.log('✅ Discount document exists');
+        console.log('   eligible:', data.eligible);
+        console.log('   promotionCodeId:', data.promotionCodeId || 'null');
+        console.log('   source:', data.source || 'null');
+        console.log('   redeemed:', data.redeemed || false);
+        console.log('   redeemedAt:', data.redeemedAt ? data.redeemedAt.toDate() : 'null');
+
+        if (data.eligible && !data.redeemed) {
+          console.log('\n   ✅ READY FOR CHECKOUT - Discount will be auto-applied');
+        } else if (data.redeemed) {
+          console.log('\n   ⚠️  Discount already redeemed');
+        }
+      }
+    } catch (error) {
+      console.log('Error checking discount:', error.message);
+    }
+    console.log();
 
     // Check user document in users collection
     console.log('👤 USER PROFILE (users collection)');
@@ -88,10 +163,22 @@ async function viewUserData() {
     }
     console.log();
 
+    // Common collections to check
+    const collectionsToCheck = [
+      'userStats',
+      'userProgress',
+      'achievements',
+      'streaks',
+      'flashcards',
+      'reviewSessions',
+      'watchHistory',
+      'leaderboard',
+      'preferences',
+      'subscriptions'
+    ];
+
     // Check top-level collections
     for (const collectionName of collectionsToCheck) {
-      if (collectionName === 'users') continue; // Already checked
-
       console.log(`📚 ${collectionName.toUpperCase()}`);
       console.log('-'.repeat(80));
 
