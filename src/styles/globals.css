@@ -225,7 +225,7 @@
   /* Font family - includes system Japanese fonts for all platforms as fallback */
   /* Fallback order: Self-hosted → macOS → Windows → Android/Linux → generic */
   /* Mulish for Latin characters, Noto Sans JP for Japanese characters */
-  --font-family-japanese: 'Noto Sans JP', 'Mulish', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', sans-serif;
+  --font-family-japanese: 'Mulish', 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', sans-serif;
   --font-family-logo: 'Elms Sans Playwrite', 'Mulish', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
   --font-family-logo-japanese: 'Zen Maru Gothic', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
 

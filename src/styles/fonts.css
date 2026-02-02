@@ -234,6 +234,7 @@
 /* Noto Sans JP - Self-hosted Japanese Font for reliable kana/kanji display */
 /* Using static fonts instead of variable font to fix Android Chrome rendering bug */
 /* where certain hiragana (う, え, け) show as dots with variable fonts */
+/* unicode-range restricts to Japanese characters so Mulish handles Latin */
 
 @font-face {
   font-family: 'Noto Sans JP';
@@ -241,6 +242,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+FF00-FFEF;
 }
 
 @font-face {
@@ -249,6 +251,7 @@
   font-weight: 500;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+FF00-FFEF;
 }
 
 @font-face {
@@ -257,4 +260,5 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+FF00-FFEF;
 }
