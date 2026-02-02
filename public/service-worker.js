@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-5a6ffd232dc1';
+const CACHE_VERSION = 'moshimoshi-63d0c9192994';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,6 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/SCgpYs3uFRBDURum4bkV8/_buildManifest.js",
-  "/_next/static/SCgpYs3uFRBDURum4bkV8/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -260,7 +258,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/84584-bdebc5f3eed19e08.js",
   "/_next/static/chunks/84702-8b7a315425403eff.js",
   "/_next/static/chunks/85361-0e7684f50440b44f.js",
-  "/_next/static/chunks/86480-c98717ead2cc0b04.js",
+  "/_next/static/chunks/86480-98f87ffcdadca8c5.js",
   "/_next/static/chunks/86611-44c9438ef951db31.js",
   "/_next/static/chunks/87135-165b64127c326a1c.js",
   "/_next/static/chunks/87342-72ea4fbe01b4062f.js",
@@ -353,8 +351,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-a6fe57bd1bf79c81.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-ea57d543bc93f95f.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-18a6b7d0564ebed4.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-955cef9292819c23.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-4ed5040ca3c5ebfa.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-906fb78d0c8c056d.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-b5634e690b162627.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-3c7be65b56b1eb67.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-9303040263061bb2.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-eab8fd511cb4d1cb.js",
@@ -501,7 +499,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/tools/blast-mode/page-a8d60bea846ef3d4.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/layout-e44e9023e1d54881.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/layout-e44e9023e1d54881.js",
-  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-54f5d1004118779f.js",
+  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-edffe1a0864685bc.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/page-97f8ea8488250933.js",
   "/_next/static/chunks/app/[locale]/tts-demo/page-f96230b96f561f03.js",
   "/_next/static/chunks/app/[locale]/tts-playground/page-5fa31ac0b7886f3f.js",
@@ -531,10 +529,12 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/pages/_error-ff431fa75c297bd3.js",
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
   "/_next/static/chunks/webpack-02d571c52563f890.js",
-  "/_next/static/css/6b5a186131e58cda.css",
+  "/_next/static/css/0f6481619a7345ff.css",
   "/_next/static/css/6e09cdf58928be98.css",
   "/_next/static/css/a6ae4ab4bec43017.css",
-  "/_next/static/css/af47b6060c4fddcc.css"
+  "/_next/static/css/af47b6060c4fddcc.css",
+  "/_next/static/ukgKceH20n7vmcWowpyGw/_buildManifest.js",
+  "/_next/static/ukgKceH20n7vmcWowpyGw/_ssgManifest.js"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only

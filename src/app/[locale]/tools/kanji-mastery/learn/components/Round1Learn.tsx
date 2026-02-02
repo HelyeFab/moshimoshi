@@ -280,19 +280,16 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="space-y-6"
+      className="space-y-2 md:space-y-3"
     >
-      {/* Header */}
-      <div className="text-center relative">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Round 1: Learn
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
+      {/* Compact Header - just kanji counter and shortcuts */}
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           Kanji {currentIndex + 1} of {totalKanji}
         </p>
 
         {/* Keyboard Shortcuts Badge - Desktop Only */}
-        <div className="hidden md:block absolute top-0 right-0">
+        <div className="hidden md:block relative">
           <button
             onClick={() => setShowShortcuts(!showShortcuts)}
             className="shortcuts-badge flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors text-sm font-medium shadow-sm"
@@ -359,53 +356,51 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
         </div>
       </div>
 
-      {/* Main Kanji Card */}
+      {/* Main Kanji Card - more compact */}
       <motion.div
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
-        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8"
+        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-3 md:p-5"
       >
-        <div className="text-center mb-8">
-          {/* Large Kanji Display */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="text-8xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
-          >
-            {kanji.kanji}
-          </motion.div>
+        <div className="text-center mb-3">
+          {/* Kanji + Meaning - inline on desktop */}
+          <div className="md:flex md:items-center md:justify-center md:gap-5 mb-3">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="text-6xl md:text-5xl font-bold text-gray-900 dark:text-gray-100"
+              style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
+            >
+              {kanji.kanji}
+            </motion.div>
 
-          {/* Meaning */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-2xl font-medium text-primary-600 dark:text-primary-400 mb-6"
-          >
-            {kanji.meaning}
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-xl md:text-2xl font-medium text-primary-600 dark:text-primary-400 mt-2 md:mt-0"
+            >
+              {kanji.meaning}
+            </motion.div>
+          </div>
 
-          {/* Memory Aid / Mnemonic */}
+          {/* Memory Aid / Mnemonic - more compact */}
           {mnemonic && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="mb-6 p-4 bg-amber-50/80 dark:bg-amber-900/20 rounded-xl border border-amber-200/50 dark:border-amber-800/30"
+              className="mb-3 p-2.5 bg-amber-50/80 dark:bg-amber-900/20 rounded-lg border border-amber-200/50 dark:border-amber-800/30 text-left"
             >
               <div className="flex items-start gap-2">
-                <span className="text-amber-500 text-lg flex-shrink-0">💡</span>
-                <div className="flex-1">
-                  <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-200 mb-1">
-                    Memory Aid
-                  </h4>
+                <span className="text-amber-500 flex-shrink-0">💡</span>
+                <div className="flex-1 min-w-0">
                   <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
                     {mnemonic.mnemonic}
                   </p>
                   {mnemonic.components && mnemonic.components.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
                       {mnemonic.components.map((comp, idx) => (
                         <span
                           key={idx}
@@ -419,7 +414,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                   )}
                   {/* Attribution for Koohii community mnemonics */}
                   {mnemonic.provider === 'koohii' && mnemonic.author && (
-                    <p className="mt-2 text-xs text-amber-500/60 dark:text-amber-400/40">
+                    <p className="mt-1.5 text-xs text-amber-500/60 dark:text-amber-400/40">
                       Story by <span className="font-medium">{mnemonic.author}</span>
                       {mnemonic.votes !== undefined && mnemonic.votes > 0 && (
                         <span className="ml-1">({mnemonic.votes} votes)</span>
@@ -440,22 +435,22 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
             </motion.div>
           )}
 
-          {/* Readings Section */}
-          <div className="space-y-4 mb-6">
+          {/* Readings Section - side by side on desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
               {/* Onyomi */}
               {kanji.onyomi && kanji.onyomi.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider flex items-center gap-2">
+                <div className="text-left">
+                  <h4 className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
                     <span className="text-blue-500 dark:text-blue-400">●</span>
                     On'yomi (音読み)
                   </h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {kanji.onyomi.map((reading, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
+                        className="flex items-center gap-1.5 bg-gray-50 dark:bg-dark-700 rounded-lg px-2.5 py-1.5"
                       >
-                        <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        <span className="text-base font-medium text-gray-900 dark:text-gray-100">
                           {reading}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -475,18 +470,18 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
 
               {/* Kunyomi */}
               {kanji.kunyomi && kanji.kunyomi.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider flex items-center gap-2">
+                <div className="text-left">
+                  <h4 className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
                     <span className="text-green-500 dark:text-green-400">●</span>
                     Kun'yomi (訓読み)
                   </h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {kanji.kunyomi.map((reading, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
+                        className="flex items-center gap-1.5 bg-gray-50 dark:bg-dark-700 rounded-lg px-2.5 py-1.5"
                       >
-                        <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        <span className="text-base font-medium text-gray-900 dark:text-gray-100">
                           {reading}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-400">

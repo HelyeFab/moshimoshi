@@ -71,7 +71,8 @@ export default function LearnContent() {
   const { t } = useI18n()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { subscription } = useSubscription()
-  const { checkOnly } = useFeature('kanji_mastery')
+  const { checkOnly, refresh: refreshEntitlement, remaining: sessionsRemaining, lastDecision } = useFeature('kanji_mastery')
+  const isUnlimited = lastDecision?.limit === -1
   const { getItem, setItem } = useUserStorage()
   const { getLocalePath } = useLocalePath()
   // Feature flags removed - always enabled
@@ -106,6 +107,7 @@ export default function LearnContent() {
   const [lastTestType, setLastTestType] = useState<TestType | null>(null)
 
   const loadAttemptedRef = useRef(false)
+  const sessionSavedRef = useRef(false)
 
   useEffect(() => {
     if (authLoading || loadAttemptedRef.current) return
@@ -370,7 +372,9 @@ export default function LearnContent() {
         currentIndex: prev.currentIndex + 1
       }))
     } else {
-      // Session complete!
+      // Session complete! Save session before showing modal so entitlements are updated
+      await saveSession()
+      sessionSavedRef.current = true
       setSessionComplete(true)
     }
   }
@@ -474,6 +478,8 @@ export default function LearnContent() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idempotencyKey: session.sessionId })
           })
+          // Refresh entitlement data after incrementing usage
+          await refreshEntitlement()
         } catch (error) {
           console.error('Error tracking kanji mastery usage:', error)
         }
@@ -488,17 +494,17 @@ export default function LearnContent() {
   }
 
   const handleSessionComplete = async () => {
-    await saveSession()
+    if (!sessionSavedRef.current) await saveSession()
     router.push(getLocalePath('/tools/kanji-mastery'))
   }
 
   const handleGoToDashboard = async () => {
-    await saveSession()
+    if (!sessionSavedRef.current) await saveSession()
     router.push(getLocalePath('/dashboard'))
   }
 
   const handleStartNewSession = async () => {
-    await saveSession()
+    if (!sessionSavedRef.current) await saveSession()
     // Preserve current search params for new session
     const currentParams = new URLSearchParams(window.location.search)
     router.push(getLocalePath(`/tools/kanji-mastery/learn?${currentParams.toString()}`))
@@ -545,12 +551,23 @@ export default function LearnContent() {
         sessionState={sessionState}
         onGoToDashboard={handleGoToDashboard}
         onStartNewSession={handleStartNewSession}
+        canStartNewSession={isUnlimited || (sessionsRemaining !== null && sessionsRemaining > 0)}
       />
     )
   }
 
   const currentKanji = sessionState.kanji[sessionState.currentIndex]
   const totalKanji = sessionState.kanji.length
+
+  // Defensive guard: if kanji data is empty or current kanji is undefined, show loading
+  // This can happen during navigation/redirect race conditions (e.g., entitlement denied)
+  if (!currentKanji || totalKanji === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
+        <LoadingOverlay isLoading={true} message="Loading..." showDoshi={true} />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
@@ -584,7 +601,7 @@ export default function LearnContent() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-6 max-w-xl">
         {sessionState.currentRound === 1 && (
           <Round1Learn
             kanji={currentKanji}

@@ -39,12 +39,9 @@ export default function BlastStepRenderer({
   return (
     <div className="w-full max-w-2xl mx-auto">
       {/* Step Indicator */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6">
         <div className="text-sm text-gray-600 dark:text-gray-400">
           Step {stepIndex + 1} of {totalSteps}
-        </div>
-        <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide">
-          {step.stepType.replace(/_/g, ' ')}
         </div>
       </div>
 
@@ -109,16 +106,6 @@ export default function BlastStepRenderer({
           onAnswer={onAnswer}
           disabled={disabled}
         />
-      )}
-
-      {/* Saved answer hint when navigating back */}
-      {isAnswered && savedAnswer && (
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          <span className="font-medium">Saved:</span>{' '}
-          {Array.isArray(savedAnswer.userAnswer)
-            ? savedAnswer.userAnswer.join('')
-            : savedAnswer.userAnswer}
-        </div>
       )}
     </div>
   )
