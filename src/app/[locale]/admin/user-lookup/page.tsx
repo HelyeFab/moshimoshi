@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase/client';
+import { Select } from '@/components/ui/Select';
 
 interface WaitlistEntry {
   id: string;
@@ -211,6 +212,15 @@ export default function UserLookupPage() {
   const [visitorsLoading, setVisitorsLoading] = useState(true);
   const [visitorsError, setVisitorsError] = useState<string | null>(null);
 
+  // Admin actions state
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [showDiscountModal, setShowDiscountModal] = useState<'grant' | 'update' | null>(null);
+  const [newPromoCodeId, setNewPromoCodeId] = useState('');
+  const [newPromoSource, setNewPromoSource] = useState('');
+  const [availablePromoCodes, setAvailablePromoCodes] = useState<Array<{ id: string; name: string; description: string }>>([]);
+
   // Fetch waitlist data on mount
   useEffect(() => {
     const fetchWaitlist = async () => {
@@ -414,6 +424,115 @@ export default function UserLookupPage() {
     }
   };
 
+  // Fetch available promo codes
+  const fetchPromoCodes = async () => {
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) return;
+
+      const response = await fetch('/api/admin/promo-codes', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setAvailablePromoCodes(result.data || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch promo codes:', err);
+    }
+  };
+
+  // Admin action handlers
+  const handleResetUsage = async () => {
+    if (!userData?.userId) return;
+
+    setActionLoading('reset_usage');
+    setActionSuccess(null);
+    setActionError(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) throw new Error('Authentication token not available');
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userData.userId)}/usage/reset`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to reset usage');
+      }
+
+      const result = await response.json();
+      setActionSuccess(`Usage reset successfully! ${result.data?.wasDeleted ? 'Previous usage data was deleted.' : 'No usage data found for today.'}`);
+
+      // Refresh entitlements data
+      fetchUserEntitlements(userData.userId);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Failed to reset usage');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDiscountAction = async (action: 'grant' | 'update' | 'revoke' | 'reset_redemption') => {
+    if (!userData?.userId) return;
+
+    if ((action === 'grant' || action === 'update') && !newPromoCodeId) {
+      setShowDiscountModal(action);
+      return;
+    }
+
+    setActionLoading(action);
+    setActionSuccess(null);
+    setActionError(null);
+    setShowDiscountModal(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) throw new Error('Authentication token not available');
+
+      const body: any = { action };
+      if (action === 'grant' || action === 'update') {
+        body.promotionCodeId = newPromoCodeId;
+        if (newPromoSource) body.source = newPromoSource;
+      }
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userData.userId)}/promotions`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Failed to ${action} discount`);
+      }
+
+      const result = await response.json();
+      setActionSuccess(result.message || `Discount ${action} successful!`);
+
+      // Clear form and refresh data
+      setNewPromoCodeId('');
+      setNewPromoSource('');
+      fetchUserPromotions(userData.userId);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : `Failed to ${action} discount`);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const handleSearch = async () => {
     if (!searchInput.trim()) {
       setError('Please enter a user UUID or email');
@@ -460,7 +579,8 @@ export default function UserLookupPage() {
         fetchUserStats(userId),
         fetchUserEntitlements(userId),
         fetchUserContent(userId),
-        fetchUserPromotions(userId)
+        fetchUserPromotions(userId),
+        fetchPromoCodes()
       ]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -1160,6 +1280,18 @@ export default function UserLookupPage() {
                     </div>
                   )}
 
+                  {/* Action Success/Error Messages */}
+                  {actionSuccess && (
+                    <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                      <p className="text-green-800 dark:text-green-200 text-sm font-medium">✅ {actionSuccess}</p>
+                    </div>
+                  )}
+                  {actionError && (
+                    <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                      <p className="text-red-800 dark:text-red-200 text-sm font-medium">❌ {actionError}</p>
+                    </div>
+                  )}
+
                   {userPromotionsData && !promotionsLoading && (
                     <>
                       {userPromotionsData.waitlist && (
@@ -1207,6 +1339,142 @@ export default function UserLookupPage() {
                           )}
                         </>
                       )}
+
+                      {/* Admin Actions Section */}
+                      <div className="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
+                        <h4 className="font-semibold text-purple-900 dark:text-purple-200 mb-4 flex items-center gap-2">
+                          ⚡ Admin Superpowers
+                        </h4>
+
+                        {/* Discount Modal */}
+                        {showDiscountModal && (
+                          <div className="mb-4 p-4 bg-white dark:bg-gray-900 rounded-lg border border-purple-300 dark:border-purple-700">
+                            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                              {showDiscountModal === 'grant' ? 'Grant New Discount' : 'Update Promo Code'}
+                            </h5>
+                            <div className="space-y-3">
+                              <div>
+                                {availablePromoCodes.length > 0 ? (
+                                  <Select
+                                    label="Select Promo Code *"
+                                    placeholder="-- Select a promo code --"
+                                    value={newPromoCodeId}
+                                    onChange={(value) => {
+                                      setNewPromoCodeId(value);
+                                      // Auto-set source based on promo name
+                                      const selected = availablePromoCodes.find(p => p.id === value);
+                                      if (selected) {
+                                        setNewPromoSource(selected.name.toLowerCase().replace(/[^a-z0-9]/g, '_'));
+                                      }
+                                    }}
+                                    options={availablePromoCodes.map((promo) => ({
+                                      value: promo.id,
+                                      label: `${promo.name} - ${promo.description}`
+                                    }))}
+                                    size="sm"
+                                  />
+                                ) : (
+                                  <>
+                                    <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Promo Code ID *</label>
+                                    <input
+                                      type="text"
+                                      value={newPromoCodeId}
+                                      onChange={(e) => setNewPromoCodeId(e.target.value)}
+                                      placeholder="promo_xxx..."
+                                      className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    />
+                                  </>
+                                )}
+                              </div>
+                              <div>
+                                <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Source (auto-filled)</label>
+                                <input
+                                  type="text"
+                                  value={newPromoSource}
+                                  onChange={(e) => setNewPromoSource(e.target.value)}
+                                  placeholder="e.g., waitlist, admin_granted"
+                                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                              </div>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => handleDiscountAction(showDiscountModal)}
+                                  disabled={!newPromoCodeId || actionLoading !== null}
+                                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  {actionLoading === showDiscountModal ? 'Processing...' : 'Confirm'}
+                                </button>
+                                <button
+                                  onClick={() => { setShowDiscountModal(null); setNewPromoCodeId(''); setNewPromoSource(''); }}
+                                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {/* Reset Usage */}
+                          <button
+                            onClick={handleResetUsage}
+                            disabled={actionLoading !== null}
+                            className="px-4 py-3 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                          >
+                            <span className="text-lg">🔄</span>
+                            <span>{actionLoading === 'reset_usage' ? 'Resetting...' : 'Reset Usage'}</span>
+                          </button>
+
+                          {/* Grant Discount */}
+                          {(!userPromotionsData.discount?.eligible || userPromotionsData.discount?.status === 'no_discount_document') && (
+                            <button
+                              onClick={() => handleDiscountAction('grant')}
+                              disabled={actionLoading !== null}
+                              className="px-4 py-3 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                            >
+                              <span className="text-lg">🎁</span>
+                              <span>{actionLoading === 'grant' ? 'Granting...' : 'Grant Discount'}</span>
+                            </button>
+                          )}
+
+                          {/* Update Promo Code */}
+                          {userPromotionsData.discount?.eligible && (
+                            <button
+                              onClick={() => handleDiscountAction('update')}
+                              disabled={actionLoading !== null}
+                              className="px-4 py-3 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                            >
+                              <span className="text-lg">✏️</span>
+                              <span>{actionLoading === 'update' ? 'Updating...' : 'Update Promo'}</span>
+                            </button>
+                          )}
+
+                          {/* Revoke Discount */}
+                          {userPromotionsData.discount?.eligible && !userPromotionsData.discount?.redeemed && (
+                            <button
+                              onClick={() => handleDiscountAction('revoke')}
+                              disabled={actionLoading !== null}
+                              className="px-4 py-3 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                            >
+                              <span className="text-lg">🚫</span>
+                              <span>{actionLoading === 'revoke' ? 'Revoking...' : 'Revoke'}</span>
+                            </button>
+                          )}
+
+                          {/* Reset Redemption */}
+                          {userPromotionsData.discount?.redeemed && (
+                            <button
+                              onClick={() => handleDiscountAction('reset_redemption')}
+                              disabled={actionLoading !== null}
+                              className="px-4 py-3 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                            >
+                              <span className="text-lg">↩️</span>
+                              <span>{actionLoading === 'reset_redemption' ? 'Resetting...' : 'Reset Redemption'}</span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </>
                   )}
 
