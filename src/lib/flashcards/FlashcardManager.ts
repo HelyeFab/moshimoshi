@@ -1713,6 +1713,10 @@ export class FlashcardManager {
         console.log('[FlashcardManager.deleteDeckFromR2] Deck deleted from R2 successfully')
       } else {
         const error = await response.text()
+        if (response.status === 404) {
+          console.log('[FlashcardManager.deleteDeckFromR2] No R2 backup found for deck - skipping cleanup')
+          return
+        }
         console.error('[FlashcardManager.deleteDeckFromR2] Failed:', error)
         // Don't throw - local deletion already succeeded
       }

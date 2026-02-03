@@ -162,8 +162,8 @@ export class AnkiParser {
 
         const frontTokens = template?.qfmt ? this.getDisplayFieldTokens(template.qfmt) : [];
         const backTokens = template?.afmt ? this.getDisplayFieldTokens(template.afmt) : [];
-        const useTemplateFront = frontTokens.length > 0;
-        const useTemplateBack = backTokens.length > 0;
+        const useTemplateFront = options?.strictTemplateMode ? true : frontTokens.length > 0;
+        const useTemplateBack = options?.strictTemplateMode ? true : backTokens.length > 0;
 
         if (index === 0) {
           console.log('[AnkiParser] BEFORE template rendering:', {

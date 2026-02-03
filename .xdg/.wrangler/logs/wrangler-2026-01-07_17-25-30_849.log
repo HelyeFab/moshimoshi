@@ -1,8 +1,0 @@
-
---- 2026-01-07T17:25:30.964Z debug
-🪵  Writing logs to "/home/beano/DevProjects/NextJs/moshimoshi/.xdg/.wrangler/logs/wrangler-2026-01-07_17-25-30_849.log"
----
-
---- 2026-01-07T17:25:30.964Z debug
-Metrics dispatcher: Posting data {"deviceId":"8e8efb54-08b9-49fd-bae8-bf39a8e0175a","event":"wrangler command started","timestamp":1767806730964,"properties":{"amplitude_session_id":1767806730962,"amplitude_event_id":0,"wranglerVersion":"4.57.0","osPlatform":"Linux","osVersion":"#37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2","nodeVersion":24,"isFirstUsage":true,"configFileType":"none","isCI":false,"isPagesCI":false,"isWorkersCI":false,"isInteractive":false,"hasAssets":false,"argsUsed":["pipe","remote"],"argsCombination":"pipe, remote","command":"wrangler r2 object get","args":{}}}
----

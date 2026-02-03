@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
+import type { FlashcardDeck, FlashcardContent } from '@/types/flashcards';
 
 export default function TestFlashcardsPage() {
   const { user } = useAuth();
@@ -11,6 +12,77 @@ export default function TestFlashcardsPage() {
 
   const addResult = (test: string, passed: boolean, details?: string) => {
     setResults(prev => [...prev, { test, passed, details, timestamp: Date.now() }]);
+  };
+
+  const createInitialStats = () => ({
+    totalCards: 0,
+    newCards: 0,
+    learningCards: 0,
+    reviewCards: 0,
+    masteredCards: 0,
+    totalStudied: 0,
+    lastStudied: undefined,
+    averageAccuracy: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    totalTimeSpent: 0,
+    heatmapData: {},
+  });
+
+  const createBaseDeck = (uid: string): FlashcardDeck => {
+    const now = Date.now();
+    return {
+      id: crypto.randomUUID(),
+      userId: uid,
+      name: `Test Deck ${now}`,
+      description: 'Testing Firebase sync',
+      emoji: '🧪',
+      color: 'primary',
+      cardStyle: 'minimal',
+      source: 'user',
+      cards: [],
+      settings: {
+        studyDirection: 'front-to-back',
+        autoPlay: false,
+        showHints: true,
+        animationSpeed: 'normal',
+        soundEffects: true,
+        hapticFeedback: true,
+        sessionLength: 20,
+        reviewMode: 'srs',
+        newCardsPerDay: 20,
+        reviewsPerDay: 100,
+      },
+      stats: createInitialStats(),
+      createdAt: now,
+      updatedAt: now,
+    };
+  };
+
+  const addCardToDeck = (deck: FlashcardDeck, front: string, back: string): FlashcardDeck => {
+    const now = Date.now();
+    const newCard: FlashcardContent = {
+      id: crypto.randomUUID(),
+      front,
+      back,
+      metadata: {
+        algorithm: 'fsrs',
+        status: 'new',
+        createdAt: now,
+        modifiedAt: now,
+      },
+    };
+    const cards = [...deck.cards, newCard];
+    return {
+      ...deck,
+      cards,
+      stats: {
+        ...deck.stats,
+        totalCards: cards.length,
+        newCards: cards.length,
+      },
+      updatedAt: now,
+    };
   };
 
   const runTests = async () => {
@@ -24,64 +96,55 @@ export default function TestFlashcardsPage() {
 
     try {
       // Test 1: GET all decks
-      addResult('GET /api/flashcards/decks', false, 'Starting...');
       const getDecksRes = await fetch('/api/flashcards/decks');
       const decksData = await getDecksRes.json();
       addResult('GET /api/flashcards/decks', getDecksRes.ok, `Status: ${getDecksRes.status}, Decks: ${decksData.decks?.length || 0}`);
 
-      // Test 2: Create a deck
-      const testDeck = {
-        name: `Test Deck ${Date.now()}`,
-        description: 'Testing Firebase integration',
-        emoji: '🧪',
-        color: 'primary',
-        cardStyle: 'minimal',
-        initialCards: [
-          { front: 'Test Front 1', back: 'Test Back 1' },
-          { front: 'Test Front 2', back: 'Test Back 2' }
-        ]
-      };
+      // Test 2: Create a deck (batch sync endpoint)
+      const baseDeck = createBaseDeck(user.uid);
+      const deckWithCards = addCardToDeck(
+        addCardToDeck(baseDeck, 'Test Front 1', 'Test Back 1'),
+        'Test Front 2',
+        'Test Back 2'
+      );
 
-      addResult('POST /api/flashcards/decks', false, 'Creating deck...');
       const createRes = await fetch('/api/flashcards/decks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(testDeck)
+        body: JSON.stringify({ decks: [deckWithCards] })
       });
-      const createdDeck = await createRes.json();
-      addResult('POST /api/flashcards/decks', createRes.ok, `Status: ${createRes.status}, Deck ID: ${createdDeck.deck?.id || 'none'}`);
+      const createdResult = await createRes.json();
+      addResult('POST /api/flashcards/decks (create)', createRes.ok, `Status: ${createRes.status}, Synced: ${createdResult.synced ?? 0}`);
 
-      if (createRes.ok && createdDeck.deck) {
-        const deckId = createdDeck.deck.id;
+      if (createRes.ok) {
+        const deckId = deckWithCards.id;
 
         // Test 3: Get specific deck
-        addResult(`GET /api/flashcards/decks/${deckId}`, false, 'Fetching...');
         const getOneRes = await fetch(`/api/flashcards/decks/${deckId}`);
         const oneDeck = await getOneRes.json();
         addResult(`GET /api/flashcards/decks/${deckId}`, getOneRes.ok, `Status: ${getOneRes.status}, Name: ${oneDeck.deck?.name || 'none'}`);
 
-        // Test 4: Update deck
-        addResult(`PUT /api/flashcards/decks/${deckId}`, false, 'Updating...');
-        const updateRes = await fetch(`/api/flashcards/decks/${deckId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: 'Updated Test Deck' })
-        });
-        const updatedDeck = await updateRes.json();
-        addResult(`PUT /api/flashcards/decks/${deckId}`, updateRes.ok, `Status: ${updateRes.status}`);
-
-        // Test 5: Add a card
-        addResult(`POST /api/flashcards/decks/${deckId}/cards`, false, 'Adding card...');
-        const addCardRes = await fetch(`/api/flashcards/decks/${deckId}/cards`, {
+        // Test 4: Update deck (batch sync endpoint)
+        const updatedDeck = { ...deckWithCards, name: 'Updated Test Deck', updatedAt: Date.now() };
+        const updateRes = await fetch('/api/flashcards/decks', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ front: 'New Card Front', back: 'New Card Back' })
+          body: JSON.stringify({ decks: [updatedDeck] })
         });
-        const addedCard = await addCardRes.json();
-        addResult(`POST /api/flashcards/decks/${deckId}/cards`, addCardRes.ok, `Status: ${addCardRes.status}, Card ID: ${addedCard.card?.id || 'none'}`);
+        const updateResult = await updateRes.json();
+        addResult('POST /api/flashcards/decks (update)', updateRes.ok, `Status: ${updateRes.status}, Synced: ${updateResult.synced ?? 0}`);
+
+        // Test 5: Add a card (batch sync endpoint)
+        const deckWithNewCard = addCardToDeck(updatedDeck, 'New Card Front', 'New Card Back');
+        const addCardRes = await fetch('/api/flashcards/decks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ decks: [deckWithNewCard] })
+        });
+        const addCardResult = await addCardRes.json();
+        addResult('POST /api/flashcards/decks (add card)', addCardRes.ok, `Status: ${addCardRes.status}, Synced: ${addCardResult.synced ?? 0}`);
 
         // Test 6: Delete the deck
-        addResult(`DELETE /api/flashcards/decks/${deckId}`, false, 'Deleting...');
         const deleteRes = await fetch(`/api/flashcards/decks/${deckId}`, {
           method: 'DELETE'
         });
@@ -89,7 +152,6 @@ export default function TestFlashcardsPage() {
       }
 
       // Test 7: Check Firebase persistence by getting all decks again
-      addResult('Firebase Persistence Check', false, 'Checking...');
       const finalRes = await fetch('/api/flashcards/decks');
       const finalData = await finalRes.json();
       addResult('Firebase Persistence Check', finalRes.ok, `Total decks in Firebase: ${finalData.decks?.length || 0}`);

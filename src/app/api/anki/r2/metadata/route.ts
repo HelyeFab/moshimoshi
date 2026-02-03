@@ -122,15 +122,8 @@ export async function DELETE(request: NextRequest) {
       )
     }
     const body = await request.json().catch(() => null)
-
-    if (!body) {
-      return NextResponse.json(
-        { error: { code: 'INVALID_JSON', message: 'Invalid JSON body' } },
-        { status: 400 }
-      )
-    }
-
-    const parsed = DeleteMetadataSchema.safeParse(body)
+    const deckIdFromQuery = new URL(request.url).searchParams.get('deckId')
+    const parsed = DeleteMetadataSchema.safeParse(body || { deckId: deckIdFromQuery })
     if (!parsed.success) {
       return NextResponse.json(
         {

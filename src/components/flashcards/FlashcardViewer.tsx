@@ -118,13 +118,48 @@ export function FlashcardViewer({
     showOnBack: true,
   };
 
-  const resolvedFrontHtml = effectiveFurigana.enabled && effectiveFurigana.showOnFront
+  const applyAnkiCloze = useCallback((html: string, mode: 'front' | 'back'): string => {
+    const withCloze = html.replace(/\{\{c\d+::([\s\S]*?)(::([\s\S]*?))?\}\}/g, (_match, text, _hintPart, hint) => {
+      if (mode === 'front') {
+        const display = hint && String(hint).trim().length > 0 ? hint : '…'
+        return `<span class="anki-cloze">[${display}]</span>`
+      }
+      return text
+    })
+    return withCloze.replace(/\{\{cloze:([\s\S]*?)\}\}/g, '$1')
+  }, [])
+
+  const enhanceAnkiHtml = useCallback((html: string): string => {
+    let updated = html
+
+    // Language Reactor templates use dc-* classes. Add a callout style for the grammar/notes block.
+    if (updated.includes('dc-card')) {
+      updated = updated.replace(
+        /<div>\s*(<ruby[\s\S]*?<\/ruby>)/g,
+        '<div class="anki-grammar-notes">$1'
+      )
+    }
+
+    return updated
+  }, [])
+
+  const isAnkiCard = hydratedCard?.metadata?.source === 'anki';
+
+  const resolvedFrontHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnFront
     ? (resolvedFuriganaFront || resolvedFrontText)
     : stripFurigana(resolvedFrontText);
 
-  const resolvedBackHtml = effectiveFurigana.enabled && effectiveFurigana.showOnBack
+  const resolvedBackHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnBack
     ? (resolvedFuriganaBack || resolvedBackText)
     : stripFurigana(resolvedBackText);
+
+  const resolvedFrontHtml = isAnkiCard
+    ? enhanceAnkiHtml(applyAnkiCloze(resolvedFrontHtmlRaw, 'front'))
+    : resolvedFrontHtmlRaw;
+
+  const resolvedBackHtml = isAnkiCard
+    ? enhanceAnkiHtml(applyAnkiCloze(resolvedBackHtmlRaw, 'back'))
+    : resolvedBackHtmlRaw;
 
   // Auto-play audio only on front cards that say "Listen" (or "Listen.")
   useEffect(() => {
@@ -347,9 +382,10 @@ export function FlashcardViewer({
             {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
             <div
               className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide pt-12 pb-16',
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-16rem)] md:max-h-[calc(100vh-12rem)] scrollbar-hide pt-18 md:pt-12 pb-16 touch-pan-y overscroll-contain',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
+              style={{ WebkitOverflowScrolling: 'touch' }}
               dangerouslySetInnerHTML={{ __html: resolvedFrontHtml }}
             />
 
@@ -414,9 +450,10 @@ export function FlashcardViewer({
             {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
             <div
               className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide pt-12 pb-16',
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-16rem)] md:max-h-[calc(100vh-12rem)] scrollbar-hide pt-18 md:pt-12 pb-16 touch-pan-y overscroll-contain',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
+              style={{ WebkitOverflowScrolling: 'touch' }}
               dangerouslySetInnerHTML={{ __html: resolvedBackHtml }}
             />
 
@@ -557,6 +594,33 @@ export function FlashcardViewer({
         .anki-card-content p {
           margin: 0.25rem 0;
           font-size: 1.05rem !important;
+        }
+
+        .anki-card-content .anki-cloze {
+          color: #ef4444;
+          font-weight: 600;
+          padding: 0 0.1rem;
+        }
+
+        .anki-card-content .anki-grammar-notes {
+          margin-top: 0.75rem;
+          padding: 0.6rem 0.8rem;
+          border-radius: 0.75rem;
+          background: rgba(99, 102, 241, 0.08);
+          border: 1px solid rgba(99, 102, 241, 0.2);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          text-align: left;
+        }
+
+        .anki-card-content .anki-grammar-notes ruby {
+          font-weight: 600 !important;
+        }
+
+        .anki-card-content .anki-grammar-notes span {
+          font-size: 0.95rem !important;
+          font-weight: 400 !important;
+          color: #c7d2fe;
         }
       `}</style>
     </div>
