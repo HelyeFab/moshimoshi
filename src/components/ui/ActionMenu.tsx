@@ -15,6 +15,8 @@ export interface ActionMenuItem {
 interface ActionMenuProps {
   items: ActionMenuItem[]
   size?: 'sm' | 'md' | 'lg'
+  position?: 'left' | 'right'
+  layout?: 'horizontal' | 'stacked'
   buttonClassName?: string
 }
 
@@ -25,6 +27,8 @@ interface ActionMenuProps {
 export default function ActionMenu({
   items,
   size = 'md',
+  position = 'right',
+  layout = 'horizontal',
   buttonClassName = ''
 }: ActionMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -103,7 +107,7 @@ export default function ActionMenu({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-1 z-50 min-w-[160px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg py-1"
+            className={`absolute ${position === 'left' ? 'left-0' : 'right-0'} top-full mt-1 z-50 min-w-[160px] bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg py-1`}
             role="menu"
           >
             {visibleItems.map((item, index) => (
@@ -114,18 +118,25 @@ export default function ActionMenu({
                   handleItemClick(item.onClick)
                 }}
                 className={`
-                  w-full px-3 py-2 text-left text-sm
-                  flex items-center gap-2
+                  w-full px-3 py-2 text-sm text-left
                   transition-colors
+                  ${layout === 'stacked'
+                    ? 'flex flex-col items-start gap-1 py-3'
+                    : 'flex items-center gap-2'
+                  }
                   ${item.variant === 'danger'
                     ? 'text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700'
                   }
                 `}
                 role="menuitem"
               >
-                {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
-                <span>{item.label}</span>
+                {item.icon && (
+                  <span className={`flex-shrink-0 ${layout === 'stacked' ? '[&>svg]:w-4 [&>svg]:h-4' : ''}`}>
+                    {item.icon}
+                  </span>
+                )}
+                <span className={layout === 'stacked' ? 'text-xs' : ''}>{item.label}</span>
               </button>
             ))}
           </motion.div>

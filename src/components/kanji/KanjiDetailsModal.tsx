@@ -20,6 +20,8 @@ import StrokeOrderModal from './StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 import MnemonicDisplay from './MnemonicDisplay'
 import MnemonicEditor from './MnemonicEditor'
+import ActionMenu from '@/components/ui/ActionMenu'
+import { Play, Pencil } from 'lucide-react'
 import { useFeature } from '@/hooks/useFeature'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTTS } from '@/hooks/useTTS'
@@ -309,21 +311,62 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       >
         {/* Simplified Header */}
         <div className="relative p-6">
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-dark-800 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all hover:scale-110"
-            aria-label="Close modal"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          {/* Action Menu - Top Left */}
+          <div className="absolute top-4 left-4">
+            <ActionMenu
+              position="left"
+              size="md"
+              layout="stacked"
+              buttonClassName="bg-gray-100 dark:bg-dark-800 rounded-full hover:scale-110"
+              items={[
+                {
+                  label: 'Stroke Order',
+                  icon: <Play className="w-5 h-5 text-red-500" />,
+                  onClick: () => setShowStrokeOrder(true),
+                },
+                {
+                  label: 'Practice',
+                  icon: <Pencil className="w-5 h-5 text-green-500" />,
+                  onClick: async () => {
+                    const allowed = await checkAndTrack({ showUI: true })
+                    if (allowed) {
+                      setShowDrawingPractice(true)
+                    }
+                  },
+                },
+              ]}
+            />
+          </div>
+
+          {/* Top Right Actions: Bookmark + Close */}
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            <AddToListButton
+              content={kanji.kanji}
+              type="word"
+              metadata={{
+                reading: kanji.kunyomi?.[0] || kanji.onyomi?.[0] || '',
+                meaning: kanji.meaning,
+                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined,
+              }}
+              variant="bookmark"
+              size="medium"
+              className="!p-2 !bg-gray-100 dark:!bg-dark-800 !rounded-full hover:!bg-gray-200 dark:hover:!bg-dark-700 !transition-all hover:!scale-110"
+            />
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full bg-gray-100 dark:bg-dark-800 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all hover:scale-110"
+              aria-label="Close modal"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
 
           {/* Kanji Display with Essential Info */}
           <div className="text-center">
@@ -822,66 +865,6 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
             </motion.div>
           </AnimatePresence>
 
-          {/* Persistent Action Buttons - Always at bottom */}
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <button
-              onClick={() => setShowStrokeOrder(true)}
-              className="p-2.5 bg-red-50 dark:bg-red-900/20 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 transition-all hover:scale-110 text-red-500 dark:text-red-400"
-              title="Watch stroke order"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-
-            <button
-              onClick={async () => {
-                console.log('[KanjiDetailsModal] Checking drawing_practice entitlement...')
-                const allowed = await checkAndTrack({ showUI: true })
-                console.log('[KanjiDetailsModal] checkAndTrack result:', allowed)
-                if (allowed) {
-                  setShowDrawingPractice(true)
-                } else {
-                  console.log('[KanjiDetailsModal] Access denied, modal should NOT open')
-                }
-              }}
-              className="p-2.5 bg-green-50 dark:bg-green-900/20 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all hover:scale-110 text-green-500 dark:text-green-400"
-              title="Practice writing"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
-            </button>
-
-            <AddToListButton
-              content={kanji.kanji}
-              type="word"
-              metadata={{
-                reading: kanji.kunyomi?.[0] || kanji.onyomi?.[0] || '',
-                meaning: kanji.meaning,
-                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined,
-              }}
-              variant="bookmark"
-              size="medium"
-              className="!p-2.5 !bg-gray-100 dark:!bg-dark-800 !rounded-full hover:!bg-gray-200 dark:hover:!bg-dark-700 !transition-all hover:!scale-110"
-            />
-          </div>
         </div>
       </Modal>
 

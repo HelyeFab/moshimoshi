@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-01T12:52:49.717Z
+ * Generated at: 2026-02-02T18:18:32.193Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -71,7 +71,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "katakana_practice": 3,
           "kanji_browser": 5,
           "kanji_connection": 0,
-          "kanji_mastery": 1,
+          "kanji_mastery": 2,
           "drawing_practice": 3,
           "conjugation_drill": 3,
           "grammar_explanations": 3,
@@ -90,8 +90,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "news": 1,
           "story": 1,
           "kanji_mood_board": 1,
-          "drill": 1,
-          "blast_mode": 1,
+          "drill": 2,
+          "blast_mode": 2,
           "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
