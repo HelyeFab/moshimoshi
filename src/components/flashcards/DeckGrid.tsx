@@ -405,6 +405,15 @@ export function DeckGrid({
                 getColorClasses(deck.color)
               )} />
 
+              {/* Due Badge - Bottom Right Corner */}
+              {dueCount > 0 && (
+                <div className="absolute bottom-3 right-3">
+                  <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full shadow-sm">
+                    {dueCount} due
+                  </span>
+                </div>
+              )}
+
               <div className="p-4 pl-5 space-y-3">
                 {/* Row 1: Emoji + Deck Name + Menu */}
                 <div className="flex items-start gap-3">
@@ -461,7 +470,7 @@ export function DeckGrid({
                   </button>
                 </div>
 
-                {/* Row 2: Stats - Card Count & Due Badge */}
+                {/* Row 2: Stats - Card Count */}
                 <div className={cn(
                   "flex items-center gap-2 flex-wrap",
                   deck.emoji && "pl-13" // Only add left padding if emoji exists
@@ -469,11 +478,6 @@ export function DeckGrid({
                   <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                     {deck.stats.totalCards} {deck.stats.totalCards === 1 ? 'term' : 'terms'}
                   </span>
-                  {dueCount > 0 && (
-                    <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full">
-                      {dueCount} due
-                    </span>
-                  )}
                 </div>
 
                 {/* Row 3: Backup Status Badge (separate line to prevent layout jump) */}
@@ -557,7 +561,7 @@ export function DeckGrid({
             whileTap={{ scale: 0.98 }}
             onClick={onCreateDeck}
             data-testid="flashcards-create-deck"
-            className="relative group cursor-pointer"
+            className="relative group cursor-pointer max-w-sm mx-auto w-full"
           >
             <div className="h-48 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-dark-800 flex flex-col items-center justify-center gap-3 hover:border-primary-400 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all">
               <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -615,7 +619,7 @@ export function DeckGrid({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={cn(
-                "relative group cursor-pointer",
+                "relative group cursor-pointer max-w-sm mx-auto w-full",
                 isRestoring && "cursor-not-allowed opacity-60"
               )}
               data-testid="flashcards-deck-card"

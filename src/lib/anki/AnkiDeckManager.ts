@@ -56,7 +56,8 @@ export class AnkiDeckManager {
 
     try {
       // Use the same database as FlashcardManager for unified local storage
-      this.db = await openDB<AnkiDeckDB>('FlashcardDB', 1, {
+      // IMPORTANT: Must match FlashcardManager version (currently 2)
+      this.db = await openDB<AnkiDeckDB>('FlashcardDB', 2, {
         upgrade(db) {
           if (!db.objectStoreNames.contains('decks')) {
             const store = db.createObjectStore('decks', { keyPath: 'id' })
@@ -68,6 +69,7 @@ export class AnkiDeckManager {
       })
       return this.db
     } catch (error) {
+      console.error('[AnkiDeckManager] Failed to initialize IndexedDB:', error)
       throw new Error('Failed to initialize local storage for Anki decks')
     }
   }
@@ -251,11 +253,24 @@ export class AnkiDeckManager {
     })
 
     const db = await this.initDB()
-    const deck = await this.getDeck(deckId, userId)
+    let deck = await this.getDeck(deckId, userId)
 
     if (!deck) {
-      debugLogger.error('Deck not found for deletion!', { deckId })
-      return false
+      let fallback = await db.get('decks', deckId)
+      if (!fallback && typeof deckId === 'string' && /^\d+$/.test(deckId)) {
+        fallback = await db.get('decks', Number(deckId))
+      }
+      if (fallback) {
+        debugLogger.error('Deck userId mismatch during deletion - using fallback by id', {
+          deckId,
+          requestedUserId: userId,
+          deckUserId: (fallback as any).userId
+        })
+        deck = fallback as StoredAnkiDeck
+      } else {
+        debugLogger.error('Deck not found for deletion!', { deckId })
+        return false
+      }
     }
 
     debugLogger.step(1, 'Deleting from IndexedDB...', { deckName: deck.name })
@@ -306,7 +321,7 @@ export class AnkiDeckManager {
           // Delete metadata from Firestore
           debugLogger.step(3, 'Deleting Firestore metadata...')
 
-          const metadataResponse = await fetch('/api/anki/r2/metadata', {
+          const metadataResponse = await fetch(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deckId)}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -315,7 +330,10 @@ export class AnkiDeckManager {
 
           if (!metadataResponse.ok) {
             const errorText = await metadataResponse.text()
-            debugLogger.error('Metadata delete failed!', errorText)
+            debugLogger.error('Metadata delete failed!', {
+              status: metadataResponse.status,
+              error: errorText
+            })
           } else {
             debugLogger.success('Metadata deleted from Firestore!', { deckId })
           }

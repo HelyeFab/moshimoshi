@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { DeckGrid } from '@/components/flashcards/DeckGrid'
@@ -69,6 +69,7 @@ interface MigrationProgress {
 export default function FlashcardsContent({ initialData }: FlashcardsContentProps) {
   const { t } = useI18n()
   const router = useRouter()
+  const params = useParams<{ locale?: string }>()
   const { user, loading: authLoading } = useAuth()
   const { showToast } = useToast()
 
@@ -118,18 +119,22 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [restoreProgressByDeckId, setRestoreProgressByDeckId] = useState<Record<string, RestoreProgress>>({})
   const [showSyncInfoModal, setShowSyncInfoModal] = useState(false)
   const [selectedDeckIds, setSelectedDeckIds] = useState<Set<string>>(new Set())
+  const [selectAllMode, setSelectAllMode] = useState(false)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
   const abortControllerRef = useRef<AbortController | null>(null)
   const initialSyncDone = useRef(false)
   const syncModalResolverRef = useRef<((value: boolean) => void) | null>(null)
+  const lastAutoSyncRef = useRef(0)
 
   // Use tier from server - no more race condition!
   const isPremium = initialData.isPremium
   const userTier = initialData.tier
   const limits = FlashcardManager.getDeckLimits(userTier)
   const effectiveUserId = initialData.userId || user?.uid || (userTier === 'guest' ? 'guest' : null)
+  const locale = typeof params?.locale === 'string' && params.locale.length > 0 ? params.locale : 'en'
+  const showFlashcardsTestButton = process.env.NODE_ENV !== 'production'
 
   // Debug logging
 
@@ -158,6 +163,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     } catch (error) {
     }
   }, [initialData])
+
+  const handleOpenFlashcardsTests = useCallback(() => {
+    router.push(`/${locale}/test-flashcards`)
+  }, [router, locale])
 
   const loadR2Usage = useCallback(async () => {
     if (!initialData.userId || !isPremium) return
@@ -367,6 +376,12 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
   }, [decks, selectedDeckIds])
 
+  useEffect(() => {
+    if (!selectAllMode) return
+    if (decks.length === 0) return
+    setSelectedDeckIds(new Set(decks.map(deck => deck.id)))
+  }, [selectAllMode, decks])
+
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
     if (!initialData.userId) return
@@ -510,6 +525,43 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       loadingRef.current = false
     }
   }
+
+  const handleAutoSync = useCallback(async () => {
+    if (!initialData.userId || !isPremium || isSyncingMedia) return
+
+    const now = Date.now()
+    if (now - lastAutoSyncRef.current < 60_000) return
+    lastAutoSyncRef.current = now
+
+    try {
+      await flashcardManager.syncDecksFromFirebase(initialData.userId, isPremium)
+      await loadData(true)
+    } catch (error) {
+      console.error('[FlashcardsContent] Auto-sync failed:', error)
+    }
+  }, [initialData.userId, isPremium, isSyncingMedia])
+
+  useEffect(() => {
+    if (!initialData.userId || !isPremium) return
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleAutoSync()
+      }
+    }
+
+    const handleWindowFocus = () => {
+      handleAutoSync()
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('focus', handleWindowFocus)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('focus', handleWindowFocus)
+    }
+  }, [handleAutoSync, initialData.userId, isPremium])
 
   const checkStorageStatus = async () => {
     try {
@@ -1282,6 +1334,20 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setShowDeleteDialog(true)
   }
 
+  const isAnkiDeck = (deck: FlashcardDeck) => {
+    if (deck.source === 'anki') return true
+    if ((deck as any)?.metadata?.ankiImport === true) return true
+    const cards = (deck as any)?.cards
+    if (Array.isArray(cards)) {
+      return cards.some((card: any) =>
+        card?.metadata?.source === 'anki' ||
+        Boolean(card?.audioFilename) ||
+        Boolean(card?.imageFilename)
+      )
+    }
+    return false
+  }
+
   const handleToggleDeckSelection = (deckId: string) => {
     setSelectedDeckIds(prev => {
       const next = new Set(prev)
@@ -1290,6 +1356,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       } else {
         next.add(deckId)
       }
+      setSelectAllMode(next.size === decks.length && decks.length > 0)
       return next
     })
   }
@@ -1298,7 +1365,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     if (decks.length === 0) return
     setSelectedDeckIds(prev => {
       const isAllSelected = prev.size === decks.length
-      if (isAllSelected) return new Set()
+      if (isAllSelected) {
+        setSelectAllMode(false)
+        return new Set()
+      }
+      setSelectAllMode(true)
       return new Set(decks.map(deck => deck.id))
     })
   }
@@ -1310,29 +1381,55 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     if (selectedDecks.length === 0) return
 
     setShowBulkDeleteDialog(false)
-    showToast(`Deleting ${selectedDecks.length} decks...`, 'info')
+    const decksToDelete = selectAllMode
+      ? await flashcardManager.getDecks(effectiveUserId, isPremium)
+      : selectedDecks
+    showToast(`Deleting ${decksToDelete.length} decks...`, 'info')
 
-    setDecks(prev => prev.filter(deck => !selectedDeckIds.has(deck.id)))
+    const deckIdsToDelete = new Set(decksToDelete.map(deck => deck.id))
+    setDecks(prev => prev.filter(deck => !deckIdsToDelete.has(deck.id)))
     setSelectedDeckIds(new Set())
+    setSelectAllMode(false)
 
     const deletionResults = await Promise.allSettled(
-      selectedDecks.map(deck =>
-        deck.source === 'anki'
+      decksToDelete.map(deck =>
+        isAnkiDeck(deck)
           ? ankiDeckManager.deleteDeck(deck.id, effectiveUserId, isPremium)
           : flashcardManager.deleteDeck(deck.id, effectiveUserId, isPremium)
       )
     )
 
     const successCount = deletionResults.filter(result => result.status === 'fulfilled' && result.value).length
-    const failedCount = selectedDecks.length - successCount
+    const failedCount = decksToDelete.length - successCount
 
     await loadData(true)
 
-    if (isPremium && selectedDecks.some(deck => deck.source === 'anki')) {
+    if (isPremium && decksToDelete.some(deck => isAnkiDeck(deck))) {
       await loadR2Usage()
     }
 
     if (failedCount > 0) {
+      const failedAnki = decksToDelete.filter((deck, index) => {
+        const result = deletionResults[index]
+        return isAnkiDeck(deck) && (result.status === 'rejected' || result.value === false)
+      })
+      if (failedAnki.length > 0) {
+        const failures = failedAnki.map((deck) => {
+          const index = decksToDelete.findIndex(d => d.id === deck.id)
+          const result = deletionResults[index]
+          return {
+            id: deck.id,
+            name: deck.name,
+            status: result?.status,
+            reason: result?.status === 'rejected' ? String(result.reason) : undefined
+          }
+        })
+        console.error('[FlashcardsContent] Anki delete failed for decks:', failedAnki.map(deck => ({
+          id: deck.id,
+          name: deck.name
+        })))
+        console.error('[FlashcardsContent] Anki delete failure details:', failures)
+      }
       showToast(t('flashcards.errors.deleteFailed'), 'error')
       return
     }
@@ -1356,7 +1453,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setDecks(decks.filter(d => d.id !== deckToDeleteCopy.id))
 
     // Delete in background (non-blocking)
-    const deletePromise = deckToDeleteCopy.source === 'anki'
+    const deletePromise = isAnkiDeck(deckToDeleteCopy)
       ? ankiDeckManager.deleteDeck(deckToDeleteCopy.id, initialData.userId, isPremium)
       : flashcardManager.deleteDeck(deckToDeleteCopy.id, initialData.userId, isPremium)
 
@@ -1737,6 +1834,12 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 onClick: handleExportAll,
                 hidden: decks.length === 0,
               },
+              {
+                label: 'Run Flashcards Tests',
+                icon: <AlertTriangle className="w-4 h-4" />,
+                onClick: handleOpenFlashcardsTests,
+                hidden: !showFlashcardsTestButton || !user,
+              },
             ]}
             size="md"
           />
@@ -1870,7 +1973,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
         {/* Deck Grid - Primary content first */}
         {selectedDeckIds.size > 0 && (
-          <div className="mb-6 p-4 bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 flex items-center justify-between gap-4">
+          <div className="mb-6 p-4 bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center gap-3">
               <button
                 onClick={handleToggleSelectAll}
@@ -1897,17 +2000,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
               </span>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setShowBulkDeleteDialog(true)}
-                className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                className="w-full sm:w-auto px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
               >
                 <Trash2 className="w-4 h-4" />
                 {t('flashcards.bulk.delete')}
               </button>
               <button
                 onClick={() => setSelectedDeckIds(new Set())}
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                className="w-full sm:w-auto px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-dark-700 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
               >
                 {t('common.clear')}
               </button>
@@ -1929,7 +2032,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
               setShowSessionSettings(true)
             }}
             showStats={true}
-            gridCols={3}
+            gridCols={4}
             isPremium={isPremium}
             hideCreateCard={true}
             restoreProgressByDeckId={restoreProgressByDeckId}
