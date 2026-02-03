@@ -452,7 +452,69 @@ export function StudySession({
       window.clearTimeout(persistTimerRef.current);
     }
 
+    const buildPayload = (): PersistedStudySession => ({
+      version: 1,
+      userId: deck.userId || user?.uid || 'guest',
+      deckId: deck.id,
+      mode,
+      cardIds: sessionCards.map(card => card.id),
+      currentIndex,
+      responses: Array.from(responses.entries()),
+      correctCount,
+      incorrectCount,
+      skippedCount,
+      newCardsStudied,
+      learningCardsStudied,
+      reviewCardsStudied,
+      streakCount,
+      bestStreak,
+      totalResponseTime,
+      fastestResponseTime,
+      slowestResponseTime,
+      elapsedTime,
+      pausedTime,
+      isPaused,
+      savedAt: Date.now(),
+    });
+
     persistTimerRef.current = window.setTimeout(() => {
+      localStorage.setItem(sessionKey, JSON.stringify(buildPayload()));
+    }, 200);
+
+    return () => {
+      if (persistTimerRef.current) {
+        window.clearTimeout(persistTimerRef.current);
+      }
+    };
+  }, [
+    sessionKey,
+    deck.id,
+    deck.userId,
+    user?.uid,
+    mode,
+    sessionCards,
+    currentIndex,
+    responses,
+    correctCount,
+    incorrectCount,
+    skippedCount,
+    newCardsStudied,
+    learningCardsStudied,
+    reviewCardsStudied,
+    streakCount,
+    bestStreak,
+    totalResponseTime,
+    fastestResponseTime,
+    slowestResponseTime,
+    elapsedTime,
+    pausedTime,
+    isPaused,
+  ]);
+
+  useEffect(() => {
+    if (!sessionKey || typeof window === 'undefined') return;
+
+    const flushPersistedSession = () => {
       const payload: PersistedStudySession = {
         version: 1,
         userId: deck.userId || user?.uid || 'guest',
@@ -479,12 +541,14 @@ export function StudySession({
       };
 
       localStorage.setItem(sessionKey, JSON.stringify(payload));
-    }, 200);
+    };
+
+    window.addEventListener('pagehide', flushPersistedSession);
+    window.addEventListener('beforeunload', flushPersistedSession);
 
     return () => {
-      if (persistTimerRef.current) {
-        window.clearTimeout(persistTimerRef.current);
-      }
+      window.removeEventListener('pagehide', flushPersistedSession);
+      window.removeEventListener('beforeunload', flushPersistedSession);
     };
   }, [
     sessionKey,

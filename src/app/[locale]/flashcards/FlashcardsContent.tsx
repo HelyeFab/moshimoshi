@@ -271,7 +271,21 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         return
       }
 
-      setResumeSessionState(stored)
+      const gradedCardIds = new Set<string>((stored!.responses || []).map(([cardId]) => cardId))
+      let nextIndex = Math.max(0, Math.min(stored!.currentIndex, sessionCards.length - 1))
+      while (nextIndex < sessionCards.length && gradedCardIds.has(sessionCards[nextIndex].id)) {
+        nextIndex += 1
+      }
+      if (nextIndex >= sessionCards.length) {
+        // All remaining cards already graded: keep last card visible and allow completion on next action.
+        nextIndex = sessionCards.length - 1
+      }
+
+      const resumeState = nextIndex === stored!.currentIndex
+        ? stored!
+        : { ...stored!, currentIndex: nextIndex }
+
+      setResumeSessionState(resumeState)
       setStudyingDeck({
         ...deck,
         cards: sessionCards,
@@ -1694,6 +1708,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   if (studyingDeck) {
     return (
       <StudySession
+        key={resumeSessionState?.savedAt ? `resume-${resumeSessionState.savedAt}` : 'new-session'}
         deck={studyingDeck}
         cards={studyingDeck.cards}
         onComplete={handleSessionComplete}

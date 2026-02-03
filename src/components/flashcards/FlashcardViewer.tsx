@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, RotateCw, Trash2, Volume2 } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
@@ -91,9 +91,28 @@ export function FlashcardViewer({
   const [hasGraded, setHasGraded] = useState(false);
   const hasAutoPlayedListen = useRef(false);
   const autoPlayTimeoutRef = useRef<number | null>(null);
+  const contentSectionRef = useRef<HTMLDivElement>(null);
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
 
+  // Debug scrolling
+  useEffect(() => {
+    if (contentSectionRef.current) {
+      const el = contentSectionRef.current;
+      console.log('Content Section Debug:', {
+        clientHeight: el.clientHeight,
+        scrollHeight: el.scrollHeight,
+        offsetHeight: el.offsetHeight,
+        isScrollable: el.scrollHeight > el.clientHeight,
+        computedStyle: {
+          overflow: window.getComputedStyle(el).overflow,
+          overflowY: window.getComputedStyle(el).overflowY,
+          height: window.getComputedStyle(el).height,
+          minHeight: window.getComputedStyle(el).minHeight,
+        }
+      });
+    }
+  }, [card.id, isFlipped]);
 
   // Reset state when card changes
   useEffect(() => {
@@ -361,40 +380,52 @@ export function FlashcardViewer({
     }
   };
 
+  // Extract image from HTML content
+  const extractImageFromHtml = useCallback((html: string): { imageUrl: string | null; htmlWithoutImage: string } => {
+    if (typeof window === 'undefined') {
+      return { imageUrl: null, htmlWithoutImage: html };
+    }
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const img = tempDiv.querySelector('img');
+
+    if (img && img.src) {
+      const imageUrl = img.src;
+      img.remove();
+      return { imageUrl, htmlWithoutImage: tempDiv.innerHTML };
+    }
+
+    return { imageUrl: null, htmlWithoutImage: html };
+  }, []);
+
+  // Extract images from front and back
+  const frontContent = useMemo(() => extractImageFromHtml(resolvedFrontHtml), [resolvedFrontHtml, extractImageFromHtml]);
+  const backContent = useMemo(() => extractImageFromHtml(resolvedBackHtml), [resolvedBackHtml, extractImageFromHtml]);
+
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="relative h-96 md:h-[450px] perspective-1000">
+      <div className="relative min-h-[400px] md:min-h-[700px] perspective-1000">
         <motion.div
-          className="absolute inset-0 w-full h-full cursor-pointer preserve-3d"
+          className="absolute inset-0 w-full h-full preserve-3d"
           animate={isFlipped ? 'back' : 'front'}
           variants={cardVariants}
-          onClick={handleFlip}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
         >
           {/* Front Side */}
           <div
             className={cn(
-              'absolute inset-0 w-full h-full rounded-2xl p-8 flex flex-col items-center justify-center backface-hidden',
+              'absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden flex flex-col cursor-pointer',
               getCardStyleClasses()
             )}
+            onClick={handleFlip}
           >
-            {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
-            <div
-              className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-16rem)] md:max-h-[calc(100vh-12rem)] scrollbar-hide pt-18 md:pt-12 pb-16 touch-pan-y overscroll-contain',
-                cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
-              )}
-              style={{ WebkitOverflowScrolling: 'touch' }}
-              dangerouslySetInnerHTML={{ __html: resolvedFrontHtml }}
-            />
-
-            {/* Top controls */}
-            <div className="absolute top-4 left-4">
+            {/* Action Buttons - Positioned relative to card */}
+            {/* Delete button - Top Left */}
+            <div className="absolute top-4 left-4 z-20">
               {onDelete && (
                 <button
                   onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                  className="p-2 hover:opacity-70 transition-opacity"
+                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('flashcards.deleteCard')}
                 >
                   <Trash2 className="w-5 h-5 text-red-500" />
@@ -402,13 +433,13 @@ export function FlashcardViewer({
               )}
             </div>
 
-            <div className="absolute top-4 right-4 flex gap-2">
-              {/* Only show audio button if text contains Japanese characters */}
+            {/* Audio button - Top Right */}
+            <div className="absolute top-4 right-4 z-20">
               {(resolvedAudioUrl || resolvedFrontText) &&
                (resolvedAudioUrl || isJapaneseText(resolvedFrontText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2 hover:opacity-70 transition-opacity"
+                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('common.playAudio')}
                 >
                   <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
@@ -416,30 +447,84 @@ export function FlashcardViewer({
               )}
             </div>
 
-            {/* Bottom right flip button */}
-            <div className="absolute bottom-4 right-4">
+            {/* Flip button - Bottom Right */}
+            <div className="absolute bottom-4 right-4 z-20">
               <button
                 onClick={(e) => { e.stopPropagation(); handleFlip(); }}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-400"
+                className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg text-gray-600 dark:text-gray-400"
                 aria-label={t('flashcards.flipCard')}
               >
                 <RotateCw className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Hero Section - Top Half */}
+            <div
+              className={cn(
+                "relative flex items-center justify-center overflow-hidden cursor-pointer",
+                frontContent.imageUrl ? "h-1/2 min-h-[150px] md:min-h-[250px]" : "h-0"
+              )}
+              onClick={handleFlip}
+              style={{
+                backgroundImage: frontContent.imageUrl ? `url(${frontContent.imageUrl})` : undefined,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: frontContent.imageUrl ? undefined : 'rgba(0, 0, 0, 0.05)'
+              }}
+            >
+              {/* Overlay for better text/icon visibility when there's an image */}
+              {frontContent.imageUrl && (
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
+              )}
+            </div>
+
+            {/* Content Section - Bottom Half */}
+            <div
+              ref={contentSectionRef}
+              className={cn(
+                "relative flex-1 flashcard-content-scroll",
+                frontContent.imageUrl ? "py-4" : "pt-16 pb-4"
+              )}
+              style={{
+                minHeight: 0,
+                overflow: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                overscrollBehavior: 'contain'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className={cn(
+                  'px-8',
+                  !frontContent.imageUrl && 'min-h-full flex items-center justify-center'
+                )}
+              >
+                <div
+                  className={cn(
+                    'anki-card-content w-full mx-auto',
+                    cardStyle === 'themed' ? 'text-white' : 'text-gray-100'
+                  )}
+                  dangerouslySetInnerHTML={{ __html: frontContent.htmlWithoutImage }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Back Side */}
           <div
             className={cn(
-              'absolute inset-0 w-full h-full rounded-2xl p-8 flex flex-col items-center justify-center backface-hidden rotate-y-180',
+              'absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden rotate-y-180 flex flex-col cursor-pointer',
               getCardStyleClasses()
             )}
+            onClick={handleFlip}
           >
-            <div className="absolute top-4 left-4">
+            {/* Action Buttons - Positioned relative to card */}
+            {/* Delete button - Top Left */}
+            <div className="absolute top-4 left-4 z-20">
               {onDelete && (
                 <button
                   onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                  className="p-2 hover:opacity-70 transition-opacity"
+                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('flashcards.deleteCard')}
                 >
                   <Trash2 className="w-5 h-5 text-red-500" />
@@ -447,23 +532,13 @@ export function FlashcardViewer({
               )}
             </div>
 
-            {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
-            <div
-              className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-16rem)] md:max-h-[calc(100vh-12rem)] scrollbar-hide pt-18 md:pt-12 pb-16 touch-pan-y overscroll-contain',
-                cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
-              )}
-              style={{ WebkitOverflowScrolling: 'touch' }}
-              dangerouslySetInnerHTML={{ __html: resolvedBackHtml }}
-            />
-
-            {/* Top right audio button */}
-            <div className="absolute top-4 right-4">
+            {/* Audio button - Top Right */}
+            <div className="absolute top-4 right-4 z-20">
               {(resolvedAudioUrl || resolvedBackText) &&
                (resolvedAudioUrl || isJapaneseText(resolvedBackText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2 hover:opacity-70 transition-opacity"
+                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('common.playAudio')}
                 >
                   <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
@@ -471,15 +546,65 @@ export function FlashcardViewer({
               )}
             </div>
 
-            {/* Bottom right flip button */}
-            <div className="absolute bottom-4 right-4">
+            {/* Flip button - Bottom Right */}
+            <div className="absolute bottom-4 right-4 z-20">
               <button
                 onClick={(e) => { e.stopPropagation(); handleFlip(); }}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-400"
+                className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg text-gray-600 dark:text-gray-400"
                 aria-label={t('flashcards.flipCard')}
               >
                 <RotateCw className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Hero Section - Top Half */}
+            <div
+              className={cn(
+                "relative flex items-center justify-center overflow-hidden cursor-pointer",
+                backContent.imageUrl ? "h-1/2 min-h-[150px] md:min-h-[250px]" : "h-0"
+              )}
+              onClick={handleFlip}
+              style={{
+                backgroundImage: backContent.imageUrl ? `url(${backContent.imageUrl})` : undefined,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: backContent.imageUrl ? undefined : 'rgba(0, 0, 0, 0.05)'
+              }}
+            >
+              {/* Overlay for better text/icon visibility when there's an image */}
+              {backContent.imageUrl && (
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
+              )}
+            </div>
+
+            {/* Content Section - Bottom Half */}
+            <div
+              className={cn(
+                "relative flex-1 flashcard-content-scroll",
+                backContent.imageUrl ? "py-4" : "pt-16 pb-4"
+              )}
+              style={{
+                minHeight: 0,
+                overflow: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                overscrollBehavior: 'contain'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className={cn(
+                  'px-8',
+                  !backContent.imageUrl && 'min-h-full flex items-center justify-center'
+                )}
+              >
+                <div
+                  className={cn(
+                    'anki-card-content w-full mx-auto',
+                    cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+                  )}
+                  dangerouslySetInnerHTML={{ __html: backContent.htmlWithoutImage }}
+                />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -544,25 +669,47 @@ export function FlashcardViewer({
       </AnimatePresence>
 
       <style jsx global>{`
+        .flashcard-content-scroll {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE and Edge */
+          touch-action: pan-y; /* Enable vertical scrolling */
+          -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        .flashcard-content-scroll::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+        }
+
         .anki-card-content {
           text-align: center;
           line-height: 1.6;
           font-size: 1.1rem !important;
         }
 
+        .anki-card-content > *:first-child {
+          margin-top: 0.8rem !important;
+          padding-top: 0 !important;
+        }
+
+        .anki-card-content br:first-child,
+        .anki-card-content br:first-child + br {
+          display: none;
+        }
+
         .anki-card-content span {
-          font-size: 1.25rem !important;
+          font-size: 1.5rem !important;
           line-height: 1.8;
           font-weight: 500 !important;
         }
 
         .anki-card-content span[style] {
-          font-size: 1.25rem !important;
+          font-size: 1.5rem !important;
           font-weight: 500 !important;
         }
 
         .anki-card-content ruby {
           font-weight: 400 !important;
+          font-size: 1.5rem !important;
         }
 
         .anki-card-content ruby rt {
@@ -571,14 +718,7 @@ export function FlashcardViewer({
         }
 
         .anki-card-content img {
-          max-width: 100%;
-          max-height: 200px;
-          object-fit: contain;
-          margin: 0 auto 1rem auto;
-          border-radius: 0.5rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          display: block;
-          float: none !important;
+          display: none !important;
         }
 
         .anki-card-content br {
@@ -649,21 +789,27 @@ const requiredStyles = `
   text-align: center;
   line-height: 1.6;
   font-size: 1.1rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
 }
 
 .anki-card-content span {
-  font-size: 1.25rem !important;
+  font-size: 1.5rem !important;
   line-height: 1.8;
   font-weight: 500 !important;
 }
 
 .anki-card-content span[style] {
-  font-size: 1.25rem !important;
+  font-size: 1.5rem !important;
   font-weight: 500 !important;
 }
 
 .anki-card-content ruby {
   font-weight: 400 !important;
+  font-size: 1.5rem !important;
 }
 
 .anki-card-content ruby rt {
@@ -672,13 +818,7 @@ const requiredStyles = `
 }
 
 .anki-card-content img {
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  margin: 0 auto 1rem auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  display: block;
+  display: none !important;
 }
 
 .anki-card-content br {

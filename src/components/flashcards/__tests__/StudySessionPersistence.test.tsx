@@ -159,4 +159,23 @@ describe('StudySession persistence', () => {
 
     expect(localStorage.getItem('flashcards_active_session_user-1')).toBeNull()
   })
+
+  it('flushes persisted session on pagehide', () => {
+    render(
+      <StudySession
+        deck={{ ...deck, cards }}
+        cards={cards}
+        onComplete={jest.fn()}
+        onExit={jest.fn()}
+      />
+    )
+
+    act(() => {
+      jest.advanceTimersByTime(50)
+      window.dispatchEvent(new Event('pagehide'))
+    })
+
+    const stored = localStorage.getItem('flashcards_active_session_user-1')
+    expect(stored).not.toBeNull()
+  })
 })
