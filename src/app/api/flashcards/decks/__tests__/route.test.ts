@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { POST } from '../route'
+import { GET, POST } from '../route'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
 import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
@@ -71,5 +71,65 @@ describe('/api/flashcards/decks POST', () => {
 
     const response = await POST(request)
     expect(response.status).toBe(429)
+  })
+})
+
+describe('/api/flashcards/decks GET', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('returns decks and deleted deck ids', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('premium_monthly')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+
+    const flashcardDecksGet = jest.fn().mockResolvedValue({
+      docs: [
+        { id: 'deck-1', data: () => ({ userId: 'user-1', source: 'user', updatedAt: 2, name: 'Deck 1' }) },
+        { id: 'anki-1', data: () => ({ userId: 'user-1', source: 'anki', updatedAt: 3, name: 'Anki 1' }) },
+      ],
+    })
+    const deletedGet = jest.fn().mockResolvedValue({
+      docs: [{ id: 'deck-1' }, { id: 'deck-9' }],
+    })
+
+    const db = {
+      collection: jest.fn((name: string) => {
+        if (name === 'flashcardDecks') {
+          return {
+            where: jest.fn(() => ({
+              orderBy: jest.fn(() => ({
+                get: flashcardDecksGet,
+              })),
+            })),
+          }
+        }
+        if (name === 'users') {
+          return {
+            doc: jest.fn(() => ({
+              collection: jest.fn(() => ({
+                where: jest.fn(() => ({
+                  get: deletedGet,
+                })),
+              })),
+            })),
+          }
+        }
+        return null
+      }),
+    }
+    mockedGetAdminDb.mockReturnValue(db)
+
+    const request = new NextRequest('http://localhost/api/flashcards/decks')
+    const response = await GET(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data.decks).toHaveLength(1)
+    expect(data.decks[0].id).toBe('deck-1')
+    expect(data.deletedDeckIds).toEqual(['deck-1', 'deck-9'])
   })
 })

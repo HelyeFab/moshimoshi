@@ -45,10 +45,11 @@ import type {
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
 import type { FlashcardsInitialData } from '@/lib/flashcards/server'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, Trash2 } from 'lucide-react'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, Trash2, CheckSquare, Square, Download } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import ActionMenu from '@/components/ui/ActionMenu'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -87,6 +88,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [resumeSessionState, setResumeSessionState] = useState<PersistedStudySession | null>(null)
   const [deckToDelete, setDeckToDelete] = useState<FlashcardDeck | null>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false)
   const [showCancelSyncDialog, setShowCancelSyncDialog] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [showInsights, setShowInsights] = useState(() => {
@@ -115,6 +117,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [r2Usage, setR2Usage] = useState<{ usedBytes: number; limitBytes: number } | null>(null)
   const [restoreProgressByDeckId, setRestoreProgressByDeckId] = useState<Record<string, RestoreProgress>>({})
   const [showSyncInfoModal, setShowSyncInfoModal] = useState(false)
+  const [selectedDeckIds, setSelectedDeckIds] = useState<Set<string>>(new Set())
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -126,6 +129,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const isPremium = initialData.isPremium
   const userTier = initialData.tier
   const limits = FlashcardManager.getDeckLimits(userTier)
+  const effectiveUserId = initialData.userId || user?.uid || (userTier === 'guest' ? 'guest' : null)
 
   // Debug logging
 
@@ -353,6 +357,15 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       initializeEventHub(initialData.userId)
     }
   }, [initialData.userId])
+
+  useEffect(() => {
+    if (selectedDeckIds.size === 0) return
+    const existingIds = new Set(decks.map(deck => deck.id))
+    const next = new Set(Array.from(selectedDeckIds).filter(id => existingIds.has(id)))
+    if (next.size !== selectedDeckIds.size) {
+      setSelectedDeckIds(next)
+    }
+  }, [decks, selectedDeckIds])
 
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
@@ -690,13 +703,36 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
       const backupsData = await backupsResponse.json()
       const backups: BackupInfo[] = backupsData.backups || []
+      const deletedDeckIds: string[] = Array.isArray(backupsData.deletedDeckIds)
+        ? backupsData.deletedDeckIds
+        : []
+      const deletedDeckIdSet = new Set(deletedDeckIds)
+
+      const userId = initialData.userId
+      if (!userId) return
+
+      if (deletedDeckIdSet.size > 0) {
+        const localDecks = await flashcardManager.getDecks(userId, isPremium)
+        const decksToDelete = localDecks.filter(
+          deck => deck.source === 'anki' && deletedDeckIdSet.has(deck.id)
+        )
+
+        if (decksToDelete.length > 0) {
+          await Promise.all(
+            decksToDelete.map(deck =>
+              ankiDeckManager.deleteDeck(deck.id, userId, isPremium, { skipRemote: true })
+            )
+          )
+          setDecks(prev => prev.filter(deck => !deletedDeckIdSet.has(deck.id)))
+        }
+      }
 
       if (backups.length === 0) {
         showToast(t('flashcards.restore.noBackups') || 'No backups found.', 'info')
         return
       }
 
-      const localDecks = await flashcardManager.getDecks(initialData.userId, isPremium)
+      const localDecks = await flashcardManager.getDecks(userId, isPremium)
       const localDeckMap = new Map(localDecks.map(deck => [deck.id, deck]))
       const missingBackups = backups.filter(backup => {
         const localDeck = localDeckMap.get(backup.deckId)
@@ -1246,6 +1282,64 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setShowDeleteDialog(true)
   }
 
+  const handleToggleDeckSelection = (deckId: string) => {
+    setSelectedDeckIds(prev => {
+      const next = new Set(prev)
+      if (next.has(deckId)) {
+        next.delete(deckId)
+      } else {
+        next.add(deckId)
+      }
+      return next
+    })
+  }
+
+  const handleToggleSelectAll = () => {
+    if (decks.length === 0) return
+    setSelectedDeckIds(prev => {
+      const isAllSelected = prev.size === decks.length
+      if (isAllSelected) return new Set()
+      return new Set(decks.map(deck => deck.id))
+    })
+  }
+
+  const handleBulkDeleteSelected = async () => {
+    if (!effectiveUserId || selectedDeckIds.size === 0) return
+
+    const selectedDecks = decks.filter(deck => selectedDeckIds.has(deck.id))
+    if (selectedDecks.length === 0) return
+
+    setShowBulkDeleteDialog(false)
+    showToast(`Deleting ${selectedDecks.length} decks...`, 'info')
+
+    setDecks(prev => prev.filter(deck => !selectedDeckIds.has(deck.id)))
+    setSelectedDeckIds(new Set())
+
+    const deletionResults = await Promise.allSettled(
+      selectedDecks.map(deck =>
+        deck.source === 'anki'
+          ? ankiDeckManager.deleteDeck(deck.id, effectiveUserId, isPremium)
+          : flashcardManager.deleteDeck(deck.id, effectiveUserId, isPremium)
+      )
+    )
+
+    const successCount = deletionResults.filter(result => result.status === 'fulfilled' && result.value).length
+    const failedCount = selectedDecks.length - successCount
+
+    await loadData(true)
+
+    if (isPremium && selectedDecks.some(deck => deck.source === 'anki')) {
+      await loadR2Usage()
+    }
+
+    if (failedCount > 0) {
+      showToast(t('flashcards.errors.deleteFailed'), 'error')
+      return
+    }
+
+    showToast(t('flashcards.success.deckDeleted'), 'success')
+  }
+
   const confirmDeleteDeck = async () => {
     if (!initialData.userId || !deckToDelete) return
 
@@ -1326,6 +1420,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         ((migrationProgress.completed + (migrationProgress.currentProgress || 0) / 100) / migrationProgress.total) * 100
       )
     : 0
+  const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length
+  const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length
 
   const handleStartSession = (selectedCards: any[], mode: string) => {
     if (!deckToStudy || selectedCards.length === 0) return
@@ -1594,56 +1690,56 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {/* Horizontally Scrollable Action Buttons */}
-        <div className="mb-6 -mx-4 sm:mx-0">
-          <div className="flex gap-3 overflow-x-auto px-4 sm:px-0 pb-2 scrollbar-hide snap-x snap-mandatory">
-            {/* Insights Toggle Button */}
-            {initialData.userId && decks.length > 0 && (
-              <button
-                onClick={handleToggleInsights}
-                className={cn(
-                  "flex-shrink-0 px-4 py-2.5 text-sm font-medium rounded-lg transition-all snap-start shadow-sm flex items-center gap-2",
-                  showInsights
-                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white"
-                    : "bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600"
-                )}
-              >
-                <PieChart className="w-4 h-4" />
-                {t('flashcards.insights')}
-              </button>
-            )}
-
-            {/* Create New Deck Button */}
-            <button
-              onClick={handleOpenDeckCreator}
-              className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 snap-start shadow-md"
-            >
-              <Plus className="w-4 h-4" />
-              {t('flashcards.createDeck')}
-            </button>
-
-            {isPremium && (decks.length > 0 || (r2Usage && r2Usage.usedBytes > 0)) && (
-              <button
-                onClick={handleBulkSync}
-                disabled={isSyncingMedia}
-                className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:opacity-90 transition-opacity snap-start shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                {isSyncingMedia && (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                )}
-                {t('flashcards.actions.syncAll')}
-              </button>
-            )}
-
-            {decks.length > 0 && (
-              <button
-                onClick={handleExportAll}
-                className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors snap-start shadow-sm"
-              >
-                {t('flashcards.actions.exportAll')}
-              </button>
-            )}
-          </div>
+        {/* Flashcards Action Menu */}
+        <div className="mb-6 flex justify-end">
+          <ActionMenu
+            items={[
+              {
+                label: t('flashcards.insights'),
+                icon: <PieChart className="w-4 h-4" />,
+                onClick: handleToggleInsights,
+                hidden: !initialData.userId || decks.length === 0,
+              },
+              {
+                label: isAllSelected
+                  ? t('flashcards.selectAll')?.replace('Select', 'Deselect') || 'Deselect all'
+                  : t('flashcards.selectAll') || 'Select all',
+                icon: isAllSelected ? (
+                  <CheckSquare className="w-4 h-4" />
+                ) : (
+                  <Square className="w-4 h-4" />
+                ),
+                onClick: handleToggleSelectAll,
+                hidden: decks.length === 0,
+              },
+              {
+                label: t('flashcards.createDeck'),
+                icon: <Plus className="w-4 h-4" />,
+                onClick: handleOpenDeckCreator,
+              },
+                {
+                  label: t('flashcards.actions.syncAll'),
+                  icon: isSyncingMedia ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4" />
+                  ),
+                  onClick: () => {
+                    if (!isSyncingMedia) {
+                      handleBulkSync()
+                    }
+                  },
+                  hidden: !isPremium,
+                },
+              {
+                label: t('flashcards.actions.exportAll'),
+                icon: <Download className="w-4 h-4" />,
+                onClick: handleExportAll,
+                hidden: decks.length === 0,
+              },
+            ]}
+            size="md"
+          />
         </div>
 
         {/* Deck Limits Warning */}
@@ -1773,6 +1869,52 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         )}
 
         {/* Deck Grid - Primary content first */}
+        {selectedDeckIds.size > 0 && (
+          <div className="mb-6 p-4 bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleToggleSelectAll}
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              >
+                {isAllSelected ? (
+                  <CheckSquare className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                ) : isPartiallySelected ? (
+                  <div className="relative">
+                    <Square className="w-5 h-5" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-sm" />
+                    </div>
+                  </div>
+                ) : (
+                  <Square className="w-5 h-5" />
+                )}
+                <span className="text-sm font-medium">
+                  {t('flashcards.bulk.selected', { count: selectedDeckIds.size })}
+                </span>
+              </button>
+              <span className="text-xs text-gray-500 dark:text-gray-500">
+                {selectedDeckIds.size} {t('flashcards.decks') || 'decks'}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowBulkDeleteDialog(true)}
+                className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                {t('flashcards.bulk.delete')}
+              </button>
+              <button
+                onClick={() => setSelectedDeckIds(new Set())}
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                {t('common.clear')}
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="mb-8">
           <DeckGrid
             decks={decks}
@@ -1791,6 +1933,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             isPremium={isPremium}
             hideCreateCard={true}
             restoreProgressByDeckId={restoreProgressByDeckId}
+            selectedDeckIds={selectedDeckIds}
+            onToggleSelect={handleToggleDeckSelection}
           />
         </div>
 
@@ -1977,6 +2121,21 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           onConfirm={confirmDeleteDeck}
           title={t('flashcards.confirmDelete.title')}
           message={t('flashcards.confirmDelete.message', { name: deckToDelete?.name || '' })}
+          confirmText={t('common.delete')}
+          cancelText={t('common.cancel')}
+          type="danger"
+        />
+
+        {/* Bulk Delete Confirmation Dialog */}
+        <Dialog
+          isOpen={showBulkDeleteDialog}
+          onClose={() => setShowBulkDeleteDialog(false)}
+          onConfirm={handleBulkDeleteSelected}
+          title={t('flashcards.confirmDelete.title')}
+          message={
+            t('flashcards.bulk.confirmDelete', { count: selectedDeckIds.size }) ||
+            `Delete ${selectedDeckIds.size} decks?`
+          }
           confirmText={t('common.delete')}
           cancelText={t('common.cancel')}
           type="danger"

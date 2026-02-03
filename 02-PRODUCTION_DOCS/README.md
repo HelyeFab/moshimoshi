@@ -26,7 +26,8 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── tts/                           # Text-to-Speech system documentation
 ├── user-agent-tracking/           # User agent tracking for support forms
 ├── entertainment-system/          # Games, achievements, leaderboard, review hub
-└── user-analytics/                # User retention and engagement analysis scripts
+├── user-analytics/                # User retention and engagement analysis scripts
+└── i18n/                          # Internationalization system (6 languages)
 ```
 
 ---
@@ -38,6 +39,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 | Document | Description |
 |----------|-------------|
 | [KANJI_MASTERY_ONBOARDING.md](./onboarding/KANJI_MASTERY_ONBOARDING.md) | Kanji Mastery onboarding guide (feature flow, SRS pipeline, storage/sync) |
+| [FLASHCARDS_ONBOARDING.md](./flashcards/FLASHCARDS_ONBOARDING.md) | Flashcards + Anki resident onboarding guide |
 
 **Key Topics:**
 - Local setup and dev commands
@@ -480,6 +482,42 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Internationalization (`i18n/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./i18n/README.md) | i18n overview, quick start, and architecture |
+| [FEATURE_GUIDE.md](./i18n/FEATURE_GUIDE.md) | Complete implementation guide with all patterns |
+
+**Key Topics:**
+- 6 languages supported (EN, JA, DE, ES, FR, IT)
+- Hybrid custom TypeScript + next-intl system
+- Path-based locale routing (`/{locale}/{page}`)
+- Client-side hooks (`useI18n`, `useTranslation`, `useLocalePath`)
+- Server-side utilities (`getTranslations`)
+- Parameter interpolation with `{{paramName}}` syntax
+- Automatic fallback to English for missing keys
+- Cookie-based language persistence (`NEXT_LOCALE`)
+- 57 translation namespaces
+
+**Key Files:**
+- `src/i18n/config.ts:8-10` - Language type definitions
+- `src/i18n/I18nContext.tsx:1` - React context & hooks
+- `src/i18n/routing.ts:35-57` - next-intl routing config
+- `src/i18n/server.ts:38-58` - Server-side utilities
+- `src/middleware.ts:46-52` - Locale extraction & routing
+- `src/i18n/locales/en/strings.ts` - English translations (7,817 lines)
+
+**Essential Reading for:**
+- ✅ Adding new translation keys
+- ✅ Creating locale-aware components
+- ✅ Implementing server-side translations
+- ✅ Adding support for new languages
+
+**Implementation Date:** 2026-02-03
+
+---
+
 ## Document Standards
 
 ### Status Indicators
@@ -626,4 +664,5 @@ Add a link to your new feature documentation in the appropriate section:
 
 ---
 
-*Last Updated: 2026-02-01*
+*Last Updated: 2026-02-03*
+

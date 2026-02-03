@@ -114,6 +114,14 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     if (!deckDoc.exists) {
       // Deck already deleted or never existed - this is fine (idempotent)
       console.log('[API Flashcards Deck] DELETE - Deck not found (already deleted):', deckId)
+      await db
+        .collection('users')
+        .doc(session.uid)
+        .collection('deletedFlashcardDecks')
+        .doc(deckId)
+        .set({
+          deletedAt: Date.now(),
+        })
       return NextResponse.json({ success: true, message: 'Deck already deleted' })
     }
 
@@ -132,6 +140,16 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
     // Delete the deck
     await db.collection('flashcardDecks').doc(deckId).delete()
+
+    // Record deletion tombstone to prevent resurrection across devices
+    await db
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedFlashcardDecks')
+      .doc(deckId)
+      .set({
+        deletedAt: Date.now(),
+      })
 
     console.log('[API Flashcards Deck] DELETE - Deck deleted:', {
       deckId,

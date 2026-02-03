@@ -24,6 +24,11 @@ import type { PlanType } from '@/lib/access/permissionMap'
 
 interface FlashcardDB {
   decks: FlashcardDeck
+  deletedDecks: {
+    deckId: string
+    userId: string
+    deletedAt: number
+  }
 }
 
 export class FlashcardManager {
@@ -137,7 +142,7 @@ export class FlashcardManager {
     await storageManager.initialize({ requestPersistence: false })
 
     try {
-      this.db = await openDB<FlashcardDB>('FlashcardDB', 1, {
+      this.db = await openDB<FlashcardDB>('FlashcardDB', 2, {
         upgrade(db) {
           // Decks store
           if (!db.objectStoreNames.contains('decks')) {
@@ -145,6 +150,13 @@ export class FlashcardManager {
             decksStore.createIndex('userId', 'userId')
             decksStore.createIndex('updatedAt', 'updatedAt')
             decksStore.createIndex('sourceListId', 'sourceListId')
+          }
+
+          // Deck deletion tombstones (added in v2)
+          if (!db.objectStoreNames.contains('deletedDecks')) {
+            const deletedStore = db.createObjectStore('deletedDecks', { keyPath: 'deckId' })
+            deletedStore.createIndex('userId', 'userId')
+            deletedStore.createIndex('deletedAt', 'deletedAt')
           }
 
           // Note: Sync queue moved to SyncManager
@@ -156,6 +168,46 @@ export class FlashcardManager {
       const handled = storageManager.handleStorageError(error)
       throw new Error(handled.message)
     }
+  }
+
+  private async recordDeckDeletionTombstone(deckId: string, userId: string): Promise<void> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('deletedDecks')) return
+    await db.put('deletedDecks', {
+      deckId,
+      userId,
+      deletedAt: Date.now(),
+    })
+  }
+
+  private async clearDeckDeletionTombstone(deckId: string): Promise<void> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('deletedDecks')) return
+    await db.delete('deletedDecks', deckId)
+  }
+
+  private async getDeletedDeckTombstones(userId: string): Promise<Set<string>> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('deletedDecks')) return new Set()
+    const tombstones = await db.getAllFromIndex('deletedDecks', 'userId', userId)
+    return new Set(tombstones.map(t => t.deckId))
+  }
+
+  private async cleanupOldDeletedDeckTombstones(userId: string, retentionDays: number = 30): Promise<void> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('deletedDecks')) return
+    const cutoff = Date.now() - retentionDays * 24 * 60 * 60 * 1000
+    const tombstones = await db.getAllFromIndex('deletedDecks', 'userId', userId)
+    await Promise.all(
+      tombstones
+        .filter(t => t.deletedAt < cutoff)
+        .map(t => db.delete('deletedDecks', t.deckId))
+    )
+  }
+
+  private async deleteLocalDeck(deckId: string): Promise<void> {
+    const db = await this.initDB()
+    await db.delete('decks', deckId)
   }
 
   // Get all decks for a user
@@ -288,6 +340,7 @@ export class FlashcardManager {
     // Save to IndexedDB only (local-only storage)
     try {
       await db.put('decks', deck)
+      await this.clearDeckDeletionTombstone(deck.id)
       console.log('✅ [FlashcardManager.createDeck] Deck saved successfully to IndexedDB')
       this.notifyListeners('decks-changed')
     } catch (error) {
@@ -876,6 +929,11 @@ export class FlashcardManager {
     await db.delete('decks', deckId)
     this.notifyListeners('decks-changed')
 
+    // Record tombstone for user decks to prevent resurrection across devices
+    if (deck.source !== 'anki') {
+      await this.recordDeckDeletionTombstone(deckId, userId)
+    }
+
     // Sync deletion to Firebase for premium users with non-Anki decks
     if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
       console.log('[FlashcardManager.deleteDeck] Syncing deletion to Firebase:', deck.name)
@@ -1035,6 +1093,12 @@ export class FlashcardManager {
         return
       }
 
+      const tombstones = await this.getDeletedDeckTombstones(userId)
+      if (tombstones.has(deck.id)) {
+        console.log('[FlashcardManager.syncDeckToFirebase] Skipping tombstoned deck:', deck.name)
+        return
+      }
+
       console.log('[FlashcardManager.syncDeckToFirebase] Syncing single deck to Firebase:', deck.name)
 
       // Use batch endpoint for simplicity (handles both create and update)
@@ -1075,7 +1139,8 @@ export class FlashcardManager {
     const localDecks = await this.getDecks(userId, isPremium)
 
     // CRITICAL: Filter out Anki decks
-    const userDecks = localDecks.filter(d => d.source !== 'anki')
+    const tombstones = await this.getDeletedDeckTombstones(userId)
+    const userDecks = localDecks.filter(d => d.source !== 'anki' && !tombstones.has(d.id))
 
     console.log('[FlashcardManager.syncAllDecksToFirebase] Decks to sync:', {
       total: localDecks.length,
@@ -1136,7 +1201,7 @@ export class FlashcardManager {
         throw new Error(`Failed to fetch remote decks: ${errorText}`)
       }
 
-      const { decks: remoteDecks } = await response.json()
+      const { decks: remoteDecks, deletedDeckIds } = await response.json()
 
       console.log('[FlashcardManager.syncDecksFromFirebase] Fetched from Firebase:', {
         count: remoteDecks.length
@@ -1151,9 +1216,22 @@ export class FlashcardManager {
         merged = 0,
         localWins = 0
 
+      // Merge server tombstones with local tombstones
+      const localTombstones = await this.getDeletedDeckTombstones(userId)
+      const serverDeletedIds = new Set<string>(Array.isArray(deletedDeckIds) ? deletedDeckIds : [])
+      for (const deletedId of serverDeletedIds) {
+        localTombstones.add(deletedId)
+        await this.recordDeckDeletionTombstone(deletedId, userId)
+      }
+
       // LWW conflict resolution
       for (const remoteDeck of remoteDecks) {
         const localDeck = localDeckMap.get(remoteDeck.id)
+
+        if (localTombstones.has(remoteDeck.id)) {
+          await this.clearDeckDeletionTombstone(remoteDeck.id)
+          localTombstones.delete(remoteDeck.id)
+        }
 
         if (!localDeck) {
           // New deck from remote - insert
@@ -1175,10 +1253,16 @@ export class FlashcardManager {
         }
       }
 
-      // Note: Automatic deletion sync removed to prevent data loss
-      // Issue: Can't distinguish between "deleted in Firebase" vs "new offline deck not yet uploaded"
-      // Trade-off: Only support Local delete → Firebase (via DELETE API), not Firebase delete → Local auto-delete
-      // This prevents accidentally deleting offline-created decks that haven't been uploaded yet
+      // Apply tombstones from server/local to prevent resurrection
+      if (localTombstones.size > 0) {
+        const decksToDelete = localDecks.filter(deck => localTombstones.has(deck.id))
+        if (decksToDelete.length > 0) {
+          await Promise.all(decksToDelete.map(deck => this.deleteLocalDeck(deck.id)))
+          this.notifyListeners('decks-changed')
+        }
+      }
+
+      await this.cleanupOldDeletedDeckTombstones(userId)
 
       if (downloaded > 0 || merged > 0) {
         this.notifyListeners('decks-changed')

@@ -69,6 +69,15 @@ export async function GET(request: NextRequest) {
       .map((doc) => ({ id: doc.id, ...doc.data() }))
       .filter((d: any) => d.source !== 'anki') // CRITICAL: Filter Anki decks
 
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+    const deletedSnapshot = await db
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedFlashcardDecks')
+      .where('deletedAt', '>', thirtyDaysAgo)
+      .get()
+    const deletedDeckIds = deletedSnapshot.docs.map(doc => doc.id)
+
     console.log('[API Flashcards Decks] GET - Fetched decks:', {
       userId: session.uid,
       total: snapshot.docs.length,
@@ -76,7 +85,7 @@ export async function GET(request: NextRequest) {
       ankiFiltered: snapshot.docs.length - decks.length,
     })
 
-    return NextResponse.json({ decks })
+    return NextResponse.json({ decks, deletedDeckIds })
   } catch (error) {
     console.error('[API Flashcards Decks] GET error:', error)
     return NextResponse.json({ error: 'Failed to fetch decks' }, { status: 500 })

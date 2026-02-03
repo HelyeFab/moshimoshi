@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, ChevronRight } from 'lucide-react';
+import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, ChevronRight, CheckSquare, Square } from 'lucide-react';
 import type { FlashcardDeck } from '@/types/flashcards';
 import type { RestoreProgress } from '@/types/r2';
 import { useI18n } from '@/i18n/I18nContext';
@@ -25,6 +25,8 @@ interface DeckGridProps {
   isPremium?: boolean;
   hideCreateCard?: boolean;
   restoreProgressByDeckId?: Record<string, RestoreProgress>;
+  selectedDeckIds?: Set<string>;
+  onToggleSelect?: (deckId: string) => void;
 }
 
 export function DeckGrid({
@@ -41,12 +43,15 @@ export function DeckGrid({
   gridCols = 3,
   isPremium = false,
   hideCreateCard = false,
-  restoreProgressByDeckId
+  restoreProgressByDeckId,
+  selectedDeckIds,
+  onToggleSelect
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuActionInProgressRef = useRef(false);
+  const selectionEnabled = Boolean(selectedDeckIds && onToggleSelect);
 
   // Track openMenuId changes
   useEffect(() => {
@@ -357,6 +362,7 @@ export function DeckGrid({
           const dueCount = getDueCount(deck);
           const { progress: restoreProgress, isRestoring, isError } = getRestoreState(deck);
           const restorePercent = Math.max(0, Math.min(100, getRestorePercent(restoreProgress)));
+          const isSelected = selectionEnabled ? selectedDeckIds!.has(deck.id) : false;
 
           return (
             <motion.div
@@ -402,6 +408,24 @@ export function DeckGrid({
               <div className="p-4 pl-5 space-y-3">
                 {/* Row 1: Emoji + Deck Name + Menu */}
                 <div className="flex items-start gap-3">
+                  {/* Selection Checkbox */}
+                  {selectionEnabled && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleSelect?.(deck.id);
+                      }}
+                      className="flex-shrink-0 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+                      aria-label={isSelected ? 'Deselect deck' : 'Select deck'}
+                    >
+                      {isSelected ? (
+                        <CheckSquare className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                      ) : (
+                        <Square className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      )}
+                    </button>
+                  )}
+
                   {/* Emoji Indicator - Only show if emoji exists */}
                   {deck.emoji && (
                     <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-700 flex items-center justify-center">
@@ -580,6 +604,7 @@ export function DeckGrid({
             : 0;
           const { progress: restoreProgress, isRestoring, isError } = getRestoreState(deck);
           const restorePercent = Math.max(0, Math.min(100, getRestorePercent(restoreProgress)));
+          const isSelected = selectionEnabled ? selectedDeckIds!.has(deck.id) : false;
 
           return (
             <motion.div
@@ -606,6 +631,26 @@ export function DeckGrid({
                   getColorClasses(deck.color)
                 )}>
                   <span className="text-3xl">{deck.emoji}</span>
+
+                  {/* Selection Checkbox */}
+                  {selectionEnabled && (
+                    <div className="absolute top-1.5 left-1.5">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleSelect?.(deck.id);
+                        }}
+                        className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
+                        aria-label={isSelected ? 'Deselect deck' : 'Select deck'}
+                      >
+                        {isSelected ? (
+                          <CheckSquare className="w-3.5 h-3.5 text-white" />
+                        ) : (
+                          <Square className="w-3.5 h-3.5 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  )}
 
                   {/* Menu Button */}
                   <div className="absolute top-1.5 right-1.5">

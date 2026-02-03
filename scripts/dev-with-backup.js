@@ -57,18 +57,32 @@ ${envContent}
 }
 
 // Run concurrently with the dev commands
-const isWindows = os.platform() === 'win32';
+const concurrently = require('concurrently');
 
-const child = spawn(
-  isWindows ? 'cmd' : 'sh',
-  isWindows
-    ? ['/c', 'npx concurrently "next dev" "npm run notebooklm:watch"']
-    : ['-c', 'npx concurrently "next dev" "npm run notebooklm:watch"'],
+const { result } = concurrently(
+  [
+    { command: 'next dev', name: 'next', prefixColor: 'cyan' },
+    { command: 'npm run notebooklm:watch', name: 'watch', prefixColor: 'yellow' }
+  ],
   {
     cwd: PROJECT_ROOT,
-    stdio: 'inherit'
+    killOthersOnFail: true
   }
 );
+
+result.then(
+  () => {
+    backupEnv();
+    process.exit(0);
+  },
+  () => {
+    backupEnv();
+    process.exit(1);
+  }
+);
+
+// Keep a reference for signal handling
+const child = { on: () => {} };
 
 // Backup on exit
 process.on('SIGINT', () => {

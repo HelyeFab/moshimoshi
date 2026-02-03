@@ -36,8 +36,20 @@ export async function GET(request: NextRequest) {
       .orderBy('updatedAt', 'desc')
       .get()
 
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+    const deletedSnapshot = await adminDb
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedAnkiDecks')
+      .where('deletedAt', '>', thirtyDaysAgo)
+      .get()
+    const deletedDeckIds = deletedSnapshot.docs.map(doc => doc.id)
+    const deletedDeckIdSet = new Set(deletedDeckIds)
+
     // Transform Firestore docs to BackupInfo format
-    const backups: BackupInfo[] = snapshot.docs.map(doc => {
+    const backups: BackupInfo[] = snapshot.docs
+      .filter(doc => !deletedDeckIdSet.has(doc.id))
+      .map(doc => {
       const data = doc.data() as R2Metadata
       return {
         deckId: data.deckId,
@@ -52,7 +64,7 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json({ backups })
+    return NextResponse.json({ backups, deletedDeckIds })
   } catch (error: any) {
     const message = error?.message || 'Failed to fetch backups'
     const status = message === 'Authentication required' ? 401 : 500

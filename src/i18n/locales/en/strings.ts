@@ -5080,6 +5080,33 @@ export const strings = {
       achievementDesc: 'Returned after 7+ days away',
       readyToStart: "Ready to jump back in? Your cards are waiting for you.",
     },
+
+    // Bulk operations
+    selectAll: 'Select all',
+    deselectAll: 'Deselect all',
+    decks: 'decks',
+    bulk: {
+      selected: '{{count}} selected',
+      delete: 'Delete',
+      export: 'Export',
+      duplicate: 'Duplicate',
+      merge: 'Merge',
+      archive: 'Archive',
+      addTags: 'Add Tags',
+      confirmDelete: 'Are you sure you want to delete {{count}} decks? This cannot be undone.',
+      confirmMerge: 'Are you sure you want to merge {{count}} decks into one?',
+      confirmArchive: 'Are you sure you want to archive {{count}} decks?',
+      deleteSuccess: '{{count}} decks deleted successfully',
+      deleteFailed: 'Failed to delete decks',
+      exportSuccess: '{{count}} decks exported successfully',
+      exportFailed: 'Failed to export decks',
+      mergeSuccess: '{{count}} decks merged successfully',
+      mergeFailed: 'Failed to merge decks',
+      duplicateSuccess: '{{count}} decks duplicated successfully',
+      duplicateFailed: 'Failed to duplicate decks',
+      mergedDeckName: 'Merged Deck',
+      mergedDeckDescription: 'Merged from {{count}} decks',
+    },
   },
 
   conjugation: {

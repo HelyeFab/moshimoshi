@@ -158,6 +158,16 @@ export async function DELETE(request: NextRequest) {
 
     await db.collection('anki_r2_backups').doc(deckId).delete()
 
+    // Record deletion tombstone to prevent resurrection across devices
+    await db
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedAnkiDecks')
+      .doc(deckId)
+      .set({
+        deletedAt: Date.now(),
+      })
+
     return NextResponse.json({ success: true, deckId })
   } catch (error: any) {
     const message = error?.message || 'Failed to delete metadata'

@@ -17,7 +17,7 @@ async function signInAndSave(
   const page = await context.newPage()
   await page.goto('/en/auth/signin')
   await page.getByLabel('Email').fill(email)
-  await page.getByLabel('Password').fill(password)
+  await page.getByRole('textbox', { name: 'Password' }).fill(password)
   const signInResponse = page
     .waitForResponse((response: Response) =>
       /\/api\/auth\/(signin|login|callback\/credentials)/.test(response.url())
