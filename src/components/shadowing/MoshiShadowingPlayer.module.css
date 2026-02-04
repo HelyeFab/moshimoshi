@@ -236,11 +236,16 @@
     min-height: 200px;
     padding: 24px 16px;
   }
+
+  .sentenceDisplay {
+    padding-bottom: 72px; /* Slightly less for mobile */
+  }
 }
 
 .sentenceDisplay {
   text-align: center;
   width: 100%;
+  padding-bottom: 80px; /* Reserve space for play button */
 }
 
 .currentSentenceText {
@@ -515,4 +520,17 @@
 
 :global(.dark) .navProgress {
   color: #e5e7eb;
+}
+
+/* Screen reader only - for accessibility */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

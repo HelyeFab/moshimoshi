@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
-import { Settings, Pause, Play, Repeat, RotateCw, Lock } from 'lucide-react'
+import { Settings, Pause, Play, Repeat, RotateCw, Lock, Mic } from 'lucide-react'
 import { ReadingSettings, TranslationMode } from '@/types/story'
 import Modal from '@/components/ui/Modal'
 
@@ -176,28 +176,60 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
                 )}
               </div>
 
-              {/* Shadowing Mode */}
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium" style={{ color: 'var(--article-text)' }}>
-                  {t('news.reader.shadowingMode')}
-                </span>
-                <button
-                  onClick={() =>
-                    onSettingsChange({ ...settings, shadowingMode: !settings.shadowingMode })
-                  }
-                  className={`relative w-14 h-8 rounded-full transition-colors duration-200`}
-                  style={{
-                    backgroundColor: settings.shadowingMode
-                      ? 'rgb(var(--palette-primary-500))'
-                      : 'rgb(156 163 175)',
-                  }}
-                >
-                  <span
-                    className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-200 shadow-md ${
-                      settings.shadowingMode ? 'translate-x-6' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
+              {/* Shadowing Mode - Prominent */}
+              <div
+                className="rounded-xl transition-all duration-200 -mx-2 px-2 py-2"
+                style={{
+                  background: settings.shadowingMode
+                    ? 'linear-gradient(135deg, rgba(var(--palette-primary-500), 0.15) 0%, rgba(var(--palette-primary-600), 0.1) 100%)'
+                    : 'rgba(var(--palette-primary-500), 0.05)',
+                  border: settings.shadowingMode
+                    ? '2px solid rgba(var(--palette-primary-500), 0.3)'
+                    : '1px solid rgba(var(--palette-primary-500), 0.1)',
+                  boxShadow: settings.shadowingMode
+                    ? '0 4px 12px rgba(var(--palette-primary-500), 0.15)'
+                    : 'none',
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Mic
+                      className="w-5 h-5"
+                      style={{
+                        color: settings.shadowingMode
+                          ? 'rgb(var(--palette-primary-600))'
+                          : 'rgb(var(--palette-primary-400))'
+                      }}
+                    />
+                    <span
+                      className="text-sm font-semibold"
+                      style={{
+                        color: settings.shadowingMode
+                          ? 'rgb(var(--palette-primary-700))'
+                          : 'var(--article-text)'
+                      }}
+                    >
+                      {t('news.reader.shadowingMode')}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() =>
+                      onSettingsChange({ ...settings, shadowingMode: !settings.shadowingMode })
+                    }
+                    className={`relative w-14 h-8 rounded-full transition-colors duration-200`}
+                    style={{
+                      backgroundColor: settings.shadowingMode
+                        ? 'rgb(var(--palette-primary-500))'
+                        : 'rgb(156 163 175)',
+                    }}
+                  >
+                    <span
+                      className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-200 shadow-md ${
+                        settings.shadowingMode ? 'translate-x-6' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                </div>
               </div>
 
               {/* Playback Speed */}

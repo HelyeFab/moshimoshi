@@ -15,6 +15,7 @@ import WordExplanationModal from '@/components/word/WordExplanationModal'
 import MoshiShadowingPlayer from '@/components/shadowing/MoshiShadowingPlayer'
 import AddToListButton from '@/components/lists/AddToListButton'
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation'
+import { splitIntoSentences } from '@/utils/sentenceSplitter'
 import { ReadingSettings, TranslationMode, StoryPage, StoryQuizQuestion } from '@/types/story'
 import { useContentTranslation } from '@/hooks/useContentTranslation'
 import { useArticleSentenceData, useStorySentenceData, useBookSentenceData } from '@/hooks/useSentenceData'
@@ -785,7 +786,8 @@ export default function EnhancedArticleReader({
   contentType?: 'article' | 'story' | 'book'
 }) {
   // Determine if we're in story mode (multi-page)
-  const isStoryMode = pages && pages.length > 0
+  // Note: Books use single-page array for translation but shouldn't be treated as story mode
+  const isStoryMode = contentType === 'story' && pages && pages.length > 0
   const router = useRouter()
   const { t } = useI18n()
   const { user } = useAuth()
@@ -1453,10 +1455,7 @@ export default function EnhancedArticleReader({
 
   // Split content into sentences for shadowing mode
   useEffect(() => {
-    const splitSentences = article.content
-      .split(/[。！？]/)
-      .filter(s => s.trim().length > 0)
-      .map(s => s.trim() + '。')
+    const splitSentences = splitIntoSentences(article.content)
     setSentences(splitSentences)
   }, [article.content])
 
@@ -2113,33 +2112,7 @@ export default function EnhancedArticleReader({
   }
 
   // Split article content into sentences
-  const splitIntoSentences = (text: string): string[] => {
-    const sentences: string[] = []
-    const parts = text.split(/([。！？])/)
-    let current = ''
-
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i]
-      if (!part) continue
-
-      if (/^[。！？]$/.test(part)) {
-        current += part
-        if (current.trim()) {
-          sentences.push(current.trim())
-          current = ''
-        }
-      } else {
-        current += part
-      }
-    }
-
-    // Add any remaining text
-    if (current.trim()) {
-      sentences.push(current.trim())
-    }
-
-    return sentences
-  }
+  // Sentence splitting now handled by shared utility: @/utils/sentenceSplitter
 
   // Handle playing individual sentence with pre-cached audio + fallback
   // Flow: Pre-cached audio → VOICEVOX API → App TTS fallback
@@ -2723,15 +2696,14 @@ export default function EnhancedArticleReader({
             <div className="absolute top-1 right-1 z-10">
               <button
                 onClick={() => setShowMobileSettings(true)}
-                className="w-9 h-9 rounded-full backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200"
+                className="w-7 h-7 rounded-full backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 bg-primary-500 dark:bg-primary-600"
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.2)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
                 }}
                 title={t('news.reader.settings')}
               >
-                <Settings className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                <Settings className="w-4 h-4 text-white" />
               </button>
             </div>
           )}
@@ -3186,11 +3158,20 @@ export default function EnhancedArticleReader({
       {/* Shadowing Mode - MoshiPlayer Style */}
       {settings.shadowingMode && (
         <MoshiShadowingPlayer
-          sentences={sentences}
-          title={article.title}
+          sentences={
+            isStoryMode
+              ? splitIntoSentences(currentContent)  // Current page only for stories
+              : sentences  // Full article for news/books
+          }
+          title={
+            isStoryMode
+              ? `${displayTitle} - Page ${currentPageIndex + 1}/${totalPages}`
+              : article.title
+          }
           contentId={article.id}
           contentType={isStoryMode ? 'story' : isBook ? 'book' : 'article'}
           onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
+          getAudioUrl={getPreCachedAudioUrl}  // Enable pre-cached audio
           initialSettings={{
             showFurigana: settings.showFurigana,
             highlightMode: settings.highlightMode,
