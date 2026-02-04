@@ -199,7 +199,7 @@ export class MigrationManager {
    * Bulk export all decks for backup
    */
   async exportAllDecks(userId: string, format: 'json' | 'csv' = 'json'): Promise<string> {
-    const decks = await flashcardManager.getDecks(userId, false)
+    const decks = (await flashcardManager.getDecks(userId, false)).filter(deck => !deck.isStarter)
 
     if (format === 'json') {
       return JSON.stringify(
@@ -250,6 +250,17 @@ export class MigrationManager {
     let importedDecks = 0
 
     try {
+      if (!isPremium) {
+        return {
+          success: false,
+          totalDecks: 0,
+          syncedDecks: 0,
+          failedDecks: 0,
+          errors: ['Premium required to import decks'],
+          duration: Date.now() - startTime,
+        }
+      }
+
       const parsed = JSON.parse(data)
 
       if (!parsed.decks || !Array.isArray(parsed.decks)) {

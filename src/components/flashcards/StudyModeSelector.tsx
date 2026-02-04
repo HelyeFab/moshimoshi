@@ -42,6 +42,25 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
     sortBy: 'priority' as 'priority' | 'random' | 'oldest'
   });
 
+  const shuffleArray = <T,>(items: T[]): T[] => {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const interleaveArrays = <T,>(primary: T[], secondary: T[]): T[] => {
+    const mixed: T[] = [];
+    const maxLen = Math.max(primary.length, secondary.length);
+    for (let i = 0; i < maxLen; i += 1) {
+      if (i < primary.length) mixed.push(primary[i]);
+      if (i < secondary.length) mixed.push(secondary[i]);
+    }
+    return mixed;
+  };
+
   // Generate smart preset buttons based on deck size
   const getPresets = () => {
     const presets = [5, 10, 20, maxCards];
@@ -74,6 +93,24 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
   // "Due" for study today = new cards (up to daily limit) + review cards (up to daily limit)
   // This matches what DeckGrid shows in the "due" badge
   const dueCards = [...newCards, ...reviewCards];
+  const mixedDueCards = (() => {
+    const total = dueCards.length;
+    if (total === 0) return [];
+
+    const dueRatio = 0.7;
+    let targetDue = Math.min(reviewCards.length, Math.round(total * dueRatio));
+    let targetNew = Math.min(newCards.length, total - targetDue);
+
+    // If we couldn't fill the target with new cards, backfill with due
+    if (targetNew < total - targetDue) {
+      targetDue = Math.min(reviewCards.length, total - targetNew);
+    }
+
+    const dueSlice = shuffleArray(reviewCards).slice(0, targetDue);
+    const newSlice = shuffleArray(newCards).slice(0, targetNew);
+
+    return interleaveArrays(dueSlice, newSlice);
+  })();
 
   const weakCards = deck.cards.filter(card => {
     if (!card.metadata) return false;
@@ -154,8 +191,8 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
     switch (mode) {
       case 'due':
-        // Due cards = new cards + review cards (already combined with daily limits applied)
-        cards = [...dueCards];
+        // Mixed due cards = review + new (already limited by daily settings)
+        cards = [...mixedDueCards];
         break;
 
       case 'new':
@@ -239,7 +276,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
+        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl max-w-xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
       >
         <div className="p-6 border-b border-gray-200 dark:border-dark-700">
           <div className="flex items-center justify-between gap-4">
@@ -263,7 +300,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         </div>
 
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {modes.map((mode) => (
               <motion.div
                 key={mode.id}
@@ -272,49 +309,49 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                 onClick={() => setSelectedMode(mode.id)}
                 data-testid={`flashcards-study-mode-${mode.id}`}
                 className={cn(
-                  "relative p-4 rounded-xl cursor-pointer transition-all",
+                  "relative p-2 rounded-lg cursor-pointer transition-all",
                   selectedMode === mode.id
                     ? "ring-2 ring-primary-500 bg-primary-50 dark:bg-primary-900/20"
                     : "bg-gray-50 dark:bg-dark-700 hover:shadow-md"
                 )}
               >
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {/* Row 1: Icon + Title */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <div className={cn(
-                      "w-8 h-8 rounded-lg bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0",
+                      "w-5 h-5 rounded bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0",
                       mode.color
                     )}>
                       {mode.icon}
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                    <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100">
                       {mode.name}
                     </h3>
                   </div>
 
                   {/* Row 2: Description */}
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
                     {mode.description}
                   </p>
 
                   {/* Row 3: Stats */}
                   {mode.cardCount !== undefined && mode.cardCount > 0 && (
-                    <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-500">
+                    <div className="flex items-center gap-2 text-[10px] text-gray-500 dark:text-gray-500">
                       <span className="flex items-center gap-1">
-                        <Target className="w-3 h-3" />
+                        <Target className="w-2.5 h-2.5" />
                         {mode.cardCount} {t('flashcards.cards')}
                       </span>
                       {mode.estimatedTime !== undefined && mode.estimatedTime > 0 && (
                         <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-2.5 h-2.5" />
                           {mode.estimatedTime} {t('common.minutes')}
                         </span>
                       )}
                     </div>
                   )}
                   {mode.cardCount === 0 && mode.id !== 'custom' && (
-                    <div className="text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <div className="text-[10px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                      <AlertCircle className="w-2.5 h-2.5" />
                       {t('flashcards.noCardsAvailable')}
                     </div>
                   )}

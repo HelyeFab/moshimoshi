@@ -23,7 +23,7 @@ async function requireFlashcardsEntitlement(uid: string) {
     nowUtcISO
   })
 
-  return { decision }
+  return { decision, plan }
 }
 
 // Remove undefined values from an object (Firestore doesn't accept undefined)
@@ -67,6 +67,10 @@ export async function POST(request: NextRequest, { params }: Params) {
         },
         { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for progress sync' }, { status: 403 })
     }
 
     const body = await request.json()

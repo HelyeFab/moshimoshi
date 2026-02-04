@@ -36,4 +36,20 @@ describe('/api/flashcards/decks/[deckId]/progress POST', () => {
     const response = await POST(request, { params: Promise.resolve({ deckId: 'deck-1' }) })
     expect(response.status).toBe(403)
   })
+
+  it('returns 403 when plan is free even if entitlement allows', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+
+    const request = new NextRequest('http://localhost/api/flashcards/decks/deck-1/progress', {
+      method: 'POST',
+      body: JSON.stringify({ deckStats: {}, cardUpdates: [] }),
+    })
+
+    const response = await POST(request, { params: Promise.resolve({ deckId: 'deck-1' }) })
+    expect(response.status).toBe(403)
+  })
 })

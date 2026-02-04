@@ -19,7 +19,7 @@ async function requireFlashcardsEntitlement(uid: string) {
     nowUtcISO
   })
 
-  return { decision }
+  return { decision, plan }
 }
 
 /**
@@ -106,6 +106,10 @@ export async function DELETE(request: NextRequest, { params }: Params) {
         },
         { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for deletions' }, { status: 403 })
     }
 
     const db = getAdminDb()

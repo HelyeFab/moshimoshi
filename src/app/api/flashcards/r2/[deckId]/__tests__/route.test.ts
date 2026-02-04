@@ -41,4 +41,18 @@ describe('/api/flashcards/r2/[deckId] GET', () => {
 
     expect(response.status).toBe(403)
   })
+
+  it('returns 403 when plan is free even if entitlement allows', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+    mockedGetAdminDb.mockReturnValue({ collection: jest.fn() })
+
+    const request = new NextRequest('http://localhost/api/flashcards/r2/deck-1')
+    const response = await GET(request, { params: Promise.resolve({ deckId: 'deck-1' }) })
+
+    expect(response.status).toBe(403)
+  })
 })

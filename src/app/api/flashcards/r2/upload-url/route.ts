@@ -49,6 +49,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (plan === 'free' || plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for cloud backup' }, { status: 403 })
+    }
+
     // 3. Validate request
     const body = await request.json()
     const validation = UploadUrlSchema.safeParse(body)

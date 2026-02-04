@@ -20,7 +20,7 @@ async function requireFlashcardsEntitlement(uid: string) {
     nowUtcISO
   })
 
-  return { decision }
+  return { decision, plan }
 }
 
 const DeleteRequestSchema = z.union([
@@ -52,6 +52,10 @@ export async function GET(_: NextRequest, { params }: Params) {
         },
         { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for deletions' }, { status: 403 })
     }
 
     const { deckId } = await params
@@ -90,6 +94,10 @@ export async function POST(request: NextRequest, { params }: Params) {
         },
         { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for deletions' }, { status: 403 })
     }
 
     const { deckId } = await params

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
+import { getUserPlan } from '@/lib/entitlements/server'
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,6 +9,11 @@ export async function GET(request: NextRequest) {
     const session = await getSession()
     if (!session?.uid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const plan = await getUserPlan(session.uid)
+    if (plan === 'free' || plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for cloud backup' }, { status: 403 })
     }
 
     // 2. Query user's flashcard decks

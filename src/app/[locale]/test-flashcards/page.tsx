@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
 import type { FlashcardDeck, FlashcardContent } from '@/types/flashcards';
+import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
 
 export default function TestFlashcardsPage() {
   const { user } = useAuth();
@@ -95,66 +96,151 @@ export default function TestFlashcardsPage() {
     setResults([]);
 
     try {
-      // Test 1: GET all decks
-      const getDecksRes = await fetch('/api/flashcards/decks');
-      const decksData = await getDecksRes.json();
-      addResult('GET /api/flashcards/decks', getDecksRes.ok, `Status: ${getDecksRes.status}, Decks: ${decksData.decks?.length || 0}`);
-
-      // Test 2: Create a deck (batch sync endpoint)
-      const baseDeck = createBaseDeck(user.uid);
-      const deckWithCards = addCardToDeck(
-        addCardToDeck(baseDeck, 'Test Front 1', 'Test Back 1'),
-        'Test Front 2',
-        'Test Back 2'
-      );
-
-      const createRes = await fetch('/api/flashcards/decks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ decks: [deckWithCards] })
-      });
-      const createdResult = await createRes.json();
-      addResult('POST /api/flashcards/decks (create)', createRes.ok, `Status: ${createRes.status}, Synced: ${createdResult.synced ?? 0}`);
-
-      if (createRes.ok) {
-        const deckId = deckWithCards.id;
-
-        // Test 3: Get specific deck
-        const getOneRes = await fetch(`/api/flashcards/decks/${deckId}`);
-        const oneDeck = await getOneRes.json();
-        addResult(`GET /api/flashcards/decks/${deckId}`, getOneRes.ok, `Status: ${getOneRes.status}, Name: ${oneDeck.deck?.name || 'none'}`);
-
-        // Test 4: Update deck (batch sync endpoint)
-        const updatedDeck = { ...deckWithCards, name: 'Updated Test Deck', updatedAt: Date.now() };
-        const updateRes = await fetch('/api/flashcards/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ decks: [updatedDeck] })
-        });
-        const updateResult = await updateRes.json();
-        addResult('POST /api/flashcards/decks (update)', updateRes.ok, `Status: ${updateRes.status}, Synced: ${updateResult.synced ?? 0}`);
-
-        // Test 5: Add a card (batch sync endpoint)
-        const deckWithNewCard = addCardToDeck(updatedDeck, 'New Card Front', 'New Card Back');
-        const addCardRes = await fetch('/api/flashcards/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ decks: [deckWithNewCard] })
-        });
-        const addCardResult = await addCardRes.json();
-        addResult('POST /api/flashcards/decks (add card)', addCardRes.ok, `Status: ${addCardRes.status}, Synced: ${addCardResult.synced ?? 0}`);
-
-        // Test 6: Delete the deck
-        const deleteRes = await fetch(`/api/flashcards/decks/${deckId}`, {
-          method: 'DELETE'
-        });
-        addResult(`DELETE /api/flashcards/decks/${deckId}`, deleteRes.ok, `Status: ${deleteRes.status}`);
+      let plan: string | null = null;
+      let isPremiumPlan = false;
+      try {
+        const subRes = await fetch('/api/user/subscription');
+        if (subRes.ok) {
+          const subData = await subRes.json();
+          plan = subData?.subscription?.plan || null;
+          isPremiumPlan = plan === 'premium_monthly' || plan === 'premium_yearly';
+        }
+      } catch {
       }
 
-      // Test 7: Check Firebase persistence by getting all decks again
-      const finalRes = await fetch('/api/flashcards/decks');
-      const finalData = await finalRes.json();
-      addResult('Firebase Persistence Check', finalRes.ok, `Total decks in Firebase: ${finalData.decks?.length || 0}`);
+      // Test 1: GET all decks
+      const getDecksRes = await fetch('/api/flashcards/decks');
+      const decksData = await getDecksRes.json().catch(() => ({}));
+      const getDecksPassed = isPremiumPlan ? getDecksRes.ok : getDecksRes.status === 403;
+      const getDecksLabel = isPremiumPlan
+        ? 'GET /api/flashcards/decks'
+        : 'GET /api/flashcards/decks (blocked)';
+      addResult(
+        getDecksLabel,
+        getDecksPassed,
+        `Status: ${getDecksRes.status}, Decks: ${decksData.decks?.length || 0}`
+      );
+
+      if (isPremiumPlan) {
+        // Premium flow: Create, update, delete
+        const baseDeck = createBaseDeck(user.uid);
+        const deckWithCards = addCardToDeck(
+          addCardToDeck(baseDeck, 'Test Front 1', 'Test Back 1'),
+          'Test Front 2',
+          'Test Back 2'
+        );
+
+        const createRes = await fetch('/api/flashcards/decks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ decks: [deckWithCards] })
+        });
+        const createdResult = await createRes.json();
+        addResult('POST /api/flashcards/decks (create)', createRes.ok, `Status: ${createRes.status}, Synced: ${createdResult.synced ?? 0}`);
+
+        if (createRes.ok) {
+          const deckId = deckWithCards.id;
+
+          // Test 3: Get specific deck
+          const getOneRes = await fetch(`/api/flashcards/decks/${deckId}`);
+          const oneDeck = await getOneRes.json();
+          addResult(`GET /api/flashcards/decks/${deckId}`, getOneRes.ok, `Status: ${getOneRes.status}, Name: ${oneDeck.deck?.name || 'none'}`);
+
+          // Test 4: Update deck (batch sync endpoint)
+          const updatedDeck = { ...deckWithCards, name: 'Updated Test Deck', updatedAt: Date.now() };
+          const updateRes = await fetch('/api/flashcards/decks', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ decks: [updatedDeck] })
+          });
+          const updateResult = await updateRes.json();
+          addResult('POST /api/flashcards/decks (update)', updateRes.ok, `Status: ${updateRes.status}, Synced: ${updateResult.synced ?? 0}`);
+
+          // Test 5: Add a card (batch sync endpoint)
+          const deckWithNewCard = addCardToDeck(updatedDeck, 'New Card Front', 'New Card Back');
+          const addCardRes = await fetch('/api/flashcards/decks', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ decks: [deckWithNewCard] })
+          });
+          const addCardResult = await addCardRes.json();
+          addResult('POST /api/flashcards/decks (add card)', addCardRes.ok, `Status: ${addCardRes.status}, Synced: ${addCardResult.synced ?? 0}`);
+
+          // Test 6: Delete the deck
+          const deleteRes = await fetch(`/api/flashcards/decks/${deckId}`, {
+            method: 'DELETE'
+          });
+          addResult(`DELETE /api/flashcards/decks/${deckId}`, deleteRes.ok, `Status: ${deleteRes.status}`);
+        }
+
+        // Test 7: Check Firebase persistence by getting all decks again
+        const finalRes = await fetch('/api/flashcards/decks');
+        const finalData = await finalRes.json();
+        addResult('Firebase Persistence Check', finalRes.ok, `Total decks in Firebase: ${finalData.decks?.length || 0}`);
+
+        // Test 8: Starter deck delete tombstone (server)
+        const starterId = 'starter-v1-greetings';
+        const deleteStarterRes = await fetch(`/api/flashcards/decks/${starterId}`, {
+          method: 'DELETE'
+        });
+        const deleteStarterOk = deleteStarterRes.ok || deleteStarterRes.status === 200;
+        const deletedListRes = await fetch('/api/flashcards/decks');
+        const deletedListData = await deletedListRes.json();
+        const deletedIds = Array.isArray(deletedListData.deletedDeckIds) ? deletedListData.deletedDeckIds : [];
+        const tombstoneRecorded = deletedIds.includes(starterId);
+        addResult('DELETE starter deck (tombstone)', deleteStarterOk && tombstoneRecorded, `Status: ${deleteStarterRes.status}, Tombstone: ${tombstoneRecorded}`);
+      } else {
+        // Free flow: blocked writes
+        const baseDeck = createBaseDeck(user.uid);
+        const createRes = await fetch('/api/flashcards/decks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ decks: [baseDeck] })
+        });
+        addResult('POST /api/flashcards/decks (create blocked)', createRes.status === 403, `Status: ${createRes.status}`);
+
+        const progressRes = await fetch('/api/flashcards/decks/fake-deck/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ deckStats: {}, cardUpdates: [] })
+        });
+        addResult('POST /api/flashcards/decks/[id]/progress (blocked)', progressRes.status === 403, `Status: ${progressRes.status}`);
+
+        const deletionsRes = await fetch('/api/flashcards/decks/fake-deck/deletions');
+        addResult('GET /api/flashcards/decks/[id]/deletions (blocked)', deletionsRes.status === 403, `Status: ${deletionsRes.status}`);
+
+        const r2MetadataRes = await fetch('/api/flashcards/r2/metadata', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            deckId: 'fake-deck',
+            name: 'Deck',
+            cardCount: 1,
+            hasMedia: false,
+            totalBytes: 10,
+            r2Keys: {
+              cardsKey: 'users/user-1/flashcards/fake-deck/cards.json',
+              manifestKey: 'users/user-1/flashcards/fake-deck/manifest.json',
+              mediaPrefix: 'users/user-1/flashcards/fake-deck/media/',
+            },
+          })
+        });
+        addResult('POST /api/flashcards/r2/metadata (blocked)', r2MetadataRes.status === 403, `Status: ${r2MetadataRes.status}`);
+
+        const r2UploadRes = await fetch('/api/flashcards/r2/upload-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ deckId: 'fake-deck', key: 'file.apkg' })
+        });
+        addResult('POST /api/flashcards/r2/upload-url (blocked)', r2UploadRes.status === 403, `Status: ${r2UploadRes.status}`);
+
+        const r2DeckRes = await fetch('/api/flashcards/r2/fake-deck');
+        addResult('GET /api/flashcards/r2/[id] (blocked)', r2DeckRes.status === 403, `Status: ${r2DeckRes.status}`);
+
+        // Starter deck seeding (local)
+        const starterDecks = await flashcardManager.ensureStarterDecks(user.uid, false);
+        addResult('Starter decks seeded (local)', starterDecks.length >= 3, `Count: ${starterDecks.length}`);
+      }
 
     } catch (error: any) {
       addResult('Error during tests', false, error.message);

@@ -46,6 +46,10 @@ export async function GET(
       )
     }
 
+    if (plan === 'free' || plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for cloud backup' }, { status: 403 })
+    }
+
     // 3. Get deck metadata
     const { deckId } = await params
 
@@ -180,6 +184,10 @@ export async function DELETE(
         },
         { status: decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (plan === 'free' || plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for cloud backup' }, { status: 403 })
     }
 
     // 3. Get deck metadata

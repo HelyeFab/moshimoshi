@@ -4592,6 +4592,7 @@ export const strings = {
 
   flashcards: {
     title: 'Flashcards',
+    description: 'Practice your Flashcards',
     pageTitle: 'Flashcard Decks',
     pageDescription: 'Create and study custom flashcard decks',
 
@@ -4679,6 +4680,13 @@ export const strings = {
       easy: 'Easy',
     },
 
+    resumeRemote: {
+      title: 'Resume session from another device?',
+      message: 'We found a newer flashcard session from another device. Do you want to resume it here?',
+      confirm: 'Resume',
+      cancel: 'Keep local',
+    },
+
     // Progress
     progress: 'Progress',
     cardsStudied: 'Cards studied',
@@ -4759,6 +4767,7 @@ export const strings = {
       includeProgress: 'Include progress data',
       exporting: 'Exporting...',
       success: 'Deck exported successfully',
+      noExportableDecks: 'No exportable decks available.',
     },
 
     // Image upload
@@ -4887,6 +4896,14 @@ export const strings = {
       dailyLimit: 'Daily limit: {{current}}/{{max}} reviews',
       unlimited: 'Unlimited decks',
     },
+
+    starterOnly: 'Free users can study starter decks only. Upgrade to create or import decks.',
+    upgradeToCreate: 'Upgrade to Premium to create or import decks.',
+    upgradeToDeleteStarter: 'Upgrade to Premium to delete starter decks.',
+    starterDeckLocked: 'Starter decks cannot be edited.',
+    starterDeckNoExport: 'Starter decks cannot be exported.',
+    upgradeToSync: 'Upgrade to Premium to sync goals, insights, and recommendations across devices.',
+    upgradeToSyncCta: 'Upgrade to Premium',
 
     // Daily Goals
     dailyGoals: {

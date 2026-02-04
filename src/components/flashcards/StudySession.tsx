@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useBatchMediaHydration } from '@/hooks/useMediaHydration';
 import Dialog from '@/components/ui/Dialog';
+import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
@@ -66,8 +67,10 @@ export function StudySession({
   const [slowestResponseTime, setSlowestResponseTime] = useState(initialState?.slowestResponseTime ?? 0);
   const [cardStartTime, setCardStartTime] = useState(Date.now());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
   const cardFlipMapRef = useRef<Map<string, boolean>>(new Map());
   const persistTimerRef = useRef<number | null>(null);
+  const remotePersistTimerRef = useRef<number | null>(null);
 
   // Track card types
   const [newCardsStudied, setNewCardsStudied] = useState(initialState?.newCardsStudied ?? 0);
@@ -89,10 +92,23 @@ export function StudySession({
     localStorage.removeItem(sessionKey);
   }, [sessionKey]);
 
+  const clearRemoteSession = useCallback(async () => {
+    if (!isPremium || !deck.id) return;
+    try {
+      await fetch(`/api/flashcards/active-session?deckId=${encodeURIComponent(deck.id)}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+    } catch (error) {
+      console.warn('[StudySession] Failed to clear remote session:', error);
+    }
+  }, [deck.id, isPremium]);
+
   const handleExit = useCallback(() => {
     clearPersistedSession();
+    clearRemoteSession();
     onExit();
-  }, [clearPersistedSession, onExit]);
+  }, [clearPersistedSession, clearRemoteSession, onExit]);
 
   // Batch preload media for a window around the current card for smooth study experience
   // Use useMemo to prevent creating new array reference on every render (causes infinite loop)
@@ -427,23 +443,44 @@ export function StudySession({
     }
 
     clearPersistedSession();
+    clearRemoteSession();
     onComplete(summary);
   }, [deck, sessionCards, responses, correctCount, incorrectCount, skippedCount,
       newCardsStudied, learningCardsStudied, reviewCardsStudied,
       streakCount, bestStreak, totalResponseTime, fastestResponseTime, slowestResponseTime,
-      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete, clearPersistedSession]);
+      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete, clearPersistedSession, clearRemoteSession]);
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        handleExit();
+        // Close shortcuts panel first if open, otherwise exit
+        if (showShortcuts) {
+          setShowShortcuts(false);
+        } else {
+          handleExit();
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [handleExit]);
+  }, [handleExit, showShortcuts]);
+
+  // Close shortcuts panel when clicking outside (same as kanji mastery)
+  useEffect(() => {
+    if (!showShortcuts) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.shortcuts-panel') && !target.closest('.shortcuts-badge')) {
+        setShowShortcuts(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showShortcuts]);
 
   useEffect(() => {
     if (!sessionKey || typeof window === 'undefined') return;
@@ -477,13 +514,37 @@ export function StudySession({
       savedAt: Date.now(),
     });
 
+    const payload = buildPayload();
     persistTimerRef.current = window.setTimeout(() => {
-      localStorage.setItem(sessionKey, JSON.stringify(buildPayload()));
+      localStorage.setItem(sessionKey, JSON.stringify(payload));
     }, 200);
+
+    if (isPremium) {
+      if (remotePersistTimerRef.current) {
+        window.clearTimeout(remotePersistTimerRef.current);
+      }
+      remotePersistTimerRef.current = window.setTimeout(() => {
+        const deviceId = getFlashcardsDeviceId();
+        fetch('/api/flashcards/active-session', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            ...payload,
+            deviceId: deviceId || undefined
+          }),
+        }).catch(error => {
+          console.warn('[StudySession] Failed to persist remote session:', error);
+        });
+      }, 5000);
+    }
 
     return () => {
       if (persistTimerRef.current) {
         window.clearTimeout(persistTimerRef.current);
+      }
+      if (remotePersistTimerRef.current) {
+        window.clearTimeout(remotePersistTimerRef.current);
       }
     };
   }, [
@@ -509,6 +570,7 @@ export function StudySession({
     elapsedTime,
     pausedTime,
     isPaused,
+    isPremium
   ]);
 
   useEffect(() => {
@@ -702,6 +764,85 @@ export function StudySession({
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {sessionCards.length > 0 ? Math.round((correctCount / (currentIndex + 1)) * 100) : 0}%
                 </span>
+              </div>
+
+              {/* Keyboard Shortcuts Badge - Desktop Only */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowShortcuts(!showShortcuts)}
+                  className="shortcuts-badge flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors text-sm font-medium shadow-sm"
+                  aria-label="Toggle keyboard shortcuts"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                  <span>Shortcuts</span>
+                </button>
+
+                {/* Shortcuts Panel */}
+                {showShortcuts && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="shortcuts-panel absolute top-full right-0 mt-2 bg-white dark:bg-dark-800 rounded-xl shadow-2xl border border-gray-200 dark:border-dark-700 p-4 w-80 z-50"
+                  >
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Keyboard Shortcuts
+                    </h3>
+                    <div className="space-y-2">
+                      {/* Navigation */}
+                      <div className="border-b border-gray-200 dark:border-dark-700 pb-2 mb-2">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Navigation</p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Flip Card</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Space</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Previous Card</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">←</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Next Card</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">→</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Exit / Close Shortcuts</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Esc</kbd>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Grading */}
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Grading</p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Again</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">1</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Hard</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">2</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Good</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">3</kbd>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-700 dark:text-gray-300">Easy</span>
+                            <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">4</kbd>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
               </div>
 
               {/* Exit Button */}

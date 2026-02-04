@@ -1,7 +1,7 @@
 # Entitlements & Gating – Feature Guide
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-01-30
+**Last Updated:** 2026-02-04
 
 ## Overview
 This guide documents how entitlements are configured and enforced across the app. It covers client gating patterns, server enforcement, and the UX standards for quotas and premium-only features.
@@ -53,6 +53,12 @@ If users can browse lists but limit the “start” action, do:
 - List page: show `FeatureUsageIndicator` and allow browsing.
 - Start button: `checkOnly({ failOpen: false })`, then navigate.
 - Session completion: `checkAndTrack()` if usage should be consumed after success.
+
+### Pattern D: Free access with premium creation/sync (Flashcards)
+Flashcards is now free to access but still premium-gated for creation/import and cloud sync.
+- Page access: allow free via `flashcards` feature (daily limit = `-1`).
+- Creation/import: gate with `flashcard_decks` and `anki_imports` (free limit = `0`).
+- Session analytics sync: premium-only via `flashcard_daily_reviews` on server.
 
 ## Client Hook Usage
 - `checkOnly({ failOpen: false })` → enforce access without consuming quota.

@@ -53,6 +53,22 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
   // Load goals and streak from localStorage or Firebase (premium)
   useEffect(() => {
     const loadGoals = async () => {
+      if (!isPremium) {
+        setGoals({
+          cardsToReview: 30,
+          minutesToStudy: 15,
+          decksToVisit: 2,
+          accuracyTarget: 80
+        })
+        setTempGoals({
+          cardsToReview: 30,
+          minutesToStudy: 15,
+          decksToVisit: 2,
+          accuracyTarget: 80
+        })
+        return
+      }
+
       let localGoals: DailyGoal | null = null
       const savedGoals = localStorage.getItem(`dailyGoals_${userId}`);
       if (savedGoals) {

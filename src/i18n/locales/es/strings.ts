@@ -4067,6 +4067,7 @@ export const strings = {
   },
   flashcards: {
     title: 'Tarjetas de Memoria',
+    description: 'Practica tus Tarjetas de Memoria',
     pageTitle: 'Mazos de Tarjetas',
     pageDescription: 'Crea y estudia mazos de tarjetas personalizados',
     noDecksYet: 'Aún no hay mazos',
@@ -4140,6 +4141,12 @@ export const strings = {
       good: 'Bien',
       easy: 'Fácil',
     },
+    resumeRemote: {
+      title: '¿Reanudar sesión en otro dispositivo?',
+      message: 'Encontramos una sesión de flashcards más reciente en otro dispositivo. ¿Quieres reanudarla aquí?',
+      confirm: 'Reanudar',
+      cancel: 'Mantener local',
+    },
     progress: 'Progreso',
     cardsStudied: 'Tarjetas estudiadas',
     accuracy: 'Precisión',
@@ -4148,7 +4155,7 @@ export const strings = {
     studyToMaintainStreak: 'Estudia hoy para mantener tu racha',
     masteryLevel: 'Maestría',
     dueForReview: 'Para revisar',
-    due: 'due',
+    due: 'pendiente',
     newCards: 'Tarjetas nuevas',
     learningCards: 'Aprendiendo',
     reviewCards: 'Revisar',
@@ -4210,6 +4217,7 @@ export const strings = {
       includeProgress: 'Incluir datos de progreso',
       exporting: 'Exportando...',
       success: 'Mazo exportado con éxito',
+      noExportableDecks: 'No hay mazos exportables disponibles.',
     },
     image: {
       uploadFile: 'Subir imagen',
@@ -4319,6 +4327,15 @@ export const strings = {
       dailyLimit: 'Límite diario: {{current}}/{{max}}',
       unlimited: 'Mazos ilimitados',
     },
+
+    starterOnly: 'Los usuarios gratuitos solo pueden estudiar mazos de inicio. Actualiza para crear o importar mazos.',
+    upgradeToCreate: 'Actualiza a Premium para crear o importar mazos.',
+    upgradeToDeleteStarter: 'Actualiza a Premium para eliminar mazos de inicio.',
+    starterDeckLocked: 'Los mazos de inicio no se pueden editar.',
+    starterDeckNoExport: 'Los mazos de inicio no se pueden exportar.',
+    upgradeToSync: 'Actualiza a Premium para sincronizar objetivos, insights y recomendaciones entre dispositivos.',
+    upgradeToSyncCta: 'Actualizar a Premium',
+
     dailyGoals: {
       title: 'Objetivos Diarios',
       progress: '{{percentage}}% completado',

@@ -133,6 +133,12 @@ service cloud.firestore {
       allow write: if false; // Only server writes aggregates
     }
 
+    // Flashcard active sessions (premium sync via server only)
+    match /users/{userId}/flashcardActiveSessions/{deckId} {
+      allow read: if isOwner(userId);
+      allow write: if false; // Only server writes
+    }
+
     // Flashcard daily goals (premium sync)
     match /flashcardGoals/{userId} {
       allow read: if isOwner(userId);

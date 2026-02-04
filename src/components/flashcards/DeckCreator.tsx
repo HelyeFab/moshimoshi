@@ -204,7 +204,8 @@ export function DeckCreator({
 
   const handleImportSource = async (source: ImportSource) => {
     // Redirect free users to pricing for premium features
-    if ((source === 'anki' || source === 'csv') && !isPremium) {
+    if (!isPremium) {
+      showToast(t('flashcards.upgradeToCreate'), 'error')
       router.push('/pricing')
       return
     }
@@ -617,15 +618,30 @@ export function DeckCreator({
                     <button
                       onClick={() => handleImportSource('scratch')}
                       data-testid="flashcards-source-scratch"
-                      className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
+                      className={cn(
+                        'p-4 sm:p-6 rounded-xl border-2 transition-all group flex flex-col items-center text-center relative',
+                        !isPremium
+                          ? 'border-gray-200 dark:border-gray-700 opacity-75 hover:border-orange-400 dark:hover:border-orange-600'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600'
+                      )}
                     >
-                      <Plus className="w-6 sm:w-8 h-6 sm:h-8 text-primary-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                      <Plus
+                        className={cn(
+                          'w-6 sm:w-8 h-6 sm:h-8 mb-2 sm:mb-3 group-hover:scale-110 transition-transform',
+                          isPremium ? 'text-primary-500' : 'text-gray-400 dark:text-gray-600'
+                        )}
+                      />
                       <h3 className="font-semibold mb-1 text-sm sm:text-base">
                         {t('common.create')}
                       </h3>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         {t('flashcards.empty.createFirst')}
                       </p>
+                      {!isPremium && (
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                          {t('common.premiumOnly')}
+                        </span>
+                      )}
                     </button>
 
                     <button

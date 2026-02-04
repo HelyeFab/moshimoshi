@@ -4069,6 +4069,7 @@ export const strings = {
   },
   flashcards: {
     title: 'Lernkarten',
+    description: 'Üben Sie Ihre Lernkarten',
     pageTitle: 'Lernkarten-Stapel',
     pageDescription: 'Erstellen und lernen Sie mit benutzerdefinierten Lernkarten',
     noDecksYet: 'Noch keine Stapel',
@@ -4142,6 +4143,12 @@ export const strings = {
       good: 'Gut',
       easy: 'Einfach',
     },
+    resumeRemote: {
+      title: 'Sitzung auf einem anderen Gerät fortsetzen?',
+      message: 'Wir haben eine neuere Flashcard-Sitzung auf einem anderen Gerät gefunden. Möchten Sie sie hier fortsetzen?',
+      confirm: 'Fortsetzen',
+      cancel: 'Lokal behalten',
+    },
     progress: 'Fortschritt',
     cardsStudied: 'Gelernte Karten',
     accuracy: 'Genauigkeit',
@@ -4150,7 +4157,7 @@ export const strings = {
     studyToMaintainStreak: 'Lerne heute, um deine Serie aufrechtzuerhalten',
     masteryLevel: 'Beherrschung',
     dueForReview: 'Zur Überprüfung',
-    due: 'due',
+    due: 'fällig',
     newCards: 'Neue Karten',
     learningCards: 'Am Lernen',
     reviewCards: 'Überprüfen',
@@ -4212,6 +4219,7 @@ export const strings = {
       includeProgress: 'Fortschrittsdaten einbeziehen',
       exporting: 'Exportiere...',
       success: 'Stapel erfolgreich exportiert',
+      noExportableDecks: 'Keine exportierbaren Stapel verfügbar.',
     },
     image: {
       uploadFile: 'Bild hochladen',
@@ -4321,6 +4329,15 @@ export const strings = {
       dailyLimit: 'Tageslimit: {{current}}/{{max}}',
       unlimited: 'Unbegrenzte Stapel',
     },
+
+    starterOnly: 'Kostenlose Benutzer können nur Starter-Stapel lernen. Upgraden Sie, um Stapel zu erstellen oder zu importieren.',
+    upgradeToCreate: 'Upgraden Sie auf Premium, um Stapel zu erstellen oder zu importieren.',
+    upgradeToDeleteStarter: 'Upgraden Sie auf Premium, um Starter-Stapel zu löschen.',
+    starterDeckLocked: 'Starter-Stapel können nicht bearbeitet werden.',
+    starterDeckNoExport: 'Starter-Stapel können nicht exportiert werden.',
+    upgradeToSync: 'Upgraden Sie auf Premium, um Ziele, Einblicke und Empfehlungen geräteübergreifend zu synchronisieren.',
+    upgradeToSyncCta: 'Auf Premium upgraden',
+
     optimalSettings: 'Optimale Einstellungen',
     sessionLength: 'Sitzungsdauer',
     studyTime: 'Lernzeit',

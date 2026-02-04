@@ -52,6 +52,10 @@ export function DeckGrid({
   const menuRef = useRef<HTMLDivElement>(null);
   const menuActionInProgressRef = useRef(false);
   const selectionEnabled = Boolean(selectedDeckIds && onToggleSelect);
+  const canEditDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
+  const canDeleteDeck = () => isPremium;
+  const canExportDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
+  const canSyncDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
 
   // Track openMenuId changes
   useEffect(() => {
@@ -223,7 +227,7 @@ export function DeckGrid({
           <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
 
           {/* Management Options */}
-          {onEditDeck && (
+          {onEditDeck && canEditDeck(deck) && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -244,7 +248,7 @@ export function DeckGrid({
             </button>
           )}
 
-          {onDeleteDeck && (
+          {onDeleteDeck && canDeleteDeck() && (
             <button
               onClick={(e) => {
                 console.log('[DeckGrid Menu] Delete clicked', {
@@ -279,7 +283,7 @@ export function DeckGrid({
             </button>
           )}
 
-          {onExportDeck && (
+          {onExportDeck && canExportDeck(deck) && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -301,7 +305,7 @@ export function DeckGrid({
           )}
 
           {/* Premium Sync Option */}
-          {isPremium && onSyncDeck && (
+          {onSyncDeck && canSyncDeck(deck) && (
             <>
               <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
               <button
@@ -409,7 +413,7 @@ export function DeckGrid({
               {dueCount > 0 && (
                 <div className="absolute bottom-3 right-3">
                   <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full shadow-sm">
-                    {dueCount} due
+                    {dueCount} {t('flashcards.due')}
                   </span>
                 </div>
               )}

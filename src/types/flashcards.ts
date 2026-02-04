@@ -19,6 +19,7 @@ export interface FlashcardDeck {
   stats: DeckStats;
   createdAt: number;
   updatedAt: number;
+  isStarter?: boolean;
   sourceListId?: string; // Link to UserList if created from list
   source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
   tags?: string[];
@@ -159,6 +160,7 @@ export interface CreateDeckRequest {
   color?: string;
   cardStyle?: CardStyle;
   source?: 'anki' | 'user';
+  isStarter?: boolean;
   settings?: Partial<DeckSettings>;
   sourceListId?: string;
   initialCards?: Array<{
@@ -234,6 +236,7 @@ export interface PersistedStudySession {
   pausedTime: number;
   isPaused: boolean;
   savedAt: number;
+  deviceId?: string;
 }
 
 export interface ReviewResult {

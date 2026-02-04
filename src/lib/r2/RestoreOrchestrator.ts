@@ -44,7 +44,7 @@ export class RestoreOrchestrator extends EventEmitter {
   constructor(userId: string, restoreQueue?: RestoreQueue, abortSignal?: AbortSignal) {
     super()
     this.userId = userId
-    this.downloadQueue = new PQueue({ concurrency: 5 }) // 5 concurrent downloads
+    this.downloadQueue = new PQueue({ concurrency: 3 }) // keep concurrency bounded
     this.restoreQueue = restoreQueue
     this.abortSignal = abortSignal
   }
@@ -179,6 +179,16 @@ export class RestoreOrchestrator extends EventEmitter {
     return await response.blob()
   }
 
+  private async downloadFileWithUrl(url: string, key: string): Promise<Blob> {
+    const response = await fetch(url, { signal: this.abortSignal })
+
+    if (!response.ok) {
+      throw new Error(`Failed to download ${key}`)
+    }
+
+    return await response.blob()
+  }
+
   private async downloadMediaBatch(
     manifest: R2Manifest,
     deckId: string
@@ -202,45 +212,13 @@ export class RestoreOrchestrator extends EventEmitter {
     let downloaded = 0
     const total = mediaEntries.length
 
-    await this.downloadQueue.addAll(
-      mediaEntries.map(entry => async () => {
-        if (this.abortSignal?.aborted) {
-          return
-        }
-        const alreadyRestored = restoredFiles?.has(entry.name)
-        const cached = existingIds.has(entry.name) || existingIds.has(buildAnkiMediaKey(deckId, entry.name))
+    const entriesToDownload: Array<{ entry: (typeof mediaEntries)[number]; key: string }> = []
 
-        if (cached || alreadyRestored) {
-          downloaded++
-          const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
-          this.emit('progress', {
-            phase: 'downloading-media',
-            progress,
-            currentFile: entry.name,
-            filesDownloaded: downloaded,
-            totalFiles: total,
-          } as RestoreProgress)
-          return
-        }
+    for (const entry of mediaEntries) {
+      const alreadyRestored = restoredFiles?.has(entry.name)
+      const cached = existingIds.has(entry.name) || existingIds.has(buildAnkiMediaKey(deckId, entry.name))
 
-        const key = `users/${this.userId}/decks/${deckId}/media/${entry.name}`
-
-        try {
-          const blob = await this.downloadFile(key)
-
-          // Verify hash
-          const hash = await hashBlob(blob)
-          if (hash !== entry.sha256) {
-            console.warn(`[RestoreOrchestrator] Hash mismatch for ${entry.name}`)
-            // Continue anyway - partial media is OK per Decision 11
-          }
-
-          mediaFiles.set(entry.name, blob)
-        } catch (error) {
-          console.error(`[RestoreOrchestrator] Failed to download ${entry.name}:`, error)
-          // Continue - missing media is OK per Decision 11
-        }
-
+      if (cached || alreadyRestored) {
         downloaded++
         const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
         this.emit('progress', {
@@ -250,8 +228,64 @@ export class RestoreOrchestrator extends EventEmitter {
           filesDownloaded: downloaded,
           totalFiles: total,
         } as RestoreProgress)
+        continue
+      }
+
+      entriesToDownload.push({
+        entry,
+        key: `users/${this.userId}/decks/${deckId}/media/${entry.name}`,
       })
-    )
+    }
+
+    const batchSize = 25
+    for (let i = 0; i < entriesToDownload.length; i += batchSize) {
+      if (this.abortSignal?.aborted) {
+        break
+      }
+
+      const batch = entriesToDownload.slice(i, i + batchSize)
+      const urls = await this.getSignedDownloadUrls(deckId, batch.map(item => item.key))
+      const urlMap = new Map(urls.map(item => [item.key, item.url]))
+
+      await this.downloadQueue.addAll(
+        batch.map(({ entry, key }) => async () => {
+          if (this.abortSignal?.aborted) {
+            return
+          }
+
+          const url = urlMap.get(key)
+          if (!url) {
+            console.error(`[RestoreOrchestrator] Missing download URL for ${entry.name}`)
+          } else {
+            try {
+              const blob = await this.downloadFileWithUrl(url, key)
+
+              // Verify hash
+              const hash = await hashBlob(blob)
+              if (hash !== entry.sha256) {
+                console.warn(`[RestoreOrchestrator] Hash mismatch for ${entry.name}`)
+                // Continue anyway - partial media is OK per Decision 11
+              }
+
+              mediaFiles.set(entry.name, blob)
+            } catch (error) {
+              console.error(`[RestoreOrchestrator] Failed to download ${entry.name}:`, error)
+              // Continue - missing media is OK per Decision 11
+            }
+          }
+
+          downloaded++
+          const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
+          this.emit('progress', {
+            phase: 'downloading-media',
+            progress,
+            currentFile: entry.name,
+            filesDownloaded: downloaded,
+            totalFiles: total,
+          } as RestoreProgress)
+        })
+      )
+    }
 
     return mediaFiles
   }
@@ -370,6 +404,24 @@ export class RestoreOrchestrator extends EventEmitter {
 
     const data = await response.json()
     return data.url
+  }
+
+  private async getSignedDownloadUrls(
+    deckId: string,
+    keys: string[]
+  ): Promise<Array<{ key: string; url: string }>> {
+    const response = await fetch('/api/anki/r2/download-urls', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deckId, keys }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to get download URLs')
+    }
+
+    const data = await response.json()
+    return Array.isArray(data?.urls) ? data.urls : []
   }
 
   private async fetchDeletedCardIds(deckId: string): Promise<Set<string>> {

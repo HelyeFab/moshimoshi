@@ -21,6 +21,7 @@ import { storageManager } from './StorageManager'
 import { FlashcardSRSHelper } from './SRSHelper'
 import featuresConfig from '../../../config/features.v1.json'
 import type { PlanType } from '@/lib/access/permissionMap'
+import { STARTER_DECKS } from './starterDecks'
 
 interface FlashcardDB {
   decks: FlashcardDeck
@@ -133,6 +134,10 @@ export class FlashcardManager {
     return card as FlashcardContent;
   }
 
+  private getSideText(side: CardSide | string): string {
+    return typeof side === 'string' ? side : side.text
+  }
+
   // Initialize IndexedDB
   private async initDB(): Promise<IDBPDatabase<FlashcardDB>> {
     if (this.db) return this.db
@@ -235,6 +240,130 @@ export class FlashcardManager {
     return decks.sort((a, b) => b.updatedAt - a.updatedAt)
   }
 
+  private async getServerDeletedDeckIds(): Promise<Set<string>> {
+    try {
+      const response = await fetch('/api/flashcards/decks', {
+        method: 'GET',
+        credentials: 'include',
+      })
+
+      if (!response.ok) return new Set()
+      const data = await response.json()
+      const deletedDeckIds = Array.isArray(data?.deletedDeckIds) ? data.deletedDeckIds : []
+      return new Set(deletedDeckIds.filter((id: any) => typeof id === 'string'))
+    } catch (error) {
+      return new Set()
+    }
+  }
+
+  async ensureStarterDecks(userId: string, isPremium: boolean): Promise<FlashcardDeck[]> {
+    if (!userId || userId === 'guest') {
+      return this.getDecks(userId, isPremium)
+    }
+
+    const existingDecks = await this.getDecks(userId, isPremium)
+    if (existingDecks.length > 0) {
+      return existingDecks
+    }
+
+    const localTombstones = await this.getDeletedDeckTombstones(userId)
+    const serverTombstones = isPremium ? await this.getServerDeletedDeckIds() : new Set<string>()
+
+    const starterDecksToCreate = STARTER_DECKS.filter(deck => {
+      if (!deck.id) return false
+      if (localTombstones.has(deck.id)) return false
+      if (serverTombstones.has(deck.id)) return false
+      return true
+    })
+
+    if (starterDecksToCreate.length === 0) {
+      return existingDecks
+    }
+
+    for (const starter of starterDecksToCreate) {
+      await this.createDeck(
+        {
+          ...starter,
+          isStarter: true,
+        },
+        userId,
+        isPremium
+      )
+    }
+
+    return this.getDecks(userId, isPremium)
+  }
+
+  async backfillStarterDeckMedia(
+    userId: string,
+    decks: FlashcardDeck[]
+  ): Promise<FlashcardDeck[]> {
+    if (!userId || userId === 'guest' || decks.length === 0) {
+      return decks
+    }
+
+    const starterById = new Map<string, CreateDeckRequest>()
+    for (const deck of STARTER_DECKS) {
+      if (deck.id) starterById.set(deck.id, deck)
+    }
+
+    const decksToUpdate: FlashcardDeck[] = []
+    const updatedDecks = decks.map(deck => {
+      if (!deck.isStarter || !deck.id) return deck
+      const starterDeck = starterById.get(deck.id)
+      if (!starterDeck) return deck
+
+      const starterCardsByKey = new Map<string, NonNullable<CreateDeckRequest['initialCards']>[number]>()
+      const starterCards = starterDeck.initialCards || []
+      for (const starterCard of starterCards) {
+        const key = `${this.getSideText(starterCard.front)}::${this.getSideText(starterCard.back)}`
+        starterCardsByKey.set(key, starterCard)
+      }
+
+      let hasChanges = false
+      const updatedCards = deck.cards.map(card => {
+        const key = `${this.getSideText(card.front)}::${this.getSideText(card.back)}`
+        const starterCard = starterCardsByKey.get(key)
+        if (!starterCard || typeof starterCard.front === 'string') {
+          return card
+        }
+
+        const starterMedia = starterCard.front.media
+        if (!starterMedia || typeof card.front === 'string' || card.front.media) {
+          return card
+        }
+
+        hasChanges = true
+        return {
+          ...card,
+          front: {
+            ...card.front,
+            media: starterMedia,
+          },
+        }
+      })
+
+      if (!hasChanges) return deck
+
+      const updatedDeck = {
+        ...deck,
+        cards: updatedCards,
+        updatedAt: Date.now(),
+      }
+      decksToUpdate.push(updatedDeck)
+      return updatedDeck
+    })
+
+    if (decksToUpdate.length > 0) {
+      const db = await this.initDB()
+      for (const deck of decksToUpdate) {
+        await db.put('decks', deck)
+      }
+    }
+
+    return updatedDecks
+  }
+
   // Get a single deck by ID
   async getDeck(deckId: string, userId: string): Promise<FlashcardDeck | null> {
     const db = await this.initDB()
@@ -255,6 +384,13 @@ export class FlashcardManager {
   ): Promise<FlashcardDeck | null> {
     const db = await this.initDB()
     const now = Date.now()
+    const isStarter = request.isStarter === true
+
+    if (!isPremium && !isStarter) {
+      const error = new Error('STARTER_ONLY')
+      ;(error as any).code = 'STARTER_ONLY'
+      throw error
+    }
 
     // Check storage quota before creating deck
     const estimatedSize = storageManager.calculateDeckSize({
@@ -270,18 +406,20 @@ export class FlashcardManager {
       throw error
     }
 
-    // Check deck limit before creating deck
-    const userTier = isPremium ? 'premium_yearly' : 'free'
-    const limits = FlashcardManager.getDeckLimits(userTier)
+    // Check deck limit before creating deck (skip for starter decks)
+    if (!isStarter) {
+      const userTier = isPremium ? 'premium_yearly' : 'free'
+      const limits = FlashcardManager.getDeckLimits(userTier)
 
-    // Get existing user decks (exclude Anki decks from count)
-    const existingDecks = await this.getDecks(userId, isPremium)
-    const userDecks = existingDecks.filter(d => d.source !== 'anki')
+      // Get existing user decks (exclude Anki decks from count)
+      const existingDecks = await this.getDecks(userId, isPremium)
+      const userDecks = existingDecks.filter(d => d.source !== 'anki')
 
-    if (limits.maxDecks !== -1 && userDecks.length >= limits.maxDecks) {
-      const error = new Error(`DECK_LIMIT_REACHED: You've reached the maximum of ${limits.maxDecks} decks for your plan`)
-      error.name = 'DECK_LIMIT_REACHED'
-      throw error
+      if (limits.maxDecks !== -1 && userDecks.length >= limits.maxDecks) {
+        const error = new Error(`DECK_LIMIT_REACHED: You've reached the maximum of ${limits.maxDecks} decks for your plan`)
+        error.name = 'DECK_LIMIT_REACHED'
+        throw error
+      }
     }
 
     const deck: FlashcardDeck = {
@@ -293,6 +431,7 @@ export class FlashcardManager {
       color: request.color || 'primary',
       cardStyle: request.cardStyle || 'minimal',
       source: request.source || 'user',
+      isStarter: isStarter || undefined,
       cards: [],
       settings: {
         studyDirection: 'front-to-back',
@@ -350,7 +489,7 @@ export class FlashcardManager {
     }
 
     // Sync to Firebase for premium users (non-blocking)
-    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki' && !deck.isStarter) {
       this.syncDeckToFirebase(deck, userId).catch(err => {
         console.error('[FlashcardManager.createDeck] Firebase sync failed:', err)
         // Don't throw - local deck is already created
@@ -359,7 +498,7 @@ export class FlashcardManager {
 
     // Upload to R2 for premium users with user decks (non-blocking)
     // CRITICAL: Source check ensures only user decks are uploaded
-    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki' && !deck.isStarter) {
       this.uploadDeckToR2(deck, userId).catch(err => {
         console.error('[FlashcardManager.createDeck] R2 upload failed:', err)
         // Don't throw - local deck is already created
@@ -384,6 +523,12 @@ export class FlashcardManager {
     if (!existingDeck || existingDeck.userId !== userId) {
       console.error('[FlashcardManager.updateDeck] Deck not found or unauthorized')
       return null
+    }
+
+    if (existingDeck.isStarter) {
+      const error = new Error('STARTER_DECK_LOCKED')
+      ;(error as any).code = 'STARTER_DECK_LOCKED'
+      throw error
     }
 
     // Update deck properties
@@ -843,6 +988,12 @@ export class FlashcardManager {
 
     if (!deck) return null
 
+    if (deck.isStarter) {
+      const error = new Error('STARTER_DECK_LOCKED')
+      ;(error as any).code = 'STARTER_DECK_LOCKED'
+      throw error
+    }
+
     // Apply updates
     Object.assign(deck, updates)
     deck.updatedAt = Date.now()
@@ -893,7 +1044,7 @@ export class FlashcardManager {
     this.notifyListeners('decks-changed')
 
     // Sync to Firebase for premium users (non-blocking)
-    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki' && !deck.isStarter) {
       this.syncDeckToFirebase(deck, userId).catch(err => {
         console.error('[FlashcardManager.updateDeck] Firebase sync failed:', err)
         // Don't throw - local deck is already updated
@@ -924,6 +1075,7 @@ export class FlashcardManager {
     const deck = await this.getDeck(deckId, userId)
 
     if (!deck) return false
+    if (deck.isStarter && !isPremium) return false
 
     // Delete from local storage first
     await db.delete('decks', deckId)
@@ -959,7 +1111,7 @@ export class FlashcardManager {
 
     // Delete from R2 for premium users with user decks (non-blocking)
     // CRITICAL: Source check ensures only user decks are deleted from R2
-    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki' && !deck.isStarter) {
       this.deleteDeckFromR2(deckId, userId, deck.source).catch(err => {
         console.error('[FlashcardManager.deleteDeck] R2 deletion failed:', err)
         // Don't throw - local deletion already succeeded
@@ -1002,6 +1154,12 @@ export class FlashcardManager {
 
     if (!deck) {
       throw new Error('Deck not found')
+    }
+
+    if (deck.isStarter) {
+      const error = new Error('STARTER_EXPORT_FORBIDDEN')
+      ;(error as any).code = 'STARTER_EXPORT_FORBIDDEN'
+      throw error
     }
 
     if (format === 'json') {
@@ -1092,6 +1250,10 @@ export class FlashcardManager {
         console.log('[FlashcardManager.syncDeckToFirebase] Skipping Anki deck:', deck.name)
         return
       }
+      if (deck.isStarter) {
+        console.log('[FlashcardManager.syncDeckToFirebase] Skipping starter deck:', deck.name)
+        return
+      }
 
       const tombstones = await this.getDeletedDeckTombstones(userId)
       if (tombstones.has(deck.id)) {
@@ -1138,9 +1300,9 @@ export class FlashcardManager {
     // Get all local decks
     const localDecks = await this.getDecks(userId, isPremium)
 
-    // CRITICAL: Filter out Anki decks
+    // CRITICAL: Filter out Anki decks and starter decks
     const tombstones = await this.getDeletedDeckTombstones(userId)
-    const userDecks = localDecks.filter(d => d.source !== 'anki' && !tombstones.has(d.id))
+    const userDecks = localDecks.filter(d => d.source !== 'anki' && !d.isStarter && !tombstones.has(d.id))
 
     console.log('[FlashcardManager.syncAllDecksToFirebase] Decks to sync:', {
       total: localDecks.length,
@@ -1651,6 +1813,10 @@ export class FlashcardManager {
       console.log('[FlashcardManager.uploadDeckToR2] Skipping Anki deck - not uploading to user deck R2 path')
       return
     }
+    if (deck.isStarter) {
+      console.log('[FlashcardManager.uploadDeckToR2] Skipping starter deck - local-only')
+      return
+    }
 
     try {
       const { getUserDeckUploadQueue } = await import('@/lib/r2/UserDeckUploadQueue')
@@ -1700,6 +1866,11 @@ export class FlashcardManager {
     // CRITICAL: Source filtering - only delete user decks from R2
     if (source === 'anki') {
       console.log('[FlashcardManager.deleteDeckFromR2] Skipping Anki deck - not deleting from user deck R2 path')
+      return
+    }
+    const deck = await this.getDeck(deckId, userId)
+    if (deck?.isStarter) {
+      console.log('[FlashcardManager.deleteDeckFromR2] Skipping starter deck - local-only')
       return
     }
 

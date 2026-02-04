@@ -50,6 +50,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import ActionMenu from '@/components/ui/ActionMenu'
+import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -72,6 +73,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const params = useParams<{ locale?: string }>()
   const { user, loading: authLoading } = useAuth()
   const { showToast } = useToast()
+  const locale = params?.locale || 'en'
+  const pricingPath = `/${locale}/pricing?from=flashcards`
+
+  const redirectToPricing = (message: string) => {
+    showToast(message, 'error')
+    router.push(pricingPath)
+  }
 
   // Initialize state with server data (will be empty for local-only mode)
   const [decks, setDecks] = useState<FlashcardDeck[]>(initialData.decks)
@@ -120,6 +128,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [showSyncInfoModal, setShowSyncInfoModal] = useState(false)
   const [selectedDeckIds, setSelectedDeckIds] = useState<Set<string>>(new Set())
   const [selectAllMode, setSelectAllMode] = useState(false)
+  const [pendingRemoteSession, setPendingRemoteSession] = useState<PersistedStudySession | null>(null)
+  const [showRemoteSessionDialog, setShowRemoteSessionDialog] = useState(false)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -133,7 +143,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const userTier = initialData.tier
   const limits = FlashcardManager.getDeckLimits(userTier)
   const effectiveUserId = initialData.userId || user?.uid || (userTier === 'guest' ? 'guest' : null)
-  const locale = typeof params?.locale === 'string' && params.locale.length > 0 ? params.locale : 'en'
   const showFlashcardsTestButton = process.env.NODE_ENV !== 'production'
 
   // Debug logging
@@ -254,7 +263,37 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       return
     }
 
+    const checkRemoteSession = async (localSession: PersistedStudySession) => {
+      if (!initialData.userId || !isPremium) return false
+      try {
+        const deviceId = getFlashcardsDeviceId()
+        const response = await fetch('/api/flashcards/active-session', {
+          method: 'GET',
+          credentials: 'include'
+        })
+        if (!response.ok) return false
+        const data = await response.json()
+        const remote = data?.session as PersistedStudySession | null
+        if (!remote || remote.userId !== initialData.userId) return false
+        if (deviceId && remote.deviceId && remote.deviceId === deviceId) return false
+        const remoteIsNewer = (remote.savedAt || 0) > (localSession.savedAt || 0)
+        if (remoteIsNewer) {
+          setPendingRemoteSession(remote)
+          setShowRemoteSessionDialog(true)
+          return true
+        }
+        return false
+      } catch {
+        return false
+      }
+    }
+
     const restoreSession = async () => {
+      const shouldUseRemote = await checkRemoteSession(stored!)
+      if (shouldUseRemote) {
+        return
+      }
+
       const deck = await flashcardManager.getDeck(stored!.deckId, ownerId)
       if (!deck || !deck.cards?.length) {
         localStorage.removeItem(storageKey)
@@ -302,9 +341,50 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     loading,
     authLoading,
     initialData.userId,
+    isPremium,
     user?.uid,
     userTier,
   ])
+
+  useEffect(() => {
+    if (studyingDeck || loading || authLoading) return
+    if (!initialData.userId || !isPremium) return
+    if (resumeSessionState) return
+    if (typeof window === 'undefined') return
+
+    const localKey = `flashcards_active_session_${initialData.userId}`
+    let localSession: PersistedStudySession | null = null
+    const raw = localStorage.getItem(localKey)
+    if (raw) {
+      try {
+        localSession = JSON.parse(raw) as PersistedStudySession
+      } catch {
+        localSession = null
+      }
+    }
+    const localSavedAt = localSession?.savedAt ?? 0
+
+    const fetchRemote = async () => {
+      const deviceId = getFlashcardsDeviceId()
+      const response = await fetch('/api/flashcards/active-session', {
+        method: 'GET',
+        credentials: 'include'
+      })
+      if (!response.ok) return
+      const data = await response.json()
+      const remote = data?.session as PersistedStudySession | null
+      if (!remote || remote.userId !== initialData.userId) return
+      if (deviceId && remote.deviceId && remote.deviceId === deviceId) return
+
+      const remoteIsNewer = (remote.savedAt || 0) > localSavedAt
+      if (remoteIsNewer) {
+        setPendingRemoteSession(remote)
+        setShowRemoteSessionDialog(true)
+      }
+    }
+
+    fetchRemote().catch(() => {})
+  }, [studyingDeck, loading, authLoading, initialData.userId, isPremium, resumeSessionState])
 
   useEffect(() => {
     if (!r2Queue) return
@@ -391,6 +471,12 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }, [decks, selectedDeckIds])
 
   useEffect(() => {
+    if (!isPremium && !showInsights) {
+      setShowInsights(true)
+    }
+  }, [isPremium, showInsights])
+
+  useEffect(() => {
     if (!selectAllMode) return
     if (decks.length === 0) return
     setSelectedDeckIds(new Set(decks.map(deck => deck.id)))
@@ -462,7 +548,15 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       setLoading(true)
 
       // Load flashcard decks - FlashcardManager handles both regular and Anki decks
-      const userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
+      let userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
+
+      if (initialData.userId && userTier !== 'guest' && userDecks.length === 0) {
+        userDecks = await flashcardManager.ensureStarterDecks(initialData.userId, isPremium)
+      }
+
+      if (initialData.userId && userTier !== 'guest' && userDecks.length > 0) {
+        userDecks = await flashcardManager.backfillStarterDeckMedia(initialData.userId, userDecks)
+      }
 
       setDecks(userDecks)
 
@@ -1209,6 +1303,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
   const handleExportAll = async () => {
     if (!initialData.userId) return
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+    if (!decks.some(deck => !deck.isStarter)) {
+      showToast(t('flashcards.export.noExportableDecks'), 'info')
+      return
+    }
 
     try {
       const jsonData = await migrationManager.exportAllDecks(initialData.userId)
@@ -1239,6 +1341,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleCreateDeck = async (deckRequest: CreateDeckRequest) => {
     if (!initialData.userId) {
       showToast(t('flashcards.limits.guest'), 'error')
+      return
+    }
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
 
@@ -1295,6 +1401,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       showToast(t('flashcards.errors.updateFailed'), 'error')
       return
     }
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+    if (editingDeck.isStarter) {
+      showToast(t('flashcards.starterDeckLocked'), 'error')
+      return
+    }
 
     try {
       const updatedDeck = await flashcardManager.updateFullDeck(
@@ -1320,6 +1434,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleEditDeck = (deck: FlashcardDeck) => {
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+    if (deck.isStarter) {
+      showToast(t('flashcards.starterDeckLocked'), 'error')
+      return
+    }
     setEditingDeck(deck)
     setShowCreator(true)
   }
@@ -1327,6 +1449,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleOpenDeckCreator = () => {
     if (!initialData.userId) {
       showToast(t('flashcards.limits.guest'), 'error')
+      return
+    }
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
 
@@ -1344,6 +1470,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleDeleteDeck = (deck: FlashcardDeck) => {
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToDeleteStarter'))
+      return
+    }
     setDeckToDelete(deck)
     setShowDeleteDialog(true)
   }
@@ -1390,6 +1520,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
   const handleBulkDeleteSelected = async () => {
     if (!effectiveUserId || selectedDeckIds.size === 0) return
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToDeleteStarter'))
+      return
+    }
 
     const selectedDecks = decks.filter(deck => selectedDeckIds.has(deck.id))
     if (selectedDecks.length === 0) return
@@ -1493,6 +1627,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleExportDeck = async (deck: FlashcardDeck) => {
+    if (!isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+    if (deck.isStarter) {
+      showToast(t('flashcards.starterDeckNoExport'), 'error')
+      return
+    }
     try {
       const csvData = await flashcardManager.exportDeck(deck.id, 'csv')
       const blob = new Blob([csvData], { type: 'text/csv' })
@@ -1531,6 +1673,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         ((migrationProgress.completed + (migrationProgress.currentProgress || 0) / 100) / migrationProgress.total) * 100
       )
     : 0
+  const hasNonStarterDecks = decks.some(deck => !deck.isStarter)
+  const showSyncUpgrade = Boolean(initialData.userId && !isPremium)
   const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length
   const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length
 
@@ -1554,6 +1698,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
   const handleStartSessionWithSettings = async (settings: Partial<import('@/types/flashcards').DeckSettings>) => {
     if (!deckToStudy || !initialData.userId) return
+    if (deckToStudy.isStarter) {
+      showToast(t('flashcards.starterDeckLocked'), 'error')
+      return
+    }
 
     try {
       setResumeSessionState(null)
@@ -1612,6 +1760,58 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       showToast(t('flashcards.errors.updateFailed'), 'error')
     }
   }
+
+  const applyRemoteSession = useCallback(async () => {
+    if (!pendingRemoteSession || !initialData.userId) return
+    const deck = await flashcardManager.getDeck(pendingRemoteSession.deckId, initialData.userId)
+    if (!deck || !deck.cards?.length) {
+      setShowRemoteSessionDialog(false)
+      setPendingRemoteSession(null)
+      return
+    }
+
+    const cardMap = new Map(deck.cards.map(card => [card.id, card]))
+    const sessionCards = pendingRemoteSession.cardIds
+      .map(cardId => cardMap.get(cardId))
+      .filter(Boolean) as FlashcardContent[]
+
+    if (sessionCards.length === 0) {
+      setShowRemoteSessionDialog(false)
+      setPendingRemoteSession(null)
+      return
+    }
+
+    const gradedCardIds = new Set<string>((pendingRemoteSession.responses || []).map(([cardId]) => cardId))
+    let nextIndex = Math.max(0, Math.min(pendingRemoteSession.currentIndex, sessionCards.length - 1))
+    while (nextIndex < sessionCards.length && gradedCardIds.has(sessionCards[nextIndex].id)) {
+      nextIndex += 1
+    }
+    if (nextIndex >= sessionCards.length) {
+      nextIndex = sessionCards.length - 1
+    }
+
+    const resumeState = nextIndex === pendingRemoteSession.currentIndex
+      ? pendingRemoteSession
+      : { ...pendingRemoteSession, currentIndex: nextIndex }
+
+    setResumeSessionState(resumeState)
+    setStudyingDeck({
+      ...deck,
+      cards: sessionCards,
+      settings: {
+        ...deck.settings,
+        sessionLength: sessionCards.length,
+      },
+    })
+
+    setShowRemoteSessionDialog(false)
+    setPendingRemoteSession(null)
+  }, [pendingRemoteSession, initialData.userId])
+
+  const ignoreRemoteSession = useCallback(() => {
+    setShowRemoteSessionDialog(false)
+    setPendingRemoteSession(null)
+  }, [])
 
   const handleSessionComplete = async (summary: SessionSummary) => {
     // Capture deck name before clearing state
@@ -1741,7 +1941,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       {/* Page Header - Mobile */}
       <PageHeader
         title={t('flashcards.title') || 'Flashcards'}
-        description="Practice your Flashcards"
+        description={t('flashcards.description')}
         backHref="/dashboard"
       />
 
@@ -1822,12 +2022,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   <Square className="w-4 h-4" />
                 ),
                 onClick: handleToggleSelectAll,
-                hidden: decks.length === 0,
+                hidden: decks.length === 0 || !isPremium,
               },
               {
                 label: t('flashcards.createDeck'),
                 icon: <Plus className="w-4 h-4" />,
                 onClick: handleOpenDeckCreator,
+                hidden: !isPremium,
               },
                 {
                   label: t('flashcards.actions.syncAll'),
@@ -1847,7 +2048,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 label: t('flashcards.actions.exportAll'),
                 icon: <Download className="w-4 h-4" />,
                 onClick: handleExportAll,
-                hidden: decks.length === 0,
+                hidden: !isPremium || !hasNonStarterDecks,
               },
               {
                 label: 'Run Flashcards Tests',
@@ -1867,14 +2068,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {initialData.userId && !isPremium && decks.length >= limits.maxDecks - 2 && (
+        {initialData.userId && !isPremium && (
           <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-blue-800 dark:text-blue-200">
-              {t('flashcards.limits.freeLimit', {
-                current: decks.length,
-                max: limits.maxDecks,
-              })}
-            </p>
+            <p className="text-blue-800 dark:text-blue-200">{t('flashcards.starterOnly')}</p>
           </div>
         )}
 
@@ -2051,8 +2247,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             isPremium={isPremium}
             hideCreateCard={true}
             restoreProgressByDeckId={restoreProgressByDeckId}
-            selectedDeckIds={selectedDeckIds}
-            onToggleSelect={handleToggleDeckSelection}
+            selectedDeckIds={isPremium ? selectedDeckIds : undefined}
+            onToggleSelect={isPremium ? handleToggleDeckSelection : undefined}
           />
         </div>
 
@@ -2074,6 +2270,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   transition={{ delay: 0.1 }}
                   className="mb-8"
                 >
+                  {showSyncUpgrade && (
+                    <div className="mb-3 p-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 text-sm text-blue-800 dark:text-blue-200 flex items-center justify-between gap-3">
+                      <span>{t('flashcards.upgradeToSync')}</span>
+                      <button
+                        onClick={() => router.push(pricingPath)}
+                        className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      >
+                        {t('flashcards.upgradeToSyncCta')}
+                      </button>
+                    </div>
+                  )}
                   <DailyGoals
                     userId={initialData.userId}
                     isPremium={isPremium}
@@ -2084,13 +2291,24 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
               )}
 
               {/* Study Recommendations (show only if user has decks and recommendations) */}
-              {initialData.userId && recommendations.length > 0 && (
+              {initialData.userId && (recommendations.length > 0 || !isPremium) && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                   className="mb-8"
                 >
+                  {showSyncUpgrade && (
+                    <div className="mb-3 p-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 text-sm text-blue-800 dark:text-blue-200 flex items-center justify-between gap-3">
+                      <span>{t('flashcards.upgradeToSync')}</span>
+                      <button
+                        onClick={() => router.push(pricingPath)}
+                        className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      >
+                        {t('flashcards.upgradeToSyncCta')}
+                      </button>
+                    </div>
+                  )}
                   <StudyRecommendations
                     recommendations={recommendations}
                     insights={insights}
@@ -2127,6 +2345,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
+                {showSyncUpgrade && (
+                  <div className="mb-3 p-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 text-sm text-blue-800 dark:text-blue-200 flex items-center justify-between gap-3">
+                    <span>{t('flashcards.upgradeToSync')}</span>
+                    <button
+                      onClick={() => router.push(pricingPath)}
+                      className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                      {t('flashcards.upgradeToSyncCta')}
+                    </button>
+                  </div>
+                )}
                 {showStats ? (
                   <StatsDashboard
                     decks={decks}
@@ -2272,6 +2501,18 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           confirmText={t('flashcards.migration.cancelSyncConfirm') || 'Stop sync'}
           cancelText={t('common.cancel')}
           type="danger"
+        />
+        <Dialog
+          isOpen={showRemoteSessionDialog}
+          onClose={ignoreRemoteSession}
+          onConfirm={applyRemoteSession}
+          title={t('flashcards.resumeRemote.title') || 'Resume session from another device?'}
+          message={
+            t('flashcards.resumeRemote.message') ||
+            'We found a newer flashcard session from another device. Do you want to resume it here?'
+          }
+          confirmText={t('flashcards.resumeRemote.confirm') || 'Resume'}
+          cancelText={t('flashcards.resumeRemote.cancel') || 'Keep local'}
         />
 
         {/* Study Mode Selector Modal */}

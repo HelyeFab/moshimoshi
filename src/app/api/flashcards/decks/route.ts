@@ -58,6 +58,10 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for deck sync' }, { status: 403 })
+    }
+
     const db = getAdminDb()
     const snapshot = await db
       .collection('flashcardDecks')
@@ -116,6 +120,10 @@ export async function POST(request: NextRequest) {
         },
         { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
       )
+    }
+
+    if (entitlement.plan === 'free' || entitlement.plan === 'guest') {
+      return NextResponse.json({ error: 'Premium required for deck sync' }, { status: 403 })
     }
 
     const { decks } = await request.json()

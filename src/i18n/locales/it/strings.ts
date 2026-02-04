@@ -4144,6 +4144,7 @@ export const strings = {
   },
   flashcards: {
     title: 'Flashcard',
+    description: 'Pratica le tue Flashcard',
     pageTitle: 'Mazzi di Flashcard',
     pageDescription: 'Crea e studia mazzi di flashcard personalizzati',
     noDecksYet: 'Nessun mazzo ancora',
@@ -4217,6 +4218,12 @@ export const strings = {
       good: 'Bene',
       easy: 'Facile',
     },
+    resumeRemote: {
+      title: 'Riprendere la sessione da un altro dispositivo?',
+      message: 'Abbiamo trovato una sessione di flashcard più recente su un altro dispositivo. Vuoi riprenderla qui?',
+      confirm: 'Riprendi',
+      cancel: 'Mantieni locale',
+    },
     progress: 'Progresso',
     cardsStudied: 'Carte studiate',
     accuracy: 'Precisione',
@@ -4225,7 +4232,7 @@ export const strings = {
     studyToMaintainStreak: 'Studia oggi per mantenere la tua serie',
     masteryLevel: 'Padronanza',
     dueForReview: 'Da rivedere',
-    due: 'due',
+    due: 'in scadenza',
     newCards: 'Nuove carte',
     learningCards: 'In apprendimento',
     reviewCards: 'Da ripassare',
@@ -4287,6 +4294,7 @@ export const strings = {
       includeProgress: 'Includi dati progresso',
       exporting: 'Esportazione...',
       success: 'Mazzo esportato con successo',
+      noExportableDecks: 'Nessun mazzo esportabile disponibile.',
     },
     image: {
       uploadFile: 'Carica immagine',
@@ -4396,6 +4404,15 @@ export const strings = {
       dailyLimit: 'Limite giornaliero: {{current}}/{{max}}',
       unlimited: 'Mazzi illimitati',
     },
+
+    starterOnly: 'Gli utenti gratuiti possono studiare solo i mazzi iniziali. Passa a Premium per creare o importare mazzi.',
+    upgradeToCreate: 'Passa a Premium per creare o importare mazzi.',
+    upgradeToDeleteStarter: 'Passa a Premium per eliminare i mazzi iniziali.',
+    starterDeckLocked: 'I mazzi iniziali non possono essere modificati.',
+    starterDeckNoExport: 'I mazzi iniziali non possono essere esportati.',
+    upgradeToSync: 'Passa a Premium per sincronizzare obiettivi, insight e raccomandazioni tra dispositivi.',
+    upgradeToSyncCta: 'Passa a Premium',
+
     optimalSettings: 'Impostazioni Ottimali',
     sessionLength: 'Durata Sessione',
     studyTime: 'Tempo di Studio',

@@ -55,4 +55,32 @@ describe('/api/flashcards/r2/metadata POST', () => {
     const response = await POST(request)
     expect(response.status).toBe(403)
   })
+
+  it('returns 403 when plan is free even if entitlement allows', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+    mockedGetAdminDb.mockReturnValue({ collection: jest.fn() })
+
+    const request = new NextRequest('http://localhost/api/flashcards/r2/metadata', {
+      method: 'POST',
+      body: JSON.stringify({
+        deckId: 'deck-1',
+        name: 'Deck',
+        cardCount: 1,
+        hasMedia: false,
+        totalBytes: 10,
+        r2Keys: {
+          cardsKey: 'users/user-1/flashcards/deck-1/cards.json',
+          manifestKey: 'users/user-1/flashcards/deck-1/manifest.json',
+          mediaPrefix: 'users/user-1/flashcards/deck-1/media/',
+        },
+      }),
+    })
+
+    const response = await POST(request)
+    expect(response.status).toBe(403)
+  })
 })

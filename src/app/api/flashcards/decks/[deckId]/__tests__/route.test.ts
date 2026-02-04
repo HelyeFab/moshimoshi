@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { GET } from '../route'
+import { GET, DELETE } from '../route'
 import { getSession } from '@/lib/auth/session'
 import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
@@ -30,6 +30,27 @@ describe('/api/flashcards/decks/[deckId] GET', () => {
 
     const request = new NextRequest('http://localhost/api/flashcards/decks/deck-1')
     const response = await GET(request, { params: Promise.resolve({ deckId: 'deck-1' }) })
+
+    expect(response.status).toBe(403)
+  })
+})
+
+describe('/api/flashcards/decks/[deckId] DELETE', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('returns 403 when plan is free even if entitlement allows', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+
+    const request = new NextRequest('http://localhost/api/flashcards/decks/deck-1', {
+      method: 'DELETE',
+    })
+    const response = await DELETE(request, { params: Promise.resolve({ deckId: 'deck-1' }) })
 
     expect(response.status).toBe(403)
   })

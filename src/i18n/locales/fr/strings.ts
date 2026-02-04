@@ -4024,6 +4024,7 @@ export const strings = {
   },
   flashcards: {
     title: 'Cartes Flash',
+    description: 'Pratiquez vos Cartes Flash',
     pageTitle: 'Paquets de Cartes Flash',
     pageDescription: 'Créez et étudiez des paquets de cartes flash personnalisés',
     noDecksYet: 'Aucun paquet pour le moment',
@@ -4097,6 +4098,12 @@ export const strings = {
       good: 'Bien',
       easy: 'Facile',
     },
+    resumeRemote: {
+      title: 'Reprendre la session sur un autre appareil ?',
+      message: 'Nous avons trouvé une session de cartes plus récente sur un autre appareil. Voulez-vous la reprendre ici ?',
+      confirm: 'Reprendre',
+      cancel: 'Garder local',
+    },
     progress: 'Progrès',
     cardsStudied: 'Cartes étudiées',
     accuracy: 'Précision',
@@ -4105,7 +4112,7 @@ export const strings = {
     studyToMaintainStreak: "Étudiez aujourd'hui pour maintenir votre série",
     masteryLevel: 'Maîtrise',
     dueForReview: 'À réviser',
-    due: 'due',
+    due: 'à faire',
     newCards: 'Nouvelles cartes',
     learningCards: 'En apprentissage',
     reviewCards: 'À réviser',
@@ -4167,6 +4174,7 @@ export const strings = {
       includeProgress: 'Inclure les données de progression',
       exporting: 'Exportation...',
       success: 'Paquet exporté avec succès',
+      noExportableDecks: 'Aucun paquet exportable disponible.',
     },
     image: {
       uploadFile: 'Télécharger une image',
@@ -4276,6 +4284,15 @@ export const strings = {
       dailyLimit: 'Limite quotidienne: {{current}}/{{max}}',
       unlimited: 'Paquets illimités',
     },
+
+    starterOnly: 'Les utilisateurs gratuits ne peuvent étudier que les paquets de démarrage. Passez à Premium pour créer ou importer des paquets.',
+    upgradeToCreate: 'Passez à Premium pour créer ou importer des paquets.',
+    upgradeToDeleteStarter: 'Passez à Premium pour supprimer les paquets de démarrage.',
+    starterDeckLocked: 'Les paquets de démarrage ne peuvent pas être modifiés.',
+    starterDeckNoExport: 'Les paquets de démarrage ne peuvent pas être exportés.',
+    upgradeToSync: 'Passez à Premium pour synchroniser objectifs, aperçus et recommandations entre appareils.',
+    upgradeToSyncCta: 'Passer à Premium',
+
     learningInsights: 'Aperçus d\'Apprentissage',
     currentStreak: 'Série Actuelle',
     retentionRate: 'Taux de Rétention',

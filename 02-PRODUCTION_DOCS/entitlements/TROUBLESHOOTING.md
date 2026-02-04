@@ -1,7 +1,7 @@
 # Entitlements & Gating – Troubleshooting
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-01-30
+**Last Updated:** 2026-02-04
 
 ## Common Issues
 
@@ -65,6 +65,16 @@
 - Ensure the feature exists in `config/features.v1.json` limits.
 - Verify `limitType` matches the limit bucket (daily vs monthly).
 - Check server logs for `limit_reached` vs `no_permission`.
+
+---
+
+### 8) Flashcards page blocked for free users
+**Symptom:** Free users can’t open flashcards even though the feature should be free.
+
+**Fix:**
+- Confirm `limits.free.daily.flashcards = -1` in `config/features.v1.json`.
+- Regenerate entitlements (`npm run gen:entitlements`) after config changes.
+- Ensure only creation/import remains gated (`flashcard_decks`, `anki_imports`).
 
 ---
 

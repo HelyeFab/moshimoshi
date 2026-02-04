@@ -52,7 +52,7 @@ export function FlashcardViewer({
   onResponse
 }: FlashcardViewerProps) {
   const { t } = useI18n();
-  const { play, loading: ttsLoading, preload } = useTTS({ cacheFirst: true });
+  const { play, preload } = useTTS({ cacheFirst: true });
 
   // Lazy hydration: Load media on-demand as card is displayed
   const hydratedCard = useMediaHydration(card);
@@ -87,13 +87,24 @@ export function FlashcardViewer({
     (hydratedCard as { audioUrl?: string }).audioUrl;
 
   const [isFlipped, setIsFlipped] = useState(initialIsFlipped);
-  const [audioPlaying, setAudioPlaying] = useState(false);
   const [hasGraded, setHasGraded] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const hasAutoPlayedListen = useRef(false);
   const autoPlayTimeoutRef = useRef<number | null>(null);
   const contentSectionRef = useRef<HTMLDivElement>(null);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerMovedRef = useRef(false);
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
+
+  // Desktop detection for keyboard shortcuts (same as kanji mastery)
+  const isDesktopShortcutsEnabled = useCallback(() => {
+    if (typeof window === 'undefined') return false;
+    if (window.matchMedia) {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    }
+    return window.innerWidth >= 768;
+  }, []);
 
   // Debug scrolling
   useEffect(() => {
@@ -126,7 +137,6 @@ export function FlashcardViewer({
 
   // Helper function to detect if text contains Japanese characters
   const isJapaneseText = useCallback((text: string): boolean => {
-    // Check for Hiragana, Katakana, or Kanji
     const japaneseRegex = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
     return japaneseRegex.test(text);
   }, []);
@@ -227,10 +237,73 @@ export function FlashcardViewer({
     };
   }, [card.id]);
 
+  // Preload audio for both sides when card loads
+  useEffect(() => {
+    const preloadTexts = async () => {
+      try {
+        const texts = [];
+
+        if (resolvedFrontText) {
+          texts.push(resolvedFrontText);
+        }
+        if (resolvedBackText) {
+          texts.push(resolvedBackText);
+        }
+
+        if (texts.length > 0) {
+          const hasJapanese = texts.some(text =>
+            /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)
+          );
+
+          await preload(texts, {
+            voice: hasJapanese ? 'ja-JP' : 'en-US',
+            rate: 0.9,
+            pitch: 1.0
+          }).catch(() => {
+            console.debug('Preload failed for flashcard texts');
+          });
+        }
+      } catch (error) {
+        console.debug('Preload error:', error);
+      }
+    };
+
+    preloadTexts();
+  }, [card.id, preload, resolvedFrontText, resolvedBackText]);
+
   const handleFlip = useCallback(() => {
     setIsFlipped(!isFlipped);
     onFlip?.();
   }, [isFlipped, onFlip]);
+
+  const handlePointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('button')) return;
+    pointerMovedRef.current = false;
+    pointerStartRef.current = { x: event.clientX, y: event.clientY };
+  }, []);
+
+  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (!pointerStartRef.current) return;
+    const dx = Math.abs(event.clientX - pointerStartRef.current.x);
+    const dy = Math.abs(event.clientY - pointerStartRef.current.y);
+    if (dx + dy > 6) {
+      pointerMovedRef.current = true;
+    }
+  }, []);
+
+  const handlePointerUp = useCallback(() => {
+    if (pointerStartRef.current && !pointerMovedRef.current) {
+      handleFlip();
+    }
+    pointerStartRef.current = null;
+    pointerMovedRef.current = false;
+  }, [handleFlip]);
+
+  const handlePointerCancel = useCallback(() => {
+    pointerStartRef.current = null;
+    pointerMovedRef.current = false;
+  }, []);
 
   const handleGrade = useCallback((correct: boolean, difficulty: 'again' | 'hard' | 'good' | 'easy') => {
     setHasGraded(true);
@@ -238,6 +311,15 @@ export function FlashcardViewer({
   }, [onResponse]);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
+    // Desktop only shortcuts (same as kanji mastery)
+    if (!isDesktopShortcutsEnabled()) return;
+
+    // Ignore shortcuts if user is typing in an input or textarea
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      return;
+    }
+
     switch (e.key) {
       case ' ':
         e.preventDefault();
@@ -255,19 +337,23 @@ export function FlashcardViewer({
         }
         break;
       case '1':
+        e.preventDefault();
         handleGrade(false, 'again');
         break;
       case '2':
+        e.preventDefault();
         handleGrade(false, 'hard');
         break;
       case '3':
+        e.preventDefault();
         handleGrade(true, 'good');
         break;
       case '4':
+        e.preventDefault();
         handleGrade(true, 'easy');
         break;
     }
-  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, onResponse]);
+  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, onResponse, isDesktopShortcutsEnabled]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -277,85 +363,35 @@ export function FlashcardViewer({
   const playAudio = async () => {
     if (audioPlaying) return;
 
-    // Determine what text to play based on which side is showing (uses hydrated media)
+    // Determine what text to play based on which side is showing
     const textToPlay = isFlipped ? resolvedBackText : resolvedFrontText;
+    const audioUrl = resolvedAudioUrl;
 
-    if (!textToPlay && !resolvedAudioUrl) return;
+    if (!textToPlay && !audioUrl) return;
 
     setAudioPlaying(true);
 
-    // Helper to play TTS
-    const playTTS = async () => {
-      const isJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(textToPlay);
-      const voice = isJapanese ? 'ja-JP' : 'en-US';
-      await play(textToPlay, {
-        voice,
-        rate: 0.9,  // Slightly slower for learning
-        pitch: 1.0
-      });
-    };
-
     try {
-      // If there's a custom audio URL (hydrated), try to use it
-      if (resolvedAudioUrl) {
-        try {
-          const audio = new Audio(resolvedAudioUrl);
-          await audio.play();
-        } catch (audioError) {
-          // Audio file failed - fall back to TTS
-          console.warn('Audio file failed, falling back to TTS:', audioError);
-          await playTTS();
-        }
+      // If there's a custom audio URL, try to use it
+      if (audioUrl) {
+        const audio = new Audio(audioUrl);
+        await audio.play();
       } else {
-        // No custom audio - use TTS
-        await playTTS();
+        // Otherwise use TTS
+        const isJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(textToPlay);
+        const voice = isJapanese ? 'ja-JP' : 'en-US';
+        await play(textToPlay, {
+          voice,
+          rate: 0.9,
+          pitch: 1.0
+        });
       }
     } catch (error) {
       console.error('Failed to play audio:', error);
-      // Silently fail - audio is not critical for flashcard functionality
-      // User can still continue studying without audio
     } finally {
       setAudioPlaying(false);
     }
   };
-
-  // Preload audio for both sides when card loads (uses original card text)
-  useEffect(() => {
-    const preloadTexts = async () => {
-      try {
-        const texts = [];
-
-        if (resolvedFrontText) {
-          texts.push(resolvedFrontText);
-        }
-        if (resolvedBackText) {
-          texts.push(resolvedBackText);
-        }
-
-        if (texts.length > 0) {
-          // Check if any text is Japanese
-          const hasJapanese = texts.some(text =>
-            /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)
-          );
-
-          // Preload all texts at once with appropriate voice
-          await preload(texts, {
-            voice: hasJapanese ? 'ja-JP' : 'en-US',
-            rate: 0.9,
-            pitch: 1.0
-          }).catch(() => {
-            // Silently ignore preload errors - not critical
-            console.debug('Preload failed for flashcard texts');
-          });
-        }
-      } catch (error) {
-        // Ignore preload errors
-        console.debug('Preload error:', error);
-      }
-    };
-
-    preloadTexts();
-  }, [card.id, preload, hydratedCard, resolvedFrontText, resolvedBackText]);
 
   const getCardStyleClasses = () => {
     switch (cardStyle) {
@@ -380,7 +416,7 @@ export function FlashcardViewer({
     }
   };
 
-  // Extract image from HTML content
+  // Extract image from HTML content OR CardSide media
   const extractImageFromHtml = useCallback((html: string): { imageUrl: string | null; htmlWithoutImage: string } => {
     if (typeof window === 'undefined') {
       return { imageUrl: null, htmlWithoutImage: html };
@@ -399,13 +435,34 @@ export function FlashcardViewer({
     return { imageUrl: null, htmlWithoutImage: html };
   }, []);
 
-  // Extract images from front and back
-  const frontContent = useMemo(() => extractImageFromHtml(resolvedFrontHtml), [resolvedFrontHtml, extractImageFromHtml]);
-  const backContent = useMemo(() => extractImageFromHtml(resolvedBackHtml), [resolvedBackHtml, extractImageFromHtml]);
+  // Extract images from front and back - check both HTML and CardSide media
+  const frontContent = useMemo(() => {
+    // First check if front is a CardSide object with media
+    if (typeof hydratedCard.front === 'object' && hydratedCard.front?.media?.url) {
+      return {
+        imageUrl: hydratedCard.front.media.url,
+        htmlWithoutImage: resolvedFrontHtml
+      };
+    }
+    // Otherwise extract from HTML (Anki cards)
+    return extractImageFromHtml(resolvedFrontHtml);
+  }, [hydratedCard.front, resolvedFrontHtml, extractImageFromHtml]);
+
+  const backContent = useMemo(() => {
+    // First check if back is a CardSide object with media
+    if (typeof hydratedCard.back === 'object' && hydratedCard.back?.media?.url) {
+      return {
+        imageUrl: hydratedCard.back.media.url,
+        htmlWithoutImage: resolvedBackHtml
+      };
+    }
+    // Otherwise extract from HTML (Anki cards)
+    return extractImageFromHtml(resolvedBackHtml);
+  }, [hydratedCard.back, resolvedBackHtml, extractImageFromHtml]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="relative min-h-[400px] md:min-h-[700px] perspective-1000">
+    <div className="w-full max-w-sm mx-auto">
+      <div className="relative min-h-[270px] md:min-h-[400px] perspective-1000">
         <motion.div
           className="absolute inset-0 w-full h-full preserve-3d"
           animate={isFlipped ? 'back' : 'front'}
@@ -417,18 +474,20 @@ export function FlashcardViewer({
               'absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden flex flex-col cursor-pointer',
               getCardStyleClasses()
             )}
-            onClick={handleFlip}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
           >
-            {/* Action Buttons - Positioned relative to card */}
             {/* Delete button - Top Left */}
             <div className="absolute top-4 left-4 z-20">
               {onDelete && (
                 <button
                   onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
+                  className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('flashcards.deleteCard')}
                 >
-                  <Trash2 className="w-5 h-5 text-red-500" />
+                  <Trash2 className="w-4 h-4 text-red-500" />
                 </button>
               )}
             </div>
@@ -439,32 +498,20 @@ export function FlashcardViewer({
                (resolvedAudioUrl || isJapaneseText(resolvedFrontText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
+                  className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('common.playAudio')}
                 >
-                  <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                  <Volume2 className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                 </button>
               )}
-            </div>
-
-            {/* Flip button - Bottom Right */}
-            <div className="absolute bottom-4 right-4 z-20">
-              <button
-                onClick={(e) => { e.stopPropagation(); handleFlip(); }}
-                className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg text-gray-600 dark:text-gray-400"
-                aria-label={t('flashcards.flipCard')}
-              >
-                <RotateCw className="w-4 h-4" />
-              </button>
             </div>
 
             {/* Hero Section - Top Half */}
             <div
               className={cn(
                 "relative flex items-center justify-center overflow-hidden cursor-pointer",
-                frontContent.imageUrl ? "h-1/2 min-h-[150px] md:min-h-[250px]" : "h-0"
+                frontContent.imageUrl ? "h-1/2 min-h-[108px] md:min-h-[162px]" : "h-0"
               )}
-              onClick={handleFlip}
               style={{
                 backgroundImage: frontContent.imageUrl ? `url(${frontContent.imageUrl})` : undefined,
                 backgroundSize: 'cover',
@@ -491,7 +538,6 @@ export function FlashcardViewer({
                 WebkitOverflowScrolling: 'touch',
                 overscrollBehavior: 'contain'
               }}
-              onClick={(e) => e.stopPropagation()}
             >
               <div
                 className={cn(
@@ -516,32 +562,34 @@ export function FlashcardViewer({
               'absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden rotate-y-180 flex flex-col cursor-pointer',
               getCardStyleClasses()
             )}
-            onClick={handleFlip}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
           >
-            {/* Action Buttons - Positioned relative to card */}
-            {/* Delete button - Top Left */}
-            <div className="absolute top-4 left-4 z-20">
+            {/* Delete button - Top Left (visually, but right-4 due to rotate-y-180) */}
+            <div className="absolute top-4 right-4 z-20">
               {onDelete && (
                 <button
                   onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
+                  className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('flashcards.deleteCard')}
                 >
-                  <Trash2 className="w-5 h-5 text-red-500" />
+                  <Trash2 className="w-4 h-4 text-red-500" style={{ transform: 'scaleX(-1)' }} />
                 </button>
               )}
             </div>
 
-            {/* Audio button - Top Right */}
-            <div className="absolute top-4 right-4 z-20">
+            {/* Audio button - Top Right (visually, but left-4 due to rotate-y-180) */}
+            <div className="absolute top-4 left-4 z-20">
               {(resolvedAudioUrl || resolvedBackText) &&
                (resolvedAudioUrl || isJapaneseText(resolvedBackText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2.5 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
+                  className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
                   aria-label={t('common.playAudio')}
                 >
-                  <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                  <Volume2 className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                 </button>
               )}
             </div>
@@ -553,7 +601,7 @@ export function FlashcardViewer({
                 className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg text-gray-600 dark:text-gray-400"
                 aria-label={t('flashcards.flipCard')}
               >
-                <RotateCw className="w-4 h-4" />
+                <RotateCw className="w-4 h-4" style={{ transform: 'scaleX(-1)' }} />
               </button>
             </div>
 
@@ -561,9 +609,8 @@ export function FlashcardViewer({
             <div
               className={cn(
                 "relative flex items-center justify-center overflow-hidden cursor-pointer",
-                backContent.imageUrl ? "h-1/2 min-h-[150px] md:min-h-[250px]" : "h-0"
+                backContent.imageUrl ? "h-1/2 min-h-[108px] md:min-h-[162px]" : "h-0"
               )}
-              onClick={handleFlip}
               style={{
                 backgroundImage: backContent.imageUrl ? `url(${backContent.imageUrl})` : undefined,
                 backgroundSize: 'cover',
@@ -589,7 +636,6 @@ export function FlashcardViewer({
                 WebkitOverflowScrolling: 'touch',
                 overscrollBehavior: 'contain'
               }}
-              onClick={(e) => e.stopPropagation()}
             >
               <div
                 className={cn(
@@ -638,31 +684,31 @@ export function FlashcardViewer({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="flex justify-center gap-3 mt-6"
+            className="flex justify-center gap-3 md:gap-2 mt-6"
           >
             <button
               onClick={() => handleGrade(false, 'again')}
-              className="px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800/50 transition-colors font-medium"
+              className="px-4 py-2 md:px-3 md:py-1.5 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800/50 transition-colors font-medium md:text-sm"
             >
-              {t('flashcards.difficulty.again')}
+              {t('flashcards.difficulty.again')} <span className="hidden md:inline text-xs opacity-60">(1)</span>
             </button>
             <button
               onClick={() => handleGrade(false, 'hard')}
-              className="px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-800/50 transition-colors font-medium"
+              className="px-4 py-2 md:px-3 md:py-1.5 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-800/50 transition-colors font-medium md:text-sm"
             >
-              {t('flashcards.difficulty.hard')}
+              {t('flashcards.difficulty.hard')} <span className="hidden md:inline text-xs opacity-60">(2)</span>
             </button>
             <button
               onClick={() => handleGrade(true, 'good')}
-              className="px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors font-medium"
+              className="px-4 py-2 md:px-3 md:py-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors font-medium md:text-sm"
             >
-              {t('flashcards.difficulty.good')}
+              {t('flashcards.difficulty.good')} <span className="hidden md:inline text-xs opacity-60">(3)</span>
             </button>
             <button
               onClick={() => handleGrade(true, 'easy')}
-              className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors font-medium"
+              className="px-4 py-2 md:px-3 md:py-1.5 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors font-medium md:text-sm"
             >
-              {t('flashcards.difficulty.easy')}
+              {t('flashcards.difficulty.easy')} <span className="hidden md:inline text-xs opacity-60">(4)</span>
             </button>
           </motion.div>
         )}

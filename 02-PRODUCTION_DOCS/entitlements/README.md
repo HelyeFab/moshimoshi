@@ -1,10 +1,10 @@
 # Entitlements & Gating
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-01-30
+**Last Updated:** 2026-02-04
 
 ## Overview
-The entitlements system controls feature access by plan (guest/free/premium), enforces daily/monthly quotas, and provides consistent UX for upgrades and limits. It is the single source of truth for what a user can do and how often.
+The entitlements system controls feature access by plan (guest/free/premium), enforces daily/monthly quotas, and provides consistent UX for upgrades and limits. It is the single source of truth for what a user can do and how often. Flashcards now allow free users to access the feature while still gating deck creation/import and premium-only sync features.
 
 ## Quick Start (<5 min)
 1. Add/update feature limits in `config/features.v1.json`.

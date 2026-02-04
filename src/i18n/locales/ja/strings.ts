@@ -4358,6 +4358,7 @@ export const strings = {
   },
   flashcards: {
     title: 'フラッシュカード',
+    description: 'フラッシュカードを練習する',
     pageTitle: 'フラッシュカードデッキ',
     pageDescription: 'カスタムフラッシュカードデッキを作成して学習',
     noDecksYet: 'まだデッキがありません',
@@ -4431,6 +4432,12 @@ export const strings = {
       good: '良い',
       easy: '簡単',
     },
+    resumeRemote: {
+      title: '別のデバイスのセッションを再開しますか？',
+      message: '別のデバイスでより新しいフラッシュカードセッションが見つかりました。ここで再開しますか？',
+      confirm: '再開',
+      cancel: 'ローカルを維持',
+    },
     progress: '進捗',
     cardsStudied: '学習済みカード',
     accuracy: '正答率',
@@ -4439,7 +4446,7 @@ export const strings = {
     studyToMaintainStreak: '連続記録を維持するために今日学習しましょう',
     masteryLevel: '習得度',
     dueForReview: '復習予定',
-    due: 'due',
+    due: '期限',
     newCards: '新しいカード',
     learningCards: '学習中',
     reviewCards: '復習',
@@ -4539,6 +4546,7 @@ export const strings = {
       includeProgress: '進捗データを含める',
       exporting: 'エクスポート中...',
       success: 'デッキのエクスポート完了',
+      noExportableDecks: 'エクスポート可能なデッキがありません。',
     },
     image: {
       uploadFile: '画像をアップロード',
@@ -4648,6 +4656,15 @@ export const strings = {
       dailyLimit: '1日の上限: {{current}}/{{max}}復習',
       unlimited: '無制限のデッキ',
     },
+
+    starterOnly: '無料ユーザーはスターターデッキのみ学習できます。デッキを作成またはインポートするにはアップグレードしてください。',
+    upgradeToCreate: 'デッキを作成またはインポートするにはプレミアムにアップグレードしてください。',
+    upgradeToDeleteStarter: 'スターターデッキを削除するにはプレミアムにアップグレードしてください。',
+    starterDeckLocked: 'スターターデッキは編集できません。',
+    starterDeckNoExport: 'スターターデッキはエクスポートできません。',
+    upgradeToSync: '目標・インサイト・おすすめをデバイス間で同期するにはプレミアムへのアップグレードが必要です。',
+    upgradeToSyncCta: 'プレミアムにアップグレード',
+
     dailyGoals: {
       title: 'デイリーゴール',
       progress: '{{percentage}}%完了',
