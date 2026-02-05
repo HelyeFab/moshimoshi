@@ -50,6 +50,7 @@ interface KanjiDetailsModalProps {
 }
 
 export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetailsModalProps) {
+  const [resolvedKanji, setResolvedKanji] = useState<Kanji | null>(kanji)
   const [activeTab, setActiveTab] = useState<'overview' | 'readings' | 'examples'>('overview')
   const [strokeCount, setStrokeCount] = useState<number | null>(null)
   const [showStrokeOrder, setShowStrokeOrder] = useState(false)
@@ -85,19 +86,50 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
     }
   }, [isOpen])
 
+  useEffect(() => {
+    setResolvedKanji(kanji)
+  }, [kanji])
+
+  useEffect(() => {
+    if (!isOpen || !kanji?.kanji) return
+    const needsHydration =
+      !kanji.meaning ||
+      kanji.meaning === 'Loading...' ||
+      (kanji.onyomi && kanji.onyomi.length === 0) ||
+      (kanji.kunyomi && kanji.kunyomi.length === 0)
+
+    if (!needsHydration) return
+
+    const hydrate = async () => {
+      try {
+        const details = await kanjiService.getKanjiDetails(kanji.kanji)
+        if (details) {
+          setResolvedKanji(details)
+        }
+      } catch (error) {
+        console.error('[KanjiDetailsModal] Error hydrating kanji details:', error)
+      }
+    }
+
+    hydrate()
+  }, [isOpen, kanji])
+
 
   // Fetch stroke count, example sentences, example words, mnemonic, and preload audio when modal opens
   useEffect(() => {
-    if (isOpen && kanji?.kanji) {
-      fetchStrokeCount(kanji.kanji)
-      fetchExamples(kanji.kanji)
-      fetchExampleWords(kanji.kanji)
-      fetchMnemonic(kanji.kanji, kanji.meaning)
+    if (isOpen && resolvedKanji?.kanji) {
+      fetchStrokeCount(resolvedKanji.kanji)
+      fetchExamples(resolvedKanji.kanji)
+      fetchExampleWords(resolvedKanji.kanji)
+      fetchMnemonic(
+        resolvedKanji.kanji,
+        resolvedKanji.meaning === 'Loading...' ? undefined : resolvedKanji.meaning
+      )
 
       // Fetch user mnemonic and regen limit if authenticated
       if (user) {
-        fetchUserMnemonic(kanji.kanji)
-        fetchRegenLimit(kanji.kanji)
+        fetchUserMnemonic(resolvedKanji.kanji)
+        fetchRegenLimit(resolvedKanji.kanji)
       } else {
         setUserMnemonic(null)
         setRegenLimit(null)
@@ -106,13 +138,13 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
       // Preload readings for better UX (skip single characters - TTS can't pronounce them without context)
       const readingsToPreload: string[] = []
-      if (kanji.onyomi) readingsToPreload.push(...kanji.onyomi.filter(r => r.length > 1))
-      if (kanji.kunyomi) readingsToPreload.push(...kanji.kunyomi.filter(r => r.length > 1))
+      if (resolvedKanji.onyomi) readingsToPreload.push(...resolvedKanji.onyomi.filter(r => r.length > 1))
+      if (resolvedKanji.kunyomi) readingsToPreload.push(...resolvedKanji.kunyomi.filter(r => r.length > 1))
       if (readingsToPreload.length > 0) {
-        preload(readingsToPreload, { voice: '23', speed: 0.85 })
+        preload(readingsToPreload)
       }
     }
-  }, [isOpen, kanji?.kanji, user])
+  }, [isOpen, resolvedKanji?.kanji, user])
 
   useEffect(() => {
     if (!isOpen || exampleSentences.length === 0) return
@@ -121,7 +153,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       .filter(Boolean)
       .slice(0, 5)
     if (texts.length > 0) {
-      preload(texts, { voice: '23', speed: 0.85 })
+      preload(texts)
     }
   }, [isOpen, exampleSentences, preload])
 
@@ -200,7 +232,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       // Preload audio for example words
       if (deduped.length > 0) {
         const wordsToPreload = deduped.map(ex => ex.word)
-        preload(wordsToPreload, { voice: '23', speed: 0.85 })
+        preload(wordsToPreload)
       }
     } catch (error) {
       console.error('Error fetching example words:', error)
@@ -257,11 +289,11 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   }
 
   const handleRegenerate = async () => {
-    if (!kanji || regenerating) return
+    if (!resolvedKanji || regenerating) return
 
     // If regenLimit hasn't loaded yet, try to fetch it first
     if (!regenLimit) {
-      await fetchRegenLimit(kanji.kanji)
+      await fetchRegenLimit(resolvedKanji.kanji)
       return
     }
 
@@ -269,7 +301,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
     setRegenerating(true)
     try {
-      const result = await regenerateKanjiMnemonic(kanji.kanji, kanji.meaning)
+      const result = await regenerateKanjiMnemonic(resolvedKanji.kanji, resolvedKanji.meaning)
 
       if (result.success && result.mnemonic) {
         setMnemonic(result.mnemonic)
@@ -288,7 +320,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
     }
   }
 
-  if (!kanji) return null
+  if (!resolvedKanji) return null
 
   // Tab configuration
   const tabs = [
@@ -341,12 +373,14 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
           {/* Top Right Actions: Bookmark + Close */}
           <div className="absolute top-4 right-4 flex items-center gap-2">
             <AddToListButton
-              content={kanji.kanji}
+              content={resolvedKanji.kanji}
               type="word"
               metadata={{
-                reading: kanji.kunyomi?.[0] || kanji.onyomi?.[0] || '',
-                meaning: kanji.meaning,
-                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined,
+                reading: resolvedKanji.kunyomi?.[0] || resolvedKanji.onyomi?.[0] || '',
+                meaning: resolvedKanji.meaning,
+                jlptLevel: resolvedKanji.jlpt
+                  ? parseInt(resolvedKanji.jlpt.replace('N', ''), 10)
+                  : undefined,
               }}
               variant="bookmark"
               size="medium"
@@ -381,7 +415,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                 className="text-7xl sm:text-8xl font-bold text-gray-900 dark:text-gray-100 mb-2"
                 style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
               >
-                {kanji.kanji}
+                {resolvedKanji.kanji}
               </h2>
             </motion.div>
 
@@ -389,7 +423,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
               id="kanji-details-description"
               className="text-xl text-gray-700 dark:text-gray-300 font-medium mb-4"
             >
-              {kanji.meaning}
+              {resolvedKanji.meaning}
             </p>
           </div>
         </div>
@@ -465,24 +499,24 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                           Primary Meaning
                         </p>
                         <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                          {kanji.meaning}
-                        </p>
+                          {resolvedKanji.meaning}
+                          </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
                           Common Reading
                         </p>
                         <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                          {kanji.kunyomi?.[0] || kanji.onyomi?.[0] || 'N/A'}
+                          {resolvedKanji.kunyomi?.[0] || resolvedKanji.onyomi?.[0] || 'N/A'}
                         </p>
                       </div>
-                      {kanji.jlpt && (
+                      {resolvedKanji.jlpt && (
                         <div>
                           <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
                             JLPT Level
                           </p>
                           <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                            {kanji.jlpt}
+                            {resolvedKanji.jlpt}
                           </p>
                         </div>
                       )}
@@ -496,21 +530,21 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                           </p>
                         </div>
                       )}
-                      {kanji.grade && (
+                      {resolvedKanji.grade && (
                         <div>
                           <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
                             Grade Level
                           </p>
                           <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                            Grade {kanji.grade}
+                            Grade {resolvedKanji.grade}
                           </p>
                         </div>
                       )}
-                      {kanji.frequency && (
+                      {resolvedKanji.frequency && (
                         <div>
                           <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Frequency</p>
                           <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                            #{kanji.frequency}
+                            #{resolvedKanji.frequency}
                           </p>
                         </div>
                       )}
@@ -518,13 +552,13 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                   </div>
 
                   {/* All Meanings */}
-                  {kanji.meanings && kanji.meanings.length > 1 && (
+                  {resolvedKanji.meanings && resolvedKanji.meanings.length > 1 && (
                     <div>
                       <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider">
                         All Meanings
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {kanji.meanings.map((meaning, index) => (
+                        {resolvedKanji.meanings.map((meaning, index) => (
                           <span
                             key={index}
                             className="px-3 py-1 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm"
@@ -592,11 +626,11 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                       <MnemonicEditor
                         mnemonic={userMnemonic}
                         onSave={async (text) => {
-                          if (!kanji) return
-                          const success = await saveUserMnemonic(kanji.kanji, text)
+                          if (!resolvedKanji) return
+                          const success = await saveUserMnemonic(resolvedKanji.kanji, text)
                           if (success) {
                             setUserMnemonic({
-                              kanji: kanji.kanji,
+                              kanji: resolvedKanji.kanji,
                               mnemonic: text,
                               isPublic: false,
                               createdAt: new Date().toISOString(),
@@ -605,8 +639,8 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                           }
                         }}
                         onDelete={async () => {
-                          if (!kanji) return
-                          const success = await deleteUserMnemonic(kanji.kanji)
+                          if (!resolvedKanji) return
+                          const success = await deleteUserMnemonic(resolvedKanji.kanji)
                           if (success) {
                             setUserMnemonic(null)
                             setMnemonicView('ai')
@@ -627,9 +661,9 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                       <span className="text-blue-500 dark:text-blue-400">●</span>
                       On'yomi (音読み)
                     </h3>
-                    {kanji.onyomi && kanji.onyomi.length > 0 ? (
+                    {resolvedKanji.onyomi && resolvedKanji.onyomi.length > 0 ? (
                       <div className="flex flex-wrap gap-3">
-                        {kanji.onyomi.map((reading, index) => (
+                        {resolvedKanji.onyomi.map((reading, index) => (
                           <div
                             key={index}
                             className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
@@ -642,7 +676,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                             </span>
                             <AudioButton
                               size="sm"
-                              onPlay={() => play(reading, { voice: '23', speed: 0.85 })}
+                              onPlay={() => play(reading)}
                               loading={loading && currentText === reading}
                               playing={playing && currentText === reading}
                             />
@@ -660,9 +694,9 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                       <span className="text-green-500 dark:text-green-400">●</span>
                       Kun'yomi (訓読み)
                     </h3>
-                    {kanji.kunyomi && kanji.kunyomi.length > 0 ? (
+                    {resolvedKanji.kunyomi && resolvedKanji.kunyomi.length > 0 ? (
                       <div className="flex flex-wrap gap-3">
-                        {kanji.kunyomi.map((reading, index) => (
+                        {resolvedKanji.kunyomi.map((reading, index) => (
                           <div
                             key={index}
                             className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
@@ -675,7 +709,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                             </span>
                             <AudioButton
                               size="sm"
-                              onPlay={() => play(reading, { voice: '23', speed: 0.85 })}
+                              onPlay={() => play(reading)}
                               loading={loading && currentText === reading}
                               playing={playing && currentText === reading}
                             />
@@ -721,7 +755,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                                 {!isSingleKanji(example.word) && (
                                   <AudioButton
                                     size="sm"
-                                    onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
+                                    onPlay={() => play(example.word)}
                                     loading={loading && currentText === example.word}
                                     playing={playing && currentText === example.word}
                                   />
@@ -732,7 +766,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                                   metadata={{
                                     reading: example.reading,
                                     meaning: example.meaning,
-                                    notes: `Contains ${kanji.kanji}`,
+                                    notes: `Contains ${resolvedKanji.kanji}`,
                                   }}
                                   variant="bookmark"
                                   size="small"
@@ -803,18 +837,18 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                                 <span
                                   dangerouslySetInnerHTML={{
                                     __html: furiganaTexts[sentence.japanese].replace(
-                                      new RegExp(`(${kanji.kanji})`, 'g'),
+                                      new RegExp(`(${resolvedKanji.kanji})`, 'g'),
                                       '<span class="text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20 px-1 rounded">$1</span>'
                                     ),
                                   }}
                                 />
                               ) : (
-                                sentence.japanese.split(kanji.kanji).map((part, i, arr) => (
+                                sentence.japanese.split(resolvedKanji.kanji).map((part, i, arr) => (
                                   <span key={i}>
                                     {part}
                                     {i < arr.length - 1 && (
                                       <span className="text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20 px-1 rounded">
-                                        {kanji.kanji}
+                                        {resolvedKanji.kanji}
                                       </span>
                                     )}
                                   </span>
@@ -829,20 +863,18 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
                             {/* Actions */}
                             <div className="flex items-center gap-2 pt-2">
-                              <AudioButton
-                                size="sm"
-                                onPlay={() =>
-                                  play(sentence.japanese, { voice: '23', speed: 0.85 })
-                                }
-                                loading={loading && currentText === sentence.japanese}
-                                playing={playing && currentText === sentence.japanese}
-                              />
+                                <AudioButton
+                                  size="sm"
+                                  onPlay={() => play(sentence.japanese)}
+                                  loading={loading && currentText === sentence.japanese}
+                                  playing={playing && currentText === sentence.japanese}
+                                />
                               <AddToListButton
                                 content={sentence.japanese}
                                 type="sentence"
                                 metadata={{
                                   meaning: sentence.english,
-                                  notes: `Contains ${kanji.kanji}`,
+                                  notes: `Contains ${resolvedKanji.kanji}`,
                                 }}
                                 variant="bookmark"
                                 size="small"
@@ -869,18 +901,18 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       </Modal>
 
       {/* Stroke Order Modal */}
-      {showStrokeOrder && kanji && (
+      {showStrokeOrder && resolvedKanji && (
         <StrokeOrderModal
-          character={kanji.kanji}
+          character={resolvedKanji.kanji}
           isOpen={showStrokeOrder}
           onClose={() => setShowStrokeOrder(false)}
         />
       )}
 
       {/* Drawing Practice Modal */}
-      {showDrawingPractice && kanji && (
+      {showDrawingPractice && resolvedKanji && (
         <DrawingPracticeModal
-          character={kanji.kanji}
+          character={resolvedKanji.kanji}
           isOpen={showDrawingPractice}
           onClose={() => setShowDrawingPractice(false)}
           characterType="kanji"

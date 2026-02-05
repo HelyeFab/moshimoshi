@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-30378fd6f5da';
+const CACHE_VERSION = 'moshimoshi-a8ac2c5f284e';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/6YkJLCVbdVuiGo7aS_UKN/_buildManifest.js",
-  "/_next/static/6YkJLCVbdVuiGo7aS_UKN/_ssgManifest.js",
+  "/_next/static/Eyh2FC5APbgsn7d1HCFKp/_buildManifest.js",
+  "/_next/static/Eyh2FC5APbgsn7d1HCFKp/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -284,7 +284,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/98295-0c6d0c8de171ec7d.js",
   "/_next/static/chunks/98459-48aca5bb34ba504d.js",
   "/_next/static/chunks/98710-de315917767a7ca0.js",
-  "/_next/static/chunks/98723-c8e4afc018a43cad.js",
+  "/_next/static/chunks/98723-2c057238f820d4d5.js",
   "/_next/static/chunks/99341-2dc6a1d8766537c1.js",
   "/_next/static/chunks/99579-fd040988c7ffd330.js",
   "/_next/static/chunks/99707-94ec089499617d41.js",
@@ -353,8 +353,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-8c4700c9cb61fde1.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-1ee8945f15fb95de.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-5c33608ebf11aad3.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-668753e88fbc9794.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-2cd43a571b5e369b.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-dabb45c65e9d5a53.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-0affee74bbe6d3ac.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-531b661c0447d655.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-80a3eb64a5bbb02b.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-fa7c84884e3b349a.js",
@@ -530,7 +530,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/pages/_app-f365312a4d2529fb.js",
   "/_next/static/chunks/pages/_error-ff431fa75c297bd3.js",
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
-  "/_next/static/chunks/webpack-6935e306b9fcd176.js",
+  "/_next/static/chunks/webpack-22e27a47adacd286.js",
   "/_next/static/css/75a1bfc68063c37b.css",
   "/_next/static/css/a6ae4ab4bec43017.css",
   "/_next/static/css/af47b6060c4fddcc.css",
