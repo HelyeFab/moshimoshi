@@ -30,6 +30,15 @@ export async function GET(request: NextRequest) {
       .where('userId', '==', session.uid)
       .get()
 
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+    const deletedSnapshot = await adminDb
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedAnkiDecks')
+      .where('deletedAt', '>', thirtyDaysAgo)
+      .get()
+    const deletedDeckIdSet = new Set(deletedSnapshot.docs.map(doc => doc.id))
+
     const { client, bucket } = getR2Config()
 
     const streamToString = async (body: any): Promise<string> => {
@@ -45,6 +54,9 @@ export async function GET(request: NextRequest) {
     let usedBytes = 0
 
     for (const doc of snapshot.docs) {
+      if (deletedDeckIdSet.has(doc.id)) {
+        continue
+      }
       const data = doc.data() as { totalBytes?: number; r2?: { manifestKey?: string } }
       if (typeof data.totalBytes === 'number') {
         usedBytes += data.totalBytes

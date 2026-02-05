@@ -210,14 +210,19 @@ export class AnkiParser {
           }
         }
 
+        // Convert bracket notation furigana to ruby tags BEFORE extraction
+        // This allows Anki decks using kanji[reading] format to display properly
+        const rawFrontWithRuby = this.convertBracketFuriganaToRuby(rawFront);
+        const processedBackWithRuby = this.convertBracketFuriganaToRuby(processedBack);
+
         // Extract furigana from raw HTML BEFORE cleaning
-        const furiganaFront = this.extractFurigana(rawFront);
-        const furiganaBack = this.extractFurigana(processedBack);
+        const furiganaFront = this.extractFurigana(rawFrontWithRuby);
+        const furiganaBack = this.extractFurigana(processedBackWithRuby);
         const hasNativeFurigana = !!(furiganaFront || furiganaBack);
 
-        // Clean the HTML
-        const cleanedFront = this.cleanAnkiHtml(rawFront);
-        const cleanedBack = this.cleanAnkiHtml(processedBack);
+        // Clean the HTML (use ruby-converted versions so furigana is preserved)
+        const cleanedFront = this.cleanAnkiHtml(rawFrontWithRuby);
+        const cleanedBack = this.cleanAnkiHtml(processedBackWithRuby);
 
         // Log first card for debugging
         if (index === 0) {
@@ -229,6 +234,11 @@ export class AnkiParser {
             rawBackLength: rawBack.length,
             rawFrontPreview: rawFront.substring(0, 150),
             rawBackPreview: rawBack.substring(0, 300),
+            rawFrontWithRubyPreview: rawFrontWithRuby.substring(0, 150),
+            rawBackWithRubyPreview: processedBackWithRuby.substring(0, 300),
+            hasFurigana: hasNativeFurigana,
+            furiganaFrontPreview: furiganaFront?.substring(0, 100),
+            furiganaBackPreview: furiganaBack?.substring(0, 100),
             cleanedFrontLength: cleanedFront.length,
             cleanedBackLength: cleanedBack.length,
             cleanedFrontPreview: cleanedFront.substring(0, 150),
@@ -680,6 +690,25 @@ export class AnkiParser {
   }
 
   /**
+   * Convert bracket notation furigana to ruby tags
+   * Converts: kanji[reading] → <ruby>kanji<rt>reading</rt></ruby>
+   *
+   * Common in Anki decks that use bracket notation for furigana display.
+   * Example: 元[じょう]談[だん]だ → <ruby>元<rt>じょう</rt></ruby><ruby>談<rt>だん</rt></ruby>だ
+   */
+  private static convertBracketFuriganaToRuby(html: string): string {
+    if (!html) return html;
+
+    // Match: one or more kanji/kana characters followed by [hiragana/katakana reading]
+    // Kanji ranges: 一-龯 (CJK Unified Ideographs), 々〆ヵヶ (iteration marks)
+    // Reading ranges: ぁ-ん (hiragana), ァ-ヶ (katakana), ー (long vowel mark)
+    return html.replace(
+      /([一-龯々〆ヵヶ]+)\[([ぁ-んァ-ヶー]+)\]/g,
+      '<ruby>$1<rt>$2</rt></ruby>'
+    );
+  }
+
+  /**
    * Extract furigana HTML from raw field content
    * Returns null if no furigana exists, otherwise returns the HTML with ruby tags
    */
@@ -707,8 +736,37 @@ export class AnkiParser {
     furiganaHtml = furiganaHtml.replace(/\[sound:[^\]]+\]/g, '');
     furiganaHtml = furiganaHtml.replace(/<img[^>]+>/g, '');
 
+    // Remove all links (complete tags with content)
+    furiganaHtml = furiganaHtml.replace(/<a[^>]*>[\s\S]*?<\/a>/gi, '');
+
+    // Remove instructional text patterns
+    furiganaHtml = furiganaHtml.replace(/Hover\s*\/\s*tap\s+on\s+kanji.*?(?=<|$)/gi, '');
+    furiganaHtml = furiganaHtml.replace(/Source\s+of\s+this\s+card:.*?(?=<|$)/gi, '');
+    furiganaHtml = furiganaHtml.replace(/Change\s+text\s+with.*?(?=<|$)/gi, '');
+    furiganaHtml = furiganaHtml.replace(/Your\s+deck\s+version:.*?(?=<|$)/gi, '');
+    furiganaHtml = furiganaHtml.replace(/Check\s+for\s+updates.*?(?=<|$)/gi, '');
+    furiganaHtml = furiganaHtml.replace(/You\s+can\s+support.*?(?=<|$)/gi, '');
+
+    // Remove "References:" if not followed by actual content (handles closing tags too)
+    furiganaHtml = furiganaHtml.replace(/References:\s*(<br\s*\/?>|\s|<\/[^>]+>)*$/gi, '');
+
     // Remove non-ruby formatting tags but preserve content
-    furiganaHtml = furiganaHtml.replace(/<\/?(?!ruby|rt|rp)(div|p|span|b|i|u|strong|em|font)[^>]*>/gi, '');
+    // Use \b word boundaries to avoid matching <br> when removing <b>
+    furiganaHtml = furiganaHtml.replace(/<\/?(div|p|span|strong|em|font)\b[^>]*>/gi, '');
+    furiganaHtml = furiganaHtml.replace(/<\/?([biu])\b(?![a-z])[^>]*>/gi, '');
+
+    // Clean up excessive line breaks - replace multiple <br> with single one
+    furiganaHtml = furiganaHtml.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
+
+    // Remove leading line breaks
+    furiganaHtml = furiganaHtml.replace(/^(<br\s*\/?>\s*)+/gi, '');
+
+    // Wrap romaji text with styled span
+    // Pattern: [Latin text] followed by <br> and then Japanese
+    furiganaHtml = furiganaHtml.replace(
+      /^([a-zA-Z][a-zA-Z\s]*?)(<br>)/,
+      '<span class="anki-romaji-label">romaji: <span class="anki-romaji-text">$1</span></span>$2'
+    );
 
     return furiganaHtml.trim();
   }
@@ -735,6 +793,14 @@ export class AnkiParser {
 
     // Remove sound tags (audio filenames)
     cleaned = cleaned.replace(/\[sound:[^\]]+\]/gi, '');
+
+    // Add line break between romaji and Japanese text for better visual separation
+    // Matches: [Latin chars + spaces] followed by [Japanese chars]
+    // Example: "boku mo neru 僕も寝る" becomes "romaji: boku mo neru<br>僕も寝る"
+    cleaned = cleaned.replace(
+      /^([a-zA-Z][a-zA-Z\s]*)\s+([一-龯々ぁ-んァ-ヶー<][^a-zA-Z]*)/,
+      '<span class="anki-romaji-label">romaji: <span class="anki-romaji-text">$1</span></span><br>$2'
+    );
 
     // Limit font sizes for better readability
     cleaned = cleaned.replace(/font-size:\s*(\d+)px/gi, (match, size) => {

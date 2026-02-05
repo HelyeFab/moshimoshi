@@ -346,6 +346,12 @@ export class RestoreOrchestrator extends EventEmitter {
       },
       createdAt: Date.now(),
       updatedAt: Date.now(),
+      metadata: {
+        importedAt: new Date().toISOString(),
+        hasMedia: mediaFiles.size > 0,
+        ankiImport: true,
+        r2BackupEnabled: true,
+      },
     }
 
     await db.put('decks', flashcardDeck)

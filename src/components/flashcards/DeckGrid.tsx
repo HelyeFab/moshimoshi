@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, ChevronRight, CheckSquare, Square } from 'lucide-react';
+import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, ChevronRight, CheckSquare, Square, CloudOff, Cloud } from 'lucide-react';
 import type { FlashcardDeck } from '@/types/flashcards';
 import type { RestoreProgress } from '@/types/r2';
 import { useI18n } from '@/i18n/I18nContext';
@@ -27,6 +27,7 @@ interface DeckGridProps {
   restoreProgressByDeckId?: Record<string, RestoreProgress>;
   selectedDeckIds?: Set<string>;
   onToggleSelect?: (deckId: string) => void;
+  onToggleAnkiBackup?: (deck: FlashcardDeck, enabled: boolean) => void;
 }
 
 export function DeckGrid({
@@ -45,7 +46,8 @@ export function DeckGrid({
   hideCreateCard = false,
   restoreProgressByDeckId,
   selectedDeckIds,
-  onToggleSelect
+  onToggleSelect,
+  onToggleAnkiBackup
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -56,6 +58,9 @@ export function DeckGrid({
   const canDeleteDeck = () => isPremium;
   const canExportDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
   const canSyncDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
+  const isAnkiDeck = (deck: FlashcardDeck) => deck.source === 'anki';
+  const isR2BackupEnabled = (deck: FlashcardDeck) =>
+    !isAnkiDeck(deck) || deck.metadata?.r2BackupEnabled !== false;
 
   // Track openMenuId changes
   useEffect(() => {
@@ -304,6 +309,42 @@ export function DeckGrid({
             </button>
           )}
 
+          {onToggleAnkiBackup && isPremium && isAnkiDeck(deck) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
+                setOpenMenuId(null);
+                const nextEnabled = !isR2BackupEnabled(deck);
+                setTimeout(() => {
+                  onToggleAnkiBackup(deck, nextEnabled);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
+              }}
+              className={cn(
+                "w-full px-4 py-2 text-left text-sm transition-colors flex items-center gap-3",
+                isR2BackupEnabled(deck)
+                  ? "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700"
+              )}
+            >
+              {isR2BackupEnabled(deck) ? (
+                <>
+                  <CloudOff className="w-4 h-4" />
+                  {t('flashcards.ankiBackup.disable')}
+                </>
+              ) : (
+                <>
+                  <Cloud className="w-4 h-4" />
+                  {t('flashcards.ankiBackup.enable')}
+                </>
+              )}
+            </button>
+          )}
+
           {/* Premium Sync Option */}
           {onSyncDeck && canSyncDeck(deck) && (
             <>
@@ -485,11 +526,18 @@ export function DeckGrid({
                 </div>
 
                 {/* Row 3: Backup Status Badge (separate line to prevent layout jump) */}
-                {deck.source === 'anki' && isPremium && (
+                {deck.source === 'anki' && isPremium && isR2BackupEnabled(deck) && (
                   <div className={cn(
                     deck.emoji && "pl-13" // Match alignment with stats above
                   )}>
                     <BackupStatusBadge deckId={deck.id} />
+                  </div>
+                )}
+                {deck.source === 'anki' && isPremium && !isR2BackupEnabled(deck) && (
+                  <div className={cn(deck.emoji && "pl-13")}>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {t('flashcards.ankiBackup.localOnly')}
+                    </span>
                   </div>
                 )}
 
@@ -702,9 +750,16 @@ export function DeckGrid({
                   </div>
 
                   {/* Backup Status Badge for Anki Decks */}
-                  {deck.source === 'anki' && isPremium && (
+                  {deck.source === 'anki' && isPremium && isR2BackupEnabled(deck) && (
                     <div className="mb-1">
                       <BackupStatusBadge deckId={deck.id} />
+                    </div>
+                  )}
+                  {deck.source === 'anki' && isPremium && !isR2BackupEnabled(deck) && (
+                    <div className="mb-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {t('flashcards.ankiBackup.localOnly')}
+                      </span>
                     </div>
                   )}
 

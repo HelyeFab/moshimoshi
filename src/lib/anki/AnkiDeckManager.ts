@@ -30,6 +30,7 @@ export interface StoredAnkiDeck extends AnkiDeck {
     importedAt: string
     hasMedia: boolean
     ankiImport?: boolean
+    r2BackupEnabled?: boolean
   }
 }
 
@@ -112,7 +113,8 @@ export class AnkiDeckManager {
     deck: AnkiDeck,
     userId: string,
     isPremium: boolean,
-    filename?: string
+    filename?: string,
+    r2BackupEnabled: boolean = true
   ): Promise<StoredAnkiDeck> {
     debugLogger.step(1, 'Starting deck save', {
       deckId: deck.id,
@@ -165,6 +167,7 @@ export class AnkiDeckManager {
         importedAt: new Date().toISOString(),
         hasMedia: (deck.mediaBlobs?.size || 0) > 0,
         ankiImport: true,
+        r2BackupEnabled,
       },
     }
 
@@ -360,6 +363,59 @@ export class AnkiDeckManager {
   }
 
   /**
+   * Enable or disable R2 backup for a single Anki deck.
+   * Disabling deletes the existing backup and clears queued uploads.
+   * Enabling requires re-importing the deck to regenerate the .apkg.
+   */
+  async setR2BackupEnabled(
+    deckId: string,
+    userId: string,
+    isPremium: boolean,
+    enabled: boolean
+  ): Promise<'disabled' | 'reimport_required' | 'not_found' | 'unchanged' | 'cleanup_failed'> {
+    const db = await this.initDB()
+    const deck = await this.getDeck(deckId, userId)
+
+    if (!deck) {
+      return 'not_found'
+    }
+
+    const currentEnabled = deck.metadata?.r2BackupEnabled !== false
+    if (enabled === currentEnabled) {
+      return 'unchanged'
+    }
+
+    if (!enabled) {
+      const updatedDeck: StoredAnkiDeck = {
+        ...deck,
+        updatedAt: Date.now(),
+        metadata: {
+          originalFilename: deck.metadata?.originalFilename,
+          importedAt: deck.metadata?.importedAt ?? new Date().toISOString(),
+          hasMedia: deck.metadata?.hasMedia ?? false,
+          ankiImport: deck.metadata?.ankiImport,
+          r2BackupEnabled: false,
+        },
+      }
+
+      await db.put('decks', updatedDeck as any)
+
+      if (isPremium) {
+        const cleaned = await this.cleanupR2Backup(deckId, userId)
+        if (!cleaned) {
+          this.notifyListeners('decks-changed')
+          return 'cleanup_failed'
+        }
+      }
+
+      this.notifyListeners('decks-changed')
+      return 'disabled'
+    }
+
+    return 'reimport_required'
+  }
+
+  /**
    * Subscribe to deck changes
    */
   subscribe(event: string, callback: () => void): () => void {
@@ -378,6 +434,44 @@ export class AnkiDeckManager {
    */
   private notifyListeners(event: string): void {
     this.listeners.get(event)?.forEach(callback => callback())
+  }
+
+  private async cleanupR2Backup(deckId: string, userId: string): Promise<boolean> {
+    try {
+      const { getR2UploadQueue } = await import('@/lib/r2/R2UploadQueue')
+      const queue = getR2UploadQueue(userId)
+      await queue.clearDeck(deckId, { markDeleted: true })
+
+      const deleteResponse = await fetch('/api/anki/r2/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ deckId }),
+      })
+
+      if (!deleteResponse.ok) {
+        const errorText = await deleteResponse.text()
+        debugLogger.error('R2 delete API failed!', errorText)
+      }
+
+      const metadataResponse = await fetch(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deckId)}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      })
+
+      if (!metadataResponse.ok) {
+        const errorText = await metadataResponse.text()
+        debugLogger.error('Metadata delete failed!', {
+          status: metadataResponse.status,
+          error: errorText
+        })
+      }
+      return deleteResponse.ok && metadataResponse.ok
+    } catch (error) {
+      debugLogger.error('R2 cleanup error!', error)
+      return false
+    }
   }
 
 

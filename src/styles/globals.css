@@ -447,27 +447,15 @@ html.dark body {
   text-align: center;
 }
 
-/* Ruby tag styles for furigana from API */
+/* Ruby tag styles for furigana - use browser native rendering */
 ruby {
-  position: relative;
-  display: inline-block;
-  vertical-align: text-bottom;
-  text-align: center;
-  line-height: 1;
-  padding-top: 0.85em; /* Tighter space for furigana above */
+  ruby-position: over;
 }
 
 ruby rt {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 0.5em;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  color: var(--article-text-secondary);
-  opacity: 0.85;
+  line-height: 1.2;
+  user-select: none;
 }
 
 ruby rp {

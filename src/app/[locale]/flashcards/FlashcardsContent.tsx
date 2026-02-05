@@ -51,6 +51,7 @@ import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import ActionMenu from '@/components/ui/ActionMenu'
 import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId'
+import { MigrationButton } from '@/components/anki/MigrationButton'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -99,6 +100,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false)
   const [showCancelSyncDialog, setShowCancelSyncDialog] = useState(false)
+  const [deckToDisableAnkiBackup, setDeckToDisableAnkiBackup] = useState<FlashcardDeck | null>(null)
+  const [showDisableAnkiBackupDialog, setShowDisableAnkiBackupDialog] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [showInsights, setShowInsights] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -946,6 +949,12 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         updatedAt: Date.now(),
         source: 'anki',
         restoreStatus: 'restoring',
+        metadata: {
+          importedAt: new Date().toISOString(),
+          hasMedia: backup.hasMedia,
+          ankiImport: true,
+          r2BackupEnabled: true,
+        },
       })
 
       const restoreStubs = missingBackups.map(buildRestoreStub)
@@ -1492,6 +1501,79 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     return false
   }
 
+  const handleToggleAnkiBackup = (deck: FlashcardDeck, enabled: boolean) => {
+    if (!initialData.userId || !isPremium) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+    if (!isAnkiDeck(deck)) return
+
+    if (enabled) {
+      showToast(t('flashcards.ankiBackup.reimportRequired'), 'info')
+      return
+    }
+
+    setDeckToDisableAnkiBackup(deck)
+    setShowDisableAnkiBackupDialog(true)
+  }
+
+  const confirmDisableAnkiBackup = async () => {
+    if (!initialData.userId || !deckToDisableAnkiBackup) return
+
+    const deck = deckToDisableAnkiBackup
+    setShowDisableAnkiBackupDialog(false)
+    setDeckToDisableAnkiBackup(null)
+
+    showToast(t('flashcards.ankiBackup.disabling', { name: deck.name }), 'info')
+
+    const result = await ankiDeckManager.setR2BackupEnabled(
+      deck.id,
+      initialData.userId,
+      isPremium,
+      false
+    )
+
+    if (result === 'disabled') {
+      setDecks(prev =>
+        prev.map(existing =>
+          existing.id === deck.id
+            ? {
+                ...existing,
+                metadata: {
+                  ...existing.metadata,
+                  r2BackupEnabled: false,
+                },
+              }
+            : existing
+        )
+      )
+      await loadR2Usage()
+      showToast(t('flashcards.ankiBackup.disabled'), 'success')
+      return
+    }
+
+    if (result === 'cleanup_failed') {
+      setDecks(prev =>
+        prev.map(existing =>
+          existing.id === deck.id
+            ? {
+                ...existing,
+                metadata: {
+                  ...existing.metadata,
+                  r2BackupEnabled: false,
+                },
+              }
+            : existing
+        )
+      )
+      await loadR2Usage()
+      showToast(t('flashcards.ankiBackup.cleanupFailed'), 'error')
+      return
+    }
+
+    showToast(t('flashcards.errors.updateFailed'), 'error')
+  }
+
   const handleToggleDeckSelection = (deckId: string) => {
     setSelectedDeckIds(prev => {
       const next = new Set(prev)
@@ -1948,6 +2030,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       <div className="container mx-auto px-4 py-8">
         {initialData.userId && <FlashcardsStoragePermissionModal />}
 
+        {/* Furigana Migration Utility (for Anki decks with bracket notation) */}
+        {decks.some(d => d.source === 'anki') && (
+          <div className="mb-6">
+            <MigrationButton />
+          </div>
+        )}
+
         {/* Migration Banner for New Premium Users */}
         {showMigration && isPremium && (
           <motion.div
@@ -2237,6 +2326,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             onEditDeck={handleEditDeck}
             onDeleteDeck={handleDeleteDeck}
             onExportDeck={handleExportDeck}
+            onToggleAnkiBackup={handleToggleAnkiBackup}
             onStudyDeck={handleStudyDeck}
             onSessionSettings={deck => {
               setDeckToStudy(deck)
@@ -2499,6 +2589,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             'This will stop the current sync and clear any in-progress restores.'
           }
           confirmText={t('flashcards.migration.cancelSyncConfirm') || 'Stop sync'}
+          cancelText={t('common.cancel')}
+          type="danger"
+        />
+        <Dialog
+          isOpen={showDisableAnkiBackupDialog}
+          onClose={() => {
+            setShowDisableAnkiBackupDialog(false)
+            setDeckToDisableAnkiBackup(null)
+          }}
+          onConfirm={confirmDisableAnkiBackup}
+          title={t('flashcards.ankiBackup.disableConfirmTitle')}
+          message={t('flashcards.ankiBackup.disableConfirmMessage', { name: deckToDisableAnkiBackup?.name || '' })}
+          confirmText={t('flashcards.ankiBackup.disableConfirmAction')}
           cancelText={t('common.cancel')}
           type="danger"
         />

@@ -70,6 +70,7 @@ export interface ImportResult {
   error?: string
   packageFile?: File  // Original .apkg file for R2 backup upload
   media?: Map<string, Blob>  // Media files for R2 backup upload
+  r2BackupEnabled?: boolean
 }
 
 export class AnkiImporter {

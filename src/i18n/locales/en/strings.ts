@@ -4612,6 +4612,18 @@ export const strings = {
     totalCards: '{{count}} cards',
     lastStudied: 'Last studied: {{date}}',
     neverStudied: 'Never studied',
+    ankiBackup: {
+      enable: 'Enable cloud backup',
+      disable: 'Disable cloud backup',
+      localOnly: 'Local-only (not backed up)',
+      reimportRequired: 'Re-import this deck to enable cloud backup.',
+      disableConfirmTitle: 'Disable cloud backup?',
+      disableConfirmMessage: 'This will remove "{{name}}" from cloud backup and keep it local-only.',
+      disableConfirmAction: 'Disable backup',
+      disabling: 'Disabling cloud backup for "{{name}}"...',
+      disabled: 'Cloud backup disabled.',
+      cleanupFailed: 'Cloud cleanup failed. Some data may still be stored.',
+    },
 
     // Card management
     addCard: 'Add Card',
@@ -4707,6 +4719,7 @@ export const strings = {
     cardLimit: 'Card Limit',
     includeCards: 'Include Cards',
     dueCards: 'Due Cards',
+    cardsDue: 'cards due',
     masteredCards: 'Mastered Cards',
     sortBy: 'Sort By',
     priority: 'Priority',
@@ -5825,6 +5838,8 @@ export const strings = {
     dueToday: 'Due today',
     newCards: 'new cards',
     dueTodayExplanation: 'Your deck has {{total}} cards. You will study {{daily}} new cards per day.',
+    backupToCloud: 'Back up this deck to cloud',
+    backupToCloudHint: 'Enable cross-device restore and safe keeping.',
     settingsSummary: '{{newCards}} new cards/day, {{reviews}} reviews/day',
     // Additional strings for import page
     syncEnabled: 'Cloud sync enabled',

@@ -78,10 +78,22 @@ export async function POST(request: NextRequest) {
         .where('userId', '==', session.uid)
         .get()
 
+      const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+      const deletedSnapshot = await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('deletedAnkiDecks')
+        .where('deletedAt', '>', thirtyDaysAgo)
+        .get()
+      const deletedDeckIdSet = new Set(deletedSnapshot.docs.map(doc => doc.id))
+
       let usedBytes = 0
       let existingDeckBytes = 0
 
       snapshot.docs.forEach(doc => {
+        if (deletedDeckIdSet.has(doc.id)) {
+          return
+        }
         const data = doc.data() as { deckId?: string; totalBytes?: number }
         const bytes = data.totalBytes || 0
         usedBytes += bytes

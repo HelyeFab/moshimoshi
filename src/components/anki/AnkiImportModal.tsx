@@ -44,6 +44,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
   const [newCardsPerDay, setNewCardsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
   const [reviewsPerDay, setReviewsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
   const [strictTemplateMode, setStrictTemplateMode] = useState(DEFAULT_ANKI_DECK_SETTINGS.strictTemplateMode)
+  const [backupToCloud, setBackupToCloud] = useState(false)
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
@@ -173,6 +174,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         cardsImported: finalDeck.cards.length,
         packageFile: file || undefined,  // Original .apkg file for R2 backup
         media: mediaBlobs,  // Media blobs for R2 backup
+        r2BackupEnabled: isPremium ? backupToCloud : false,
       }
 
 
@@ -199,6 +201,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
     setNewCardsPerDay(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
     setReviewsPerDay(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
     setStrictTemplateMode(DEFAULT_ANKI_DECK_SETTINGS.strictTemplateMode)
+    setBackupToCloud(false)
     setProgress(0)
     setProgressMessage('')
     if (fileInputRef.current) {
@@ -220,6 +223,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
     setPreviewDeck(null)
     setFile(null)
     setError('')
+    setBackupToCloud(false)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
@@ -340,6 +344,27 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                   </p>
                 )}
               </div>
+
+              {isPremium && (
+                <div className="border-t border-gray-200 dark:border-dark-600 pt-4">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={backupToCloud}
+                      onChange={(e) => setBackupToCloud(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                    />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                        {t('anki.backupToCloud')}
+                      </div>
+                      <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">
+                        {t('anki.backupToCloudHint')}
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              )}
 
               {/* Editable Deck Name */}
               <div>

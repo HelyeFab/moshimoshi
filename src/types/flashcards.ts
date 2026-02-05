@@ -24,6 +24,13 @@ export interface FlashcardDeck {
   source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
   tags?: string[];
   restoreStatus?: 'restoring' | 'error';
+  metadata?: {
+    originalFilename?: string;
+    importedAt?: string;
+    hasMedia?: boolean;
+    ankiImport?: boolean;
+    r2BackupEnabled?: boolean;
+  };
   r2?: {  // R2 metadata (populated after upload to cloud storage)
     cardsKey: string;
     manifestKey: string;

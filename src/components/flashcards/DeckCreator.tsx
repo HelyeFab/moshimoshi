@@ -247,11 +247,12 @@ export function DeckCreator({
           result.deck,
           userId,
           isPremium,
-          result.deck.name
+          result.deck.name,
+          result.r2BackupEnabled !== false
         )
 
         // Start R2 backup in background for premium users (non-blocking)
-        if (isPremium && result.packageFile) {
+        if (isPremium && result.packageFile && result.r2BackupEnabled !== false) {
           debugLogger.r2Upload('Triggering R2 backup in background...', {
             deckId: result.deck.id,
             deckName: result.deck.name,

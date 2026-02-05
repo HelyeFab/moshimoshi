@@ -169,6 +169,13 @@ export function FlashcardViewer({
       )
     }
 
+    // Wrap romaji text (Latin text before <br> and Japanese) with a styled span
+    // Pattern: [Latin text]<br>[Japanese text with possible ruby tags]
+    updated = updated.replace(
+      /^([a-zA-Z][a-zA-Z\s]*?)(<br>)/,
+      '<span class="anki-romaji-label">romaji: <span class="anki-romaji-text">$1</span></span>$2'
+    )
+
     return updated
   }, [])
 
@@ -446,7 +453,7 @@ export function FlashcardViewer({
     }
     // Otherwise extract from HTML (Anki cards)
     return extractImageFromHtml(resolvedFrontHtml);
-  }, [hydratedCard.front, resolvedFrontHtml, extractImageFromHtml]);
+  }, [hydratedCard.front, resolvedFrontHtml, extractImageFromHtml, isAnkiCard]);
 
   const backContent = useMemo(() => {
     // First check if back is a CardSide object with media
@@ -530,7 +537,7 @@ export function FlashcardViewer({
               ref={contentSectionRef}
               className={cn(
                 "relative flex-1 flashcard-content-scroll",
-                frontContent.imageUrl ? "py-4" : "pt-16 pb-4"
+                frontContent.imageUrl ? "py-4" : "pt-6 pb-4"
               )}
               style={{
                 minHeight: 0,
@@ -628,7 +635,7 @@ export function FlashcardViewer({
             <div
               className={cn(
                 "relative flex-1 flashcard-content-scroll",
-                backContent.imageUrl ? "py-4" : "pt-16 pb-4"
+                backContent.imageUrl ? "py-4" : "pt-6 pb-4"
               )}
               style={{
                 minHeight: 0,
@@ -753,14 +760,42 @@ export function FlashcardViewer({
           font-weight: 500 !important;
         }
 
-        .anki-card-content ruby {
+        /* Romaji label - small, at top, in flow */
+        .anki-card-content .anki-romaji-label {
+          display: block;
+          text-align: left;
+          margin-top: 0;
+          margin-bottom: auto;
+          padding-bottom: 1rem;
+          font-size: 0.65rem !important;
+          color: #6b7280 !important;
           font-weight: 400 !important;
+          line-height: 1.2 !important;
+        }
+
+        .anki-card-content .anki-romaji-label .anki-romaji-text {
+          font-size: 0.65rem !important;
+          color: #9ca3af !important;
+          font-style: italic !important;
+          font-weight: 400 !important;
+          line-height: 1.2 !important;
+        }
+
+        /* Hide br after romaji */
+        .anki-card-content .anki-romaji-label + br {
+          display: none;
+        }
+
+        /* Ruby tags - let browser handle positioning naturally */
+        .anki-card-content ruby {
+          display: inline-ruby !important;
           font-size: 1.5rem !important;
+          font-weight: 600 !important;
         }
 
         .anki-card-content ruby rt {
-          font-weight: 600 !important;
-          font-size: 0.7em !important;
+          font-size: 0.5em !important;
+          user-select: none !important;
         }
 
         .anki-card-content img {
@@ -835,11 +870,31 @@ const requiredStyles = `
   text-align: center;
   line-height: 1.6;
   font-size: 1.1rem !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100%;
+}
+
+.anki-card-content .anki-romaji-label {
+  display: block;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: auto;
+  padding-bottom: 1rem;
+  font-size: 0.65rem !important;
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  align-self: flex-start;
+}
+
+.anki-card-content .anki-romaji-label .anki-romaji-text {
+  font-size: 0.65rem !important;
+  color: #9ca3af !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+}
+
+.anki-card-content .anki-romaji-label + br {
+  display: none;
 }
 
 .anki-card-content span {
@@ -854,7 +909,8 @@ const requiredStyles = `
 }
 
 .anki-card-content ruby {
-  font-weight: 400 !important;
+  display: inline-ruby !important;
+  font-weight: 600 !important;
   font-size: 1.5rem !important;
 }
 
