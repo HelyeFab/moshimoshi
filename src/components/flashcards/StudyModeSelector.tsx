@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 import {
   Clock, Zap, Brain, Target, Timer,
   AlertCircle, BookOpen, TrendingDown, Sparkles
@@ -11,8 +12,47 @@ import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { FlashcardSRSHelper } from '@/lib/flashcards/SRSHelper';
 import Dropdown from '@/components/ui/Dropdown';
+import { mistakeReplayStore } from '@/lib/flashcards/mistakeReplay';
+import Checkbox from '@/components/ui/Checkbox';
 
-export type StudyModeType = 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom';
+export type StudyModeType = 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom' | 'mistake_replay' | 'audio';
+
+const shuffleArray = <T,>(items: T[]): T[] => {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+};
+
+const hashString = (value: string): number => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+const seededRandom = (seed: number) => {
+  let t = seed + 0x6D2B79F5;
+  return () => {
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const seededShuffle = <T,>(items: T[], seed: number): T[] => {
+  const copy = [...items];
+  const rand = seededRandom(seed);
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+};
 
 interface StudyMode {
   id: StudyModeType;
@@ -26,14 +66,17 @@ interface StudyMode {
 
 interface StudyModeSelectorProps {
   deck: FlashcardDeck;
+  userId: string;
   onStartStudy: (cards: FlashcardContent[], mode: StudyModeType) => void;
   onClose: () => void;
 }
 
-export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSelectorProps) {
+export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: StudyModeSelectorProps) {
   const { t } = useI18n();
   const [selectedMode, setSelectedMode] = useState<StudyModeType | null>(null);
   const maxCards = deck.cards.length;
+  const sessionSeedRef = useRef<number>(hashString(`${deck.id}-${Date.now()}`));
+  const [selectedMistakeSessionId, setSelectedMistakeSessionId] = useState<string | 'all'>('all');
   const [customSettings, setCustomSettings] = useState({
     cardLimit: Math.min(20, maxCards),
     includeNew: true,
@@ -41,15 +84,11 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
     includeMastered: false,
     sortBy: 'priority' as 'priority' | 'random' | 'oldest'
   });
+  const isMobile = useIsMobile();
 
-  const shuffleArray = <T,>(items: T[]): T[] => {
-    const copy = [...items];
-    for (let i = copy.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  };
+  // Modes that require sub-configuration before starting
+  const modesWithConfig: StudyModeType[] = ['custom', 'mistake_replay'];
+  const needsConfigPanel = selectedMode !== null && modesWithConfig.includes(selectedMode);
 
   const interleaveArrays = <T,>(primary: T[], secondary: T[]): T[] => {
     const mixed: T[] = [];
@@ -120,6 +159,22 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
     return accuracy < 0.6 || (card.metadata.lapses || 0) > 2;
   });
 
+  const hasAudio = (card: FlashcardContent) => {
+    const front = typeof card.front === 'string' ? null : card.front?.media;
+    const back = typeof card.back === 'string' ? null : card.back?.media;
+    return (
+      card.metadata?.audioFilename ||
+      card.metadata?.audioUrl ||
+      front?.type === 'audio' ||
+      back?.type === 'audio'
+    );
+  };
+
+  const audioCards = deck.cards.filter(hasAudio);
+  const mistakeReplayPayload = userId ? mistakeReplayStore.load(userId, deck.id) : null;
+  const mistakeReplaySessions = mistakeReplayPayload?.sessions || [];
+  const mistakeReplayIds = userId ? mistakeReplayStore.getCombinedCardIds(userId, deck.id) : [];
+
   const modes: StudyMode[] = [
     {
       id: 'due',
@@ -176,6 +231,24 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       estimatedTime: Math.ceil((weakCards.length * 4) / 60)
     },
     {
+      id: 'mistake_replay',
+      name: t('flashcards.modes.mistakeReplay.name'),
+      description: t('flashcards.modes.mistakeReplay.description'),
+      icon: <AlertCircle className="w-4 h-4" />,
+      color: 'from-rose-500 to-orange-500',
+      cardCount: mistakeReplayIds.length,
+      estimatedTime: Math.ceil((mistakeReplayIds.length * 4) / 60)
+    },
+    {
+      id: 'audio',
+      name: t('flashcards.modes.audio.name'),
+      description: t('flashcards.modes.audio.description'),
+      icon: <Timer className="w-4 h-4" />,
+      color: 'from-sky-500 to-cyan-600',
+      cardCount: audioCards.length,
+      estimatedTime: Math.ceil((audioCards.length * 3) / 60)
+    },
+    {
       id: 'custom',
       name: t('flashcards.modes.custom.name'),
       description: t('flashcards.modes.custom.description'),
@@ -188,6 +261,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
   const getCardsForMode = (mode: StudyModeType): FlashcardContent[] => {
     let cards: FlashcardContent[] = [];
+    const sessionSeed = sessionSeedRef.current;
 
     switch (mode) {
       case 'due':
@@ -239,15 +313,38 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
         // Apply sorting
         if (customSettings.sortBy === 'random') {
-          cards.sort(() => Math.random() - 0.5);
+          cards = seededShuffle(cards, sessionSeed);
         } else if (customSettings.sortBy === 'oldest') {
-          cards.sort((a, b) => (a.metadata?.createdAt || 0) - (b.metadata?.createdAt || 0));
+          const getOldestTimestamp = (card: FlashcardContent) => {
+            return (
+              card.metadata?.createdAt ??
+              card.metadata?.modifiedAt ??
+              card.metadata?.lastReviewed ??
+              Number.MAX_SAFE_INTEGER
+            );
+          };
+          cards.sort((a, b) => getOldestTimestamp(a) - getOldestTimestamp(b));
         } else {
           cards = FlashcardSRSHelper.sortByPriority(cards);
         }
 
         // Apply limit
         cards = cards.slice(0, customSettings.cardLimit);
+        break;
+      case 'mistake_replay': {
+        if (!userId) break;
+        const cardMap = new Map(deck.cards.map(card => [card.id, card]));
+        const selectedIds = selectedMistakeSessionId === 'all'
+          ? mistakeReplayIds
+          : (mistakeReplaySessions.find(session => session.id === selectedMistakeSessionId)?.cardIds || []);
+        const replayCards = selectedIds
+          .map(cardId => cardMap.get(cardId))
+          .filter(Boolean) as FlashcardContent[];
+        cards = replayCards;
+        break;
+      }
+      case 'audio':
+        cards = [...audioCards];
         break;
     }
 
@@ -262,16 +359,42 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
   const handleStartStudy = () => {
     if (!selectedMode) return;
+    if (selectedMode === 'custom' && customSettings.sortBy === 'random') {
+      sessionSeedRef.current = hashString(`${deck.id}-${Date.now()}`);
+    }
     const cards = getCardsForMode(selectedMode);
     if (cards.length === 0) {
-      // Show error toast
       return;
     }
     onStartStudy(cards, selectedMode);
   };
 
+  const handleModeClick = useCallback((modeId: StudyModeType, cardCount: number | undefined) => {
+    if (selectedMode === modeId && isMobile && !modesWithConfig.includes(modeId)) {
+      // Double-tap on mobile: start session if mode has cards
+      if (cardCount !== undefined && cardCount > 0) {
+        // Briefly set mode to ensure getCardsForMode picks it up, then start
+        handleStartStudy();
+        return;
+      }
+    }
+    setSelectedMode(modeId);
+  }, [selectedMode, isMobile, modesWithConfig, handleStartStudy]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -287,6 +410,11 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 truncate">
                 {deck.name} • {deck.cards.length} {t('flashcards.cards')}
               </p>
+              {isMobile && selectedMode && !needsConfigPanel && (
+                <p className="mt-1 text-xs text-primary-500 dark:text-primary-400">
+                  {t('flashcards.tapAgainToStart')}
+                </p>
+              )}
             </div>
             <button
               onClick={onClose}
@@ -306,7 +434,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                 key={mode.id}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => setSelectedMode(mode.id)}
+                onClick={() => handleModeClick(mode.id, mode.cardCount)}
                 data-testid={`flashcards-study-mode-${mode.id}`}
                 className={cn(
                   "relative p-2 rounded-lg cursor-pointer transition-all",
@@ -374,8 +502,8 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
           {/* Custom Mode Settings */}
           <AnimatePresence>
-            {selectedMode === 'custom' && (
-              <motion.div
+      {selectedMode === 'custom' && (
+        <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -469,48 +597,33 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                       {t('flashcards.includeCards')}
                     </label>
                     <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={customSettings.includeNew}
-                          onChange={(e) => setCustomSettings(prev => ({
-                            ...prev,
-                            includeNew: e.target.checked
-                          }))}
-                          className="mr-2"
-                        />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          {t('flashcards.newCards')}
-                        </span>
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={customSettings.includeDue}
-                          onChange={(e) => setCustomSettings(prev => ({
-                            ...prev,
-                            includeDue: e.target.checked
-                          }))}
-                          className="mr-2"
-                        />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          {t('flashcards.dueCards')}
-                        </span>
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={customSettings.includeMastered}
-                          onChange={(e) => setCustomSettings(prev => ({
-                            ...prev,
-                            includeMastered: e.target.checked
-                          }))}
-                          className="mr-2"
-                        />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          {t('flashcards.masteredCards')}
-                        </span>
-                      </label>
+                      <Checkbox
+                        checked={customSettings.includeNew}
+                        onChange={(checked) => setCustomSettings(prev => ({
+                          ...prev,
+                          includeNew: checked
+                        }))}
+                        label={t('flashcards.newCards')}
+                        size="small"
+                      />
+                      <Checkbox
+                        checked={customSettings.includeDue}
+                        onChange={(checked) => setCustomSettings(prev => ({
+                          ...prev,
+                          includeDue: checked
+                        }))}
+                        label={t('flashcards.dueCards')}
+                        size="small"
+                      />
+                      <Checkbox
+                        checked={customSettings.includeMastered}
+                        onChange={(checked) => setCustomSettings(prev => ({
+                          ...prev,
+                          includeMastered: checked
+                        }))}
+                        label={t('flashcards.masteredCards')}
+                        size="small"
+                      />
                     </div>
                   </div>
 
@@ -530,11 +643,69 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                     />
                   </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
-          <div className="mt-6 flex flex-col gap-3">
+    <AnimatePresence>
+      {selectedMode === 'mistake_replay' && mistakeReplaySessions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="mt-6 p-4 bg-gray-50 dark:bg-dark-700 rounded-xl"
+        >
+          <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {t('flashcards.modes.mistakeReplay.history') || 'Session history'}
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedMistakeSessionId('all')}
+              className={cn(
+                'px-3 py-1.5 rounded-full text-xs font-semibold transition-colors',
+                selectedMistakeSessionId === 'all'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-gray-200 dark:bg-dark-600 text-gray-700 dark:text-gray-200'
+              )}
+            >
+              {t('common.all') || 'All'}
+            </button>
+            {mistakeReplaySessions.map((session, index) => {
+              const label = t('flashcards.modes.mistakeReplay.session', { index: index + 1 })
+                || `Session ${index + 1}`;
+              const dateLabel = new Date(session.createdAt).toLocaleDateString(undefined, {
+                month: 'short',
+                day: 'numeric',
+              });
+              const chipLabel = `${label} · ${dateLabel}`;
+              return (
+                <button
+                  key={session.id}
+                  type="button"
+                  onClick={() => setSelectedMistakeSessionId(session.id)}
+                  className={cn(
+                    'px-3 py-1.5 rounded-full text-xs font-semibold transition-colors',
+                    selectedMistakeSessionId === session.id
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-gray-200 dark:bg-dark-600 text-gray-700 dark:text-gray-200'
+                  )}
+                  title={dateLabel}
+                >
+                  {chipLabel}
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+          {/* Action buttons: hidden on mobile unless a mode with config panel is selected */}
+          <div className={cn(
+            "mt-6 flex flex-col gap-3",
+            isMobile && !needsConfigPanel && "hidden"
+          )}>
             <button
               onClick={handleStartStudy}
               disabled={!selectedMode || (selectedMode !== 'custom' && modes.find(m => m.id === selectedMode)?.cardCount === 0)}
@@ -550,7 +721,10 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
             </button>
             <button
               onClick={onClose}
-              className="w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors border border-gray-300 dark:border-dark-600"
+              className={cn(
+                "w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors border border-gray-300 dark:border-dark-600",
+                isMobile && "hidden"
+              )}
             >
               {t('common.cancel')}
             </button>

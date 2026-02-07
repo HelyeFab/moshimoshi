@@ -7,6 +7,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { DeckGrid } from '@/components/flashcards/DeckGrid'
 import { DeckCreator } from '@/components/flashcards/DeckCreator'
 import { StudySession } from '@/components/flashcards/StudySession'
+import { FlashcardViewer } from '@/components/flashcards/FlashcardViewer'
 import { StudyModeSelector } from '@/components/flashcards/StudyModeSelector'
 import { SessionSettingsModal } from '@/components/flashcards/SessionSettingsModal'
 import { StatsDashboard } from '@/components/flashcards/StatsDashboard'
@@ -41,6 +42,7 @@ import type {
   SessionStats,
   PersistedStudySession,
   FlashcardContent,
+  FlashcardStreakSnapshot,
 } from '@/types/flashcards'
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
@@ -51,7 +53,11 @@ import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import ActionMenu from '@/components/ui/ActionMenu'
 import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId'
-import { MigrationButton } from '@/components/anki/MigrationButton'
+import { weakCardsStore, type WeakCardEntry } from '@/lib/flashcards/weakCards'
+import { buildStreakSnapshot, getLastNDates } from '@/lib/flashcards/streakSnapshots'
+import { FlashcardMasteryWidget } from '@/components/flashcards/FlashcardMasteryWidget'
+import { MomentumCoach } from '@/components/flashcards/MomentumCoach'
+import { HeatFocusWidget } from '@/components/flashcards/HeatFocusWidget'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -120,6 +126,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [recommendations, setRecommendations] = useState<StudyRecommendation[]>([])
   const [insights, setInsights] = useState<LearningInsights | null>(null)
   const [currentStreak, setCurrentStreak] = useState(0)
+  const [weakCardCountsByDeckId, setWeakCardCountsByDeckId] = useState<Record<string, number>>({})
+  const [showWeakCardsModal, setShowWeakCardsModal] = useState(false)
+  const [weakCardsDeck, setWeakCardsDeck] = useState<FlashcardDeck | null>(null)
+  const [weakCards, setWeakCards] = useState<FlashcardContent[]>([])
+  const [weakCardIndex, setWeakCardIndex] = useState(0)
+  const [weakCardEntries, setWeakCardEntries] = useState<WeakCardEntry[]>([])
+  const [showAgainOnly, setShowAgainOnly] = useState(false)
+  const [streakSnapshots, setStreakSnapshots] = useState<FlashcardStreakSnapshot[]>([])
   const [comebackInfo, setComebackInfo] = useState<{
     daysAway: number
     lastStudyDate: Date
@@ -133,6 +147,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [selectAllMode, setSelectAllMode] = useState(false)
   const [pendingRemoteSession, setPendingRemoteSession] = useState<PersistedStudySession | null>(null)
   const [showRemoteSessionDialog, setShowRemoteSessionDialog] = useState(false)
+  const [multiDeckQueue, setMultiDeckQueue] = useState<Array<{ deck: FlashcardDeck; cards: FlashcardContent[] }>>([])
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -485,6 +500,130 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setSelectedDeckIds(new Set(decks.map(deck => deck.id)))
   }, [selectAllMode, decks])
 
+  const refreshWeakCardCounts = useCallback(
+    (userId: string, decksToUse: FlashcardDeck[]) => {
+      if (!userId || decksToUse.length === 0) {
+        setWeakCardCountsByDeckId({})
+        return
+      }
+      const nextCounts: Record<string, number> = {}
+      for (const deck of decksToUse) {
+        const payload = weakCardsStore.load(userId, deck.id)
+        if (payload?.entries?.length) {
+          nextCounts[deck.id] = payload.entries.length
+        }
+      }
+      setWeakCardCountsByDeckId(nextCounts)
+    },
+    []
+  )
+
+  const loadWeakCardsRemote = useCallback(async (decksToUse?: FlashcardDeck[]) => {
+    if (!effectiveUserId || !isPremium) return
+    try {
+      const response = await fetch('/api/flashcards/weak-cards', {
+        credentials: 'include',
+      })
+      if (!response.ok) return
+      const data = await response.json()
+      const items = Array.isArray(data.items) ? data.items : []
+      for (const item of items) {
+        if (!item?.deckId || !Array.isArray(item.entries)) continue
+        const local = weakCardsStore.load(effectiveUserId, item.deckId)
+        const localUpdated = local?.updatedAt || 0
+        const remoteUpdated = item.updatedAt || 0
+        if (!local || remoteUpdated > localUpdated) {
+          weakCardsStore.save(effectiveUserId, item.deckId, item.entries)
+        }
+      }
+      const targetDecks = decksToUse ?? decks
+      refreshWeakCardCounts(effectiveUserId, targetDecks)
+    } catch {
+      // ignore
+    }
+  }, [effectiveUserId, isPremium, decks, refreshWeakCardCounts])
+
+  useEffect(() => {
+    if (!effectiveUserId) {
+      setWeakCardCountsByDeckId({})
+      return
+    }
+    refreshWeakCardCounts(effectiveUserId, decks)
+  }, [decks, effectiveUserId, refreshWeakCardCounts])
+
+  const refreshStreakSnapshots = useCallback(
+    async (userId: string, decksToUse: FlashcardDeck[]) => {
+      if (!userId) return
+      try {
+        const snapshot = buildStreakSnapshot(userId, decksToUse)
+        await flashcardManager.upsertStreakSnapshot(snapshot)
+
+        if (isPremium) {
+          fetch('/api/flashcards/streak-snapshots', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              date: snapshot.date,
+              streak1: snapshot.streak1,
+              streak2: snapshot.streak2,
+              streak3plus: snapshot.streak3plus,
+              total: snapshot.total,
+              updatedAt: snapshot.updatedAt,
+            }),
+          }).catch(() => {})
+        }
+
+        const recentDates = getLastNDates(7)
+        const localSnapshots = await flashcardManager.getStreakSnapshotsForDates(userId, recentDates)
+        setStreakSnapshots(localSnapshots)
+      } catch {
+        // ignore snapshot failures
+      }
+    },
+    [isPremium]
+  )
+
+  const loadStreakSnapshotsRemote = useCallback(
+    async (userId: string) => {
+      if (!userId || !isPremium) return
+      try {
+        const response = await fetch('/api/flashcards/streak-snapshots', {
+          credentials: 'include',
+        })
+        if (!response.ok) return
+        const data = await response.json()
+        const items = Array.isArray(data.items) ? data.items : []
+
+        for (const item of items) {
+          if (!item?.date) continue
+          const local = await flashcardManager.getStreakSnapshot(userId, item.date)
+          const localUpdated = local?.updatedAt || 0
+          const remoteUpdated = item.updatedAt || 0
+          if (!local || remoteUpdated > localUpdated) {
+            await flashcardManager.upsertStreakSnapshot({
+              id: `${userId}_${item.date}`,
+              userId,
+              date: item.date,
+              streak1: item.streak1 || 0,
+              streak2: item.streak2 || 0,
+              streak3plus: item.streak3plus || 0,
+              total: item.total || 0,
+              updatedAt: remoteUpdated,
+            })
+          }
+        }
+
+        const recentDates = getLastNDates(7)
+        const localSnapshots = await flashcardManager.getStreakSnapshotsForDates(userId, recentDates)
+        setStreakSnapshots(localSnapshots)
+      } catch {
+        // ignore snapshot sync failures
+      }
+    },
+    [isPremium]
+  )
+
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
     if (!initialData.userId) return
@@ -501,7 +640,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
         const userInsights = await sessionManager.getLearningInsights(
           initialData.userId,
-          sessionsToUse
+          sessionsToUse,
+          decks
         )
         setInsights(userInsights)
 
@@ -522,6 +662,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         setCurrentStreak(streak)
       }
 
+      await loadWeakCardsRemote(decks)
+      await refreshStreakSnapshots(initialData.userId, decks)
+      await loadStreakSnapshotsRemote(initialData.userId)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -529,7 +672,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   // Full data load for free users (from IndexedDB)
-  const loadData = async (forceRefresh = false) => {
+  const loadData = async (forceRefresh = false, showLoading = true) => {
 
     // Use consistent userId - same logic as DeckCreator
     const effectiveUserId = initialData.userId || 'guest'
@@ -548,7 +691,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     abortControllerRef.current = new AbortController()
 
     try {
-      setLoading(true)
+      if (showLoading) {
+        setLoading(true)
+      }
 
       // Load flashcard decks - FlashcardManager handles both regular and Anki decks
       let userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
@@ -562,6 +707,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       }
 
       setDecks(userDecks)
+      await refreshStreakSnapshots(effectiveUserId, userDecks)
+      await loadStreakSnapshotsRemote(effectiveUserId)
 
       // Load user lists for import option
       const lists = await listManager.getLists(effectiveUserId, isPremium)
@@ -600,7 +747,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           }
         }
 
-        const userInsights = await sessionManager.getLearningInsights(effectiveUserId, sessionsToUse)
+        const userInsights = await sessionManager.getLearningInsights(
+          effectiveUserId,
+          sessionsToUse,
+          userDecks
+        )
         setInsights(userInsights)
 
         const cachedRecs = await fetchCachedRecommendations()
@@ -626,13 +777,16 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             : await sessionManager.getUserSessions(effectiveUserId, 25)
         setSessions(recentSessions)
       }
+      await loadWeakCardsRemote(userDecks)
     } catch (error: any) {
       if (error.name !== 'AbortError') {
         console.error('[FlashcardsContent.loadData] Failed to load data:', error)
         showToast(t('flashcards.errors.loadFailed'), 'error')
       }
     } finally {
-      setLoading(false)
+      if (showLoading) {
+        setLoading(false)
+      }
       loadingRef.current = false
     }
   }
@@ -646,7 +800,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     try {
       await flashcardManager.syncDecksFromFirebase(initialData.userId, isPremium)
-      await loadData(true)
+      await loadData(true, false)
     } catch (error) {
       console.error('[FlashcardsContent] Auto-sync failed:', error)
     }
@@ -1517,6 +1671,37 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setShowDisableAnkiBackupDialog(true)
   }
 
+  const handleReviewWeakCards = (deck: FlashcardDeck) => {
+    if (!effectiveUserId) return
+    const payload = weakCardsStore.load(effectiveUserId, deck.id)
+    const entries = payload?.entries || []
+    const cardIds = entries.map(entry => entry.cardId)
+    if (cardIds.length === 0) {
+      showToast(t('flashcards.weakCards.none'), 'info')
+      return
+    }
+    const cardMap = new Map(deck.cards.map(card => [card.id, card]))
+    const cardsToReview = cardIds
+      .map(cardId => cardMap.get(cardId))
+      .filter(Boolean) as FlashcardContent[]
+    if (cardsToReview.length === 0) {
+      weakCardsStore.clear(effectiveUserId, deck.id)
+      setWeakCardCountsByDeckId(prev => {
+        const next = { ...prev }
+        delete next[deck.id]
+        return next
+      })
+      showToast(t('flashcards.weakCards.none'), 'info')
+      return
+    }
+    setWeakCardsDeck(deck)
+    setWeakCards(cardsToReview)
+    setWeakCardIndex(0)
+    setWeakCardEntries(entries)
+    setShowAgainOnly(false)
+    setShowWeakCardsModal(true)
+  }
+
   const confirmDisableAnkiBackup = async () => {
     if (!initialData.userId || !deckToDisableAnkiBackup) return
 
@@ -1742,6 +1927,36 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setShowModeSelector(true)
   }
 
+  const handleInstantStudy = (deck: FlashcardDeck, cards: FlashcardContent[]) => {
+    if (!initialData.userId && userTier === 'guest') {
+      showToast(t('flashcards.limits.guest'), 'error')
+      return
+    }
+
+    if (!cards.length) {
+      showToast(t('flashcards.noCardsAvailable') || 'No cards available for this mode', 'info')
+      return
+    }
+
+    setResumeSessionState(null)
+    setStudyingDeck({
+      ...deck,
+      cards,
+      settings: {
+        ...deck.settings,
+        reviewMode: 'srs',
+        sessionLength: cards.length,
+      },
+    })
+  }
+
+  const handleInstantStudyGroups = (groups: Array<{ deck: FlashcardDeck; cards: FlashcardContent[] }>) => {
+    if (!groups.length) return
+    const [first, ...rest] = groups
+    setMultiDeckQueue(rest)
+    handleInstantStudy(first.deck, first.cards)
+  }
+
   const handleToggleInsights = () => {
     const newValue = !showInsights
     setShowInsights(newValue)
@@ -1759,6 +1974,23 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const showSyncUpgrade = Boolean(initialData.userId && !isPremium)
   const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length
   const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length
+  const weakCardDifficultyById = useMemo(
+    () => new Map(weakCardEntries.map(entry => [entry.cardId, entry.difficulty])),
+    [weakCardEntries]
+  )
+  const visibleWeakCards = useMemo(() => {
+    if (!showAgainOnly) return weakCards
+    return weakCards.filter(card => weakCardDifficultyById.get(card.id) === 'again')
+  }, [showAgainOnly, weakCards, weakCardDifficultyById])
+  useEffect(() => {
+    if (visibleWeakCards.length === 0) {
+      setWeakCardIndex(0)
+      return
+    }
+    if (weakCardIndex > visibleWeakCards.length - 1) {
+      setWeakCardIndex(visibleWeakCards.length - 1)
+    }
+  }, [visibleWeakCards, weakCardIndex])
 
   const handleStartSession = (selectedCards: any[], mode: string) => {
     if (!deckToStudy || selectedCards.length === 0) return
@@ -1947,7 +2179,21 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       }
     }
 
-    loadData()
+    await loadData(false, multiDeckQueue.length === 0)
+
+    if (multiDeckQueue.length > 0) {
+      const [next, ...rest] = multiDeckQueue
+      setMultiDeckQueue(rest)
+      setStudyingDeck({
+        ...next.deck,
+        cards: next.cards,
+        settings: {
+          ...next.deck.settings,
+          reviewMode: 'srs',
+          sessionLength: next.cards.length,
+        },
+      })
+    }
   }
 
   // Calculate overall stats
@@ -2020,22 +2266,71 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         <Navbar user={user} showUserMenu={true} />
       </div>
 
-      {/* Page Header - Mobile */}
       <PageHeader
         title={t('flashcards.title') || 'Flashcards'}
         description={t('flashcards.description')}
         backHref="/dashboard"
+        actions={
+          <ActionMenu
+            items={[
+              {
+                label: t('flashcards.insights'),
+                icon: <PieChart className="w-4 h-4" />,
+                onClick: handleToggleInsights,
+                hidden: !initialData.userId || decks.length === 0,
+              },
+              {
+                label: isAllSelected
+                  ? t('flashcards.selectAll')?.replace('Select', 'Deselect') || 'Deselect all'
+                  : t('flashcards.selectAll') || 'Select all',
+                icon: isAllSelected ? (
+                  <CheckSquare className="w-4 h-4" />
+                ) : (
+                  <Square className="w-4 h-4" />
+                ),
+                onClick: handleToggleSelectAll,
+                hidden: decks.length === 0 || !isPremium,
+              },
+              {
+                label: t('flashcards.createDeck'),
+                icon: <Plus className="w-4 h-4" />,
+                onClick: handleOpenDeckCreator,
+                hidden: !isPremium,
+              },
+              {
+                label: t('flashcards.actions.syncAll'),
+                icon: isSyncingMedia ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <RefreshCw className="w-4 h-4" />
+                ),
+                onClick: () => {
+                  if (!isSyncingMedia) {
+                    handleBulkSync()
+                  }
+                },
+                hidden: !isPremium,
+              },
+              {
+                label: t('flashcards.actions.exportAll'),
+                icon: <Download className="w-4 h-4" />,
+                onClick: handleExportAll,
+                hidden: !isPremium || !hasNonStarterDecks,
+              },
+              {
+                label: 'Run Flashcards Tests',
+                icon: <AlertTriangle className="w-4 h-4" />,
+                onClick: handleOpenFlashcardsTests,
+                hidden: !showFlashcardsTestButton || !user,
+              },
+            ]}
+            size="md"
+          />
+        }
       />
 
       <div className="container mx-auto px-4 py-8">
         {initialData.userId && <FlashcardsStoragePermissionModal />}
-
-        {/* Furigana Migration Utility (for Anki decks with bracket notation) */}
-        {decks.some(d => d.source === 'anki') && (
-          <div className="mb-6">
-            <MigrationButton />
-          </div>
-        )}
 
         {/* Migration Banner for New Premium Users */}
         {showMigration && isPremium && (
@@ -2091,65 +2386,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {/* Flashcards Action Menu */}
-        <div className="mb-6 flex justify-end">
-          <ActionMenu
-            items={[
-              {
-                label: t('flashcards.insights'),
-                icon: <PieChart className="w-4 h-4" />,
-                onClick: handleToggleInsights,
-                hidden: !initialData.userId || decks.length === 0,
-              },
-              {
-                label: isAllSelected
-                  ? t('flashcards.selectAll')?.replace('Select', 'Deselect') || 'Deselect all'
-                  : t('flashcards.selectAll') || 'Select all',
-                icon: isAllSelected ? (
-                  <CheckSquare className="w-4 h-4" />
-                ) : (
-                  <Square className="w-4 h-4" />
-                ),
-                onClick: handleToggleSelectAll,
-                hidden: decks.length === 0 || !isPremium,
-              },
-              {
-                label: t('flashcards.createDeck'),
-                icon: <Plus className="w-4 h-4" />,
-                onClick: handleOpenDeckCreator,
-                hidden: !isPremium,
-              },
-                {
-                  label: t('flashcards.actions.syncAll'),
-                  icon: isSyncingMedia ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <RefreshCw className="w-4 h-4" />
-                  ),
-                  onClick: () => {
-                    if (!isSyncingMedia) {
-                      handleBulkSync()
-                    }
-                  },
-                  hidden: !isPremium,
-                },
-              {
-                label: t('flashcards.actions.exportAll'),
-                icon: <Download className="w-4 h-4" />,
-                onClick: handleExportAll,
-                hidden: !isPremium || !hasNonStarterDecks,
-              },
-              {
-                label: 'Run Flashcards Tests',
-                icon: <AlertTriangle className="w-4 h-4" />,
-                onClick: handleOpenFlashcardsTests,
-                hidden: !showFlashcardsTestButton || !user,
-              },
-            ]}
-            size="md"
-          />
-        </div>
-
         {/* Deck Limits Warning */}
         {!initialData.userId && (
           <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
@@ -2163,9 +2399,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {/* Cloud Storage & Sync Progress - Side by side on desktop, stacked on mobile */}
+        {/* Cloud Storage & Sync Progress - Match deck card width */}
         {isPremium && (migrationProgress || r2Usage) && (
-          <div className="mb-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {/* Cloud Storage Widget */}
             {r2Usage && (
               <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4">
@@ -2327,6 +2563,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             onDeleteDeck={handleDeleteDeck}
             onExportDeck={handleExportDeck}
             onToggleAnkiBackup={handleToggleAnkiBackup}
+            onReviewWeakCards={handleReviewWeakCards}
             onStudyDeck={handleStudyDeck}
             onSessionSettings={deck => {
               setDeckToStudy(deck)
@@ -2339,6 +2576,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             restoreProgressByDeckId={restoreProgressByDeckId}
             selectedDeckIds={isPremium ? selectedDeckIds : undefined}
             onToggleSelect={isPremium ? handleToggleDeckSelection : undefined}
+            weakCardCountsByDeckId={weakCardCountsByDeckId}
           />
         </div>
 
@@ -2360,6 +2598,25 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   transition={{ delay: 0.1 }}
                   className="mb-8"
                 >
+                  <div className="mb-6 grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-4 items-stretch">
+                    <div className="h-full">
+                      <FlashcardMasteryWidget decks={decks} snapshots={streakSnapshots} />
+                    </div>
+                    <div className="flex flex-col gap-4 h-full">
+                      <div className="flex-1">
+                        <MomentumCoach
+                          decks={decks}
+                          onSelectDeck={deck => handleStudyDeck(deck)}
+                        />
+                      </div>
+                      <div className="flex-1">
+                      <HeatFocusWidget
+                        decks={decks}
+                        onReviewGroups={groups => handleInstantStudyGroups(groups)}
+                      />
+                      </div>
+                    </div>
+                  </div>
                   {showSyncUpgrade && (
                     <div className="mb-3 p-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 text-sm text-blue-800 dark:text-blue-200 flex items-center justify-between gap-3">
                       <span>{t('flashcards.upgradeToSync')}</span>
@@ -2422,6 +2679,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowStats(!showStats)}
+                  type="button"
                   className="px-4 py-2 bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg shadow-lg font-medium flex items-center gap-2"
                 >
                   <BarChart3 className="w-5 h-5" />
@@ -2622,6 +2880,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         {deckToStudy && showModeSelector && (
           <StudyModeSelector
             deck={deckToStudy}
+            userId={effectiveUserId || deckToStudy.userId || 'guest'}
             onClose={() => {
               setShowModeSelector(false)
               setDeckToStudy(null)
@@ -2742,6 +3001,94 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
               {t('anki.limitReached.understood')}
             </button>
           </div>
+        </Modal>
+
+        {/* Weak Cards Modal */}
+        <Modal
+          isOpen={showWeakCardsModal}
+          onClose={() => {
+            setShowWeakCardsModal(false)
+            setWeakCardsDeck(null)
+            setWeakCards([])
+            setWeakCardIndex(0)
+            setWeakCardEntries([])
+            setShowAgainOnly(false)
+          }}
+          title={t('flashcards.reviewWeakCards')}
+          size="lg"
+        >
+          {weakCardsDeck && (
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600 dark:text-gray-400">
+                <span className="font-medium text-gray-900 dark:text-gray-100">
+                  {weakCardsDeck.name}
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAgainOnly(prev => !prev)}
+                    className="px-2 py-1 rounded-md text-xs font-medium border border-gray-200 dark:border-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+                  >
+                    {showAgainOnly
+                      ? t('flashcards.weakCards.showAll')
+                      : t('flashcards.weakCards.showAgainOnly')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!effectiveUserId || !weakCardsDeck) return
+                      weakCardsStore.clear(effectiveUserId, weakCardsDeck.id)
+                      if (isPremium) {
+                        fetch('/api/flashcards/weak-cards', {
+                          method: 'DELETE',
+                          headers: { 'Content-Type': 'application/json' },
+                          credentials: 'include',
+                          body: JSON.stringify({ deckId: weakCardsDeck.id }),
+                        }).catch(() => {})
+                      }
+                      setWeakCardCountsByDeckId(prev => {
+                        const next = { ...prev }
+                        delete next[weakCardsDeck.id]
+                        return next
+                      })
+                      setShowWeakCardsModal(false)
+                      setWeakCardsDeck(null)
+                      setWeakCards([])
+                      setWeakCardIndex(0)
+                      setWeakCardEntries([])
+                      setShowAgainOnly(false)
+                    }}
+                    className="px-2 py-1 rounded-md text-xs font-medium border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    {t('flashcards.weakCards.clear')}
+                  </button>
+                  {visibleWeakCards.length > 0 && (
+                    <span>
+                      {weakCardIndex + 1} / {visibleWeakCards.length}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {visibleWeakCards.length > 0 ? (
+                <FlashcardViewer
+                  card={visibleWeakCards[weakCardIndex]}
+                  cardStyle={weakCardsDeck.cardStyle}
+                  animationSpeed={weakCardsDeck.settings.animationSpeed}
+                  showHints={weakCardsDeck.settings.showHints}
+                  autoPlayAudio={weakCardsDeck.settings.autoPlay}
+                  onNext={weakCardIndex < visibleWeakCards.length - 1 ? () => setWeakCardIndex(i => i + 1) : undefined}
+                  onPrevious={weakCardIndex > 0 ? () => setWeakCardIndex(i => i - 1) : undefined}
+                />
+              ) : (
+                <div className="rounded-lg border border-gray-200 dark:border-dark-700 p-4 text-sm text-gray-600 dark:text-gray-400">
+                  {showAgainOnly
+                    ? t('flashcards.weakCards.noneAgain')
+                    : t('flashcards.weakCards.none')}
+                </div>
+              )}
+            </div>
+          )}
         </Modal>
 
       </div>

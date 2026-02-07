@@ -7,6 +7,7 @@ import type { FlashcardDeck, DeckSettings } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import Dropdown from '@/components/ui/Dropdown';
+import Checkbox from '@/components/ui/Checkbox';
 
 interface SessionSettingsModalProps {
   isOpen: boolean;
@@ -294,28 +295,18 @@ export function SessionSettingsModal({
               {/* Show on Front/Back - only when furigana is enabled */}
               {furiganaEnabled && (
                 <div className="space-y-2 pl-3">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={furiganaOnFront}
-                      onChange={(e) => setFuriganaOnFront(e.target.checked)}
-                      className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">
-                      {t('flashcards.settings.furiganaOnFront')}
-                    </span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={furiganaOnBack}
-                      onChange={(e) => setFuriganaOnBack(e.target.checked)}
-                      className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">
-                      {t('flashcards.settings.furiganaOnBack')}
-                    </span>
-                  </label>
+                  <Checkbox
+                    checked={furiganaOnFront}
+                    onChange={setFuriganaOnFront}
+                    label={t('flashcards.settings.furiganaOnFront')}
+                    size="small"
+                  />
+                  <Checkbox
+                    checked={furiganaOnBack}
+                    onChange={setFuriganaOnBack}
+                    label={t('flashcards.settings.furiganaOnBack')}
+                    size="small"
+                  />
                 </div>
               )}
             </div>

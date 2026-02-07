@@ -25,7 +25,7 @@ export function StatsDashboard({
 }: StatsDashboardProps) {
   const { t } = useI18n();
   const [selectedPeriod, setSelectedPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week');
-  const [expandedSection, setExpandedSection] = useState<string | null>('overview');
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const calculateStreak = (sessions: SessionStats[]): number => {
     if (!sessions.length) return 0;
@@ -117,7 +117,10 @@ export function StatsDashboard({
         : 0,
       progress: deck.stats.totalCards > 0
         ? (deck.stats.masteredCards / deck.stats.totalCards) * 100
-        : 0
+        : 0,
+      dueNow: deck.cards.filter(card =>
+        card.metadata?.nextReview && card.metadata.nextReview <= now
+      ).length
     })).sort((a, b) => b.progress - a.progress);
 
     return {
@@ -241,7 +244,7 @@ export function StatsDashboard({
             <div className="flex items-center gap-3">
               <Activity className="w-5 h-5 text-primary-500" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                {t('flashcards.stats.learningProgress')}
+              {t('flashcards.stats.cardProgress') || 'Card Progress'}
               </h3>
             </div>
             <ChevronRight
@@ -323,9 +326,9 @@ export function StatsDashboard({
             <div className="flex items-center gap-3">
               <BarChart3 className="w-5 h-5 text-primary-500" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                {t('flashcards.stats.deckPerformance')}
-              </h3>
-            </div>
+              {t('flashcards.stats.studyNext') || 'Study Next'}
+            </h3>
+          </div>
             <ChevronRight
               className={`w-5 h-5 text-gray-400 transition-transform ${
                 expandedSection === 'decks' ? 'rotate-90' : ''
@@ -359,7 +362,7 @@ export function StatsDashboard({
                             {deck.name}
                           </div>
                           <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {deck.stats.totalCards} {t('flashcards.cards')}
+                            {deck.dueNow} {t('flashcards.stats.dueNow') || 'Due Now'} • {deck.stats.totalCards} {t('flashcards.cards')}
                           </div>
                         </div>
                       </div>
@@ -371,6 +374,9 @@ export function StatsDashboard({
                           <div className="text-xs text-gray-600 dark:text-gray-400">
                             {t('flashcards.stats.progress')}
                           </div>
+                        </div>
+                        <div className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                          {t('flashcards.stats.studyCta') || 'Study'}
                         </div>
                         <ChevronRight className="w-4 h-4 text-gray-400" />
                       </div>

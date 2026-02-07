@@ -1,7 +1,7 @@
 # Flashcards Resident Onboarding Guide
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-02-03
+**Last Updated:** 2026-02-06
 
 ## Current Status (2026-02-03)
 - **Implemented:** Cross-device deletion tombstones for user decks (Firebase) and Anki/R2 decks; sync now respects tombstones and prevents resurrection.
@@ -116,6 +116,102 @@ If you need deeper historical context, see `DOCS_ARCHIVE/01_PRE-PRODUCTION_DOCS/
 - `AnkiStudyManager.getDueCards` respects daily limits.
 - SRS update: `AnkiStudyManager.processReviewResult` (SM-2).
 - Updates stored via `AnkiDeckManager.updateCard`.
+
+### Review Weak Cards (Latest Session)
+- Purpose: Let students revisit “Again/Hard” cards from the latest session outside of a full study session.
+- Storage: local-only, per deck, **overwritten each session**.
+  - `localStorage` key: `flashcards_weak_cards_<userId>_<deckId>`
+  - Stored via `weakCardsStore` (`src/lib/flashcards/weakCards.ts`).
+- Premium sync: latest-only, stored in Firestore for cross-device reuse.
+  - API: `GET/PUT/DELETE /api/flashcards/weak-cards`
+  - Path: `users/{uid}/flashcardWeakCards/{deckId}`
+  - Merge rule: client uses `updatedAt` (latest wins).
+- UI entry: deck card menu action **Review Weak Cards** (shows only when weak cards exist).
+  - Visual hint: pulsing red dot on the deck menu button.
+- Viewer: read-only single-card review in modal (no SRS updates).
+  - Filter: toggle **Again only** vs **All**.
+  - Clear: wipes latest weak cards list for the deck.
+
+### Mistake Replay (Last 3 Sessions)
+- Purpose: Let students review mistakes from the **last 3 sessions** for a deck.
+- Storage: local-only, per deck.
+  - `localStorage` key: `flashcards_mistake_replay_<userId>_<deckId>`
+  - Stored via `mistakeReplayStore` (`src/lib/flashcards/mistakeReplay.ts`).
+- Source data: session responses where **incorrect** OR difficulty is **Again/Hard**.
+- UI entry: Study Mode Selector -> **Mistake Replay**.
+  - Includes a **Session history** row (All + Session 1/2/3 chips).
+  - Session chips show date as `Mon 7` (locale short month + day).
+
+### Audio First (Study Mode)
+- Purpose: A study mode that only includes cards with audio.
+- Filter: card has `audioFilename` / `audioUrl` or `front/back` media of type `audio`.
+- UI entry: Study Mode Selector -> **Audio First**.
+
+### Momentum Coach + Heat Focus (Insights Widgets)
+- **Placement (Desktop):** Mastery widget on the left, Momentum Coach + Heat Focus stacked on the right (equal combined height).
+- **Placement (Mobile):** stacked in a single column.
+- **Momentum Coach**
+  - Purpose: quick nudge to keep momentum.
+  - Logic: picks the deck with the most due cards and suggests a **small session** (up to 10 due cards).
+  - Action: “Start quick session” launches a session directly (no mode selection).
+- **Heat Focus**
+  - Purpose: surface the most fragile cards right now.
+  - Pool: top 10 cards by **heat score** (see below), then tiered into Hot/Warm/Cool.
+  - UI: chips grouped by tier. Clicking a chip starts a review session for **all cards in that tier**.
+  - **Cross‑deck handling:** if a tier spans multiple decks, sessions are queued and run **one deck at a time**.
+  - Scroll: internal list scrolls with hidden scrollbar.
+
+#### Heat Score (Fragility)
+Heat score is calculated per card (higher = more fragile):
+- Lapses (weight 4)
+- Accuracy penalty (1 - accuracy) * 3
+- Overdue days (capped at 10)
+
+#### Heat Tiers (Score‑based)
+- **Hot:** score ≥ 8
+- **Warm:** score ≥ 4
+- **Cool:** score < 4
+
+---
+
+## Mastery Widget (Streak‑Based)
+
+### Purpose
+Provide a high‑level mastery view based on **card streaks** and recent trend.
+
+### Summary Counters
+Based on card metadata:
+- **Mastered:** `status === 'mastered'`
+- **Good:** `status === 'review'` and `streak >= 2`
+- **To confirm:** `status === 'new' || 'learning'` OR (`status === 'review'` and `streak === 1`)
+- **Bad:** `lapses >= 2` OR (`status === 'review'` and `streak === 0`)
+
+### 7‑Day Trend (Stacked Area)
+Shows card counts by streak bucket:
+- **Streak 1**
+- **Streak 2**
+- **Streak 3+**
+
+### Snapshot Storage
+Daily snapshots are stored in IndexedDB and optionally synced (premium):
+- Local store: `FlashcardDB` -> `streakSnapshots`
+- Remote sync: `/api/flashcards/streak-snapshots` (premium only)
+- Snapshot shape:
+  - `date` (YYYY‑MM‑DD), `streak1`, `streak2`, `streak3plus`, `total`, `updatedAt`
+
+### Snapshot Policy
+- Snapshot is computed on **page load** from current card state.
+- Only **today** is guaranteed (no historical backfill).
+
+---
+
+## Study Mode Selector Enhancements
+
+### Custom Mode Sorting
+- **Priority:** uses `FlashcardSRSHelper.sortByPriority`.
+- **Random:** seeded shuffle, stable **within the modal**, reshuffled when “Start Studying” is pressed.
+- **Oldest First:** falls back to `createdAt` → `modifiedAt` → `lastReviewed`; unknown timestamps go last.
+
 
 ### Sync & Restore (Premium)
 - **User decks**:
@@ -264,5 +360,3 @@ Use these only when you need deeper system knowledge or cross-feature coupling d
   - `src/app/api/flashcards/r2/*`
 - Historical product intent and edge cases:
   - `DOCS_ARCHIVE/01_PRE-PRODUCTION_DOCS/3-Features/*`
-
-

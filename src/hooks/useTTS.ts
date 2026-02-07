@@ -3,6 +3,12 @@ import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types'
 import { OfflineTTSCache } from '@/lib/tts/offlineCache'
 import { ttsLoadingState } from '@/lib/tts/loadingState'
 import { unlockAudioOnUserGesture } from '@/utils/audioUnlock'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useTranslation } from '@/hooks/useTranslation'
+
+/** Returns true if text is Japanese-only (contains Japanese characters and no Latin letters) */
+const isJapaneseOnly = (text: string): boolean =>
+  /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) && !/[a-zA-Z]/.test(text)
 
 interface UseTTSOptions {
   autoPlay?: boolean
@@ -94,6 +100,9 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
     onError,
     onFallback,
   } = options
+
+  const { showToast } = useToast()
+  const { t } = useTranslation()
 
   const [playing, setPlaying] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -214,6 +223,13 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             detail: { message, data },
           })
         )
+      }
+
+      // Guard: skip TTS for non-Japanese text unless explicitly opted out
+      if (!ttsOptions?.skipLanguageCheck && !isJapaneseOnly(text)) {
+        console.log(`[useTTS] Skipping non-Japanese text: "${text.substring(0, 40)}"`)
+        showToast(t('tts.warnings.nonJapaneseText'), 'warning', 3000)
+        return
       }
 
       try {

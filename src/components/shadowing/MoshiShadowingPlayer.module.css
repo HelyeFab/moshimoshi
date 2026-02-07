@@ -219,11 +219,11 @@
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
   border: 2px solid rgba(99, 102, 241, 0.2);
   border-radius: 16px;
-  min-height: 280px;
+  min-height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: 20px 24px;
 }
 
 :global(.dark) .playerFrame {
@@ -233,25 +233,39 @@
 
 @media (max-width: 640px) {
   .playerFrame {
-    min-height: 200px;
-    padding: 24px 16px;
+    min-height: 180px;
+    padding: 14px 12px;
+
   }
 
   .sentenceDisplay {
-    padding-bottom: 72px; /* Slightly less for mobile */
+    padding-bottom: 56px;
   }
 }
 
 .sentenceDisplay {
   text-align: center;
   width: 100%;
-  padding-bottom: 80px; /* Reserve space for play button */
+  padding-bottom: 60px;
 }
 
 .currentSentenceText {
   font-size: 28px;
-  line-height: 1.8;
+  line-height: 2.4 !important;
   color: var(--color-dark-900);
+  margin-top: 0 !important;
+}
+
+/* Tighten token spacing inside shadowing player */
+.currentSentenceText :global(span.inline-block) {
+  margin: 0.1rem 0.35rem !important;
+  padding: 0.15rem 0.25rem !important;
+  min-width: unset !important;
+}
+
+/* Reduce furigana padding-top */
+.currentSentenceText :global(span.relative.inline-block) {
+  padding-top: 0.95em !important;
 }
 
 :global(.dark) .currentSentenceText {
@@ -261,6 +275,16 @@
 @media (max-width: 640px) {
   .currentSentenceText {
     font-size: 22px;
+    line-height: 2.4 !important;
+  }
+
+  .currentSentenceText :global(span.inline-block) {
+    margin: 0.08rem 0.3rem !important;
+    padding: 0.1rem 0.2rem !important;
+  }
+
+  .currentSentenceText :global(span.relative.inline-block) {
+    padding-top: 0.9em !important;
   }
 }
 
@@ -327,7 +351,7 @@
 .mobileSettingsButton {
   display: none;
   position: absolute;
-  top: 12px;
+  bottom: 12px;
   right: 12px;
   width: 44px;
   height: 44px;

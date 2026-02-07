@@ -2,13 +2,18 @@
 
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, RotateCw, Trash2, Volume2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw, Trash2, Volume2, Languages } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
 import { cn } from '@/lib/utils';
 import { useMediaHydration } from '@/hooks/useMediaHydration';
 import { stripFurigana } from '@/lib/flashcards/furiganaUtils';
+import { useAnimationControl } from '@/components/ui/AnimationControl';
+
+/** Strip HTML tags and entities from text before sending to TTS */
+const stripHtmlForTTS = (text: string): string =>
+  text.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
 
 interface FlashcardViewerProps {
   card: FlashcardContent;
@@ -89,41 +94,15 @@ export function FlashcardViewer({
   const [isFlipped, setIsFlipped] = useState(initialIsFlipped);
   const [hasGraded, setHasGraded] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [furiganaVisible, setFuriganaVisible] = useState(furiganaSettings?.enabled ?? true);
   const hasAutoPlayedListen = useRef(false);
   const autoPlayTimeoutRef = useRef<number | null>(null);
   const contentSectionRef = useRef<HTMLDivElement>(null);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const pointerMovedRef = useRef(false);
 
-  const speed = ANIMATION_SPEEDS[animationSpeed];
-
-  // Desktop detection for keyboard shortcuts (same as kanji mastery)
-  const isDesktopShortcutsEnabled = useCallback(() => {
-    if (typeof window === 'undefined') return false;
-    if (window.matchMedia) {
-      return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    }
-    return window.innerWidth >= 768;
-  }, []);
-
-  // Debug scrolling
-  useEffect(() => {
-    if (contentSectionRef.current) {
-      const el = contentSectionRef.current;
-      console.log('Content Section Debug:', {
-        clientHeight: el.clientHeight,
-        scrollHeight: el.scrollHeight,
-        offsetHeight: el.offsetHeight,
-        isScrollable: el.scrollHeight > el.clientHeight,
-        computedStyle: {
-          overflow: window.getComputedStyle(el).overflow,
-          overflowY: window.getComputedStyle(el).overflowY,
-          height: window.getComputedStyle(el).height,
-          minHeight: window.getComputedStyle(el).minHeight,
-        }
-      });
-    }
-  }, [card.id, isFlipped]);
+  const animationsEnabled = useAnimationControl();
+  const speed = animationsEnabled ? ANIMATION_SPEEDS[animationSpeed] : 0;
 
   // Reset state when card changes
   useEffect(() => {
@@ -135,17 +114,23 @@ export function FlashcardViewer({
     setHasGraded(isGraded);
   }, [isGraded]);
 
-  // Helper function to detect if text contains Japanese characters
-  const isJapaneseText = useCallback((text: string): boolean => {
-    const japaneseRegex = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
-    return japaneseRegex.test(text);
+  // Contains any Japanese characters (for UI features like furigana toggle)
+  const containsJapanese = useCallback((text: string): boolean => {
+    return /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text);
   }, []);
 
-  const effectiveFurigana = furiganaSettings ?? {
-    enabled: true,
-    showOnFront: true,
-    showOnBack: true,
+  // Japanese-only with no Latin letters mixed in (for TTS audio button visibility)
+  const isJapaneseForTTS = useCallback((text: string): boolean => {
+    return /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) && !/[a-zA-Z]/.test(text);
+  }, []);
+
+  const effectiveFurigana = {
+    ...(furiganaSettings ?? { enabled: true, showOnFront: true, showOnBack: true }),
+    enabled: furiganaVisible,
   };
+
+  // Show furigana toggle only when card contains Japanese text (loose check — mixed text still gets furigana)
+  const showFuriganaToggle = containsJapanese(resolvedFrontText) || containsJapanese(resolvedBackText);
 
   const applyAnkiCloze = useCallback((html: string, mode: 'front' | 'back'): string => {
     const withCloze = html.replace(/\{\{c\d+::([\s\S]*?)(::([\s\S]*?))?\}\}/g, (_match, text, _hintPart, hint) => {
@@ -181,13 +166,21 @@ export function FlashcardViewer({
 
   const isAnkiCard = hydratedCard?.metadata?.source === 'anki';
 
+  // When furigana data exists, strip ruby from the already-normalized furigana HTML
+  // (which has formatting tags already cleaned by extractFurigana) instead of from the
+  // raw original. This prevents font size jumps when toggling — both paths share the
+  // same tag structure, only differing in whether <ruby> annotations are present.
   const resolvedFrontHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnFront
     ? (resolvedFuriganaFront || resolvedFrontText)
-    : stripFurigana(resolvedFrontText);
+    : resolvedFuriganaFront
+      ? stripFurigana(resolvedFuriganaFront)
+      : resolvedFrontText;
 
   const resolvedBackHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnBack
     ? (resolvedFuriganaBack || resolvedBackText)
-    : stripFurigana(resolvedBackText);
+    : resolvedFuriganaBack
+      ? stripFurigana(resolvedFuriganaBack)
+      : resolvedBackText;
 
   const resolvedFrontHtml = isAnkiCard
     ? enhanceAnkiHtml(applyAnkiCloze(resolvedFrontHtmlRaw, 'front'))
@@ -227,7 +220,8 @@ export function FlashcardViewer({
           void play('Listen.', {
             voice: 'en-US',
             rate: 0.9,
-            pitch: 1.0
+            pitch: 1.0,
+            skipLanguageCheck: true
           });
         }
         autoPlayTimeoutRef.current = null;
@@ -250,11 +244,14 @@ export function FlashcardViewer({
       try {
         const texts = [];
 
-        if (resolvedFrontText) {
-          texts.push(resolvedFrontText);
+        const cleanFront = stripHtmlForTTS(resolvedFrontText);
+        const cleanBack = stripHtmlForTTS(resolvedBackText);
+
+        if (cleanFront) {
+          texts.push(cleanFront);
         }
-        if (resolvedBackText) {
-          texts.push(resolvedBackText);
+        if (cleanBack) {
+          texts.push(cleanBack);
         }
 
         if (texts.length > 0) {
@@ -318,12 +315,9 @@ export function FlashcardViewer({
   }, [onResponse]);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
-    // Desktop only shortcuts (same as kanji mastery)
-    if (!isDesktopShortcutsEnabled()) return;
-
     // Ignore shortcuts if user is typing in an input or textarea
     const target = e.target as HTMLElement;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
       return;
     }
 
@@ -360,7 +354,7 @@ export function FlashcardViewer({
         handleGrade(true, 'easy');
         break;
     }
-  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, onResponse, isDesktopShortcutsEnabled]);
+  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, onResponse]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -371,7 +365,8 @@ export function FlashcardViewer({
     if (audioPlaying) return;
 
     // Determine what text to play based on which side is showing
-    const textToPlay = isFlipped ? resolvedBackText : resolvedFrontText;
+    const rawText = isFlipped ? resolvedBackText : resolvedFrontText;
+    const textToPlay = stripHtmlForTTS(rawText);
     const audioUrl = resolvedAudioUrl;
 
     if (!textToPlay && !audioUrl) return;
@@ -442,33 +437,39 @@ export function FlashcardViewer({
     return { imageUrl: null, htmlWithoutImage: html };
   }, []);
 
-  // Extract images from front and back - check both HTML and CardSide media
-  const frontContent = useMemo(() => {
-    // First check if front is a CardSide object with media
+  // Extract image from the ORIGINAL text (stable, unaffected by furigana toggle)
+  const frontImageUrl = useMemo(() => {
     if (typeof hydratedCard.front === 'object' && hydratedCard.front?.media?.url) {
-      return {
-        imageUrl: hydratedCard.front.media.url,
-        htmlWithoutImage: resolvedFrontHtml
-      };
+      return hydratedCard.front.media.url;
     }
-    // Otherwise extract from HTML (Anki cards)
-    return extractImageFromHtml(resolvedFrontHtml);
-  }, [hydratedCard.front, resolvedFrontHtml, extractImageFromHtml, isAnkiCard]);
+    return extractImageFromHtml(resolvedFrontText).imageUrl;
+  }, [hydratedCard.front, resolvedFrontText, extractImageFromHtml]);
 
-  const backContent = useMemo(() => {
-    // First check if back is a CardSide object with media
+  const backImageUrl = useMemo(() => {
     if (typeof hydratedCard.back === 'object' && hydratedCard.back?.media?.url) {
-      return {
-        imageUrl: hydratedCard.back.media.url,
-        htmlWithoutImage: resolvedBackHtml
-      };
+      return hydratedCard.back.media.url;
     }
-    // Otherwise extract from HTML (Anki cards)
-    return extractImageFromHtml(resolvedBackHtml);
-  }, [hydratedCard.back, resolvedBackHtml, extractImageFromHtml]);
+    return extractImageFromHtml(resolvedBackText).imageUrl;
+  }, [hydratedCard.back, resolvedBackText, extractImageFromHtml]);
+
+  // Strip image from the rendered HTML (already shown as hero) — this CAN change with furigana
+  const frontContent = useMemo(() => ({
+    imageUrl: frontImageUrl,
+    htmlWithoutImage: extractImageFromHtml(resolvedFrontHtml).htmlWithoutImage,
+  }), [frontImageUrl, resolvedFrontHtml, extractImageFromHtml]);
+
+  const backContent = useMemo(() => ({
+    imageUrl: backImageUrl,
+    htmlWithoutImage: extractImageFromHtml(resolvedBackHtml).htmlWithoutImage,
+  }), [backImageUrl, resolvedBackHtml, extractImageFromHtml]);
 
   return (
     <div className="w-full max-w-sm mx-auto">
+      {/* Screen reader announcement for card flip state */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {isFlipped ? t('flashcards.showingBackSide') : t('flashcards.showingFrontSide')}
+      </div>
+
       <div className="relative min-h-[270px] md:min-h-[400px] perspective-1000">
         <motion.div
           className="absolute inset-0 w-full h-full preserve-3d"
@@ -502,7 +503,7 @@ export function FlashcardViewer({
             {/* Audio button - Top Right */}
             <div className="absolute top-4 right-4 z-20">
               {(resolvedAudioUrl || resolvedFrontText) &&
-               (resolvedAudioUrl || isJapaneseText(resolvedFrontText)) && (
+               (resolvedAudioUrl || isJapaneseForTTS(stripHtmlForTTS(resolvedFrontText))) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
@@ -512,6 +513,30 @@ export function FlashcardViewer({
                 </button>
               )}
             </div>
+
+            {/* Furigana toggle - Bottom Left */}
+            {showFuriganaToggle && (
+              <div className="absolute bottom-4 left-4 z-20">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setFuriganaVisible(v => !v); }}
+                  className={cn(
+                    "p-2 rounded-full backdrop-blur-sm transition-all shadow-lg",
+                    furiganaVisible
+                      ? "bg-primary-100/90 dark:bg-primary-900/50 hover:bg-primary-200 dark:hover:bg-primary-800/60"
+                      : "bg-white/90 dark:bg-dark-800/90 hover:bg-white dark:hover:bg-dark-700"
+                  )}
+                  aria-label={t('flashcards.toggleFurigana')}
+                  aria-pressed={furiganaVisible}
+                >
+                  <Languages className={cn(
+                    "w-4 h-4",
+                    furiganaVisible
+                      ? "text-primary-600 dark:text-primary-400"
+                      : "text-gray-400 dark:text-gray-500"
+                  )} />
+                </button>
+              </div>
+            )}
 
             {/* Hero Section - Top Half */}
             <div
@@ -590,7 +615,7 @@ export function FlashcardViewer({
             {/* Audio button - Top Right (visually, but left-4 due to rotate-y-180) */}
             <div className="absolute top-4 left-4 z-20">
               {(resolvedAudioUrl || resolvedBackText) &&
-               (resolvedAudioUrl || isJapaneseText(resolvedBackText)) && (
+               (resolvedAudioUrl || isJapaneseForTTS(stripHtmlForTTS(resolvedBackText))) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
@@ -611,6 +636,30 @@ export function FlashcardViewer({
                 <RotateCw className="w-4 h-4" style={{ transform: 'scaleX(-1)' }} />
               </button>
             </div>
+
+            {/* Furigana toggle - Bottom Left (visually bottom-right due to rotate-y-180) */}
+            {showFuriganaToggle && (
+              <div className="absolute bottom-4 left-4 z-20">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setFuriganaVisible(v => !v); }}
+                  className={cn(
+                    "p-2 rounded-full backdrop-blur-sm transition-all shadow-lg",
+                    furiganaVisible
+                      ? "bg-primary-100/90 dark:bg-primary-900/50 hover:bg-primary-200 dark:hover:bg-primary-800/60"
+                      : "bg-white/90 dark:bg-dark-800/90 hover:bg-white dark:hover:bg-dark-700"
+                  )}
+                  aria-label={t('flashcards.toggleFurigana')}
+                  aria-pressed={furiganaVisible}
+                >
+                  <Languages className={cn(
+                    "w-4 h-4",
+                    furiganaVisible
+                      ? "text-primary-600 dark:text-primary-400"
+                      : "text-gray-400 dark:text-gray-500"
+                  )} style={{ transform: 'scaleX(-1)' }} />
+                </button>
+              </div>
+            )}
 
             {/* Hero Section - Top Half */}
             <div

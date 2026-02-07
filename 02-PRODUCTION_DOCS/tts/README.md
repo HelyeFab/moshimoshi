@@ -1,7 +1,7 @@
 # Text-to-Speech (TTS) System
 
 **Status:** ACTIVE
-**Last Updated:** 2026-01-28
+**Last Updated:** 2026-02-07
 
 ## Overview
 
@@ -29,6 +29,7 @@ Moshimoshi's TTS system provides high-quality Japanese audio playback using a mu
 - **API routes** - `/api/tts/*` endpoints
 - **iOS workarounds** - Touch-initiated playback for Safari
 - **Playback speed** - Adjustable with pitch preservation
+- **Japanese-only language guard** - Non-Japanese text is rejected with a translated warning
 - **Performance optimization** - Preloading and caching strategies
 
 ## Architecture
@@ -174,10 +175,50 @@ Clear specific cached audio
 ### GET /api/tts/status
 Check provider health and availability
 
+## Japanese-Only Language Guard
+
+The `useTTS` hook enforces Japanese-only audio synthesis. When `play()` is called with text that contains **no Japanese characters** (hiragana, katakana, or kanji), it:
+
+1. Returns early without making any API call
+2. Shows a translated warning toast to the user
+3. Logs a console message for debugging
+
+This prevents wasted VOICEVOX/ElevenLabs calls on English or other non-Japanese text (e.g. flashcard prompts like "What does this mean in Japanese?").
+
+### Bypass with `skipLanguageCheck`
+
+For rare cases where non-Japanese TTS is intentionally needed (e.g. reading an English instruction prompt), pass `skipLanguageCheck: true` in the options:
+
+```typescript
+await play('Listen.', {
+  voice: 'en-US',
+  skipLanguageCheck: true,
+});
+```
+
+### Detection Logic
+
+- Text is checked for Unicode ranges: Hiragana (`\u3040-\u309F`), Katakana (`\u30A0-\u30FF`), Kanji (`\u4E00-\u9FAF`)
+- Mixed text like `"食べる (to eat)"` passes because it contains Japanese characters
+- Pure English/Latin text is rejected
+
+### i18n Support
+
+The warning toast message (`tts.warnings.nonJapaneseText`) is translated in all 6 supported languages:
+
+| Locale | Message |
+|--------|---------|
+| en | Audio is only available for Japanese text |
+| ja | 音声は日本語テキストのみ対応しています |
+| de | Audio ist nur für japanischen Text verfügbar |
+| es | El audio solo está disponible para texto en japonés |
+| fr | L'audio est disponible uniquement pour le texte en japonais |
+| it | L'audio è disponibile solo per il testo in giapponese |
+
 ## Extending to New Components
 
 1. Import `useTTS` hook
-2. Call `play()` with Japanese text
+2. Call `play()` with Japanese text (non-Japanese text is automatically rejected with a warning)
 3. Handle loading and error states
 4. Consider preloading for better UX
 5. Test on iOS devices
@@ -195,6 +236,11 @@ See [TTS_SYSTEM_GUIDE.md](./TTS_SYSTEM_GUIDE.md) for detailed examples.
 - Check provider selection order
 - Verify VOICEVOX is available
 - Consider upgrading to ElevenLabs
+
+### Audio not playing for English/non-Japanese text
+- This is expected behaviour. The `useTTS` hook rejects text with no Japanese characters
+- A warning toast is shown to the user
+- To bypass: pass `skipLanguageCheck: true` in play options
 
 ### Slow playback
 - Enable preloading

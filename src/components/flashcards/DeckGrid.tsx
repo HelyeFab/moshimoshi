@@ -20,6 +20,7 @@ interface DeckGridProps {
   onStudyDeck?: (deck: FlashcardDeck) => void;
   onSyncDeck?: (deck: FlashcardDeck) => void;
   onSessionSettings?: (deck: FlashcardDeck) => void;
+  onReviewWeakCards?: (deck: FlashcardDeck) => void;
   showStats?: boolean;
   gridCols?: 2 | 3 | 4;
   isPremium?: boolean;
@@ -28,6 +29,7 @@ interface DeckGridProps {
   selectedDeckIds?: Set<string>;
   onToggleSelect?: (deckId: string) => void;
   onToggleAnkiBackup?: (deck: FlashcardDeck, enabled: boolean) => void;
+  weakCardCountsByDeckId?: Record<string, number>;
 }
 
 export function DeckGrid({
@@ -40,6 +42,7 @@ export function DeckGrid({
   onStudyDeck,
   onSyncDeck,
   onSessionSettings,
+  onReviewWeakCards,
   showStats = true,
   gridCols = 3,
   isPremium = false,
@@ -47,7 +50,8 @@ export function DeckGrid({
   restoreProgressByDeckId,
   selectedDeckIds,
   onToggleSelect,
-  onToggleAnkiBackup
+  onToggleAnkiBackup,
+  weakCardCountsByDeckId
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -61,6 +65,7 @@ export function DeckGrid({
   const isAnkiDeck = (deck: FlashcardDeck) => deck.source === 'anki';
   const isR2BackupEnabled = (deck: FlashcardDeck) =>
     !isAnkiDeck(deck) || deck.metadata?.r2BackupEnabled !== false;
+  const hasWeakCards = (deck: FlashcardDeck) => (weakCardCountsByDeckId?.[deck.id] || 0) > 0;
 
   // Track openMenuId changes
   useEffect(() => {
@@ -232,6 +237,27 @@ export function DeckGrid({
           <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
 
           {/* Management Options */}
+          {onReviewWeakCards && hasWeakCards(deck) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
+                setOpenMenuId(null);
+                setTimeout(() => {
+                  onReviewWeakCards(deck);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
+              }}
+              className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
+            >
+              <Target className="w-4 h-4" />
+              {t('flashcards.reviewWeakCards')}
+            </button>
+          )}
+
           {onEditDeck && canEditDeck(deck) && (
             <button
               onClick={(e) => {
@@ -488,8 +514,14 @@ export function DeckGrid({
                   )}
 
                   {/* Deck Name - More prominent */}
-                  <h3 className="flex-1 text-base font-semibold text-gray-900 dark:text-gray-100 leading-snug pt-0.5 line-clamp-2 min-w-0">
-                    {deck.name}
+                  <h3 className="flex-1 text-base font-semibold text-gray-900 dark:text-gray-100 leading-snug pt-0.5 line-clamp-2 min-w-0 flex items-center gap-2">
+                    <span className="truncate">{deck.name}</span>
+                    {hasWeakCards(deck) && (
+                      <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                      </span>
+                    )}
                   </h3>
 
                   {/* Menu Button */}
@@ -508,12 +540,15 @@ export function DeckGrid({
                     disabled={isRestoring}
                     data-testid="flashcards-deck-menu"
                     data-deck-name={deck.name}
-                    className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors touch-manipulation"
+                    className="relative flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors touch-manipulation"
                     style={{ touchAction: 'manipulation' }}
                   >
                     <MoreVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   </button>
                 </div>
+
+                {/* Weak Cards Indicator */}
+                {hasWeakCards(deck) && null}
 
                 {/* Row 2: Stats - Card Count */}
                 <div className={cn(
@@ -725,13 +760,16 @@ export function DeckGrid({
                       disabled={isRestoring}
                       data-testid="flashcards-deck-menu"
                       data-deck-name={deck.name}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors touch-manipulation"
+                      className="relative p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors touch-manipulation"
                       style={{ touchAction: 'manipulation' }}
                       aria-label={t('common.settings')}
                     >
                       <MoreVertical className="w-3.5 h-3.5 text-white" />
                     </button>
                   </div>
+
+                  {/* Weak Cards Indicator */}
+                  {hasWeakCards(deck) && null}
 
                   {/* Due Badge */}
                   {dueCount > 0 && (
@@ -744,8 +782,14 @@ export function DeckGrid({
                 {/* Content */}
                 <div className="p-3 flex flex-col h-32">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 break-words line-clamp-1 flex-1">
-                      {deck.name}
+                    <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 break-words line-clamp-1 flex-1 flex items-center gap-2">
+                      <span className="truncate">{deck.name}</span>
+                      {hasWeakCards(deck) && (
+                        <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                        </span>
+                      )}
                     </h3>
                   </div>
 

@@ -174,7 +174,7 @@ export function StudyRecommendations({
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {recommendations.map((rec, index) => (
                 <motion.div
                   key={rec.deckId}
@@ -219,41 +219,29 @@ export function StudyRecommendations({
                   </div>
                 </motion.div>
               ))}
+
+              {insights && insights.strongestTopics.length > 0 && (
+                <div className="pt-2 border-t border-gray-200 dark:border-dark-700">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
+                    {t('flashcards.strongTopics')}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {insights.strongestTopics.map((topic, i) => (
+                      <span
+                        key={i}
+                        className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-500/30 px-2.5 py-1 rounded-full truncate max-w-full"
+                      >
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Performance Insights */}
-        {insights && insights.strongestTopics.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-green-50 dark:bg-green-900/10 rounded-xl p-4 overflow-hidden">
-              <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 mb-2 truncate">
-                {t('flashcards.strongTopics')}
-              </h4>
-              <ul className="space-y-1">
-                {insights.strongestTopics.map((topic, i) => (
-                  <li key={i} className="text-sm text-green-600 dark:text-green-500 truncate">
-                    • {topic}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {insights.weakestTopics.length > 0 && (
-              <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 overflow-hidden">
-                <h4 className="text-sm font-semibold text-red-700 dark:text-red-400 mb-2 truncate">
-                  {t('flashcards.needsWork')}
-                </h4>
-                <ul className="space-y-1">
-                  {insights.weakestTopics.map((topic, i) => (
-                    <li key={i} className="text-sm text-red-600 dark:text-red-500 truncate">
-                      • {topic}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Performance Insights removed from here; Strong Topics now live under Optimal Settings */}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import type {
   CardSide,
   CardStatus,
   SessionStats,
+  FlashcardStreakSnapshot,
 } from '@/types/flashcards'
 import type { UserList, ListItem } from '@/types/userLists'
 import type { AnkiDeck } from '@/lib/anki/importer'
@@ -30,6 +31,7 @@ interface FlashcardDB {
     userId: string
     deletedAt: number
   }
+  streakSnapshots: FlashcardStreakSnapshot
 }
 
 export class FlashcardManager {
@@ -147,8 +149,8 @@ export class FlashcardManager {
     await storageManager.initialize({ requestPersistence: false })
 
     try {
-      this.db = await openDB<FlashcardDB>('FlashcardDB', 2, {
-        upgrade(db) {
+      this.db = await openDB<FlashcardDB>('FlashcardDB', 3, {
+        upgrade(db, _oldVersion) {
           // Decks store
           if (!db.objectStoreNames.contains('decks')) {
             const decksStore = db.createObjectStore('decks', { keyPath: 'id' })
@@ -162,6 +164,13 @@ export class FlashcardManager {
             const deletedStore = db.createObjectStore('deletedDecks', { keyPath: 'deckId' })
             deletedStore.createIndex('userId', 'userId')
             deletedStore.createIndex('deletedAt', 'deletedAt')
+          }
+
+          if (!db.objectStoreNames.contains('streakSnapshots')) {
+            const streakStore = db.createObjectStore('streakSnapshots', { keyPath: 'id' })
+            streakStore.createIndex('userId', 'userId')
+            streakStore.createIndex('date', 'date')
+            streakStore.createIndex('updatedAt', 'updatedAt')
           }
 
           // Note: Sync queue moved to SyncManager
@@ -208,6 +217,40 @@ export class FlashcardManager {
         .filter(t => t.deletedAt < cutoff)
         .map(t => db.delete('deletedDecks', t.deckId))
     )
+  }
+
+  private buildStreakSnapshotId(userId: string, date: string): string {
+    return `${userId}_${date}`
+  }
+
+  async getStreakSnapshot(userId: string, date: string): Promise<FlashcardStreakSnapshot | null> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('streakSnapshots')) return null
+    const id = this.buildStreakSnapshotId(userId, date)
+    return (await db.get('streakSnapshots', id)) ?? null
+  }
+
+  async upsertStreakSnapshot(snapshot: FlashcardStreakSnapshot): Promise<void> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('streakSnapshots')) return
+    const existing = await db.get('streakSnapshots', snapshot.id)
+    if (existing && existing.updatedAt > snapshot.updatedAt) return
+    await db.put('streakSnapshots', snapshot)
+  }
+
+  async getStreakSnapshotsForDates(userId: string, dates: string[]): Promise<FlashcardStreakSnapshot[]> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('streakSnapshots')) return []
+    const snapshots = await Promise.all(
+      dates.map(date => db.get('streakSnapshots', this.buildStreakSnapshotId(userId, date)))
+    )
+    return snapshots.filter(Boolean) as FlashcardStreakSnapshot[]
+  }
+
+  async getStreakSnapshots(userId: string): Promise<FlashcardStreakSnapshot[]> {
+    const db = await this.initDB()
+    if (!db.objectStoreNames.contains('streakSnapshots')) return []
+    return db.getAllFromIndex('streakSnapshots', 'userId', userId)
   }
 
   private async deleteLocalDeck(deckId: string): Promise<void> {

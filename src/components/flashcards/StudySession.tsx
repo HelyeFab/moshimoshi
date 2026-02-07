@@ -16,6 +16,8 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useBatchMediaHydration } from '@/hooks/useMediaHydration';
 import Dialog from '@/components/ui/Dialog';
 import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId';
+import { weakCardsStore } from '@/lib/flashcards/weakCards';
+import { mistakeReplayStore } from '@/lib/flashcards/mistakeReplay';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
@@ -391,6 +393,44 @@ export function StudySession({
       fastCards,
     };
 
+    const ownerId = deck.userId || user?.uid || 'guest';
+    const weakCardEntries = sessionCards
+      .map(card => {
+        const response = responses.get(card.id);
+        if (response?.difficulty === 'again' || response?.difficulty === 'hard') {
+          return { cardId: card.id, difficulty: response.difficulty };
+        }
+        return null;
+      })
+      .filter(Boolean) as Array<{ cardId: string; difficulty: 'again' | 'hard' }>;
+    const cappedEntries = weakCardEntries.slice(0, 200);
+    weakCardsStore.save(ownerId, deck.id, cappedEntries);
+
+    const mistakeCardIds = sessionCards
+      .map(card => {
+        const response = responses.get(card.id);
+        if (!response) return null;
+        if (!response.correct || response.difficulty === 'again' || response.difficulty === 'hard') {
+          return card.id;
+        }
+        return null;
+      })
+      .filter(Boolean) as string[];
+    if (mistakeCardIds.length > 0) {
+      mistakeReplayStore.addSession(ownerId, deck.id, mistakeCardIds);
+    }
+    if (user && isPremium) {
+      fetch('/api/flashcards/weak-cards', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          deckId: deck.id,
+          entries: cappedEntries,
+        }),
+      }).catch(() => {});
+    }
+
     // Create detailed session stats for persistence
     if (user) {
       const sessionStats: SessionStats = {
@@ -637,16 +677,16 @@ export function StudySession({
     isPaused,
   ]);
 
-  if (!currentCard) {
-    return null;
-  }
-
   // Format time helper
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  if (!currentCard) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">

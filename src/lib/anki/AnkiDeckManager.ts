@@ -58,7 +58,7 @@ export class AnkiDeckManager {
     try {
       // Use the same database as FlashcardManager for unified local storage
       // IMPORTANT: Must match FlashcardManager version (currently 2)
-      this.db = await openDB<AnkiDeckDB>('FlashcardDB', 2, {
+      this.db = await openDB<AnkiDeckDB>('FlashcardDB', 3, {
         upgrade(db) {
           if (!db.objectStoreNames.contains('decks')) {
             const store = db.createObjectStore('decks', { keyPath: 'id' })

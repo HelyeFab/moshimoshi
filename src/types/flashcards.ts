@@ -158,6 +158,17 @@ export interface DeckStats {
   heatmapData?: { [date: string]: number }; // date -> study count
 }
 
+export interface FlashcardStreakSnapshot {
+  id: string;
+  userId: string;
+  date: string; // YYYY-MM-DD (local)
+  streak1: number;
+  streak2: number;
+  streak3plus: number;
+  total: number;
+  updatedAt: number;
+}
+
 // Request/Response types for API
 export interface CreateDeckRequest {
   id?: string; // Optional ID for syncing existing decks

@@ -8,6 +8,8 @@ export interface TTSOptions {
   rate?: number;
   pitch?: number;
   volume?: number;
+  /** Skip the Japanese-text-only guard (e.g. for intentional English prompts like "Listen.") */
+  skipLanguageCheck?: boolean;
 }
 
 export interface TTSResult {

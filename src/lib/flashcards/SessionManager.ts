@@ -301,7 +301,11 @@ export class FlashcardSessionManager {
 
   // Calculate learning insights
   // Can accept pre-fetched sessions (e.g., from SSR) to avoid IndexedDB lookup
-  async getLearningInsights(userId: string, providedSessions?: SessionStats[]): Promise<LearningInsights> {
+  async getLearningInsights(
+    userId: string,
+    providedSessions?: SessionStats[],
+    decks?: FlashcardDeck[]
+  ): Promise<LearningInsights> {
     const sessions = providedSessions || await this.getUserSessions(userId, 100); // Last 100 sessions
 
     if (sessions.length === 0) {
@@ -315,6 +319,9 @@ export class FlashcardSessionManager {
         streakRisk: false
       };
     }
+
+    const deckIdSet = decks ? new Set(decks.map(deck => deck.id)) : null
+    const deckNameById = decks ? new Map(decks.map(deck => [deck.id, deck.name])) : null
 
     // Calculate best study time (hour with highest accuracy)
     const hourlyPerformance = new Map<number, { accuracy: number; count: number }>();
@@ -357,8 +364,9 @@ export class FlashcardSessionManager {
     // Calculate deck performance
     const deckPerformance = new Map<string, { accuracy: number; count: number; name: string }>();
     sessions.forEach(session => {
+      if (deckIdSet && !deckIdSet.has(session.deckId)) return
       const existing = deckPerformance.get(session.deckId) ||
-        { accuracy: 0, count: 0, name: session.deckName };
+        { accuracy: 0, count: 0, name: deckNameById?.get(session.deckId) || session.deckName };
       existing.accuracy = (existing.accuracy * existing.count + session.accuracy) / (existing.count + 1);
       existing.count++;
       deckPerformance.set(session.deckId, existing);
@@ -415,7 +423,7 @@ export class FlashcardSessionManager {
   ): Promise<StudyRecommendation[]> {
     const recommendations: StudyRecommendation[] = [];
     const allSessions = providedSessions || await this.getUserSessions(userId, 100);
-    const insights = await this.getLearningInsights(userId, allSessions);
+    const insights = await this.getLearningInsights(userId, allSessions, decks);
     const recentSessions = allSessions.slice(0, 10);
 
     // Get recently studied deck IDs
@@ -427,10 +435,18 @@ export class FlashcardSessionManager {
 
       // Count due cards
       const now = Date.now();
-      const dueCards = deck.cards.filter(card => {
-        if (!card.metadata?.status || card.metadata.status === 'new') return true;
-        return card.metadata.nextReview && card.metadata.nextReview <= now;
-      }).length;
+      const newCards = deck.cards.filter(card => !card.metadata?.status || card.metadata.status === 'new')
+      const reviewCards = deck.cards.filter(card =>
+        card.metadata?.status &&
+        card.metadata.status !== 'new' &&
+        card.metadata.nextReview &&
+        card.metadata.nextReview <= now
+      )
+      const newCardsPerDay = deck.settings?.newCardsPerDay ?? 20
+      const reviewsPerDay = deck.settings?.reviewsPerDay ?? 100
+      const limitedNew = Math.min(newCards.length, newCardsPerDay)
+      const limitedReviews = Math.min(reviewCards.length, reviewsPerDay)
+      const dueCards = limitedNew + limitedReviews
 
       if (dueCards === 0) continue; // Skip decks with no due cards
 

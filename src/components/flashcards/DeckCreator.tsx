@@ -28,6 +28,7 @@ import { listManager } from '@/lib/lists/ListManager'
 import { useRouter } from 'next/navigation'
 import { Loader2, ChevronDown, Check } from 'lucide-react'
 import Modal from '@/components/ui/Modal'
+import Checkbox from '@/components/ui/Checkbox'
 import { generateFuriganaBatch, needsFurigana } from '@/lib/flashcards/furiganaUtils'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
@@ -912,49 +913,36 @@ export function DeckCreator({
                       </label>
 
                       {/* Enable Furigana Toggle */}
-                      <label className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
-                        <div className="flex-1">
-                          <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
-                            {t('flashcards.settings.furiganaEnabled')}
-                          </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                            {t('flashcards.settings.furiganaEnabledHint')}
-                          </div>
-                        </div>
-                        <input
-                          type="checkbox"
+                      <div className="p-3 rounded-lg bg-gray-50 dark:bg-dark-850">
+                        <Checkbox
                           checked={furiganaEnabled}
-                          onChange={e => setFuriganaEnabled(e.target.checked)}
-                          className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                          onChange={setFuriganaEnabled}
+                          label={t('flashcards.settings.furiganaEnabled')}
+                          description={t('flashcards.settings.furiganaEnabledHint')}
+                          size="medium"
                         />
-                      </label>
+                      </div>
 
                       {/* Show on Front/Back Toggles - only visible when enabled */}
                       {furiganaEnabled && (
                         <div className="ml-4 space-y-2">
-                          <label className="flex items-center justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
-                            <span className="text-sm text-gray-700 dark:text-gray-300">
-                              {t('flashcards.settings.furiganaOnFront')}
-                            </span>
-                            <input
-                              type="checkbox"
+                          <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850">
+                            <Checkbox
                               checked={furiganaOnFront}
-                              onChange={e => setFuriganaOnFront(e.target.checked)}
-                              className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                              onChange={setFuriganaOnFront}
+                              label={t('flashcards.settings.furiganaOnFront')}
+                              size="small"
                             />
-                          </label>
+                          </div>
 
-                          <label className="flex items-center justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
-                            <span className="text-sm text-gray-700 dark:text-gray-300">
-                              {t('flashcards.settings.furiganaOnBack')}
-                            </span>
-                            <input
-                              type="checkbox"
+                          <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850">
+                            <Checkbox
                               checked={furiganaOnBack}
-                              onChange={e => setFuriganaOnBack(e.target.checked)}
-                              className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                              onChange={setFuriganaOnBack}
+                              label={t('flashcards.settings.furiganaOnBack')}
+                              size="small"
                             />
-                          </label>
+                          </div>
                         </div>
                       )}
                     </div>

@@ -1,6 +1,6 @@
 # Moshimoshi TTS System - Developer Onboarding Guide
 
-> **Last Updated:** January 2026
+> **Last Updated:** February 2026
 > **Maintainer:** Core Team
 > **Status:** Production
 
@@ -11,13 +11,14 @@
 3. [Key Files Reference](#key-files-reference)
 4. [Provider Hierarchy](#provider-hierarchy)
 5. [Caching Strategy](#caching-strategy)
-6. [Using TTS in Components](#using-tts-in-components)
-7. [API Routes Reference](#api-routes-reference)
-8. [Configuration](#configuration)
-9. [Extending to New Components](#extending-to-new-components)
-10. [iOS Compatibility](#ios-compatibility)
-11. [Troubleshooting](#troubleshooting)
-12. [Performance Optimization](#performance-optimization)
+6. [Japanese-Only Language Guard](#japanese-only-language-guard)
+7. [Using TTS in Components](#using-tts-in-components)
+8. [API Routes Reference](#api-routes-reference)
+9. [Configuration](#configuration)
+10. [Extending to New Components](#extending-to-new-components)
+11. [iOS Compatibility](#ios-compatibility)
+12. [Troubleshooting](#troubleshooting)
+13. [Performance Optimization](#performance-optimization)
 
 ---
 
@@ -31,13 +32,15 @@ The Moshimoshi TTS (Text-to-Speech) system is a multi-layered audio generation a
 - **Offline support** with progressive caching
 - **iOS compatibility** with specific workarounds
 - **Playback speed control** with pitch preservation
+- **Japanese-only language guard** with translated warning toast
 
 ### Core Principles
 
-1. **Cache-first**: Always check cache before generating new audio
-2. **Graceful degradation**: Multiple fallback layers ensure audio always plays
-3. **Offline-ready**: IndexedDB cache enables offline playback
-4. **Performance**: Target <100ms for cached audio playback
+1. **Japanese-only**: The `play()` function rejects non-Japanese text before any API call
+2. **Cache-first**: Always check cache before generating new audio
+3. **Graceful degradation**: Multiple fallback layers ensure audio always plays
+4. **Offline-ready**: IndexedDB cache enables offline playback
+5. **Performance**: Target <100ms for cached audio playback
 
 ---
 
@@ -138,6 +141,7 @@ The Moshimoshi TTS (Text-to-Speech) system is a multi-layered audio generation a
 | `src/hooks/useTTS.ts` | Main React hook for TTS playback | `useTTS()` |
 
 **Study this file to understand:**
+- Japanese-only language guard (rejects non-Japanese text with a toast warning)
 - How audio elements are managed
 - Cache lookup flow
 - Fallback to Web Speech API
@@ -290,6 +294,81 @@ interface OfflineTTSCacheEntry {
   accessCount: number;
 }
 ```
+
+---
+
+## Japanese-Only Language Guard
+
+The TTS system is designed for Japanese audio synthesis. The `useTTS` hook includes a client-side guard that prevents non-Japanese text from reaching the TTS providers.
+
+### How It Works
+
+When `play(text, options)` is called, the hook checks whether `text` contains at least one Japanese character (hiragana, katakana, or kanji) before proceeding. If the text is purely non-Japanese (e.g. English, German, Spanish):
+
+1. The call returns early with no API request
+2. A translated warning toast is shown to the user
+3. A console log is emitted for debugging
+
+```
+play("What does this mean?")
+  → No Japanese characters detected
+  → showToast("Audio is only available for Japanese text", "warning")
+  → return (no API call)
+
+play("食べる (to eat)")
+  → Contains kanji 食 and hiragana べる
+  → Proceeds normally
+```
+
+### Detection Regex
+
+```typescript
+const containsJapanese = (text: string): boolean =>
+  /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)
+```
+
+| Range | Script | Example |
+|-------|--------|---------|
+| `\u3040-\u309F` | Hiragana | あ い う え お |
+| `\u30A0-\u30FF` | Katakana | ア イ ウ エ オ |
+| `\u4E00-\u9FAF` | CJK Kanji | 食 日 本 語 |
+
+### Bypassing the Guard
+
+For intentional non-Japanese TTS (e.g. reading an English instruction prompt like "Listen."), pass `skipLanguageCheck: true`:
+
+```typescript
+// This English text would normally be rejected
+await play('Listen.', {
+  voice: 'en-US',
+  rate: 0.9,
+  skipLanguageCheck: true,  // Bypass the Japanese-only guard
+});
+```
+
+**Current usage of `skipLanguageCheck`:**
+- `FlashcardViewer.tsx` — "Listen." auto-play for listening-type flashcards
+
+### i18n Warning Messages
+
+The warning toast uses the i18n key `tts.warnings.nonJapaneseText`, translated in all 6 locales:
+
+| Locale | Key | Message |
+|--------|-----|---------|
+| `en` | `tts.warnings.nonJapaneseText` | Audio is only available for Japanese text |
+| `ja` | `tts.warnings.nonJapaneseText` | 音声は日本語テキストのみ対応しています |
+| `de` | `tts.warnings.nonJapaneseText` | Audio ist nur für japanischen Text verfügbar |
+| `es` | `tts.warnings.nonJapaneseText` | El audio solo está disponible para texto en japonés |
+| `fr` | `tts.warnings.nonJapaneseText` | L'audio est disponible uniquement pour le texte en japonais |
+| `it` | `tts.warnings.nonJapaneseText` | L'audio è disponibile solo per il testo in giapponese |
+
+### Implementation Details
+
+The guard lives in `src/hooks/useTTS.ts` and runs at the very top of the `play()` callback, before any state changes, cache lookups, or API calls. It depends on:
+
+- `useToast()` from `@/components/ui/Toast/ToastContext` — for the warning toast
+- `useTranslation()` from `@/hooks/useTranslation` — for the translated message
+- `TTSOptions.skipLanguageCheck` field in `src/lib/tts/types.ts` — for the escape hatch
 
 ---
 
@@ -542,6 +621,8 @@ const handlePlayText = async (text: string) => {
   stop();
 
   try {
+    // Note: play() automatically rejects non-Japanese text with a warning toast.
+    // No need to check language yourself unless you want custom handling.
     await play(text, {
       voice: '23',
       speed: playbackSpeed,  // From component state/props
@@ -761,10 +842,11 @@ useEffect(() => {
 
 ### Audio Not Playing
 
-1. **Check browser console** for errors
-2. **Verify IndexedDB** is accessible (not in private browsing)
-3. **Check network** tab for API failures
-4. **iOS**: Ensure first play is from user gesture
+1. **Check if text is Japanese** — non-Japanese text is intentionally rejected (see [Japanese-Only Language Guard](#japanese-only-language-guard)). Look for a warning toast or console log `[useTTS] Skipping non-Japanese text`
+2. **Check browser console** for errors
+3. **Verify IndexedDB** is accessible (not in private browsing)
+4. **Check network** tab for API failures
+5. **iOS**: Ensure first play is from user gesture
 
 ### iOS: Audio Plays Once But Not Again
 
@@ -876,6 +958,9 @@ await cache.cleanup(); // Removes old/excess entries
 │                                                              │
 │  BASIC:      const { play, stop, loading } = useTTS()       │
 │              await play('こんにちは', { speed: 1.0 })        │
+│                                                              │
+│  GUARD:      Non-Japanese text is auto-rejected with toast  │
+│              Bypass: { skipLanguageCheck: true }             │
 │                                                              │
 │  PRELOAD:    preload(['text1', 'text2'], options)           │
 │                                                              │

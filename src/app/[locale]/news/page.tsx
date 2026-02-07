@@ -528,6 +528,7 @@ export default function NewsPage() {
       <PageHeader
         title={t('news.title')}
         description={t('news.description')}
+        alwaysUseBackHref
         actions={
           usageData.hasData ? (
             <DesktopCircularIndicator
