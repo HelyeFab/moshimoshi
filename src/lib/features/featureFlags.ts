@@ -260,6 +260,11 @@ export function getFeatureMetadata(feature: FeatureFlag): {
       description: 'Flashcard study system',
       category: 'Learning'
     },
+    DECKMARKET: {
+      name: 'DeckMarket',
+      description: 'Browse and download shared Anki decks',
+      category: 'Learning'
+    },
     GAMES: {
       name: 'Learning Games',
       description: 'Educational games',
