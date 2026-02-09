@@ -30,6 +30,12 @@ Sitemap: https://moshimoshi.app/de/learn/grammar/sitemap.xml
 Sitemap: https://moshimoshi.app/es/learn/grammar/sitemap.xml
 Sitemap: https://moshimoshi.app/fr/learn/grammar/sitemap.xml
 Sitemap: https://moshimoshi.app/it/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/en/deckmarket/sitemap.xml
+Sitemap: https://moshimoshi.app/ja/deckmarket/sitemap.xml
+Sitemap: https://moshimoshi.app/de/deckmarket/sitemap.xml
+Sitemap: https://moshimoshi.app/es/deckmarket/sitemap.xml
+Sitemap: https://moshimoshi.app/fr/deckmarket/sitemap.xml
+Sitemap: https://moshimoshi.app/it/deckmarket/sitemap.xml
 
 # Crawl delay (be nice to servers)
 Crawl-delay: 1

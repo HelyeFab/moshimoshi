@@ -15,6 +15,11 @@ import { useAnimationControl } from '@/components/ui/AnimationControl';
 const stripHtmlForTTS = (text: string): string =>
   text.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
 
+const KANJI_REGEX =
+  /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/u;
+const KANJI_REGEX_GLOBAL =
+  /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/gu;
+
 interface FlashcardViewerProps {
   card: FlashcardContent;
   cardStyle?: CardStyle;
@@ -141,6 +146,52 @@ export function FlashcardViewer({
       return text
     })
     return withCloze.replace(/\{\{cloze:([\s\S]*?)\}\}/g, '$1')
+  }, [])
+
+  const wrapKanjiInHtml = useCallback((html: string): string => {
+    if (!html || !KANJI_REGEX.test(html)) {
+      return html
+    }
+    if (typeof window === 'undefined' || typeof DOMParser === 'undefined') {
+      return html
+    }
+
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html')
+    const container = doc.body.firstElementChild
+    if (!container) return html
+
+    const walker = doc.createTreeWalker(container, NodeFilter.SHOW_TEXT)
+    const nodes: Text[] = []
+    while (walker.nextNode()) {
+      nodes.push(walker.currentNode as Text)
+    }
+
+    nodes.forEach(node => {
+      if (node.parentElement?.closest('.anki-kanji')) return
+      const text = node.nodeValue
+      if (!text || !KANJI_REGEX.test(text)) return
+
+      const fragment = doc.createDocumentFragment()
+      let lastIndex = 0
+      for (const match of text.matchAll(KANJI_REGEX_GLOBAL)) {
+        const index = match.index ?? 0
+        if (index > lastIndex) {
+          fragment.append(doc.createTextNode(text.slice(lastIndex, index)))
+        }
+        const span = doc.createElement('span')
+        span.className = 'anki-kanji'
+        span.textContent = match[0]
+        fragment.append(span)
+        lastIndex = index + match[0].length
+      }
+      if (lastIndex < text.length) {
+        fragment.append(doc.createTextNode(text.slice(lastIndex)))
+      }
+      node.replaceWith(fragment)
+    })
+
+    return container.innerHTML
   }, [])
 
   const enhanceAnkiHtml = useCallback((html: string): string => {
@@ -453,15 +504,21 @@ export function FlashcardViewer({
   }, [hydratedCard.back, resolvedBackText, extractImageFromHtml]);
 
   // Strip image from the rendered HTML (already shown as hero) — this CAN change with furigana
-  const frontContent = useMemo(() => ({
-    imageUrl: frontImageUrl,
-    htmlWithoutImage: extractImageFromHtml(resolvedFrontHtml).htmlWithoutImage,
-  }), [frontImageUrl, resolvedFrontHtml, extractImageFromHtml]);
+  const frontContent = useMemo(() => {
+    const { htmlWithoutImage } = extractImageFromHtml(resolvedFrontHtml)
+    return {
+      imageUrl: frontImageUrl,
+      htmlWithoutImage: wrapKanjiInHtml(htmlWithoutImage),
+    }
+  }, [frontImageUrl, resolvedFrontHtml, extractImageFromHtml, wrapKanjiInHtml]);
 
-  const backContent = useMemo(() => ({
-    imageUrl: backImageUrl,
-    htmlWithoutImage: extractImageFromHtml(resolvedBackHtml).htmlWithoutImage,
-  }), [backImageUrl, resolvedBackHtml, extractImageFromHtml]);
+  const backContent = useMemo(() => {
+    const { htmlWithoutImage } = extractImageFromHtml(resolvedBackHtml)
+    return {
+      imageUrl: backImageUrl,
+      htmlWithoutImage: wrapKanjiInHtml(htmlWithoutImage),
+    }
+  }, [backImageUrl, resolvedBackHtml, extractImageFromHtml, wrapKanjiInHtml]);
 
   return (
     <div className="w-full max-w-sm mx-auto">
@@ -809,6 +866,10 @@ export function FlashcardViewer({
           font-weight: 500 !important;
         }
 
+        .anki-card-content .anki-kanji {
+          font-weight: 400 !important;
+        }
+
         /* Romaji label - small, at top, in flow */
         .anki-card-content .anki-romaji-label {
           display: block;
@@ -955,6 +1016,10 @@ const requiredStyles = `
 .anki-card-content span[style] {
   font-size: 1.5rem !important;
   font-weight: 500 !important;
+}
+
+.anki-card-content .anki-kanji {
+  font-weight: 400 !important;
 }
 
 .anki-card-content ruby {

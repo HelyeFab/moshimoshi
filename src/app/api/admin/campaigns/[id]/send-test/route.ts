@@ -71,6 +71,7 @@ export const POST = withAdminAuth(
       // Get the template if using custom template
       let htmlContent = ''
       let textContent = ''
+      let templateVars: Array<{ name: string; defaultValue?: string }> = []
 
       if (campaign.template === 'custom' && campaign.templateId) {
         const templateRef = adminFirestore.collection('email_templates').doc(campaign.templateId)
@@ -92,9 +93,11 @@ export const POST = withAdminAuth(
         const template = templateSnap.data()
         htmlContent = template?.htmlContent || ''
         textContent = template?.textContent || ''
+        templateVars = template?.variables || []
       }
 
       // Prepare variables for the test email
+      // Start with system variables
       const variables: Record<string, string> = {
         name: 'Test User',
         firstName: 'Test User',
@@ -102,8 +105,18 @@ export const POST = withAdminAuth(
         unsubscribeUrl: `https://moshimoshi.app/unsubscribe?email=${encodeURIComponent(campaign.testEmail)}&token=test`,
         preferencesUrl: 'https://moshimoshi.app/settings/notifications',
         year: new Date().getFullYear().toString(),
-        ...(campaign.templateVariables || {}),
+        currentYear: new Date().getFullYear().toString(),
       }
+
+      // Apply template variable defaults
+      for (const v of templateVars) {
+        if (v.defaultValue && !variables[v.name]) {
+          variables[v.name] = v.defaultValue
+        }
+      }
+
+      // Campaign-level overrides take precedence
+      Object.assign(variables, campaign.templateVariables || {})
 
       // Replace variables in content
       let finalHtml = htmlContent

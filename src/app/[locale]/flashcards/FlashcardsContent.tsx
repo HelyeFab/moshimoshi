@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -47,7 +48,7 @@ import type {
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
 import type { FlashcardsInitialData } from '@/lib/flashcards/server'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, Trash2, CheckSquare, Square, Download } from 'lucide-react'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, ChevronRight, Trash2, CheckSquare, Square, Download, Store } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
@@ -58,6 +59,7 @@ import { buildStreakSnapshot, getLastNDates } from '@/lib/flashcards/streakSnaps
 import { FlashcardMasteryWidget } from '@/components/flashcards/FlashcardMasteryWidget'
 import { MomentumCoach } from '@/components/flashcards/MomentumCoach'
 import { HeatFocusWidget } from '@/components/flashcards/HeatFocusWidget'
+import { isFeatureEnabled } from '@/lib/features/featureFlags'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -75,7 +77,7 @@ interface MigrationProgress {
 }
 
 export default function FlashcardsContent({ initialData }: FlashcardsContentProps) {
-  const { t } = useI18n()
+  const { t, strings } = useI18n()
   const router = useRouter()
   const params = useParams<{ locale?: string }>()
   const { user, loading: authLoading } = useAuth()
@@ -2399,12 +2401,41 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {/* Cloud Storage & Sync Progress - Match deck card width */}
-        {isPremium && (migrationProgress || r2Usage) && (
+        {/* DeckMarket + Cloud Storage & Sync Progress */}
+        {initialData.userId && (
           <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {/* DeckMarket Card */}
+            {isFeatureEnabled('DECKMARKET') && (
+              <Link
+                href="/deckmarket"
+                className="group block rounded-xl overflow-hidden border border-gray-200 dark:border-dark-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+              >
+                <div className="relative h-16 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 overflow-hidden">
+                  <div className="absolute inset-0 opacity-15" style={{
+                    backgroundImage: 'radial-gradient(circle at 30% 50%, white 1px, transparent 1px)',
+                    backgroundSize: '16px 16px'
+                  }} />
+                  <div className="absolute inset-0 flex items-center px-4 gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                      <Store className="w-4 h-4 text-white" />
+                    </div>
+                    <h3 className="font-bold text-white text-base tracking-tight">
+                      {strings.deckmarket.title}
+                    </h3>
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-dark-800 px-4 py-3 flex items-center justify-between">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {strings.deckmarket.subtitle}
+                  </p>
+                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-primary-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                </div>
+              </Link>
+            )}
+
             {/* Cloud Storage Widget */}
-            {r2Usage && (
-              <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4">
+            {isPremium && r2Usage && (
+              <div className="bg-white dark:bg-dark-800 rounded-xl shadow-sm border border-gray-200 dark:border-dark-700 p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
@@ -2439,11 +2470,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             )}
 
             {/* Sync Progress Bar */}
-            {migrationProgress && (
+            {isPremium && migrationProgress && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4"
+                className="bg-white dark:bg-dark-800 rounded-xl shadow-sm border border-gray-200 dark:border-dark-700 p-4"
               >
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">

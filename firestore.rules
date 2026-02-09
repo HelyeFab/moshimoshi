@@ -837,6 +837,18 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid;
     }
 
+    // DeckMarket - deck catalogue (public reads published only, admin reads via Admin SDK)
+    match /deckmarket_decks/{deckId} {
+      allow read: if request.auth != null && resource.data.isPublished == true;
+      allow write: if false; // Writes via Admin SDK only
+
+      match /versions/{versionId} {
+        allow read: if request.auth != null &&
+          get(/databases/$(database)/documents/deckmarket_decks/$(deckId)).data.isPublished == true;
+        allow write: if false; // Writes via Admin SDK only
+      }
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

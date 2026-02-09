@@ -63,6 +63,12 @@ export const RateLimitConfigs = {
     tokenize: { requests: 300, window: '1m', cost: 1 },
   },
 
+  // DeckMarket endpoints - protect downloads from abuse
+  deckmarket: {
+    download: { requests: 20, window: '1h' },
+    list: { requests: 60, window: '1m' },
+  },
+
   // Admin endpoints - relaxed limits
   admin: {
     stats: { requests: 100, window: '1m' },

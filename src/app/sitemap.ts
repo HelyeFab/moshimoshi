@@ -16,6 +16,7 @@ const pages = [
   { path: '/textbook-vocabulary', priority: 0.9, changeFrequency: 'monthly' as const },
   { path: '/vocabulary', priority: 0.8, changeFrequency: 'weekly' as const },
   { path: '/flashcards', priority: 0.8, changeFrequency: 'weekly' as const },
+  { path: '/deckmarket', priority: 0.8, changeFrequency: 'weekly' as const },
 
   // Learning pages
   { path: '/learn/hiragana', priority: 0.9, changeFrequency: 'monthly' as const },

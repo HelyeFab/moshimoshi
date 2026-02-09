@@ -456,6 +456,136 @@ Unsubscribe: {{unsubscribeUrl}}
 }
 
 /**
+ * Co-Journey Series Announcement Starter
+ * Announce Moshi's Minna no Nihongo Adventure video series
+ */
+export function coJourneyAnnouncementStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.accent}, ${EMAIL_COLORS.primary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">
+        NEW SERIES
+      </span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      Moshi's Minna no Nihongo Adventure
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}; text-align: center; color: ${EMAIL_COLORS.textLight}; font-size: 18px;">
+      50 lessons. One red panda. Zero excuses.
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}},
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      We've got something exciting to share &mdash; Moshi is taking on his biggest challenge yet!
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "I looked at all 50 lessons of Minna no Nihongo and thought... FIFTY?! But then Pastel reminded me: you don't climb a mountain in one jump. You take it one step at a time. So that's what we're doing!",
+    })}
+
+    <!-- Series Card -->
+    <div style="background: linear-gradient(135deg, #fff7ed, #fef3c7); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid #fed7aa;">
+      <h3 style="${EMAIL_STYLES.heading2}; margin-bottom: 8px; text-align: center;">
+        Moshi's Co-Journey
+      </h3>
+      <p style="margin: 0 0 16px 0; text-align: center; color: ${EMAIL_COLORS.textLight}; font-size: 14px;">
+        <strong>みんなの日本語</strong> &mdash; Minna no Nihongo
+      </p>
+      <p style="${EMAIL_STYLES.paragraph}; margin-bottom: 0;">
+        A brand new video series where Moshi learns every lesson of Minna no Nihongo from scratch. Short videos. Real grammar. Real vocabulary. One lesson at a time.
+      </p>
+    </div>
+
+    ${featureList([
+      'Follow along with Moshi lesson by lesson',
+      'Short, focused videos you can watch anytime',
+      'Real Minna no Nihongo grammar and vocabulary',
+      'Start from zero &mdash; no prior Japanese needed',
+      'New episodes dropping regularly on TikTok',
+    ])}
+
+    <div style="text-align: center; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px; margin: 20px 0;">
+      <p style="margin: 0 0 4px 0; font-size: 14px; color: ${EMAIL_COLORS.textLight};">Lesson 1 drops</p>
+      <p style="margin: 0 0 4px 0; font-size: 32px; font-weight: 700; color: ${EMAIL_COLORS.primary};">{{launchDate}}</p>
+      <p style="margin: 0; font-size: 14px; color: ${EMAIL_COLORS.textLight};">on TikTok</p>
+    </div>
+
+    ${ctaButton({ text: 'Follow on TikTok', url: EMAIL_ASSETS.social.tiktok })}
+
+    <div style="text-align: center; margin-top: 8px;">
+      <a href="${EMAIL_ASSETS.appUrl}" style="${EMAIL_STYLES.smallText}; color: ${EMAIL_COLORS.primary}; text-decoration: underline;">
+        Or continue learning on moshimoshi.app
+      </a>
+    </div>
+
+    ${characterMessage({
+      character: 'emma',
+      message: "I built Moshimoshi to help people learn Japanese in a fun, supportive way. This series is the next step &mdash; learning alongside Moshi, one lesson at a time. I hope you'll join us!",
+      name: 'Emma (Developer)',
+    })}
+
+    ${highlightBox({
+      type: 'info',
+      title: 'Already studying Minna no Nihongo?',
+      content: "Whether you're on lesson 1 or lesson 40, this series is for you. Follow along, review what you've learned, or get a fresh perspective on tricky grammar points!",
+    })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+NEW SERIES: Moshi's Minna no Nihongo Adventure
+
+50 lessons. One red panda. Zero excuses.
+
+Hey {{name}},
+
+We've got something exciting to share - Moshi is taking on his biggest challenge yet!
+
+Doshi says: "I looked at all 50 lessons of Minna no Nihongo and thought... FIFTY?! But then Pastel reminded me: you don't climb a mountain in one jump. You take it one step at a time. So that's what we're doing!"
+
+---
+
+MOSHI'S CO-JOURNEY: Minna no Nihongo
+
+A brand new video series where Moshi learns every lesson of Minna no Nihongo from scratch. Short videos. Real grammar. Real vocabulary. One lesson at a time.
+
+What to expect:
+- Follow along with Moshi lesson by lesson
+- Short, focused videos you can watch anytime
+- Real Minna no Nihongo grammar and vocabulary
+- Start from zero - no prior Japanese needed
+- New episodes dropping regularly on TikTok
+
+Lesson 1 drops {{launchDate}} on TikTok!
+
+Follow on TikTok: https://www.tiktok.com/@moshimoshiapp23
+Or keep learning: https://moshimoshi.app
+
+Emma (Developer) says: "I built Moshimoshi to help people learn Japanese in a fun, supportive way. This series is the next step - learning alongside Moshi, one lesson at a time. I hope you'll join us!"
+
+Already studying Minna no Nihongo? Whether you're on lesson 1 or lesson 40, this series is for you. Follow along, review what you've learned, or get a fresh perspective on tricky grammar points!
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: "Moshi's learning ALL of Minna no Nihongo - come join the adventure!",
+  }
+}
+
+/**
  * Simple Newsletter Starter
  * Clean template for general announcements
  */
@@ -558,6 +688,11 @@ export function getStarterTemplates() {
       name: 'Newsletter',
       description: 'Clean template for general announcements',
       ...newsletterStarter(),
+    },
+    coJourneyAnnouncement: {
+      name: 'Co-Journey Series Announcement',
+      description: "Announce Moshi's Minna no Nihongo Adventure video series on TikTok",
+      ...coJourneyAnnouncementStarter(),
     },
   }
 }

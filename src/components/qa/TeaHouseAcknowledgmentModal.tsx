@@ -72,11 +72,11 @@ export default function TeaHouseAcknowledgmentModal({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="pointer-events-auto w-full max-w-3xl max-h-[90vh] overflow-hidden"
+              className="pointer-events-auto w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
             >
-              <div className="bg-white dark:bg-dark-800 rounded-xl shadow-2xl">
+              <div className="bg-white dark:bg-dark-800 rounded-xl shadow-2xl flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="relative p-6 pb-4 border-b border-gray-200 dark:border-dark-700">
+                <div className="relative p-6 pb-4 border-b border-gray-200 dark:border-dark-700 flex-shrink-0">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 pr-8">
                     {t('teaHouse.guidelines.beforeYouPost')}
                   </h2>
@@ -85,13 +85,13 @@ export default function TeaHouseAcknowledgmentModal({
                   </p>
                 </div>
 
-                {/* Content - Full Guidelines */}
-                <div className="p-6">
+                {/* Content - Full Guidelines (scrollable) */}
+                <div className="p-6 overflow-y-auto flex-1 min-h-0 scrollbar-hide">
                   <TeaHouseGuidelines />
                 </div>
 
                 {/* Agreement Checkbox */}
-                <div className="px-6 pb-4">
+                <div className="px-6 pb-4 flex-shrink-0">
                   <label className="flex items-start gap-3 cursor-pointer group">
                     <input
                       type="checkbox"
@@ -111,7 +111,7 @@ export default function TeaHouseAcknowledgmentModal({
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 pt-4 border-t border-gray-200 dark:border-dark-700 flex justify-end items-center gap-4">
+                <div className="p-6 pt-4 border-t border-gray-200 dark:border-dark-700 flex justify-end items-center gap-4 flex-shrink-0">
                   <Button variant="ghost" onClick={onClose} disabled={isSubmitting}>
                     {t('common.cancel')}
                   </Button>

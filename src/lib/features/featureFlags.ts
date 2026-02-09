@@ -32,6 +32,7 @@ export type FeatureFlag =
   | 'REVIEW_ENGINE'             // Universal review engine
   | 'REVIEW_HUB'                // Review hub/dashboard
   | 'FLASHCARDS'                // Flashcard system
+  | 'DECKMARKET'                // DeckMarket catalogue
   | 'GAMES'                     // Learning games
   | 'TODOS'                     // Task manager / todos
   | 'BLAST_MODE'                // Blast Mode learning flow
@@ -54,6 +55,7 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
   REVIEW_ENGINE: true,
   REVIEW_HUB: true,
   FLASHCARDS: true,
+  DECKMARKET: true,
   DRILL_PRACTICE: true,
   KANJI_BROWSER: true,
   CUSTOM_LISTS: true,

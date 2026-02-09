@@ -109,6 +109,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin/announcements', label: 'Announcements', icon: '📢' },
     { href: '/admin/scripts', label: 'Scripts', icon: '🛠️' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
+    { href: '/admin/deckmarket', label: 'DeckMarket', icon: '🃏' },
     { href: '/admin/stories', label: 'Stories', icon: '📖' },
     { href: '/admin/comics', label: 'Comics', icon: '🦝' },
     { href: '/admin/books', label: 'Library Books', icon: '📚' },
