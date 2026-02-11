@@ -10,6 +10,78 @@ import { requireAuth } from '@/app/api/review/_middleware/auth'
 import { adminDb } from '@/lib/firebase/admin'
 import admin from 'firebase-admin'
 
+type QueueDoc = FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
+
+function timestampToDate(value: any): Date | null {
+  if (!value) return null
+  if (value instanceof Date) return value
+  if (typeof value?.toDate === 'function') return value.toDate()
+  return null
+}
+
+function getScheduledDate(data: any): Date | null {
+  return timestampToDate(data.scheduledFor) || timestampToDate(data.scheduled_for)
+}
+
+function getCreatedDate(data: any): Date | null {
+  return timestampToDate(data.createdAt) || timestampToDate(data.created_at)
+}
+
+function dedupeDocs(docs: QueueDoc[]): QueueDoc[] {
+  const seen = new Set<string>()
+  const result: QueueDoc[] = []
+
+  for (const doc of docs) {
+    if (!seen.has(doc.id)) {
+      seen.add(doc.id)
+      result.push(doc)
+    }
+  }
+
+  return result
+}
+
+async function getQueueDocsByScheduledField(params: {
+  userId: string
+  status: string
+  field: 'scheduledFor' | 'scheduled_for'
+  operator: FirebaseFirestore.WhereFilterOp
+  value: FirebaseFirestore.Timestamp
+  limitSize: number
+}): Promise<QueueDoc[]> {
+  if (!adminDb) return []
+
+  const snapshot = await adminDb
+    .collection('notifications_queue')
+    .where('userId', '==', params.userId)
+    .where('status', '==', params.status)
+    .where(params.field, params.operator, params.value)
+    .orderBy(params.field, 'asc')
+    .limit(params.limitSize)
+    .get()
+
+  return snapshot.docs as QueueDoc[]
+}
+
+async function getQueueCountByScheduledField(params: {
+  userId: string
+  status: string
+  field: 'scheduledFor' | 'scheduled_for'
+  value: FirebaseFirestore.Timestamp
+}): Promise<number> {
+  if (!adminDb) return 0
+
+  const snapshot = await adminDb
+    .collection('notifications_queue')
+    .where('userId', '==', params.userId)
+    .where('status', '==', params.status)
+    .where(params.field, '<=', params.value)
+    .count()
+    .get()
+
+  return snapshot.data().count
+}
+
 /**
  * GET - Fetch pending notifications for the user
  */
@@ -26,35 +98,57 @@ export async function GET(request: NextRequest) {
     const userId = user.uid
     const now = admin.firestore.Timestamp.now()
 
-    // Query pending notifications that are due
-    const pendingNotifications = await adminDb
-      .collection('notifications_queue')
-      .where('userId', '==', userId)
-      .where('status', '==', 'pending')
-      .where('scheduledFor', '<=', now)
-      .orderBy('scheduledFor', 'asc')
-      .limit(10) // Limit to prevent too many notifications at once
-      .get()
+    // Support both camelCase and snake_case queue schemas.
+    const [pendingCamel, pendingSnake, upcomingCamel, upcomingSnake] = await Promise.all([
+      getQueueDocsByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduledFor',
+        operator: '<=',
+        value: now,
+        limitSize: 10
+      }),
+      getQueueDocsByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduled_for',
+        operator: '<=',
+        value: now,
+        limitSize: 10
+      }),
+      getQueueDocsByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduledFor',
+        operator: '>',
+        value: now,
+        limitSize: 20
+      }),
+      getQueueDocsByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduled_for',
+        operator: '>',
+        value: now,
+        limitSize: 20
+      })
+    ])
 
-    // Query upcoming notifications (not yet due)
-    const upcomingNotifications = await adminDb
-      .collection('notifications_queue')
-      .where('userId', '==', userId)
-      .where('status', '==', 'pending')
-      .where('scheduledFor', '>', now)
-      .orderBy('scheduledFor', 'asc')
-      .limit(20)
-      .get()
+    const pendingDocs = dedupeDocs([...pendingCamel, ...pendingSnake])
+    const upcomingDocs = dedupeDocs([...upcomingCamel, ...upcomingSnake])
 
     // Format pending notifications
-    const pending = pendingNotifications.docs.map(doc => {
+    const pending = pendingDocs.map(doc => {
       const data = doc.data()
+      const scheduledFor = getScheduledDate(data)
+      const createdAt = getCreatedDate(data)
+
       return {
         id: doc.id,
         type: data.type,
         itemId: data.itemId,
         channel: data.channel,
-        scheduledFor: data.scheduledFor?.toDate(),
+        scheduledFor,
         data: {
           item_ids: data.data?.item_ids || [data.itemId],
           review_count: data.data?.review_count || 1,
@@ -63,16 +157,16 @@ export async function GET(request: NextRequest) {
           priority: data.data?.priority || 'normal',
           contentType: data.contentType
         },
-        createdAt: data.createdAt?.toDate(),
+        createdAt,
         attempts: data.attempts || 0,
         metadata: data.metadata
       }
     })
 
     // Format upcoming notifications
-    const upcoming = upcomingNotifications.docs.map(doc => {
+    const upcoming = upcomingDocs.map(doc => {
       const data = doc.data()
-      const scheduledDate = data.scheduledFor?.toDate()
+      const scheduledDate = getScheduledDate(data)
       const timeUntilDue = scheduledDate ? scheduledDate.getTime() - Date.now() : 0
 
       return {
@@ -85,18 +179,29 @@ export async function GET(request: NextRequest) {
         contentType: data.contentType,
         metadata: data.metadata
       }
+    }).sort((a, b) => {
+      const aMs = a.scheduledFor ? a.scheduledFor.getTime() : Number.MAX_SAFE_INTEGER
+      const bMs = b.scheduledFor ? b.scheduledFor.getTime() : Number.MAX_SAFE_INTEGER
+      return aMs - bMs
     })
 
-    // Get overdue items count
-    const overdueQuery = await adminDb
-      .collection('notifications_queue')
-      .where('userId', '==', userId)
-      .where('status', '==', 'pending')
-      .where('scheduledFor', '<=', admin.firestore.Timestamp.fromMillis(now.toMillis() - 24 * 60 * 60 * 1000)) // 24 hours ago
-      .count()
-      .get()
-
-    const overdueCount = overdueQuery.data().count
+    // Get overdue items count across both schemas.
+    const overdueThreshold = admin.firestore.Timestamp.fromMillis(now.toMillis() - 24 * 60 * 60 * 1000)
+    const [overdueCamelCount, overdueSnakeCount] = await Promise.all([
+      getQueueCountByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduledFor',
+        value: overdueThreshold
+      }),
+      getQueueCountByScheduledField({
+        userId,
+        status: 'pending',
+        field: 'scheduled_for',
+        value: overdueThreshold
+      })
+    ])
+    const overdueCount = overdueCamelCount + overdueSnakeCount
 
     // Check if user has quiet hours enabled
     const preferencesDoc = await adminDb
@@ -164,11 +269,13 @@ export async function POST(request: NextRequest) {
     const batch = adminDb.batch()
     const updateData: any = {
       status,
-      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updated_at: admin.firestore.FieldValue.serverTimestamp()
     }
 
     if (status === 'sent') {
       updateData.sentAt = admin.firestore.FieldValue.serverTimestamp()
+      updateData.sent_at = admin.firestore.FieldValue.serverTimestamp()
     }
 
     if (status === 'failed') {
@@ -182,6 +289,7 @@ export async function POST(request: NextRequest) {
       // Snooze for 30 minutes
       const snoozeUntil = new Date(Date.now() + 30 * 60 * 1000)
       updateData.scheduledFor = admin.firestore.Timestamp.fromDate(snoozeUntil)
+      updateData.scheduled_for = admin.firestore.Timestamp.fromDate(snoozeUntil)
       updateData.status = 'pending' // Reset to pending
     }
 
@@ -233,31 +341,45 @@ export async function DELETE(request: NextRequest) {
     const clearType = searchParams.get('type') || 'sent' // 'sent', 'failed', 'old', 'all'
 
     const userId = user.uid
-    let query = adminDb
+    const baseQuery = adminDb
       .collection('notifications_queue')
       .where('userId', '==', userId)
 
-    // Build query based on clear type
-    if (clearType === 'sent') {
-      query = query.where('status', '==', 'sent')
-    } else if (clearType === 'failed') {
-      query = query.where('status', '==', 'failed')
-    } else if (clearType === 'old') {
-      // Clear notifications older than 7 days
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-      query = query.where('createdAt', '<', admin.firestore.Timestamp.fromDate(sevenDaysAgo))
-    }
-    // 'all' doesn't need additional filters
+    let docsToDelete: QueueDoc[] = []
 
-    const snapshot = await query.get()
+    if (clearType === 'sent') {
+      const snapshot = await baseQuery.where('status', '==', 'sent').get()
+      docsToDelete = snapshot.docs as QueueDoc[]
+    } else if (clearType === 'failed') {
+      const snapshot = await baseQuery.where('status', '==', 'failed').get()
+      docsToDelete = snapshot.docs as QueueDoc[]
+    } else if (clearType === 'old') {
+      // Clear notifications older than 7 days across both schemas.
+      const sevenDaysAgo = admin.firestore.Timestamp.fromDate(
+        new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      )
+
+      const [camelSnapshot, snakeSnapshot] = await Promise.all([
+        baseQuery.where('createdAt', '<', sevenDaysAgo).get(),
+        baseQuery.where('created_at', '<', sevenDaysAgo).get()
+      ])
+
+      docsToDelete = dedupeDocs([
+        ...(camelSnapshot.docs as QueueDoc[]),
+        ...(snakeSnapshot.docs as QueueDoc[])
+      ])
+    } else {
+      const snapshot = await baseQuery.get()
+      docsToDelete = snapshot.docs as QueueDoc[]
+    }
 
     // Delete in batches
     const batchSize = 500
     let deletedCount = 0
 
-    while (deletedCount < snapshot.size) {
+    while (deletedCount < docsToDelete.length) {
       const batch = adminDb.batch()
-      const docs = snapshot.docs.slice(deletedCount, deletedCount + batchSize)
+      const docs = docsToDelete.slice(deletedCount, deletedCount + batchSize)
 
       docs.forEach(doc => {
         batch.delete(doc.ref)

@@ -608,24 +608,55 @@ export class AnkiMediaStore {
         request.onerror = () => reject(request.error);
       });
 
-      // Batch delete all media files in parallel (much faster)
-      const deletePromises = media.map(m => {
-        // Revoke blob URL if cached
-        if (this.blobUrlCache.has(m.id)) {
-          URL.revokeObjectURL(this.blobUrlCache.get(m.id)!);
-          this.blobUrlCache.delete(m.id);
-        }
+      let deletedCount = 0;
 
-        // Delete from store
-        return new Promise<void>((resolve, reject) => {
-          const request = store.delete(m.id);
-          request.onsuccess = () => resolve();
+      if (media.length > 0) {
+        // Batch delete all media files in parallel (much faster)
+        const deletePromises = media.map(m => {
+          // Revoke blob URL if cached
+          if (this.blobUrlCache.has(m.id)) {
+            URL.revokeObjectURL(this.blobUrlCache.get(m.id)!);
+            this.blobUrlCache.delete(m.id);
+          }
+
+          // Delete from store
+          return new Promise<void>((resolve, reject) => {
+            const request = store.delete(m.id);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+          });
+        });
+
+        await Promise.all(deletePromises);
+        deletedCount = media.length;
+      } else {
+        // Fallback for legacy records with missing deckId: delete by key prefix
+        const prefix = `${deckId}${ANKI_MEDIA_KEY_SEPARATOR}`;
+        const keys = await new Promise<IDBValidKey[]>((resolve, reject) => {
+          const request = store.getAllKeys();
+          request.onsuccess = () => resolve(request.result);
           request.onerror = () => reject(request.error);
         });
-      });
+        const matchingKeys = keys.filter(
+          (key): key is string => typeof key === 'string' && key.startsWith(prefix)
+        );
 
-      await Promise.all(deletePromises);
-      const deletedCount = media.length;
+        const deletePromises = matchingKeys.map(key => {
+          if (this.blobUrlCache.has(key)) {
+            URL.revokeObjectURL(this.blobUrlCache.get(key)!);
+            this.blobUrlCache.delete(key);
+          }
+
+          return new Promise<void>((resolve, reject) => {
+            const request = store.delete(key);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+          });
+        });
+
+        await Promise.all(deletePromises);
+        deletedCount = matchingKeys.length;
+      }
 
       // Clean up sync queue entries for this deck
       const queueEntries = queueIndex ? await new Promise<any[]>((resolve, reject) => {
@@ -652,6 +683,120 @@ export class AnkiMediaStore {
     } catch (error) {
       console.error(`Failed to delete media for deck ${deckId}:`, error);
       return 0;
+    }
+  }
+
+  /**
+   * Delete media by explicit ids (keys).
+   */
+  async deleteMediaByIds(ids: Set<string>): Promise<number> {
+    if (ids.size === 0) return 0;
+
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readwrite');
+      const store = transaction.objectStore(this.storeName);
+
+      const deletePromises: Promise<void>[] = [];
+      for (const id of ids) {
+        if (this.blobUrlCache.has(id)) {
+          URL.revokeObjectURL(this.blobUrlCache.get(id)!);
+          this.blobUrlCache.delete(id);
+        }
+
+        deletePromises.push(new Promise<void>((resolve, reject) => {
+          const request = store.delete(id);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        }));
+      }
+
+      await Promise.all(deletePromises);
+      db.close();
+      return ids.size;
+    } catch (error) {
+      console.error('[AnkiMediaStore] Failed to delete media by ids:', error);
+      return 0;
+    }
+  }
+
+  /**
+   * One-time cleanup for legacy media stored without deckId.
+   * Repairs records when possible, deletes orphaned media otherwise.
+   */
+  async cleanupUnknownMedia(
+    validDeckIds: Set<string>,
+    referencedRawFilenames: Set<string>
+  ): Promise<{ deleted: number; repaired: number }> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readwrite');
+      const store = transaction.objectStore(this.storeName);
+
+      const allMedia = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      let deleted = 0;
+      let repaired = 0;
+
+      const updatePromises: Promise<void>[] = [];
+      const deletePromises: Promise<void>[] = [];
+
+      for (const media of allMedia) {
+        if (media.deckId !== 'unknown') continue;
+        if (typeof media.id !== 'string') continue;
+
+        const separatorIndex = media.id.indexOf(ANKI_MEDIA_KEY_SEPARATOR);
+        if (separatorIndex <= 0) {
+          if (!referencedRawFilenames.has(media.id)) {
+            if (this.blobUrlCache.has(media.id)) {
+              URL.revokeObjectURL(this.blobUrlCache.get(media.id)!);
+              this.blobUrlCache.delete(media.id);
+            }
+            deleted++;
+            deletePromises.push(new Promise<void>((resolve, reject) => {
+              const request = store.delete(media.id);
+              request.onsuccess = () => resolve();
+              request.onerror = () => reject(request.error);
+            }));
+          }
+          continue;
+        }
+
+        const deckId = media.id.slice(0, separatorIndex);
+        if (validDeckIds.has(deckId)) {
+          media.deckId = deckId;
+          media.updatedAt = new Date();
+          repaired++;
+          updatePromises.push(new Promise<void>((resolve, reject) => {
+            const request = store.put(media);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+          }));
+        } else {
+          if (this.blobUrlCache.has(media.id)) {
+            URL.revokeObjectURL(this.blobUrlCache.get(media.id)!);
+            this.blobUrlCache.delete(media.id);
+          }
+          deleted++;
+          deletePromises.push(new Promise<void>((resolve, reject) => {
+            const request = store.delete(media.id);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+          }));
+        }
+      }
+
+      await Promise.all([...updatePromises, ...deletePromises]);
+      db.close();
+
+      return { deleted, repaired };
+    } catch (error) {
+      console.error('[AnkiMediaStore] Cleanup unknown media failed:', error);
+      return { deleted: 0, repaired: 0 };
     }
   }
 

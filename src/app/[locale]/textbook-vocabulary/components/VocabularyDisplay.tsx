@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
@@ -18,6 +19,10 @@ import { Select } from '@/components/ui/Select'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import { kanjiService } from '@/services/kanjiService'
 import type { Kanji } from '@/types/kanji'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useFeature } from '@/hooks/useFeature'
+import { hasSeenKanjiLookup } from '@/utils/kanjiLookupSeen'
+import { useSubscription } from '@/hooks/useSubscription'
 
 export interface VocabularyItem {
   id: string
@@ -93,7 +98,11 @@ export function VocabularyDisplay({
   onLessonChange,
   allowAllLessons = true,
 }: VocabularyDisplayProps) {
-  const { strings } = useI18n()
+  const { strings, t } = useI18n()
+  const { showToast } = useToast()
+  const { checkOnly: checkKanjiLookupOnly } = useFeature('kanji_lookup')
+  const { isPremium } = useSubscription()
+  const router = useRouter()
   const { play, isPlaying, preload } = useTTS({ cacheFirst: true })
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([])
   const [filteredVocab, setFilteredVocab] = useState<VocabularyItem[]>([])
@@ -253,6 +262,19 @@ export function VocabularyDisplay({
   }
 
   const handleKanjiClick = useCallback(async (kanjiChar: string) => {
+    if (!hasSeenKanjiLookup(kanjiChar)) {
+      const decision = await checkKanjiLookupOnly({ failOpen: false })
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: t('subscription.actions.upgrade'),
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined
+        showToast(t('entitlements.messages.lookupLimitReached'), 'warning', 5000, upgradeAction)
+        return
+      }
+    }
     try {
       const details = await kanjiService.getKanjiDetails(kanjiChar)
       if (details) {
@@ -264,7 +286,7 @@ export function VocabularyDisplay({
     } catch (error) {
       console.error('[VocabularyDisplay] Error fetching kanji details:', error)
     }
-  }, [])
+  }, [checkKanjiLookupOnly, isPremium, router, showToast, t])
 
   const getKanjiChars = (text: string) => {
     const matches = text.match(/[\u4e00-\u9faf]/g)

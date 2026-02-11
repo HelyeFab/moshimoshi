@@ -58,7 +58,9 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     const sessionStats = this.calculateSessionStats(sessionState, timeSpentSeconds)
 
     const existingProgress = user
-      ? await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionState.level || '')
+      ? sessionState.reviewOnly
+        ? await kanjiMasteryDB.getProgressByUser(user.uid)
+        : await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionState.level || '')
       : []
     const progressById = new Map(existingProgress.map(record => [record.kanjiId, record]))
 
@@ -75,7 +77,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
 
     // LWW (Last Write Wins) - Write to IndexedDB first for all users
     if (user) {
-      await this.saveKanjiMasteryToIndexedDB(session, user)
+      await this.saveKanjiMasteryToIndexedDB(session, user, sessionState.reviewOnly)
     }
 
     // Queue Firebase sync for premium users only
@@ -121,13 +123,16 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     sessionState.kanji.forEach((kanji) => {
       const progress = sessionState.progress.get(kanji.kanji)
       const existingProgress = progressById.get(kanji.kanji)
+      const levelForProgress = sessionState.reviewOnly && existingProgress?.level
+        ? existingProgress.level
+        : sessionState.level
 
       if (progress) {
         const finalScore = this.calculateKanjiFinalScore(progress)
         const { srsData, nextReviewDate } = this.calculateSRSData({
           kanjiId: kanji.kanji,
           character: kanji.kanji,
-          level: sessionState.level,
+          level: levelForProgress,
           accuracy: progress.round2Accuracy,
           rating: progress.round3Rating || 3,
           existingSrsData: existingProgress?.srsData,
@@ -251,7 +256,8 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
    */
   private async saveKanjiMasteryToIndexedDB(
     session: KanjiMasterySession,
-    user: ProgressUser
+    user: ProgressUser,
+    reviewOnly = false
   ): Promise<void> {
     try {
       // 1. Save session
@@ -268,11 +274,14 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
         const existingProgress = await kanjiMasteryDB.getProgress(user.uid, kanji.id)
 
         // Update or create progress
+        const progressLevel = reviewOnly && existingProgress?.level
+          ? existingProgress.level
+          : session.level
         const progress: KanjiProgressRecord = {
           userId: user.uid,
           kanjiId: kanji.id,
           character: kanji.character,
-          level: session.level,
+          level: progressLevel,
           lastReviewed: new Date().toISOString(),
           nextReviewDate: kanji.nextReviewDate,
           reviewCount: (existingProgress?.reviewCount || 0) + 1,

@@ -62,6 +62,7 @@ export interface SessionState {
   startTime: Date
   level: string
   mode: 'jlpt' | 'grade' | 'mixed'
+  reviewOnly?: boolean
 }
 
 export default function LearnContent() {
@@ -81,9 +82,13 @@ export default function LearnContent() {
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
-  const mode = searchParams.get('mode') as 'jlpt' | 'grade' | 'mixed'
+  const reviewOnly = searchParams.get('reviewOnly') === 'true'
+  const modeParam = searchParams.get('mode')
+  const mode = reviewOnly
+    ? 'mixed'
+    : (modeParam === 'grade' || modeParam === 'mixed' ? modeParam : 'jlpt')
   const level = searchParams.get('level') || 'N5'
-  const approach = searchParams.get('approach') as 'smart' | 'linear' || 'smart'
+  const approach = reviewOnly ? 'smart' : (searchParams.get('approach') as 'smart' | 'linear' || 'smart')
   const testMode = searchParams.get('testMode') === 'choice' ? 'choice' : 'recall'
 
   // Session state
@@ -96,7 +101,8 @@ export default function LearnContent() {
     sessionId: Date.now().toString(),
     startTime: new Date(),
     level,
-    mode
+    mode,
+    reviewOnly
   })
 
   const [loading, setLoading] = useState(true)
@@ -134,78 +140,152 @@ export default function LearnContent() {
       }
 
       let kanjiData: KanjiWithExamples[] = []
-
+      let selected: KanjiWithExamples[] = []
       let sessionLevel = level
 
-      if (mode === 'jlpt') {
-        // Load kanji from the service
-        const jlptLevel = level as import('@/types/kanji').JLPTLevel
-        const levelKanji = await kanjiService.loadKanjiByLevel(jlptLevel)
-        kanjiData = levelKanji.map(k => ({
-          ...k,
-          jlpt: jlptLevel
-        }))
-      } else if (mode === 'grade') {
-        const gradeValue = level === 'S' ? 'S' : Number(level)
-        if (gradeValue !== 'S' && !Number.isFinite(gradeValue)) {
-          setError('Invalid grade selection')
-          return
-        }
-        kanjiData = await kanjiService.loadKanjiByGrade(gradeValue)
-      } else if (mode === 'mixed') {
-        sessionLevel = 'mixed'
+      if (reviewOnly) {
+        sessionLevel = 'review'
         const allKanjiByLevel = await kanjiService.loadAllKanji()
         kanjiData = Object.values(allKanjiByLevel).flatMap(list => list || [])
-      } else {
-        // Handle other modes later
-        setError('Only JLPT mode is currently supported')
-        return
-      }
 
-      let selected: KanjiWithExamples[] = []
+        let progressRecords = await kanjiMasteryDB.getProgressByUser(user.uid)
+        const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
 
-      if (approach === 'smart') {
-        const recentSessionIds = new Set<string>()
-        try {
-          const recentSessions = await kanjiMasteryDB.getSessionsByUser(user.uid, 5)
-          const lastSameLevel = recentSessions.find(session => session.level === sessionLevel)
-          if (lastSameLevel) {
-            lastSameLevel.kanji.forEach(item => recentSessionIds.add(item.id))
+        if (isPremium) {
+          try {
+            const response = await fetch('/api/kanji-mastery/session')
+            if (response.ok) {
+              const data = await response.json()
+              if (Array.isArray(data.kanjiProgress)) {
+                progressRecords = data.kanjiProgress.map((record: {
+                  character: string
+                  level?: string
+                  lastReviewed?: string
+                  srsStatus?: string
+                }) => ({
+                  userId: user.uid,
+                  kanjiId: record.character,
+                  character: record.character,
+                  level: record.level,
+                  lastReviewed: record.lastReviewed || new Date().toISOString(),
+                  nextReviewDate: record.lastReviewed || new Date().toISOString(),
+                  reviewCount: 1,
+                  averageScore: 0,
+                  lastScore: 0,
+                  rounds: {
+                    round1: true,
+                    round2Accuracy: 0,
+                    round3Rating: 3
+                  },
+                  srsData: record.srsStatus ? {
+                    interval: 0,
+                    lastReviewedAt: record.lastReviewed || null,
+                    nextReviewAt: record.lastReviewed || new Date().toISOString(),
+                    status: record.srsStatus,
+                    reviewCount: 1,
+                    correctCount: 0,
+                    streak: 0,
+                    bestStreak: 0,
+                    algorithm: 'fsrs',
+                    difficulty: 5
+                  } : undefined
+                }))
+              }
+            }
+          } catch (error) {
+            console.warn('[KanjiMastery] Failed to load review pool from API, falling back to IndexedDB:', error)
           }
-        } catch (error) {
-          console.warn('[KanjiMastery] Failed to load recent sessions for pool rotation:', error)
         }
 
-        if (mode === 'mixed') {
-          const progressRecords = await kanjiMasteryDB.getProgressByUser(user.uid)
-          selected = selectKanjiMixed(kanjiData, {
-            requestedSize: sessionSize,
-            progressRecords,
-            recentSessionIds
-          })
-        } else {
-          const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionLevel)
-          selected = selectKanjiSmartly(kanjiData, {
-            requestedSize: sessionSize,
-            progressRecords,
-            recentSessionIds
-          })
+        const reviewRecords = progressRecords.filter(record => {
+          const status = record.srsData?.status
+          return !status || status === 'new' || status === 'learning' || status === 'review'
+        })
+
+        const reviewPool = (await Promise.all(
+          reviewRecords.map(record => kanjiService.getKanjiDetails(record.kanjiId))
+        )).filter((kanji): kanji is KanjiWithExamples => Boolean(kanji))
+
+        if (reviewPool.length < sessionSize) {
+          showToast(t('kanjiMasteryTool.errorReviewSessionEmpty'), 'warning', 5000)
+          router.push(getLocalePath('/tools/kanji-mastery'))
+          return
         }
+
+        selected = selectKanjiSmartly(reviewPool, {
+          requestedSize: sessionSize,
+          progressRecords: reviewRecords,
+          recentSessionIds: new Set()
+        })
       } else {
-        // Linear approach - use saved progress
-        const progressData = getItem<Record<string, number>>('kanjiLinearProgress', {}) || {}
-        const lastIndex = progressData[sessionLevel] || 0
-
-        if (lastIndex < kanjiData.length) {
-          selected = kanjiData.slice(lastIndex, lastIndex + sessionSize)
-          // Save new progress
-          progressData[sessionLevel] = lastIndex + sessionSize
-          setItem('kanjiLinearProgress', progressData)
+        if (mode === 'jlpt') {
+          // Load kanji from the service
+          const jlptLevel = level as import('@/types/kanji').JLPTLevel
+          const levelKanji = await kanjiService.loadKanjiByLevel(jlptLevel)
+          kanjiData = levelKanji.map(k => ({
+            ...k,
+            jlpt: jlptLevel
+          }))
+        } else if (mode === 'grade') {
+          const gradeValue = level === 'S' ? 'S' : Number(level)
+          if (gradeValue !== 'S' && !Number.isFinite(gradeValue)) {
+            setError('Invalid grade selection')
+            return
+          }
+          kanjiData = await kanjiService.loadKanjiByGrade(gradeValue)
+        } else if (mode === 'mixed') {
+          sessionLevel = 'mixed'
+          const allKanjiByLevel = await kanjiService.loadAllKanji()
+          kanjiData = Object.values(allKanjiByLevel).flatMap(list => list || [])
         } else {
-          // Start over from beginning
-          selected = kanjiData.slice(0, sessionSize)
-          progressData[sessionLevel] = sessionSize
-          setItem('kanjiLinearProgress', progressData)
+          // Handle other modes later
+          setError('Only JLPT mode is currently supported')
+          return
+        }
+
+        if (approach === 'smart') {
+          const recentSessionIds = new Set<string>()
+          try {
+            const recentSessions = await kanjiMasteryDB.getSessionsByUser(user.uid, 5)
+            const lastSameLevel = recentSessions.find(session => session.level === sessionLevel)
+            if (lastSameLevel) {
+              lastSameLevel.kanji.forEach(item => recentSessionIds.add(item.id))
+            }
+          } catch (error) {
+            console.warn('[KanjiMastery] Failed to load recent sessions for pool rotation:', error)
+          }
+
+          if (mode === 'mixed') {
+            const progressRecords = await kanjiMasteryDB.getProgressByUser(user.uid)
+            selected = selectKanjiMixed(kanjiData, {
+              requestedSize: sessionSize,
+              progressRecords,
+              recentSessionIds
+            })
+          } else {
+            const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionLevel)
+            selected = selectKanjiSmartly(kanjiData, {
+              requestedSize: sessionSize,
+              progressRecords,
+              recentSessionIds
+            })
+          }
+        } else {
+          // Linear approach - use saved progress
+          const progressData = getItem<Record<string, number>>('kanjiLinearProgress', {}) || {}
+          const lastIndex = progressData[sessionLevel] || 0
+
+          if (lastIndex < kanjiData.length) {
+            selected = kanjiData.slice(lastIndex, lastIndex + sessionSize)
+            // Save new progress
+            progressData[sessionLevel] = lastIndex + sessionSize
+            setItem('kanjiLinearProgress', progressData)
+          } else {
+            // Start over from beginning
+            selected = kanjiData.slice(0, sessionSize)
+            progressData[sessionLevel] = sessionSize
+            setItem('kanjiLinearProgress', progressData)
+          }
         }
       }
 
@@ -239,7 +319,8 @@ export default function LearnContent() {
         sessionId: Date.now().toString(),
         startTime: new Date(),
         level: sessionLevel,
-        mode
+        mode,
+        reviewOnly
       })
       setLastTestType(null)
     } catch (err) {

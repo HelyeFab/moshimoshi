@@ -9,7 +9,7 @@ import type { WordExplanation } from '@/lib/ai/types';
 import { getCachedWordExplanation, setCachedWordExplanation } from '@/lib/ai/cache/WordExplanationCache';
 
 // Feature IDs for different lookup types
-const WORD_LOOKUP_FEATURE_ID = 'word_lookup' as FeatureId; // Vocabulary browser (15/day for free)
+const WORD_LOOKUP_FEATURE_ID = 'word_lookup' as FeatureId;
 const MAX_WORD_LENGTH = 100;
 
 function sanitizeString(value: unknown): string | undefined {
@@ -124,61 +124,49 @@ export async function POST(request: NextRequest) {
     const plan = userData?.subscription?.plan || 'free';
 
     // Check if this is a content-based lookup (article, book, story, comic, flashcard)
-    // These should have prefetched explanations and don't need quota checks
     const contentId = request.headers.get('x-content-id');
     const contentType = request.headers.get('x-content-type');
-    const isContentLookup = !!(contentId && contentType);
 
     let decision;
     let usageRef;
     let currentUsage = 0;
     const nowUtc = new Date().toISOString();
 
-    // Only check quota for standalone vocabulary lookups (not content-based)
-    if (!isContentLookup) {
-      // This is a vocabulary browser lookup - check word_lookup quota
-      const bucketKey = getBucketKey(WORD_LOOKUP_FEATURE_ID, session.uid, nowUtc);
-      usageRef = adminDb.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
-      const usageDoc = await usageRef.get();
-      currentUsage = usageDoc.data()?.[WORD_LOOKUP_FEATURE_ID] || 0;
+    // All lookups consume word_lookup quota (including content-based lookups),
+    // except when the explanation is served from cache.
+    const bucketKey = getBucketKey(WORD_LOOKUP_FEATURE_ID, session.uid, nowUtc);
+    usageRef = adminDb.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
+    const usageDoc = await usageRef.get();
+    currentUsage = usageDoc.data()?.[WORD_LOOKUP_FEATURE_ID] || 0;
 
-      const evalContext: EvalContext = {
-        userId: session.uid,
-        plan: plan as any,
-        usage: { [WORD_LOOKUP_FEATURE_ID]: currentUsage },
-        nowUtcISO: nowUtc
-      };
+    const evalContext: EvalContext = {
+      userId: session.uid,
+      plan: plan as any,
+      usage: { [WORD_LOOKUP_FEATURE_ID]: currentUsage },
+      nowUtcISO: nowUtc
+    };
 
-      decision = evaluate(WORD_LOOKUP_FEATURE_ID, evalContext);
-      if (!decision.allow) {
-        return NextResponse.json({
-          success: false,
-          error: 'LIMIT_REACHED',
-          decision
-        }, { status: 403 });
-      }
-    } else {
-      // Content lookup - no quota check needed (prefetched content)
-      decision = { allow: true, remaining: -1, reason: 'content_prefetched' };
+    decision = evaluate(WORD_LOOKUP_FEATURE_ID, evalContext);
+    if (!decision.allow) {
+      return NextResponse.json({
+        success: false,
+        error: 'LIMIT_REACHED',
+        decision
+      }, { status: 403 });
     }
 
-    const computeRemaining = (limit: number | undefined) => {
+    const computeRemaining = (limit: number | undefined, incremented: boolean) => {
       if (limit === -1) return -1;
       if (typeof limit !== 'number') return decision.remaining;
+      if (!incremented) return Math.max(0, limit - currentUsage);
       return Math.max(0, limit - (currentUsage + 1));
     };
 
     const cached = await getCachedWordExplanation(word);
     if (cached) {
-      // Only increment usage for standalone lookups
-      if (!isContentLookup && usageRef) {
-        await usageRef.set({
-          [WORD_LOOKUP_FEATURE_ID]: currentUsage + 1,
-          lastUpdated: nowUtc
-        }, { merge: true });
-      }
+      // Cached responses do not consume quota.
 
-      if (isContentLookup && contentId && contentType) {
+      if (contentId && contentType) {
         try {
           await upsertContentWordExplanation(contentType, contentId, cached, word || undefined);
         } catch {
@@ -192,7 +180,7 @@ export async function POST(request: NextRequest) {
         explanation: cached,
         decision: {
           ...decision,
-          remaining: computeRemaining(decision.limit)
+          remaining: computeRemaining(decision.limit, false)
         }
       });
     }
@@ -214,15 +202,15 @@ export async function POST(request: NextRequest) {
 
     await setCachedWordExplanation(word, aiResponse.data);
 
-    // Only increment usage for standalone lookups
-    if (!isContentLookup && usageRef) {
+    // Cache miss consumes quota for all lookups.
+    if (usageRef) {
       await usageRef.set({
         [WORD_LOOKUP_FEATURE_ID]: currentUsage + 1,
         lastUpdated: nowUtc
       }, { merge: true });
     }
 
-    if (isContentLookup && contentId && contentType) {
+    if (contentId && contentType) {
       try {
         await upsertContentWordExplanation(contentType, contentId, aiResponse.data, word || undefined);
       } catch {
@@ -237,7 +225,7 @@ export async function POST(request: NextRequest) {
       usage: aiResponse.usage,
       decision: {
         ...decision,
-        remaining: computeRemaining(decision.limit)
+        remaining: computeRemaining(decision.limit, true)
       }
     });
   } catch {

@@ -2,6 +2,7 @@ import { AnkiParser, ProcessedCard, AnkiDeckInfo } from './parser'
 import { AnkiMediaStore, buildAnkiMediaKey } from './mediaStore'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { v4 as uuidv4 } from 'uuid'
+import type { DeckOrigin } from '@/types/flashcards'
 
 export interface AnkiCard extends ReviewableContent {
   id: string
@@ -53,6 +54,7 @@ export interface AnkiDeck {
   name: string
   cards: AnkiCard[]
   description?: string
+  origin?: DeckOrigin
   mediaBlobs?: Map<string, Blob>  // Raw blob objects (not URLs) for storage by import modal
   settings?: AnkiDeckSettings
 }

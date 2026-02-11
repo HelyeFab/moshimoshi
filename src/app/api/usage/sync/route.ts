@@ -10,6 +10,7 @@ const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS)
 const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, keyof UsageBucketWithUniqueItems>> = {
   kanji_mood_board: 'kanji_mood_board_boards',
   news: 'news_items',
+  books: 'books_items',
   comics: 'comics_items',
   kanji_connection: 'kanji_connection_items',
   textbook_vocabulary: 'textbook_vocabulary_items',
@@ -19,6 +20,7 @@ const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, keyof UsageBucketWithUniqueI
 type UsageBucketWithUniqueItems = UsageBucket & {
   kanji_mood_board_boards?: string[]
   news_items?: string[]
+  books_items?: string[]
   comics_items?: string[]
   kanji_connection_items?: string[]
   textbook_vocabulary_items?: string[]

@@ -34,6 +34,7 @@ import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import { listManager } from '@/lib/lists/ListManager'
 import { storageManager } from '@/lib/flashcards/StorageManager'
+import { AnkiMediaStore } from '@/lib/anki/mediaStore'
 import { migrationManager } from '@/lib/flashcards/MigrationManager'
 import { sessionManager } from '@/lib/flashcards/SessionManager'
 import type {
@@ -120,6 +121,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     return true
   })
   const [storageInfo, setStorageInfo] = useState<any>(null)
+  const [flashcardsUsageBytes, setFlashcardsUsageBytes] = useState(0)
   const [showMigration, setShowMigration] = useState(false)
   const [migrationProgress, setMigrationProgress] = useState<MigrationProgress | null>(null)
   const [deckToStudy, setDeckToStudy] = useState<FlashcardDeck | null>(null)
@@ -164,6 +166,72 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const limits = FlashcardManager.getDeckLimits(userTier)
   const effectiveUserId = initialData.userId || user?.uid || (userTier === 'guest' ? 'guest' : null)
   const showFlashcardsTestButton = process.env.NODE_ENV !== 'production'
+  const refreshFlashcardsUsage = useCallback(async () => {
+    const deckBytes = decks.reduce(
+      (total, deck) => total + storageManager.calculateDeckSize(deck),
+      0
+    )
+
+    try {
+      const mediaStats = await AnkiMediaStore.getInstance().getStats()
+      setFlashcardsUsageBytes(deckBytes + (mediaStats.totalSize || 0))
+    } catch {
+      setFlashcardsUsageBytes(deckBytes)
+    }
+  }, [decks])
+
+  useEffect(() => {
+    let cancelled = false
+    refreshFlashcardsUsage().catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [refreshFlashcardsUsage])
+
+  useEffect(() => {
+    if (!effectiveUserId || effectiveUserId === 'guest') return
+    if (decks.length === 0) return
+
+    const cleanupKey = `flashcards_media_cleanup_v2_${effectiveUserId}`
+    if (localStorage.getItem(cleanupKey)) return
+
+    localStorage.setItem(cleanupKey, '1')
+
+    const validDeckIds = new Set(decks.map(deck => deck.id))
+    const referencedRawFilenames = new Set<string>()
+
+    const stripAnkiMediaKey = (key: string) => {
+      const separatorIndex = key.indexOf('::')
+      return separatorIndex >= 0 ? key.slice(separatorIndex + 2) : key
+    }
+
+    for (const deck of decks) {
+      for (const card of deck.cards) {
+        if (Array.isArray(card.media)) {
+          for (const mediaKey of card.media) {
+            if (typeof mediaKey === 'string') {
+              referencedRawFilenames.add(stripAnkiMediaKey(mediaKey))
+            }
+          }
+        }
+        if (typeof card.audioFilename === 'string') {
+          referencedRawFilenames.add(stripAnkiMediaKey(card.audioFilename))
+        }
+        if (typeof card.imageFilename === 'string') {
+          referencedRawFilenames.add(stripAnkiMediaKey(card.imageFilename))
+        }
+      }
+    }
+
+    AnkiMediaStore.getInstance()
+      .cleanupUnknownMedia(validDeckIds, referencedRawFilenames)
+      .then(result => {
+        if (result.deleted > 0 || result.repaired > 0) {
+          refreshFlashcardsUsage().catch(() => {})
+        }
+      })
+      .catch(() => {})
+  }, [decks, effectiveUserId, refreshFlashcardsUsage])
 
   // Debug logging
 
@@ -179,15 +247,12 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       // Use consistent userId
       const effectiveUserId = initialData.userId || 'guest'
       await flashcardManager.syncDecksToIndexedDB(initialData.decks, effectiveUserId)
+      await flashcardManager.cleanupLegacyStarterDecks(effectiveUserId, initialData.isPremium)
 
-      // After sync, reload decks via getDecks which will hydrate media from IndexedDB
-      // This is necessary because server URLs might be expired blob URLs
-      const hasAnkiDecks = initialData.decks.some((d: any) => d.source === 'anki')
-      if (hasAnkiDecks) {
-        const allDecks = await flashcardManager.getDecks(effectiveUserId, initialData.isPremium)
-        if (allDecks.length > 0) {
-          setDecks(allDecks)
-        }
+      // Reload from IndexedDB so local cleanup and media hydration are reflected in UI
+      const allDecks = await flashcardManager.getDecks(effectiveUserId, initialData.isPremium)
+      if (allDecks.length > 0 || initialData.decks.length > 0) {
+        setDecks(allDecks)
       }
     } catch (error) {
     }
@@ -700,12 +765,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       // Load flashcard decks - FlashcardManager handles both regular and Anki decks
       let userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
 
-      if (initialData.userId && userTier !== 'guest' && userDecks.length === 0) {
-        userDecks = await flashcardManager.ensureStarterDecks(initialData.userId, isPremium)
-      }
-
-      if (initialData.userId && userTier !== 'guest' && userDecks.length > 0) {
-        userDecks = await flashcardManager.backfillStarterDeckMedia(initialData.userId, userDecks)
+      if (initialData.userId && userTier !== 'guest') {
+        const cleanup = await flashcardManager.cleanupLegacyStarterDecks(initialData.userId, isPremium)
+        if (cleanup.deleted > 0) {
+          userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
+        }
       }
 
       setDecks(userDecks)
@@ -1472,7 +1536,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
-    if (!decks.some(deck => !deck.isStarter)) {
+    if (decks.length === 0) {
       showToast(t('flashcards.export.noExportableDecks'), 'info')
       return
     }
@@ -1540,6 +1604,16 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         return
       }
 
+      if (error?.code === 'DECKMARKET_LIMIT_REACHED') {
+        showToast(t('flashcards.errors.deckMarketLimitReached'), 'error')
+        return
+      }
+
+      if (error?.code === 'FREE_DECKMARKET_ONLY') {
+        showToast(t('flashcards.errors.deckMarketOnlyForFree'), 'error')
+        return
+      }
+
       if (error?.code === 'LIMIT_REACHED') {
         setLimitError({
           currentCount: error.currentCount || 0,
@@ -1570,11 +1644,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
-    if (editingDeck.isStarter) {
-      showToast(t('flashcards.starterDeckLocked'), 'error')
-      return
-    }
-
     try {
       const updatedDeck = await flashcardManager.updateFullDeck(
         editingDeck.id,
@@ -1601,10 +1670,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleEditDeck = (deck: FlashcardDeck) => {
     if (!isPremium) {
       redirectToPricing(t('flashcards.upgradeToCreate'))
-      return
-    }
-    if (deck.isStarter) {
-      showToast(t('flashcards.starterDeckLocked'), 'error')
       return
     }
     setEditingDeck(deck)
@@ -1635,8 +1700,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleDeleteDeck = (deck: FlashcardDeck) => {
-    if (!isPremium) {
-      redirectToPricing(t('flashcards.upgradeToDeleteStarter'))
+    const canDelete = isPremium || deck.origin === 'deckmarket'
+    if (!canDelete) {
+      redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
     setDeckToDelete(deck)
@@ -1790,7 +1856,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleBulkDeleteSelected = async () => {
     if (!effectiveUserId || selectedDeckIds.size === 0) return
     if (!isPremium) {
-      redirectToPricing(t('flashcards.upgradeToDeleteStarter'))
+      redirectToPricing(t('flashcards.upgradeToCreate'))
       return
     }
 
@@ -1880,8 +1946,16 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         loadData(true).then(() => {
           showToast(t('flashcards.success.deckDeleted'), 'success')
         })
+        refreshFlashcardsUsage().catch(() => {})
         if (isPremium && deckToDeleteCopy.source === 'anki') {
           await loadR2Usage()
+        }
+        // Clear DeckMarket state for free users deleting a DeckMarket deck
+        if (!isPremium && deckToDeleteCopy.origin === 'deckmarket') {
+          fetch('/api/deckmarket/state', {
+            method: 'DELETE',
+            credentials: 'include',
+          }).catch(() => {})
         }
       } else {
         // Restore deck on failure
@@ -1898,10 +1972,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleExportDeck = async (deck: FlashcardDeck) => {
     if (!isPremium) {
       redirectToPricing(t('flashcards.upgradeToCreate'))
-      return
-    }
-    if (deck.isStarter) {
-      showToast(t('flashcards.starterDeckNoExport'), 'error')
       return
     }
     try {
@@ -1972,7 +2042,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         ((migrationProgress.completed + (migrationProgress.currentProgress || 0) / 100) / migrationProgress.total) * 100
       )
     : 0
-  const hasNonStarterDecks = decks.some(deck => !deck.isStarter)
+  const hasExportableDecks = decks.length > 0
   const showSyncUpgrade = Boolean(initialData.userId && !isPremium)
   const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length
   const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length
@@ -2014,10 +2084,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
   const handleStartSessionWithSettings = async (settings: Partial<import('@/types/flashcards').DeckSettings>) => {
     if (!deckToStudy || !initialData.userId) return
-    if (deckToStudy.isStarter) {
-      showToast(t('flashcards.starterDeckLocked'), 'error')
-      return
-    }
 
     try {
       setResumeSessionState(null)
@@ -2317,7 +2383,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 label: t('flashcards.actions.exportAll'),
                 icon: <Download className="w-4 h-4" />,
                 onClick: handleExportAll,
-                hidden: !isPremium || !hasNonStarterDecks,
+                hidden: !isPremium || !hasExportableDecks,
               },
               {
                 label: 'Run Flashcards Tests',
@@ -2370,20 +2436,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           <div className="hidden sm:flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
             <span>{t('flashcards.storage.using')}:</span>
             <span className="font-medium">
-              {storageManager.formatBytes(storageInfo.usage)} /{' '}
-              {storageManager.formatBytes(storageInfo.quota)}
-            </span>
-            <span
-              className={cn(
-                'px-2 py-1 rounded-full text-xs',
-                storageInfo.percentage > 90
-                  ? 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300'
-                  : storageInfo.percentage > 70
-                    ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300'
-                    : 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300'
-              )}
-            >
-              {Math.round(storageInfo.percentage)}%
+              {storageManager.formatBytes(flashcardsUsageBytes)}
             </span>
           </div>
         )}
@@ -2392,12 +2445,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         {!initialData.userId && (
           <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
             <p className="text-yellow-800 dark:text-yellow-200">{t('flashcards.limits.guest')}</p>
-          </div>
-        )}
-
-        {initialData.userId && !isPremium && (
-          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-blue-800 dark:text-blue-200">{t('flashcards.starterOnly')}</p>
           </div>
         )}
 

@@ -5,7 +5,7 @@
 
 'use client'
 
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import Modal from '@/components/ui/Modal'
 import type { WordExplanation } from '@/lib/ai/types'
 import { useTTS } from '@/hooks/useTTS'
@@ -28,6 +28,8 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import { kanjiService } from '@/services/kanjiService'
 import type { Kanji } from '@/types/kanji'
 import { unlockAudioOnUserGesture } from '@/utils/audioUnlock'
+import { useFeature } from '@/hooks/useFeature'
+import { hasSeenWordLookup, markWordLookupSeen } from '@/utils/wordLookupSeen'
 
 // ============================================
 // Modal Props
@@ -89,11 +91,14 @@ export default function WordExplanationModal({
   const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
   const [kanjiModalOpen, setKanjiModalOpen] = useState(false)
   const [isPlayingWord, setIsPlayingWord] = useState(false)
+  const checkedWordsRef = useRef<Set<string>>(new Set())
+  const checkInProgressRef = useRef(false)
 
   // Ref for word audio element - persists across renders for iOS compatibility
   const wordAudioRef = React.useRef<HTMLAudioElement | null>(null)
 
   const { play, preload, playing, currentText } = useTTS()
+  const { checkAndTrack } = useFeature('word_lookup')
   const {
     translateText,
     isLoading: translationLoading,
@@ -107,6 +112,50 @@ export default function WordExplanationModal({
   // ============================================
   // Handlers
   // ============================================
+
+  useEffect(() => {
+    if (!isOpen || !word) {
+      checkInProgressRef.current = false
+      return
+    }
+
+    const normalized = word.trim()
+    if (!normalized) return
+
+    if (checkedWordsRef.current.has(normalized)) {
+      return
+    }
+
+    if (hasSeenWordLookup(normalized)) {
+      checkedWordsRef.current.add(normalized)
+      return
+    }
+
+    if (checkInProgressRef.current) {
+      return
+    }
+
+    const checkEntitlement = async () => {
+      checkInProgressRef.current = true
+      try {
+        const allowed = await checkAndTrack({ showUI: true })
+        if (allowed) {
+          markWordLookupSeen(normalized)
+          checkedWordsRef.current.add(normalized)
+        } else {
+          onClose()
+        }
+      } catch (error) {
+        console.error('[WordExplanationModal] Entitlement check failed:', error)
+        // Fail open for better UX
+        checkedWordsRef.current.add(normalized)
+      } finally {
+        checkInProgressRef.current = false
+      }
+    }
+
+    checkEntitlement()
+  }, [isOpen, word, checkAndTrack, onClose])
 
   const handlePlayExample = useCallback(
     async (text: string) => {

@@ -14,6 +14,10 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
+function createUnsubscribeToken(userId: string, notificationType: string): string {
+  return Buffer.from(`${userId}:${notificationType}:${Date.now()}`).toString('base64')
+}
+
 /**
  * Daily Reminder - Runs every day at 12:00 PM UTC
  * Sends daily study reminders to users who have enabled them
@@ -70,7 +74,7 @@ export const dailyReminderNotification = onSchedule(
             dueReviews: stats.dueReviews || 0,
             lastStudyDate: stats.lastStudyDate?.toDate() || null,
             studyUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/review`,
-            unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${Buffer.from(userId).toString('base64')}`,
+            unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${createUnsubscribeToken(userId, 'daily_reminder')}`,
             preferencesUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/settings`
           };
 
@@ -83,7 +87,7 @@ export const dailyReminderNotification = onSchedule(
             },
             body: JSON.stringify({
               type: 'dailyReminder',
-              data: notificationData
+              data: { userId }
             })
           });
 
@@ -220,7 +224,7 @@ export const weeklyProgressNotification = onSchedule(
             },
             achievements: achievements.slice(0, 3), // Top 3 achievements
             dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/dashboard`,
-            unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${Buffer.from(userId).toString('base64')}`,
+            unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${createUnsubscribeToken(userId, 'weekly_progress')}`,
             preferencesUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/settings`
           };
 
@@ -233,7 +237,7 @@ export const weeklyProgressNotification = onSchedule(
             },
             body: JSON.stringify({
               type: 'weeklyProgress',
-              data: notificationData
+              data: { userId }
             })
           });
 

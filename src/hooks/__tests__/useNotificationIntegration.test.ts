@@ -3,7 +3,7 @@
  * Tests the integration between Review Engine and Notification System
  */
 
-import { renderHook, act, waitFor } from '@testing-library/react'
+import { renderHook, act, waitFor, cleanup } from '@testing-library/react'
 import { useNotificationIntegration } from '../useNotificationIntegration'
 import { ReviewEventType, ItemAnsweredPayload } from '@/lib/review-engine/core/events'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -61,6 +61,18 @@ describe('useNotificationIntegration', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    ;(doc as jest.Mock).mockReset()
+    ;(getDoc as jest.Mock).mockReset()
+    ;(setDoc as jest.Mock).mockReset()
+    ;(doc as jest.Mock).mockReturnValue({ id: 'mock-doc-ref' })
+    ;(getDoc as jest.Mock).mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        channels: { browser: true, inApp: true, push: false, email: true },
+        timing: { immediate: true, daily: true, overdue: true },
+        quiet_hours: { enabled: false, start: '22:00', end: '08:00', timezone: 'UTC' }
+      })
+    })
 
     // Mock Notification API
     mockNotification = {
@@ -93,7 +105,9 @@ describe('useNotificationIntegration', () => {
   })
 
   afterEach(() => {
+    cleanup()
     jest.clearAllTimers()
+    jest.useRealTimers()
   })
 
   describe('Initialization', () => {
@@ -115,7 +129,9 @@ describe('useNotificationIntegration', () => {
         expect(getDoc).toHaveBeenCalled()
       })
 
-      expect(result.current.preferences).toEqual(mockPreferences)
+      await waitFor(() => {
+        expect(result.current.preferences).toEqual(mockPreferences)
+      })
     })
 
     it('should create default preferences if none exist', async () => {
@@ -292,10 +308,8 @@ describe('useNotificationIntegration', () => {
     it('should request browser notification permission', async () => {
       const { result } = renderHook(() => useNotificationIntegration())
 
-      await act(async () => {
-        const permission = await result.current.requestNotificationPermission()
-        expect(permission).toBe('granted')
-      })
+      const permission = await result.current.requestNotificationPermission()
+      expect(permission).toBe('granted')
 
       expect(mockNotification.requestPermission).toHaveBeenCalled()
       expect(setDoc).toHaveBeenCalledWith(
@@ -312,10 +326,8 @@ describe('useNotificationIntegration', () => {
 
       const { result } = renderHook(() => useNotificationIntegration())
 
-      await act(async () => {
-        const permission = await result.current.requestNotificationPermission()
-        expect(permission).toBe('denied')
-      })
+      const permission = await result.current.requestNotificationPermission()
+      expect(permission).toBe('denied')
 
       expect(setDoc).not.toHaveBeenCalled()
     })
@@ -337,9 +349,7 @@ describe('useNotificationIntegration', () => {
         expect(result.current.preferences).toBeTruthy()
       })
 
-      await act(async () => {
-        await result.current.testNotification()
-      })
+      await result.current.testNotification()
 
       expect(global.dispatchEvent).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -366,9 +376,7 @@ describe('useNotificationIntegration', () => {
         }
       }
 
-      await act(async () => {
-        await result.current.updatePreferences(newPreferences)
-      })
+      await result.current.updatePreferences(newPreferences)
 
       expect(setDoc).toHaveBeenCalledWith(
         expect.anything(),
@@ -389,15 +397,11 @@ describe('useNotificationIntegration', () => {
         channels: { browser: false, inApp: true, push: true, email: false }
       }
 
-      ;(getDoc as jest.Mock)
-        .mockResolvedValueOnce({
-          exists: () => true,
-          data: () => initialPrefs
-        })
-        .mockResolvedValueOnce({
-          exists: () => true,
-          data: () => updatedPrefs
-        })
+      let currentPrefs = initialPrefs
+      ;(getDoc as jest.Mock).mockImplementation(async () => ({
+        exists: () => true,
+        data: () => currentPrefs
+      }))
 
       const { result } = renderHook(() => useNotificationIntegration())
 
@@ -406,6 +410,7 @@ describe('useNotificationIntegration', () => {
       })
 
       await act(async () => {
+        currentPrefs = updatedPrefs
         await result.current.updatePreferences(updatedPrefs)
       })
 
@@ -564,8 +569,6 @@ describe('useNotificationIntegration', () => {
     })
 
     it('should clear scheduled notifications on unmount', async () => {
-      jest.useFakeTimers()
-
       const { result, unmount } = renderHook(() => useNotificationIntegration())
 
       await waitFor(() => {
@@ -573,19 +576,17 @@ describe('useNotificationIntegration', () => {
       })
 
       // Schedule a notification
-      await act(async () => {
-        await result.current.scheduleNotification({
-          itemId: 'test-item',
-          scheduledFor: new Date(Date.now() + 5000),
-          contentType: 'test',
-          metadata: {}
-        })
+      await result.current.scheduleNotification({
+        itemId: 'test-item',
+        scheduledFor: new Date(Date.now() + 20),
+        contentType: 'test',
+        metadata: {}
       })
 
       unmount()
 
-      // Advance time
-      jest.advanceTimersByTime(6000)
+      // Wait past due time with real timers.
+      await new Promise(resolve => setTimeout(resolve, 40))
 
       // Notification should not fire after unmount
       expect(global.dispatchEvent).not.toHaveBeenCalledWith(
@@ -593,8 +594,6 @@ describe('useNotificationIntegration', () => {
           type: 'notification:show'
         })
       )
-
-      jest.useRealTimers()
     })
   })
 })

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, Suspense, useMemo, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { Kanji, JLPTLevel, KanjiByLevel } from '@/types/kanji'
 import { kanjiService } from '@/services/kanjiService'
 import { useI18n } from '@/i18n/I18nContext'
@@ -26,6 +27,8 @@ import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgr
 import Navbar from '@/components/layout/Navbar'
 import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { useFeature } from '@/hooks/useFeature'
+import { hasSeenKanjiLookup } from '@/utils/kanjiLookupSeen'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -56,6 +59,8 @@ function KanjiBrowserContent() {
   const { resolvedTheme } = useTheme()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const router = useRouter()
+  const { checkOnly: checkKanjiLookupOnly } = useFeature('kanji_lookup')
 
   const [kanjiData, setKanjiData] = useState<KanjiByLevel>({})
   const [loading, setLoading] = useState(true)
@@ -352,7 +357,20 @@ function KanjiBrowserContent() {
   }
 
 
-  const handleKanjiClick = (kanji: Kanji) => {
+  const handleKanjiClick = async (kanji: Kanji) => {
+    if (!hasSeenKanjiLookup(kanji.kanji)) {
+      const decision = await checkKanjiLookupOnly({ failOpen: false })
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: strings?.subscription?.actions?.upgrade || 'Upgrade',
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined
+        showToast(strings?.entitlements?.messages?.lookupLimitReached || 'Limit reached', 'warning', 5000, upgradeAction)
+        return
+      }
+    }
     // Always open modal for kanji preview
     setModalKanji(kanji)
 

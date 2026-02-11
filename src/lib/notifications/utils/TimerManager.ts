@@ -383,7 +383,23 @@ export class TimerManager {
    * Pause all timers (for testing/debugging)
    */
   pauseAll(): Map<string, TimerEntry> {
-    const paused = new Map(this.timers)
+    const now = Date.now()
+    const paused = new Map<string, TimerEntry>()
+
+    this.timers.forEach((entry, id) => {
+      const remaining = entry.type === 'timeout'
+        ? Math.max(0, entry.scheduledTime.getTime() - now)
+        : entry.duration
+
+      paused.set(id, {
+        ...entry,
+        metadata: {
+          ...entry.metadata,
+          __pausedRemainingMs: remaining
+        }
+      })
+    })
+
     this.clearAll()
     return paused
   }
@@ -392,17 +408,15 @@ export class TimerManager {
    * Resume paused timers
    */
   resumeAll(paused: Map<string, TimerEntry>): void {
-    const now = Date.now()
-
     paused.forEach((entry) => {
-      const remaining = entry.scheduledTime.getTime() - now
+      const remaining = Number(entry.metadata?.__pausedRemainingMs ?? entry.duration)
 
-      if (remaining > 0) {
-        if (entry.type === 'timeout') {
-          this.setTimeout(entry.callback, remaining, entry.id, entry.metadata)
-        } else {
-          this.setInterval(entry.callback, entry.duration, entry.id, entry.metadata)
-        }
+      const { __pausedRemainingMs, ...metadata } = entry.metadata || {}
+
+      if (entry.type === 'timeout') {
+        this.setTimeout(entry.callback, Math.max(0, remaining), entry.id, metadata)
+      } else {
+        this.setInterval(entry.callback, entry.duration, entry.id, metadata)
       }
     })
   }

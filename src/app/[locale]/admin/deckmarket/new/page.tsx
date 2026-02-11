@@ -222,17 +222,6 @@ export default function AdminDeckMarketCreatePage() {
         </Link>
       </div>
 
-      {error && (
-        <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-4 rounded-lg">
-          {error}
-        </div>
-      )}
-      {uploadMessage && (
-        <div className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 p-4 rounded-lg">
-          {uploadMessage}
-        </div>
-      )}
-
       {/* File Upload Section */}
       <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 space-y-5">
         <div className="flex items-center gap-3 mb-1">
@@ -421,6 +410,19 @@ export default function AdminDeckMarketCreatePage() {
             />
           </div>
         </div>
+
+        {(error || uploadMessage) && (
+          <div
+            className={cn(
+              'rounded-lg p-4 text-sm',
+              error
+                ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
+                : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+            )}
+          >
+            {error || uploadMessage}
+          </div>
+        )}
 
         <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100 dark:border-dark-700">
           <Link

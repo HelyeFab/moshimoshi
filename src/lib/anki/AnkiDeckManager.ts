@@ -10,7 +10,8 @@
 import { openDB, IDBPDatabase } from 'idb'
 import { AnkiDeck, AnkiCard, AnkiDeckSettings, DEFAULT_ANKI_DECK_SETTINGS } from './importer'
 import { AnkiMediaStore } from './mediaStore'
-import type { DeckStats } from '@/types/flashcards'
+import type { DeckOrigin, DeckStats } from '@/types/flashcards'
+import type { FeatureId } from '@/types/FeatureId'
 import { debugLogger } from '@/lib/debug-logger'
 
 interface AnkiDeckDB {
@@ -24,6 +25,7 @@ export interface StoredAnkiDeck extends AnkiDeck {
   cardCount: number
   settings: AnkiDeckSettings
   source: 'anki' // Track that this deck was imported from Anki
+  origin?: DeckOrigin
   stats: DeckStats // Stats for UI display
   metadata?: {
     originalFilename?: string
@@ -31,6 +33,7 @@ export interface StoredAnkiDeck extends AnkiDeck {
     hasMedia: boolean
     ankiImport?: boolean
     r2BackupEnabled?: boolean
+    origin?: 'deckmarket'
   }
 }
 
@@ -139,6 +142,33 @@ export class AnkiDeckManager {
       throw error
     }
 
+    if (!isPremium) {
+      const isDeckMarketDeck = deck.origin === 'deckmarket'
+      if (!isDeckMarketDeck) {
+        const error = new Error('FREE_DECKMARKET_ONLY')
+        ;(error as any).code = 'FREE_DECKMARKET_ONLY'
+        throw error
+      }
+
+      const hasAnotherDeckMarketDeck = existingDecks.some(existing => {
+        const existingOrigin = (existing as StoredAnkiDeck).origin
+        return existingOrigin === 'deckmarket' && existing.id !== deck.id
+      })
+
+      if (hasAnotherDeckMarketDeck) {
+        const error = new Error('DECKMARKET_LIMIT_REACHED')
+        ;(error as any).code = 'DECKMARKET_LIMIT_REACHED'
+        throw error
+      }
+    }
+
+    const isNewDeck = !existingDecks.some(existing => existing.id === deck.id)
+    const shouldCountDeckMarketUsage =
+      isPremium && isNewDeck && deck.origin === 'deckmarket' && userId !== 'guest'
+    if (shouldCountDeckMarketUsage) {
+      await this.assertDeckMarketImportAllowed()
+    }
+
     debugLogger.step(2, 'No name conflicts, proceeding with save')
 
     const storedDeck: StoredAnkiDeck = {
@@ -149,6 +179,7 @@ export class AnkiDeckManager {
       updatedAt: now,
       settings: deck.settings || DEFAULT_ANKI_DECK_SETTINGS,
       source: 'anki', // Mark as Anki import for unified collection tracking
+      origin: deck.origin,
       stats: {
         totalCards: deck.cards.length,
         newCards: deck.cards.length, // All cards are new on import
@@ -168,6 +199,7 @@ export class AnkiDeckManager {
         hasMedia: (deck.mediaBlobs?.size || 0) > 0,
         ankiImport: true,
         r2BackupEnabled,
+        origin: deck.origin,
       },
     }
 
@@ -188,6 +220,19 @@ export class AnkiDeckManager {
     // Save to IndexedDB (local-only storage)
     await db.put('decks', deckForStorage as any)
 
+    if (shouldCountDeckMarketUsage) {
+      // Do not block a successful import if usage increment fails.
+      // A stable idempotency key keeps retries safe from double counting.
+      try {
+        await this.incrementDeckMarketImportUsage(deck.id)
+      } catch (error) {
+        debugLogger.error('Failed to increment deckmarket anki_imports usage', {
+          deckId: deck.id,
+          error,
+        })
+      }
+    }
+
     debugLogger.success('Deck saved to IndexedDB!', {
       deckId: deck.id,
       deckName: deck.name,
@@ -197,6 +242,61 @@ export class AnkiDeckManager {
     this.notifyListeners('decks-changed')
 
     return storedDeck
+  }
+
+  private async checkFeatureAccess(featureId: FeatureId): Promise<{ allow: boolean; reason?: string }> {
+    const response = await fetch(`/api/usage/${featureId}/check`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to check ${featureId} entitlement`)
+    }
+
+    const decision = await response.json()
+    return {
+      allow: !!decision?.allow,
+      reason: typeof decision?.reason === 'string' ? decision.reason : undefined,
+    }
+  }
+
+  private async trackFeatureUsage(featureId: FeatureId, idempotencyKey: string): Promise<void> {
+    const response = await fetch(`/api/usage/${featureId}/increment`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idempotencyKey }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to increment ${featureId} usage`)
+    }
+
+    const decision = await response.json()
+    if (!decision?.allow) {
+      const errorCode =
+        featureId === 'flashcard_decks' ? 'DECK_LIMIT_REACHED' : 'ANKI_IMPORT_LIMIT_REACHED'
+      const error = new Error(errorCode)
+      ;(error as any).code = errorCode
+      ;(error as any).reason = decision?.reason
+      throw error
+    }
+  }
+
+  private async assertDeckMarketImportAllowed(): Promise<void> {
+    const importLimitDecision = await this.checkFeatureAccess('anki_imports')
+    if (!importLimitDecision.allow) {
+      const error = new Error('ANKI_IMPORT_LIMIT_REACHED')
+      ;(error as any).code = 'ANKI_IMPORT_LIMIT_REACHED'
+      ;(error as any).reason = importLimitDecision.reason
+      throw error
+    }
+  }
+
+  private async incrementDeckMarketImportUsage(deckId: string): Promise<void> {
+    const stableIdempotencyKey = `deckmarket-${deckId}`
+    await this.trackFeatureUsage('anki_imports', stableIdempotencyKey)
   }
 
   /**
@@ -287,6 +387,67 @@ export class AnkiDeckManager {
     const mediaStore = AnkiMediaStore.getInstance()
     const deletedMedia = await mediaStore.deleteMediaByDeck(deckId)
     debugLogger.success('Local media deleted!', { deckId, deletedMedia })
+
+    // Fallback: legacy Anki media stored without deckId (unprefixed keys).
+    if (deletedMedia === 0 && deck.source === 'anki') {
+      const stripAnkiMediaKey = (key: string) => {
+        const separatorIndex = key.indexOf('::')
+        return separatorIndex >= 0 ? key.slice(separatorIndex + 2) : key
+      }
+
+      const collectRawFilenames = (cards: AnkiCard[]) => {
+        const names = new Set<string>()
+        for (const card of cards) {
+          if (Array.isArray(card.media)) {
+            for (const mediaKey of card.media) {
+              if (typeof mediaKey === 'string') {
+                names.add(stripAnkiMediaKey(mediaKey))
+              }
+            }
+          }
+          if (typeof (card as any).audioFilename === 'string') {
+            names.add(stripAnkiMediaKey((card as any).audioFilename))
+          }
+          if (typeof (card as any).imageFilename === 'string') {
+            names.add(stripAnkiMediaKey((card as any).imageFilename))
+          }
+        }
+        return names
+      }
+
+      try {
+        const otherDecks = await db.getAllFromIndex('decks', 'userId', userId)
+        const otherReferenced = new Set<string>()
+
+        for (const other of otherDecks) {
+          if (other.id === deckId) continue
+          const otherCards = (other as StoredAnkiDeck).cards || []
+          for (const name of collectRawFilenames(otherCards)) {
+            otherReferenced.add(name)
+          }
+        }
+
+        const targetNames = collectRawFilenames(deck.cards)
+        const safeDelete = new Set<string>()
+        for (const name of targetNames) {
+          if (!otherReferenced.has(name)) {
+            safeDelete.add(name)
+          }
+        }
+
+        if (safeDelete.size > 0) {
+          const deletedLegacy = await mediaStore.deleteMediaByIds(safeDelete)
+          if (deletedLegacy > 0) {
+            debugLogger.success('Legacy media cleanup deleted unprefixed files', {
+              deckId,
+              deletedLegacy,
+            })
+          }
+        }
+      } catch (error) {
+        debugLogger.error('Legacy media cleanup failed', { deckId, error })
+      }
+    }
 
     // If premium user, delete R2 backup files and metadata
     if (isPremium) {
@@ -395,6 +556,7 @@ export class AnkiDeckManager {
           hasMedia: deck.metadata?.hasMedia ?? false,
           ankiImport: deck.metadata?.ankiImport,
           r2BackupEnabled: false,
+          origin: deck.metadata?.origin,
         },
       }
 

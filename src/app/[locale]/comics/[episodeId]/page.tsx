@@ -27,14 +27,20 @@ import { RubyText } from '@/components/quiz/RubyText'
 import ComicSettingsModal from '@/components/comics/ComicSettingsModal'
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
 import { useFeature } from '@/hooks/useFeature'
+import { useToast } from '@/components/ui/Toast'
+import { hasSeenWordLookup } from '@/utils/wordLookupSeen'
+import { useSubscription } from '@/hooks/useSubscription'
 
 export default function ComicReaderPage() {
   const { strings } = useI18n()
+  const { showToast } = useToast()
   const { user, loading: authLoading } = useAuth()
+  const { isPremium } = useSubscription()
   const router = useRouter()
   const params = useParams()
   const episodeId = params?.episodeId as string
   const { checkAndTrack } = useFeature('comics')
+  const { checkOnly: checkWordLookupOnly } = useFeature('word_lookup')
 
   // Use cache-first episode loading
   const { episode: cachedEpisode, loading, error, fromCache } = useCachedEpisode(episodeId)
@@ -160,6 +166,19 @@ export default function ComicReaderPage() {
   const handleWordLookup = async (word: string, event?: React.MouseEvent, context?: string) => {
     const clean = word?.trim()
     if (!clean) return
+    if (!hasSeenWordLookup(clean)) {
+      const decision = await checkWordLookupOnly({ failOpen: false })
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: strings?.subscription?.actions?.upgrade || 'Upgrade',
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined
+        showToast(strings?.entitlements?.messages?.lookupLimitReached || 'Limit reached', 'warning', 5000, upgradeAction)
+        return
+      }
+    }
     setSelectedWord(clean)
     setWordContext(context)
     setWordModalOpen(true)

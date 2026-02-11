@@ -39,9 +39,10 @@ export function LimitDisplay({ featureName, decision, className = '' }: LimitDis
     return 'bg-primary-500';
   };
 
-  // Calculate progress percentage (assuming max is 5 for free plan)
-  const maxLimit = 5; // This should come from the plan context
-  const percentage = Math.round((remaining / maxLimit) * 100);
+  // Calculate progress percentage based on actual limit from decision
+  const maxLimit = typeof decision.limit === 'number' ? decision.limit : null;
+  const hasLimit = typeof maxLimit === 'number' && maxLimit > 0;
+  const percentage = hasLimit ? Math.round((remaining / maxLimit) * 100) : 0;
 
   return (
     <div className={`p-3 rounded-lg bg-gray-50 dark:bg-dark-800 ${className}`}>
@@ -53,12 +54,14 @@ export function LimitDisplay({ featureName, decision, className = '' }: LimitDis
           {t('entitlements.limits.sessionsLeft', { count: remaining })}
         </span>
       </div>
-      <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
-        <div
-          className={`${getProgressColor()} h-2 rounded-full transition-all duration-300`}
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
+      {hasLimit && (
+        <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
+          <div
+            className={`${getProgressColor()} h-2 rounded-full transition-all duration-300`}
+            style={{ width: `${Math.min(100, Math.max(0, percentage))}%` }}
+          />
+        </div>
+      )}
       {decision.resetAtUtc && (
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {t('entitlements.limits.resets', { time: formatResetTime(decision.resetAtUtc) })}

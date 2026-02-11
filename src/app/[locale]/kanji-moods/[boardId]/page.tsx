@@ -19,6 +19,7 @@ import { moodBoardProgressManager } from '@/utils/moodBoardProgressManager'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoCheckmarkCircle, IoInformationCircle, IoClose } from 'react-icons/io5'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { hasSeenKanjiLookup } from '@/utils/kanjiLookupSeen'
 
 export default function MoodBoardDetailPage() {
   const router = useRouter()
@@ -31,6 +32,7 @@ export default function MoodBoardDetailPage() {
   const { isPremium } = useSubscription()
   const { moodBoards, loading } = useMoodBoards()
   const { checkAndTrack } = useFeature('kanji_mood_board')
+  const { checkOnly: checkKanjiLookupOnly } = useFeature('kanji_lookup')
 
   const [board, setBoard] = useState<MoodBoardType | null>(null)
   const [progress, setProgress] = useState<BoardProgress | null>(null)
@@ -138,6 +140,23 @@ export default function MoodBoardDetailPage() {
       showToast(`${t('congratulations')}: ${t('moodboards.boardCompleted')}`, 'success')
     }
   }
+
+  const openKanjiDetails = useCallback(async (kanji: Kanji) => {
+    if (!hasSeenKanjiLookup(kanji.kanji)) {
+      const decision = await checkKanjiLookupOnly({ failOpen: false })
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: t('subscription.actions.upgrade'),
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined
+        showToast(t('entitlements.messages.lookupLimitReached'), 'warning', 5000, upgradeAction)
+        return
+      }
+    }
+    setSelectedKanji(kanji)
+  }, [checkKanjiLookupOnly, isPremium, router, showToast, t])
 
   const learnedSet = useMemo(
     () => new Set(progress?.learnedKanji || []),
@@ -288,7 +307,7 @@ export default function MoodBoardDetailPage() {
               return (
                 <div
                   key={kanji.kanji}
-                  onClick={() => setSelectedKanji(kanji)}
+                  onClick={() => openKanjiDetails(kanji)}
                   className={`
                     relative p-6 bg-white dark:bg-dark-800 rounded-lg shadow-md
                     hover:shadow-xl transition-all cursor-pointer
@@ -482,7 +501,7 @@ export default function MoodBoardDetailPage() {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  setSelectedKanji(displayKanji[currentCardIndex])
+                  openKanjiDetails(displayKanji[currentCardIndex])
                 }}
                 className="p-4 rounded-xl bg-purple-100 dark:bg-purple-900/30
                          hover:bg-purple-200 dark:hover:bg-purple-900/40
@@ -547,7 +566,7 @@ export default function MoodBoardDetailPage() {
               <div
                 key={kanji.kanji}
                 className="flex items-center gap-4 p-4 bg-white dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-dark-700 cursor-pointer hover:shadow-md transition-shadow"
-                onClick={() => setSelectedKanji(kanji)}
+                onClick={() => openKanjiDetails(kanji)}
               >
                 <button
                   onClick={e => {

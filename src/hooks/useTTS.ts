@@ -635,24 +635,36 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           setIsFetchingFromAPI(false)
           ttsLoadingState.setFetching(false)
         } catch (playError: any) {
-          console.error('%c[useTTS] ❌ Audio play failed:', 'color: #ff0000; font-weight: bold', playError)
+          const isAbortError =
+            playError?.name === 'AbortError' ||
+            typeof playError?.message === 'string' &&
+              playError.message.toLowerCase().includes('aborted')
 
           // CRITICAL: Dismiss modal on error too, otherwise it hangs forever
           setIsFetchingFromAPI(false)
           ttsLoadingState.setFetching(false)
 
-          // Ignore AbortError if it's because we're switching to a new audio
-          if (playError.name !== 'AbortError') {
-            debug('[useTTS] Audio play failed - final error', {
+          // AbortError is expected when the user agent cancels the request (common in Firefox on rapid src changes)
+          if (isAbortError) {
+            debug('[useTTS] Audio play aborted by user agent', {
               name: playError?.name,
               message: playError?.message,
               textPreview: text.substring(0, 40),
             })
-
-            // Don't throw - just log the error and let user retry
-            // Throwing here would break the UI flow
-            console.warn('[useTTS] Play failed, but not throwing to allow retry')
+            return
           }
+
+          console.error('%c[useTTS] ❌ Audio play failed:', 'color: #ff0000; font-weight: bold', playError)
+
+          debug('[useTTS] Audio play failed - final error', {
+            name: playError?.name,
+            message: playError?.message,
+            textPreview: text.substring(0, 40),
+          })
+
+          // Don't throw - just log the error and let user retry
+          // Throwing here would break the UI flow
+          console.warn('[useTTS] Play failed, but not throwing to allow retry')
         }
       } catch (err: any) {
         const error = err instanceof Error ? err : new Error(String(err))

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-04T15:07:15.581Z
+ * Generated at: 2026-02-11T08:27:45.798Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -268,6 +268,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Look up word details including meanings, conjugations, and example sentences',
+  },
+  kanji_lookup: {
+    id: 'kanji_lookup',
+    name: 'Kanji Lookup',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Open kanji details including readings, examples, and mnemonics',
   },
   news: {
     id: 'news',

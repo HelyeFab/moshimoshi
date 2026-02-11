@@ -61,7 +61,7 @@ describe('/api/word/explain', () => {
       policyVersion: 1,
     })
 
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ word_lookup: 15 }) }) }
+    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ word_lookup: 8 }) }) }
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
       collection: jest.fn().mockReturnValue({ doc: jest.fn(() => usageRef) }),
@@ -81,9 +81,16 @@ describe('/api/word/explain', () => {
     expect(response.status).toBe(403)
   })
 
-  it('skips quota when content headers are provided', async () => {
+  it('uses quota even when content headers are provided', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
     mockedGetCached.mockResolvedValue(null)
+    mockedEvaluate.mockReturnValue({
+      allow: true,
+      remaining: 7,
+      reason: 'ok',
+      policyVersion: 1,
+      limit: 8,
+    })
     mockedAIService.mockReturnValue({
       explainWord: jest.fn().mockResolvedValue({
         success: true,
@@ -91,8 +98,14 @@ describe('/api/word/explain', () => {
       }),
     })
 
+    const usageSet = jest.fn().mockResolvedValue(true)
+    const usageRef = {
+      get: jest.fn().mockResolvedValue({ data: () => ({ word_lookup: 0 }) }),
+      set: usageSet,
+    }
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
+      collection: jest.fn().mockReturnValue({ doc: jest.fn(() => usageRef) }),
     }
     mockedAdminDb.collection.mockImplementation((name: string) => {
       if (name === 'users') return { doc: jest.fn(() => userRef) }
@@ -112,17 +125,18 @@ describe('/api/word/explain', () => {
     const data = await response.json()
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
-    expect(mockedEvaluate).not.toHaveBeenCalled()
+    expect(mockedEvaluate).toHaveBeenCalled()
+    expect(usageSet).toHaveBeenCalled()
   })
 
   it('returns explanation and increments usage when allowed', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
     mockedEvaluate.mockReturnValue({
       allow: true,
-      remaining: 10,
+      remaining: 7,
       reason: 'ok',
       policyVersion: 1,
-      limit: 15,
+      limit: 8,
     })
     mockedGetCached.mockResolvedValue(null)
 
@@ -159,5 +173,44 @@ describe('/api/word/explain', () => {
     expect(data.success).toBe(true)
     expect(usageSet).toHaveBeenCalled()
     expect(mockedSetCached).toHaveBeenCalled()
+  })
+
+  it('does not increment usage when cached explanation is returned', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedEvaluate.mockReturnValue({
+      allow: true,
+      remaining: 7,
+      reason: 'ok',
+      policyVersion: 1,
+      limit: 8,
+    })
+    mockedGetCached.mockResolvedValue({ word: '猫', meaning: 'cat' })
+
+    const usageSet = jest.fn().mockResolvedValue(true)
+    const usageRef = {
+      get: jest.fn().mockResolvedValue({ data: () => ({ word_lookup: 3 }) }),
+      set: usageSet,
+    }
+    const userRef = {
+      get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
+      collection: jest.fn().mockReturnValue({ doc: jest.fn(() => usageRef) }),
+    }
+
+    mockedAdminDb.collection.mockImplementation((name: string) => {
+      if (name === 'users') return { doc: jest.fn(() => userRef) }
+      return { doc: jest.fn() }
+    })
+
+    const request = new NextRequest('http://localhost/api/word/explain', {
+      method: 'POST',
+      body: JSON.stringify({ word: '猫' }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+    expect(response.status).toBe(200)
+    expect(data.success).toBe(true)
+    expect(data.cached).toBe(true)
+    expect(usageSet).not.toHaveBeenCalled()
   })
 })

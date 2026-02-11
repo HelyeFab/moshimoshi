@@ -351,6 +351,7 @@ export class RestoreOrchestrator extends EventEmitter {
         hasMedia: mediaFiles.size > 0,
         ankiImport: true,
         r2BackupEnabled: true,
+        origin: backup.origin,
       },
     }
 

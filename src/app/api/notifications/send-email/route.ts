@@ -20,22 +20,67 @@ export async function POST(request: NextRequest) {
 
     const { type, data } = await request.json();
 
+    const resolveUserId = (value: unknown): string | null => {
+      if (typeof value === 'string' && value.trim().length > 0) {
+        return value
+      }
+
+      if (value && typeof value === 'object' && typeof (value as { userId?: unknown }).userId === 'string') {
+        const userId = (value as { userId: string }).userId.trim()
+        return userId.length > 0 ? userId : null
+      }
+
+      return null
+    }
+
     let result;
     switch (type) {
-      case 'dailyReminder':
-        result = await notificationService.sendDailyReminder(data);
+      case 'dailyReminder': {
+        const userId = resolveUserId(data)
+        if (!userId) {
+          return NextResponse.json(
+            { error: 'Missing userId for dailyReminder' },
+            { status: 400 }
+          )
+        }
+        result = await notificationService.sendDailyReminder(userId);
         break;
+      }
 
-      case 'weeklyProgress':
-        result = await notificationService.sendWeeklyProgressReport(data);
+      case 'weeklyProgress': {
+        const userId = resolveUserId(data)
+        if (!userId) {
+          return NextResponse.json(
+            { error: 'Missing userId for weeklyProgress' },
+            { status: 400 }
+          )
+        }
+        result = await notificationService.sendWeeklyProgressReport(userId);
         break;
+      }
 
-      case 'achievement':
+      case 'achievement': {
+        const payload = (data && typeof data === 'object') ? data as Record<string, unknown> : {}
+        const userId = resolveUserId(payload)
+        const achievementId = typeof payload.achievementId === 'string'
+          ? payload.achievementId
+          : typeof payload.achievement === 'string'
+            ? payload.achievement
+            : null
+
+        if (!userId || !achievementId) {
+          return NextResponse.json(
+            { error: 'Missing userId or achievementId for achievement notification' },
+            { status: 400 }
+          )
+        }
+
         result = await notificationService.sendAchievementAlert(
-          data.userId,
-          data.achievement
+          userId,
+          achievementId
         );
         break;
+      }
 
       default:
         return NextResponse.json(

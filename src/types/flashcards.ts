@@ -5,6 +5,7 @@ export type AnimationSpeed = 'slow' | 'normal' | 'fast';
 export type StudyDirection = 'front-to-back' | 'back-to-front' | 'mixed';
 export type StudyMode = 'classic' | 'match' | 'speed' | 'write' | 'voice';
 export type CardStatus = 'new' | 'learning' | 'review' | 'mastered';
+export type DeckOrigin = 'deckmarket';
 
 export interface FlashcardDeck {
   id: string; // UUID
@@ -22,6 +23,7 @@ export interface FlashcardDeck {
   isStarter?: boolean;
   sourceListId?: string; // Link to UserList if created from list
   source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
+  origin?: DeckOrigin;
   tags?: string[];
   restoreStatus?: 'restoring' | 'error';
   metadata?: {
@@ -30,6 +32,7 @@ export interface FlashcardDeck {
     hasMedia?: boolean;
     ankiImport?: boolean;
     r2BackupEnabled?: boolean;
+    origin?: 'deckmarket';
   };
   r2?: {  // R2 metadata (populated after upload to cloud storage)
     cardsKey: string;
@@ -179,6 +182,7 @@ export interface CreateDeckRequest {
   cardStyle?: CardStyle;
   source?: 'anki' | 'user';
   isStarter?: boolean;
+  origin?: DeckOrigin;
   settings?: Partial<DeckSettings>;
   sourceListId?: string;
   initialCards?: Array<{
@@ -331,6 +335,7 @@ export interface ImportDeckRequest {
   mergeWithExisting?: boolean;
   sourceListId?: string; // For importing from existing user lists
   ankiDeckId?: string; // For importing from Anki import feature
+  origin?: DeckOrigin;
 }
 
 export interface ExportDeckRequest {

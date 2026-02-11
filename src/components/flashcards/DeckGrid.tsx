@@ -58,10 +58,10 @@ export function DeckGrid({
   const menuRef = useRef<HTMLDivElement>(null);
   const menuActionInProgressRef = useRef(false);
   const selectionEnabled = Boolean(selectedDeckIds && onToggleSelect);
-  const canEditDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
-  const canDeleteDeck = () => isPremium;
-  const canExportDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
-  const canSyncDeck = (deck: FlashcardDeck) => isPremium && !deck.isStarter;
+  const canEditDeck = () => isPremium;
+  const canDeleteDeck = (deck: FlashcardDeck) => isPremium || deck.origin === 'deckmarket';
+  const canExportDeck = () => isPremium;
+  const canSyncDeck = () => isPremium;
   const isAnkiDeck = (deck: FlashcardDeck) => deck.source === 'anki';
   const isR2BackupEnabled = (deck: FlashcardDeck) =>
     !isAnkiDeck(deck) || deck.metadata?.r2BackupEnabled !== false;
@@ -258,7 +258,7 @@ export function DeckGrid({
             </button>
           )}
 
-          {onEditDeck && canEditDeck(deck) && (
+          {onEditDeck && canEditDeck() && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -279,7 +279,7 @@ export function DeckGrid({
             </button>
           )}
 
-          {onDeleteDeck && canDeleteDeck() && (
+          {onDeleteDeck && canDeleteDeck(deck) && (
             <button
               onClick={(e) => {
                 console.log('[DeckGrid Menu] Delete clicked', {
@@ -314,7 +314,7 @@ export function DeckGrid({
             </button>
           )}
 
-          {onExportDeck && canExportDeck(deck) && (
+          {onExportDeck && canExportDeck() && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -372,7 +372,7 @@ export function DeckGrid({
           )}
 
           {/* Premium Sync Option */}
-          {onSyncDeck && canSyncDeck(deck) && (
+          {onSyncDeck && canSyncDeck() && (
             <>
               <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
               <button

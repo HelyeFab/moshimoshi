@@ -15,6 +15,7 @@ const MetadataSchema = z.object({
   cardCount: z.number().int().nonnegative(),
   hasMedia: z.boolean(),
   totalBytes: z.number().int().nonnegative(),
+  origin: z.enum(['deckmarket']).optional(),
   r2: z.object({
     packageKey: z.string().min(1),
     manifestKey: z.string().min(1),
@@ -149,17 +150,23 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
+    const deckOrigin = doc.exists && doc.data()?.origin === 'deckmarket' ? 'deckmarket' : undefined
+
     await db.collection('anki_r2_backups').doc(deckId).delete()
 
     // Record deletion tombstone to prevent resurrection across devices
+    const tombstone: Record<string, any> = {
+      deletedAt: Date.now(),
+    }
+    if (deckOrigin) {
+      tombstone.origin = deckOrigin
+    }
     await db
       .collection('users')
       .doc(session.uid)
       .collection('deletedAnkiDecks')
       .doc(deckId)
-      .set({
-        deletedAt: Date.now(),
-      })
+      .set(tombstone)
 
     return NextResponse.json({ success: true, deckId })
   } catch (error: any) {

@@ -117,13 +117,22 @@ export default function AdminDeckMarketPage() {
             {strings.deckmarket.subtitle}
           </p>
         </div>
-        <Link
-          href="/admin/deckmarket/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all shadow-sm text-center font-medium"
-        >
-          <Plus className="w-4 h-4" />
-          {strings.deckmarket.admin.createDeck}
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/admin/deckmarket/notes"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-dark-700 text-gray-700 dark:text-gray-200 rounded-xl hover:border-primary-400 dark:hover:border-primary-500 transition-all shadow-sm text-center font-medium"
+          >
+            <Download className="w-4 h-4" />
+            {strings.deckmarket.admin.notesTitle}
+          </Link>
+          <Link
+            href="/admin/deckmarket/new"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all shadow-sm text-center font-medium"
+          >
+            <Plus className="w-4 h-4" />
+            {strings.deckmarket.admin.createDeck}
+          </Link>
+        </div>
       </div>
 
       {/* Stats cards */}

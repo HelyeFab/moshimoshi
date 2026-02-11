@@ -42,6 +42,7 @@ export interface R2Metadata {
   cardCount: number
   hasMedia: boolean
   totalBytes: number
+  origin?: 'deckmarket'
   r2: {
     packageKey: string    // R2 object key for package.apkg
     manifestKey: string   // R2 object key for manifest.json
@@ -94,6 +95,7 @@ export interface BackupInfo {
   name: string
   cardCount: number
   hasMedia: boolean
+  origin?: 'deckmarket'
   lastBackup: Date
   r2Keys: {
     manifestKey: string
@@ -145,6 +147,7 @@ export interface R2MetadataRequest {
   cardCount: number
   hasMedia: boolean
   totalBytes: number
+  origin?: 'deckmarket'
   r2: {
     packageKey: string
     manifestKey: string

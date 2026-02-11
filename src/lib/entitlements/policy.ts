@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-04T15:07:15.581Z
+ * Generated at: 2026-02-11T08:27:45.797Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -40,6 +40,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": 0,
           "pwa_media_session": 0,
           "word_lookup": 0,
+          "kanji_lookup": 0,
           "news": 0,
           "story": 0,
           "kanji_mood_board": 0,
@@ -87,6 +88,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": 0,
           "pwa_media_session": 0,
           "word_lookup": 8,
+          "kanji_lookup": 8,
           "news": 1,
           "story": 1,
           "kanji_mood_board": 1,
@@ -94,7 +96,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "blast_mode": 2,
           "my_list": -1,
           "textbook_vocabulary": 0,
-          "flashcards": 0,
+          "flashcards": -1,
           "resources": -1,
           "blogs": -1,
           "vocabulary": -1,
@@ -134,6 +136,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": -1,
           "pwa_media_session": -1,
           "word_lookup": -1,
+          "kanji_lookup": -1,
           "news": -1,
           "story": -1,
           "kanji_mood_board": -1,
@@ -181,6 +184,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": -1,
           "pwa_media_session": -1,
           "word_lookup": -1,
+          "kanji_lookup": -1,
           "news": -1,
           "story": -1,
           "kanji_mood_board": -1,

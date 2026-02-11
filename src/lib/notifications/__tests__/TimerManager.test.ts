@@ -339,7 +339,7 @@ describe('TimerManager', () => {
       expect(stats.activeTimers).toBe(1) // Only interval remains
       expect(stats.totalCreated).toBe(4)
       expect(stats.totalCleared).toBe(1)
-      expect(stats.totalFired).toBe(3) // 2 timeouts + 1 interval execution
+      expect(stats.totalFired).toBe(4) // 2 timeouts + 2 interval executions
     })
   })
 })

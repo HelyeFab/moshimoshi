@@ -1,7 +1,7 @@
 # Entitlements & Gating
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-02-04
+**Last Updated:** 2026-02-10
 
 ## Overview
 The entitlements system controls feature access by plan (guest/free/premium), enforces daily/monthly quotas, and provides consistent UX for upgrades and limits. It is the single source of truth for what a user can do and how often. Flashcards now allow free users to access the feature while still gating deck creation/import and premium-only sync features.
@@ -22,6 +22,30 @@ The entitlements system controls feature access by plan (guest/free/premium), en
 ## Configuration
 - Update `config/features.v1.json` and regenerate types (`npm run gen:entitlements`).
 - Keep FeatureId, policy, and registry files in sync with the JSON config.
+
+## Notes (Data Model & Behavior)
+- Usage buckets live under `users/{uid}/usage/{featureId_YYYY-MM-DD|YYYY-MM}`.
+- Unique-item dedupe uses `*_items` arrays in the same usage doc.
+- Client/UI limits display uses `decision.limit` when present; if missing or `<= 0`, no progress bar is shown.
+- Offline usage is synced via `POST /api/usage/sync` and should include `uniqueItems` for dedupe features.
+
+## Lookup Quotas (Word/Kanji)
+Lookup modals use a two-layer gate to avoid flashing on quota denial:
+1. **Pre-check at click source** using `checkOnly({ failOpen: false })`.
+2. **Increment inside modal** via `checkAndTrack({ showUI: true })` for new items.
+
+Daily “seen pools” are stored in localStorage to allow reopening already-viewed items even after quota is exhausted:
+- `src/utils/wordLookupSeen.ts`
+- `src/utils/kanjiLookupSeen.ts`
+
+localStorage is UX-only; deleting it does **not** bypass server enforcement.
+
+## Lookup Toast Messaging
+Use the dedicated message key for lookup limits:
+- `entitlements.messages.lookupLimitReached`
+Add the upgrade action when the user is not premium:
+- label `subscription.actions.upgrade`
+- route `/pricing`
 
 ## Troubleshooting
 - See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for common issues and fixes.

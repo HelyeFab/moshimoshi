@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { KANJI_FAMILIES, getFamiliesByCategories, type KanjiFamily, type KanjiFamilyCategory } from '@/lib/kanji/families';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
@@ -16,6 +17,9 @@ import {
   DesktopCircularIndicator,
   useFeatureUsage
 } from '@/components/entitlements/FeatureUsageIndicator';
+import { useToast } from '@/components/ui/Toast';
+import { hasSeenKanjiLookup } from '@/utils/kanjiLookupSeen';
+import { useSubscription } from '@/hooks/useSubscription';
 
 interface KanjiDetails {
   kanji: string;
@@ -47,8 +51,12 @@ interface FamilyData {
 export default function KanjiFamiliesPage() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { showToast } = useToast();
+  const router = useRouter();
+  const { isPremium } = useSubscription();
   const { getConnection, cacheConnection } = useKanjiConnectionCache();
   const { checkAndTrack } = useFeature('kanji_connection');
+  const { checkOnly: checkKanjiLookupOnly } = useFeature('kanji_lookup');
   const usageData = useFeatureUsage('kanji_connection');
 
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
@@ -109,7 +117,21 @@ export default function KanjiFamiliesPage() {
     setSelectedFamily(familyId);
   };
 
-  const handleKanjiClick = (kanjiDetail: any) => {
+  const handleKanjiClick = async (kanjiDetail: any) => {
+    const kanjiChar = kanjiDetail?.kanji;
+    if (kanjiChar && !hasSeenKanjiLookup(kanjiChar)) {
+      const decision = await checkKanjiLookupOnly({ failOpen: false });
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: t('subscription.actions.upgrade'),
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined;
+        showToast(t('entitlements.messages.lookupLimitReached'), 'warning', 5000, upgradeAction);
+        return;
+      }
+    }
     // The API now returns a full Kanji object, so pass it directly
     setModalKanji(kanjiDetail);
   };

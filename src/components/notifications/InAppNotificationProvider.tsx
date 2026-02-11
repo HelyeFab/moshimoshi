@@ -52,7 +52,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     // Load persisted countdowns
     loadPersistedCountdowns()
 
-    // Listen for Review Engine events
+    // Listen for legacy aggregated Review Engine event.
     const handleReviewEvent = (event: CustomEvent) => {
       switch (event.detail.type) {
         case ReviewEventType.ITEM_ANSWERED:
@@ -67,11 +67,47 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
       }
     }
 
+    // Listen for direct ReviewEngine events used by ReviewEngine.tsx.
+    const handleReviewEngineItemAnswered = (event: CustomEvent) => {
+      const detail = event.detail || {}
+      handleItemAnswered({
+        data: {
+          itemId: detail.item?.id,
+          correct: detail.correct,
+          nextReviewAt: detail.nextReviewAt,
+          contentType: detail.item?.contentType,
+        },
+      })
+    }
+
+    // Listen for generic notification events emitted by notification hooks.
+    const handleNotificationShow = (event: CustomEvent) => {
+      const detail = event.detail || {}
+      if (!detail.title || !detail.body) return
+      const type = detail.type === 'success' || detail.type === 'warning' || detail.type === 'review_due'
+        ? detail.type
+        : 'info'
+
+      addNotification({
+        title: detail.title,
+        body: detail.body,
+        type,
+        actionUrl: detail.actionUrl,
+        persistent: detail.persistent,
+      })
+    }
+
     // Subscribe to Review Engine events
     window.addEventListener('review:event', handleReviewEvent as EventListener)
+    window.addEventListener('reviewEngine:itemAnswered', handleReviewEngineItemAnswered as EventListener)
+    window.addEventListener('notification:show', handleNotificationShow as EventListener)
+    window.addEventListener('review:notification', handleNotificationShow as EventListener)
 
     return () => {
       window.removeEventListener('review:event', handleReviewEvent as EventListener)
+      window.removeEventListener('reviewEngine:itemAnswered', handleReviewEngineItemAnswered as EventListener)
+      window.removeEventListener('notification:show', handleNotificationShow as EventListener)
+      window.removeEventListener('review:notification', handleNotificationShow as EventListener)
       // Cleanup timers
       timersRef.current.forEach(timer => clearTimeout(timer))
       timersRef.current.clear()
@@ -160,11 +196,9 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
       setCountdowns(prev => {
         const next = new Map(prev)
         next.set(itemId, dueDate)
+        persistCountdowns(next)
         return next
       })
-
-      // Persist to localStorage
-      persistCountdowns()
 
       // Schedule notification for due date
       const delay = dueDate.getTime() - Date.now()
@@ -191,6 +225,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     setCountdowns(prev => {
       const next = new Map(prev)
       next.delete(itemId)
+      persistCountdowns(next)
       return next
     })
 
@@ -200,8 +235,6 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
       clearTimeout(timer)
       timersRef.current.delete(`countdown_${itemId}`)
     }
-
-    persistCountdowns()
   }, [])
 
   const clearAll = useCallback(() => {
@@ -213,10 +246,10 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     timersRef.current.clear()
   }, [])
 
-  const persistCountdowns = () => {
+  const persistCountdowns = (entries: Map<string, Date> = countdowns) => {
     if (typeof window === 'undefined') return
 
-    const data = Array.from(countdowns.entries()).map(([itemId, dueDate]) => ({
+    const data = Array.from(entries.entries()).map(([itemId, dueDate]) => ({
       itemId,
       dueDate: dueDate.toISOString(),
     }))
@@ -251,7 +284,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     if (typeof window === 'undefined') return
 
     try {
-      const audio = new Audio('/sounds/notification.mp3')
+      const audio = new Audio('/sounds/notification.wav')
       audio.volume = 0.5
       audio.play().catch(e => console.warn('Could not play notification sound:', e))
     } catch (error) {

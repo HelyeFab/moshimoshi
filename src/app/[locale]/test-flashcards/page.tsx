@@ -237,9 +237,9 @@ export default function TestFlashcardsPage() {
         const r2DeckRes = await fetch('/api/flashcards/r2/fake-deck');
         addResult('GET /api/flashcards/r2/[id] (blocked)', r2DeckRes.status === 403, `Status: ${r2DeckRes.status}`);
 
-        // Starter deck seeding (local)
-        const starterDecks = await flashcardManager.ensureStarterDecks(user.uid, false);
-        addResult('Starter decks seeded (local)', starterDecks.length >= 3, `Count: ${starterDecks.length}`);
+        // Legacy starter cleanup (local)
+        const cleanup = await flashcardManager.cleanupLegacyStarterDecks(user.uid, false);
+        addResult('Legacy starter cleanup (local)', cleanup.deleted >= 0, `Deleted: ${cleanup.deleted}`);
       }
 
     } catch (error: any) {

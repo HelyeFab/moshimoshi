@@ -26,6 +26,9 @@ import { useFeature } from "@/hooks/useFeature";
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from "@/components/entitlements/FeatureUsageIndicator";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import { useYouTubePracticeTracking } from "@/hooks/useYouTubePracticeTracking";
+import { useToast } from "@/components/ui/Toast";
+import { hasSeenWordLookup } from "@/utils/wordLookupSeen";
+import { useSubscription } from "@/hooks/useSubscription";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -81,11 +84,14 @@ const PLAYER_STATES = {
 
 function YouTubeShadowingContent() {
   const { t } = useI18n();
+  const { showToast } = useToast();
   const { user } = useAuth();
+  const { isPremium } = useSubscription();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const { checkAndTrack } = useFeature('youtube_shadowing');
+  const { checkOnly: checkWordLookupOnly } = useFeature('word_lookup');
   const usageData = useFeatureUsage('youtube_shadowing');
   const [videoInput, setVideoInput] = useState("");
   const [videoId, setVideoId] = useState<string | null>(null);
@@ -651,12 +657,26 @@ function YouTubeShadowingContent() {
         return;
       }
 
+      if (!hasSeenWordLookup(cleanWord)) {
+        const decision = await checkWordLookupOnly({ failOpen: false });
+        if (!decision.allow) {
+          const upgradeAction = !isPremium
+            ? {
+                label: t('subscription.actions.upgrade'),
+                onClick: () => router.push('/pricing'),
+              }
+            : undefined;
+          showToast(t('entitlements.messages.lookupLimitReached'), 'warning', 5000, upgradeAction);
+          return;
+        }
+      }
+
       setSelectedWord(cleanWord);
       setWordContext(context);
       setWordModalOpen(true);
       await explainWord(cleanWord, context);
     },
-    [explainWord],
+    [checkWordLookupOnly, explainWord, isPremium, router, showToast, t],
   );
 
   const handleCloseWordModal = useCallback(() => {

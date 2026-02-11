@@ -59,6 +59,7 @@ interface UsageMetadata {
 const UNIQUE_ITEM_FEATURES = new Set<FeatureId>([
   'kanji_mood_board',
   'news',
+  'story',
   'books',
   'comics',
   'kanji_connection',
@@ -444,9 +445,12 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
               } : undefined;
 
               const isMonthly = limitType === 'monthly';
+              const isLookupFeature = featureId === 'word_lookup' || featureId === 'kanji_lookup';
               const messageKey = isMonthly
                 ? 'entitlements.messages.limitReachedMonthlyWithTime'
-                : 'entitlements.messages.limitReached';
+                : isLookupFeature
+                  ? 'entitlements.messages.lookupLimitReached'
+                  : 'entitlements.messages.limitReached';
 
               const message = isMonthly
                 ? t(messageKey, {

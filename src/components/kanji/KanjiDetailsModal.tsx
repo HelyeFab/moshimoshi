@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Kanji } from '@/types/kanji'
 import {
   kanjiService,
@@ -30,6 +30,7 @@ import { searchJMdictWords } from '@/utils/jmdictLocalSearch'
 import { KanjiExample } from '@/types/kanji'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { hasSeenKanjiLookup, markKanjiLookupSeen } from '@/utils/kanjiLookupSeen'
 
 // Helper to check if text is a single kanji (TTS can't pronounce without context)
 const isSingleKanji = (text: string): boolean => {
@@ -67,12 +68,18 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const [userMnemonic, setUserMnemonic] = useState<UserMnemonic | null>(null)
   const [mnemonicView, setMnemonicView] = useState<'ai' | 'user'>('ai')
   const [regenerating, setRegenerating] = useState(false)
+  const [showMnemonic, setShowMnemonic] = useState(false)
   const [regenLimit, setRegenLimit] = useState<RegenerationLimit | null>(null)
   const { strings } = useI18n()
   const { user } = useAuth()
   const { subscription } = useSubscription()
   const userPlan = !user ? 'guest' : subscription?.status === 'active' ? 'premium' : 'free'
   const { checkAndTrack } = useFeature('drawing_practice')
+  const { checkAndTrack: checkAndTrackLookup } = useFeature('kanji_lookup')
+  const [isCheckingEntitlement, setIsCheckingEntitlement] = useState(false)
+  const [isAllowed, setIsAllowed] = useState(false)
+  const checkedKanjiRef = useRef<Set<string>>(new Set())
+  const checkInProgressRef = useRef(false)
 
   // TTS hook for audio playback
   const { play, preload, loading, playing, currentText } = useTTS({
@@ -88,10 +95,63 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
   useEffect(() => {
     setResolvedKanji(kanji)
+    setIsAllowed(false)
+    setShowMnemonic(false)
+    checkInProgressRef.current = false
   }, [kanji])
 
   useEffect(() => {
-    if (!isOpen || !kanji?.kanji) return
+    if (!isOpen || !kanji?.kanji) {
+      setIsAllowed(false)
+      checkInProgressRef.current = false
+      return
+    }
+
+    const kanjiKey = kanji.kanji
+    if (checkedKanjiRef.current.has(kanjiKey)) {
+      setIsAllowed(true)
+      return
+    }
+
+    if (hasSeenKanjiLookup(kanjiKey)) {
+      setIsAllowed(true)
+      checkedKanjiRef.current.add(kanjiKey)
+      return
+    }
+
+    if (checkInProgressRef.current) {
+      return
+    }
+
+    const checkEntitlement = async () => {
+      checkInProgressRef.current = true
+      setIsCheckingEntitlement(true)
+      try {
+        const allowed = await checkAndTrackLookup({ showUI: true })
+        if (allowed) {
+          setIsAllowed(true)
+          markKanjiLookupSeen(kanjiKey)
+          checkedKanjiRef.current.add(kanjiKey)
+        } else {
+          setIsAllowed(false)
+          onClose()
+        }
+      } catch (error) {
+        console.error('[KanjiDetailsModal] Entitlement check failed:', error)
+        // Fail open for better UX
+        setIsAllowed(true)
+        checkedKanjiRef.current.add(kanjiKey)
+      } finally {
+        setIsCheckingEntitlement(false)
+        checkInProgressRef.current = false
+      }
+    }
+
+    checkEntitlement()
+  }, [isOpen, kanji?.kanji, checkAndTrackLookup, onClose])
+
+  useEffect(() => {
+    if (!isOpen || !kanji?.kanji || isCheckingEntitlement || !isAllowed) return
     const needsHydration =
       !kanji.meaning ||
       kanji.meaning === 'Loading...' ||
@@ -112,12 +172,12 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
     }
 
     hydrate()
-  }, [isOpen, kanji])
+  }, [isOpen, kanji, isCheckingEntitlement, isAllowed])
 
 
   // Fetch stroke count, example sentences, example words, mnemonic, and preload audio when modal opens
   useEffect(() => {
-    if (isOpen && resolvedKanji?.kanji) {
+    if (isOpen && resolvedKanji?.kanji && isAllowed) {
       fetchStrokeCount(resolvedKanji.kanji)
       fetchExamples(resolvedKanji.kanji)
       fetchExampleWords(resolvedKanji.kanji)
@@ -144,7 +204,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
         preload(readingsToPreload)
       }
     }
-  }, [isOpen, resolvedKanji?.kanji, user])
+  }, [isOpen, resolvedKanji?.kanji, user, isAllowed])
 
   useEffect(() => {
     if (!isOpen || exampleSentences.length === 0) return
@@ -428,6 +488,103 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
           </div>
         </div>
 
+        {/* Memory Aid - Collapsed, tap to expand */}
+        <div className="px-6 pb-2">
+          <button
+            onClick={() => setShowMnemonic(!showMnemonic)}
+            className="flex items-center gap-2 group"
+          >
+            <span className={`text-lg transition-transform duration-200 ${showMnemonic ? 'scale-110' : 'group-hover:scale-110'}`}>💡</span>
+            <span className={`text-sm font-semibold uppercase tracking-wider transition-colors ${showMnemonic ? 'text-amber-600 dark:text-amber-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-amber-500'}`}>
+              {strings?.kanji?.memoryAid || 'Memory Aid'}
+            </span>
+          </button>
+
+          <AnimatePresence>
+            {showMnemonic && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="pt-3">
+                  {user && (
+                    <div className="flex justify-end mb-2">
+                      <div className="flex gap-1 bg-gray-100 dark:bg-dark-700 rounded-lg p-0.5">
+                        <button
+                          onClick={() => setMnemonicView('ai')}
+                          className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                            mnemonicView === 'ai'
+                              ? 'bg-white dark:bg-dark-600 text-amber-600 dark:text-amber-400 shadow-sm'
+                              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                          }`}
+                        >
+                          AI
+                        </button>
+                        <button
+                          onClick={() => setMnemonicView('user')}
+                          className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                            mnemonicView === 'user'
+                              ? 'bg-white dark:bg-dark-600 text-purple-600 dark:text-purple-400 shadow-sm'
+                              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                          }`}
+                        >
+                          Mine
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {mnemonicView === 'ai' && (
+                    <MnemonicDisplay
+                      mnemonic={mnemonic}
+                      loading={loadingMnemonic}
+                      regeneration={
+                        user
+                          ? {
+                              limit: regenLimit,
+                              inProgress: regenerating,
+                              onRegenerate: handleRegenerate,
+                            }
+                          : undefined
+                      }
+                    />
+                  )}
+
+                  {mnemonicView === 'user' && user && (
+                    <MnemonicEditor
+                      mnemonic={userMnemonic}
+                      onSave={async (text) => {
+                        if (!resolvedKanji) return
+                        const success = await saveUserMnemonic(resolvedKanji.kanji, text)
+                        if (success) {
+                          setUserMnemonic({
+                            kanji: resolvedKanji.kanji,
+                            mnemonic: text,
+                            isPublic: false,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString(),
+                          })
+                        }
+                      }}
+                      onDelete={async () => {
+                        if (!resolvedKanji) return
+                        const success = await deleteUserMnemonic(resolvedKanji.kanji)
+                        if (success) {
+                          setUserMnemonic(null)
+                          setMnemonicView('ai')
+                        }
+                      }}
+                    />
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {/* Tab Navigation */}
         <div
           role="tablist"
@@ -570,85 +727,6 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                     </div>
                   )}
 
-                  {/* Memory Aid / Mnemonic */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                        <span className="text-amber-500">💡</span>
-                        Memory Aid
-                      </h3>
-                      {/* Toggle only visible for authenticated users */}
-                      {user && (
-                        <div className="flex gap-1 bg-gray-100 dark:bg-dark-700 rounded-lg p-0.5">
-                          <button
-                            onClick={() => setMnemonicView('ai')}
-                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-                              mnemonicView === 'ai'
-                                ? 'bg-white dark:bg-dark-600 text-amber-600 dark:text-amber-400 shadow-sm'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                            }`}
-                          >
-                            AI
-                          </button>
-                          <button
-                            onClick={() => setMnemonicView('user')}
-                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-                              mnemonicView === 'user'
-                                ? 'bg-white dark:bg-dark-600 text-purple-600 dark:text-purple-400 shadow-sm'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                            }`}
-                          >
-                            Mine
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* AI Mnemonic View */}
-                    {mnemonicView === 'ai' && (
-                      <MnemonicDisplay
-                        mnemonic={mnemonic}
-                        loading={loadingMnemonic}
-                        regeneration={
-                          user
-                            ? {
-                                limit: regenLimit,
-                                inProgress: regenerating,
-                                onRegenerate: handleRegenerate,
-                              }
-                            : undefined
-                        }
-                      />
-                    )}
-
-                    {/* User Mnemonic View */}
-                    {mnemonicView === 'user' && user && (
-                      <MnemonicEditor
-                        mnemonic={userMnemonic}
-                        onSave={async (text) => {
-                          if (!resolvedKanji) return
-                          const success = await saveUserMnemonic(resolvedKanji.kanji, text)
-                          if (success) {
-                            setUserMnemonic({
-                              kanji: resolvedKanji.kanji,
-                              mnemonic: text,
-                              isPublic: false,
-                              createdAt: new Date().toISOString(),
-                              updatedAt: new Date().toISOString(),
-                            })
-                          }
-                        }}
-                        onDelete={async () => {
-                          if (!resolvedKanji) return
-                          const success = await deleteUserMnemonic(resolvedKanji.kanji)
-                          if (success) {
-                            setUserMnemonic(null)
-                            setMnemonicView('ai')
-                          }
-                        }}
-                      />
-                    )}
-                  </div>
                 </div>
               )}
 

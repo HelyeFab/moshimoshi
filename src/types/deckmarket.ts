@@ -26,6 +26,11 @@ export const DECK_LIMITS = {
 export const DECKMARKET_R2_PREFIX = 'deckmarket';
 export const DECKMARKET_COLLECTION = 'deckmarket_decks';
 export const VERSIONS_SUBCOLLECTION = 'versions';
+export const DECKMARKET_NOTES_COLLECTION = 'deckmarket_notes';
+export const DECKMARKET_NOTES_R2_PREFIX = 'deckmarket/notes';
+export const NOTES_VERSIONS_SUBCOLLECTION = 'versions';
+export const MAX_MD_SIZE_BYTES = 50 * 1024 * 1024; // 50MB
+export const ALLOWED_MD_EXTENSIONS = ['.md'] as const;
 
 export type JlptLevel = typeof JLPT_LEVELS[number];
 
@@ -38,6 +43,23 @@ export interface DeckMarketDeck {
   description: string;
   language: string; // default "ja"
   jlpt: string | null; // "N5" | "N4" | "N3" | "N2" | "N1" | null
+  tags: string[];
+  isPublished: boolean; // default false
+  latestVersionId: string | null;
+  downloadCount: number; // default 0
+  lastDownloadAt: string | null; // ISO date string
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
+/**
+ * Firestore document for deckmarket_notes/{noteId}
+ */
+export interface DeckMarketNote {
+  id: string; // slug like "lesson-01-notes"
+  title: string;
+  description: string;
+  language: string; // default "ja"
   tags: string[];
   isPublished: boolean; // default false
   latestVersionId: string | null;
@@ -66,6 +88,24 @@ export interface DeckMarketVersion {
   createdByUid: string;
 }
 
+/**
+ * Firestore document for deckmarket_notes/{noteId}/versions/{versionId}
+ */
+export interface DeckMarketNoteVersion {
+  id: string; // UUID
+  noteId: string;
+  versionLabel: string; // "v1", "2026-02-09"
+  changelog: string; // default ""
+  pdfR2Key: string; // "deckmarket/notes/{noteId}/{versionId}/notes.pdf"
+  pdfFilename: string;
+  pdfSizeBytes: number;
+  mdR2Key: string; // source markdown
+  mdFilename: string;
+  mdSizeBytes: number;
+  createdAt: string; // ISO date string
+  createdByUid: string;
+}
+
 // Request/Response types for API
 
 /**
@@ -88,6 +128,28 @@ export interface UpdateDeckRequest {
   description?: string;
   language?: string;
   jlpt?: string | null;
+  tags?: string[];
+  isPublished?: boolean;
+}
+
+/**
+ * Admin request to create a note
+ */
+export interface CreateNoteRequest {
+  id?: string;
+  title: string;
+  description: string;
+  language?: string;
+  tags?: string[];
+}
+
+/**
+ * Admin request to update a note
+ */
+export interface UpdateNoteRequest {
+  title?: string;
+  description?: string;
+  language?: string;
   tags?: string[];
   isPublished?: boolean;
 }
@@ -128,12 +190,38 @@ export interface DeckListItem {
 }
 
 /**
+ * Note list item for catalogue/admin list views
+ */
+export interface NoteListItem {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  language: string;
+  downloadCount: number;
+  updatedAt: string; // ISO date string
+}
+
+/**
  * Paginated deck list response
  */
 export interface DeckListResponse {
   success: true;
   data: {
     items: DeckListItem[];
+    page: number;
+    pageSize: number;
+    total: number;
+  };
+}
+
+/**
+ * Paginated note list response
+ */
+export interface NoteListResponse {
+  success: true;
+  data: {
+    items: NoteListItem[];
     page: number;
     pageSize: number;
     total: number;
@@ -153,10 +241,33 @@ export interface DeckDetailResponse {
 }
 
 /**
+ * Note detail response with versions
+ */
+export interface NoteDetailResponse {
+  success: true;
+  data: {
+    note: DeckMarketNote;
+    versions: DeckMarketNoteVersion[];
+    latestVersion: DeckMarketNoteVersion | null;
+  };
+}
+
+/**
  * Presigned download response for deck versions
  */
 export interface DeckDownloadResponse {
   success: true;
+  downloadUrl: string;
+  filename: string;
+  sizeBytes: number;
+  expiresIn: number;
+}
+
+export type DeckPreviewFormat = 'apkg' | 'csv';
+
+export interface DeckPreviewResponse {
+  success: true;
+  format: DeckPreviewFormat;
   downloadUrl: string;
   filename: string;
   sizeBytes: number;

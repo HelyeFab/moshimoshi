@@ -167,6 +167,8 @@ export default function StreakSaveModal({
       title=""
       size="md"
       showCloseButton={!saving}
+      closeOnOverlayClick={false}
+      closeOnEsc={false}
     >
       <div className="space-y-6">
         {/* Header */}

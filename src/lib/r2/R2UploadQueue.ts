@@ -26,6 +26,7 @@ type DeckMetadata = {
   hasMedia: boolean
   totalBytes: number
   originalFilename?: string
+  origin?: 'deckmarket'
   r2: {
     packageKey: string
     manifestKey: string
@@ -131,6 +132,7 @@ export class R2UploadQueue {
       hasMedia: mediaFiles.size > 0,
       totalBytes,
       originalFilename: deck.metadata?.originalFilename,
+      origin: deck.metadata?.origin ?? deck.origin,
       r2: {
         packageKey,
         manifestKey,
@@ -590,6 +592,7 @@ export class R2UploadQueue {
           totalBytes: metadata.totalBytes,
           r2: metadata.r2,
           originalFilename: metadata.originalFilename,
+          origin: metadata.origin,
         }),
       })
 
@@ -677,6 +680,7 @@ export class R2UploadQueue {
       hasMedia,
       totalBytes,
       originalFilename: deck.metadata?.originalFilename,
+      origin: deck.metadata?.origin ?? deck.origin,
       r2: {
         packageKey: `${prefix}package.apkg`,
         manifestKey: `${prefix}manifest.json`,

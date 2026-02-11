@@ -8,8 +8,8 @@ import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { JLPT_LEVELS } from '@/types/deckmarket'
-import type { DeckListItem } from '@/types/deckmarket'
-import { Search, Download, ChevronLeft, ChevronRight } from 'lucide-react'
+import type { DeckListItem, NoteListItem } from '@/types/deckmarket'
+import { Search, Download, ChevronLeft, ChevronRight, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const PAGE_SIZE = 20
@@ -111,16 +111,100 @@ function DeckCard({ deck }: { deck: DeckListItem }) {
   )
 }
 
+function NoteCard({
+  note,
+  downloading,
+  onDownload,
+}: {
+  note: NoteListItem
+  downloading: boolean
+  onDownload: (noteId: string) => void
+}) {
+  const { strings } = useI18n()
+
+  return (
+    <div className="group rounded-xl border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+      <div className="h-20 relative overflow-hidden bg-gradient-to-br from-slate-500 to-slate-700">
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
+          }}
+        />
+        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-white border border-white/30">
+          PDF
+        </span>
+        <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded text-xs font-medium bg-black/20 backdrop-blur-sm text-white">
+          {note.language.toUpperCase()}
+        </span>
+      </div>
+
+      <div className="p-4">
+        <Link
+          href={`/deckmarket/notes/${note.id}`}
+          className="block"
+        >
+          <h3 className="font-semibold text-gray-900 dark:text-white text-base mb-1 line-clamp-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+            {note.title}
+          </h3>
+          {note.description && (
+            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
+              {note.description}
+            </p>
+          )}
+        </Link>
+
+        {note.tags.length > 0 && (
+          <div className="flex items-center gap-1.5 flex-wrap mb-3">
+            {note.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 rounded-full text-xs bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500">
+            <Download className="w-3.5 h-3.5" />
+            <span>{note.downloadCount} {strings.deckmarket.deck.downloads.toLowerCase()}</span>
+          </div>
+          <button
+            onClick={() => onDownload(note.id)}
+            disabled={downloading}
+            className={cn(
+              'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+              downloading
+                ? 'bg-gray-200 dark:bg-dark-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                : 'bg-primary-500 text-white hover:bg-primary-600'
+            )}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            {downloading ? strings.deckmarket.deck.downloading : strings.deckmarket.notes.downloadPdf}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function DeckMarketCataloguePage() {
   const { strings } = useI18n()
   const { user, loading: authLoading } = useAuth()
   const [decks, setDecks] = useState<DeckListItem[]>([])
+  const [notes, setNotes] = useState<NoteListItem[]>([])
   const [loading, setLoading] = useState(false)
+  const [notesLoading, setNotesLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [jlptFilter, setJlptFilter] = useState('')
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
+  const [downloadingNoteId, setDownloadingNoteId] = useState<string | null>(null)
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
 
@@ -160,15 +244,64 @@ export default function DeckMarketCataloguePage() {
     }
   }, [page, debouncedSearch, jlptFilter])
 
+  const loadNotes = useCallback(async () => {
+    setNotesLoading(true)
+    try {
+      const params = new URLSearchParams()
+      params.set('page', '1')
+      params.set('pageSize', '50')
+      if (debouncedSearch) params.set('search', debouncedSearch)
+
+      const res = await fetch(`/api/deckmarket/notes?${params.toString()}`)
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => null)
+        console.error('Failed to fetch notes:', errorBody?.error || res.statusText)
+        setNotes([])
+        return
+      }
+      const data = await res.json()
+      setNotes(data.data.items || [])
+    } catch (error) {
+      console.error('Failed to fetch notes:', error)
+      setNotes([])
+    } finally {
+      setNotesLoading(false)
+    }
+  }, [debouncedSearch])
+
   useEffect(() => {
     if (authLoading) return
     if (!user) {
       setDecks([])
       setTotal(0)
+      setNotes([])
       return
     }
     void loadDecks()
-  }, [authLoading, user, loadDecks])
+    void loadNotes()
+  }, [authLoading, user, loadDecks, loadNotes])
+
+  const handleDownloadNote = async (noteId: string) => {
+    setDownloadingNoteId(noteId)
+    try {
+      const res = await fetch(`/api/deckmarket/notes/${noteId}/download`)
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => null)
+        throw new Error(errorBody?.error || 'Download failed')
+      }
+      const data = await res.json()
+      const anchor = document.createElement('a')
+      anchor.href = data.downloadUrl
+      anchor.download = data.filename
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    } catch (error) {
+      console.error('Failed to download note:', error)
+    } finally {
+      setDownloadingNoteId(null)
+    }
+  }
 
   const jlptOptions = useMemo(() => ['', ...JLPT_LEVELS], [])
 
@@ -256,6 +389,47 @@ export default function DeckMarketCataloguePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {decks.map((deck) => (
                     <DeckCard key={deck.id} deck={deck} />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="mt-12">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {strings.deckmarket.notes.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {strings.deckmarket.notes.subtitle}
+                  </p>
+                </div>
+              </div>
+
+              {notesLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="h-6 w-6 rounded-full border-2 border-primary-500 border-t-transparent animate-spin" />
+                </div>
+              )}
+
+              {!notesLoading && notes.length === 0 && (
+                <div className="flex items-center justify-center py-8 text-gray-600 dark:text-gray-400">
+                  {strings.deckmarket.notes.noNotes}
+                </div>
+              )}
+
+              {!notesLoading && notes.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {notes.map((note) => (
+                    <NoteCard
+                      key={note.id}
+                      note={note}
+                      downloading={downloadingNoteId === note.id}
+                      onDownload={handleDownloadNote}
+                    />
                   ))}
                 </div>
               )}

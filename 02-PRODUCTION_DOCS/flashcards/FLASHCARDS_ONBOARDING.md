@@ -243,6 +243,89 @@ Daily snapshots are stored in IndexedDB and optionally synced (premium):
   - `flashcard_daily_reviews` (daily session limit)
 - R2 storage limit: **300MB per user** enforced on upload.
 
+### Free Users: Current Behavior (Source of Truth)
+This section describes **actual current behavior** in production code, not planned behavior.
+
+**Page access**
+- The flashcards page is gated by `EntitlementGate` on `flashcards`.
+- With `limits.free.daily.flashcards = 0`, **free users cannot access the flashcards page at all**.
+- Source: `config/features.v1.json`, `src/app/[locale]/flashcards/page.tsx`
+
+**Starter decks (3)**
+- Three **starter decks** exist and are seeded for any non-guest user **when the page loads** and they have no decks:
+  - Japanese Greetings
+  - Numbers
+  - Colors
+- Source: `src/lib/flashcards/starterDecks.ts`, `FlashcardManager.ensureStarterDecks`, `FlashcardsContent`
+
+**If free page access is enabled (e.g., `flashcards = -1`), free users can:**
+- Study starter decks.
+- Review weak cards for starter decks (if any).
+
+**Free users cannot:**
+- Open the create/import modal (all sources blocked).
+- Create or import decks (blocked by `flashcard_decks = 0`, `anki_imports = 0`).
+- Edit starter decks.
+- Delete starter decks.
+- Export starter decks.
+- Sync or R2 backup (premium-only).
+
+**Key enforcement points**
+- UI gating and modals: `FlashcardsContent`, `DeckCreator`, `DeckGrid`
+- Local writes: `FlashcardManager` (`createDeck`, `updateFullDeck`, `deleteDeck`, `exportDeck`)
+- Server sync: `/api/flashcards/decks` and other flashcards APIs deny free/guest writes
+
+---
+
+## DeckMarket Integration (Planned)
+
+### Decisions (2026-02-11)
+- **Starter decks removed** for both free and premium.
+- **Free users** can have **one DeckMarket deck at a time**.
+  - They can delete it and download a different DeckMarket deck.
+- **Premium users** can add DeckMarket decks as normal; these **count toward premium limits**.
+- **Download button stays** (users can keep `.apkg` for other apps).
+- **DeckMarket decks should sync/backup for premium** (same behavior expectations as other Anki decks).
+
+### UX Direction
+- Prefer an **“Add to Flashcards”** flow from DeckMarket that **hides manual import UI**.
+- Under the hood, the existing Anki import pipeline still runs to populate IndexedDB.
+
+### Impact Map (No Code Yet)
+**Entry points**
+- DeckMarket UI: add “Add to Flashcards” CTA alongside “Download”.
+- Flashcards UI: remove starter deck messaging + entry points.
+
+**Storage + identity**
+- Introduce a **stable marker** on decks added from DeckMarket (e.g. `origin: 'deckmarket'`).
+- Use this marker for:
+  - Free-tier “one deck at a time” enforcement
+  - UX labeling / deletion rules
+  - Sync/backup inclusion rules
+
+**Gating + limits**
+- Free tier:
+  - Block all create/import sources except DeckMarket.
+  - Allow only **one** deck with `origin: 'deckmarket'`.
+  - Allow delete to free the slot.
+- Premium tier:
+  - DeckMarket decks count toward `flashcard_decks` / `anki_imports` limits.
+
+**Starter deck removal**
+- Remove seeding logic.
+- Consider one-time cleanup of existing starter decks:
+  - Delete locally on load if present.
+  - For premium, write tombstones to prevent resurrection via sync/restore.
+
+**Sync/backup expectations**
+- Premium: DeckMarket decks should follow existing Anki backup/restore behavior (R2).
+- Free: local-only.
+
+**Risk hotspots**
+- Import/gating logic: ensure “one deck max” does not block premium.
+- Tombstone logic: avoid resurrecting removed starter decks.
+- Deck identity: avoid treating DeckMarket decks as generic Anki decks without a marker.
+
 ---
 
 ## Key Files (Resident Owner Map)

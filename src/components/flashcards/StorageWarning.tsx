@@ -176,6 +176,7 @@ export function StorageIndicator({ className = '' }: { className?: string }) {
   }
 
   const { usage = 0, quota = 0 } = estimate
+  const hasQuota = typeof quota === 'number' && quota > 0
   const getColor = () => {
     if (percentageUsed >= 95) return 'text-red-600 dark:text-red-400'
     if (percentageUsed >= 80) return 'text-yellow-600 dark:text-yellow-400'
@@ -187,24 +188,26 @@ export function StorageIndicator({ className = '' }: { className?: string }) {
       <div className="flex items-center justify-between text-sm mb-2">
         <span className="text-gray-700 dark:text-gray-300">Storage Used</span>
         <span className={`font-medium ${getColor()}`}>
-          {Math.round(percentageUsed)}%
+          {hasQuota ? `${Math.round(percentageUsed)}%` : '—'}
         </span>
       </div>
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-        <div
-          className={`h-full transition-all duration-500 ${
-            percentageUsed >= 95
-              ? 'bg-red-600 dark:bg-red-400'
-              : percentageUsed >= 80
-              ? 'bg-yellow-600 dark:bg-yellow-400'
-              : 'bg-green-600 dark:bg-green-400'
-          }`}
-          style={{ width: `${Math.min(percentageUsed, 100)}%` }}
-        />
-      </div>
+      {hasQuota ? (
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+          <div
+            className={`h-full transition-all duration-500 ${
+              percentageUsed >= 95
+                ? 'bg-red-600 dark:bg-red-400'
+                : percentageUsed >= 80
+                ? 'bg-yellow-600 dark:bg-yellow-400'
+                : 'bg-green-600 dark:bg-green-400'
+            }`}
+            style={{ width: `${Math.min(percentageUsed, 100)}%` }}
+          />
+        </div>
+      ) : null}
       <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mt-1">
         <span>{formatBytes(usage)}</span>
-        <span>{formatBytes(quota)}</span>
+        <span>{hasQuota ? formatBytes(quota) : ''}</span>
       </div>
     </div>
   )

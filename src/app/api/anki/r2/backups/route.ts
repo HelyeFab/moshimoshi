@@ -56,6 +56,7 @@ export async function GET(request: NextRequest) {
         name: data.name,
         cardCount: data.cardCount,
         hasMedia: data.hasMedia,
+        origin: data.origin === 'deckmarket' ? 'deckmarket' : undefined,
         lastBackup: new Date(data.updatedAt),
         r2Keys: {
           manifestKey: data.r2.manifestKey,

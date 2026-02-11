@@ -196,7 +196,7 @@ export function useNotificationOrchestrator(): UseNotificationOrchestratorReturn
     try {
       // Update via API
       const response = await fetch('/api/notifications/preferences', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -207,7 +207,13 @@ export function useNotificationOrchestrator(): UseNotificationOrchestratorReturn
         throw new Error('Failed to update preferences')
       }
 
-      const { preferences } = await response.json()
+      // API returns success metadata; fetch current preferences after update.
+      const refreshed = await fetch('/api/notifications/preferences', { method: 'GET' })
+      if (!refreshed.ok) {
+        throw new Error('Preferences updated but failed to refresh current values')
+      }
+      const refreshedBody = await refreshed.json()
+      const preferences = refreshedBody?.data ?? null
 
       setState(prev => ({
         ...prev,
@@ -301,7 +307,9 @@ export function useNotificationCountdowns() {
   const [countdowns, setCountdowns] = useState<Map<string, Date>>(new Map())
 
   useEffect(() => {
-    // Listen for countdown events from orchestrator
+    const orchestrator = NotificationOrchestrator.getInstance()
+
+    // Listen for countdown events from orchestrator emitter.
     const handleCountdownAdd = (event: CustomEvent) => {
       const { itemId, dueDate } = event.detail
       setCountdowns(prev => {
@@ -320,10 +328,32 @@ export function useNotificationCountdowns() {
       })
     }
 
+    const handleOrchestratorCountdownAdd = (detail: { itemId: string; dueDate: Date | string }) => {
+      setCountdowns(prev => {
+        const next = new Map(prev)
+        next.set(detail.itemId, new Date(detail.dueDate))
+        return next
+      })
+    }
+
+    const handleOrchestratorCountdownRemove = (detail: { itemId: string }) => {
+      setCountdowns(prev => {
+        const next = new Map(prev)
+        next.delete(detail.itemId)
+        return next
+      })
+    }
+
+    orchestrator.on('countdown:add', handleOrchestratorCountdownAdd)
+    orchestrator.on('countdown:remove', handleOrchestratorCountdownRemove)
+
+    // Legacy window events kept for compatibility.
     window.addEventListener('countdown:add' as any, handleCountdownAdd)
     window.addEventListener('countdown:remove' as any, handleCountdownRemove)
 
     return () => {
+      orchestrator.off('countdown:add', handleOrchestratorCountdownAdd)
+      orchestrator.off('countdown:remove', handleOrchestratorCountdownRemove)
       window.removeEventListener('countdown:add' as any, handleCountdownAdd)
       window.removeEventListener('countdown:remove' as any, handleCountdownRemove)
     }

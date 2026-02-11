@@ -849,6 +849,18 @@ service cloud.firestore {
       }
     }
 
+    // DeckMarket - lesson notes (public reads published only, admin reads via Admin SDK)
+    match /deckmarket_notes/{noteId} {
+      allow read: if request.auth != null && resource.data.isPublished == true;
+      allow write: if false; // Writes via Admin SDK only
+
+      match /versions/{versionId} {
+        allow read: if request.auth != null &&
+          get(/databases/$(database)/documents/deckmarket_notes/$(noteId)).data.isPublished == true;
+        allow write: if false; // Writes via Admin SDK only
+      }
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

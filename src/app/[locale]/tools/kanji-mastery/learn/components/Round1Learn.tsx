@@ -10,6 +10,8 @@ import { searchJMdictWords } from '@/utils/jmdictLocalSearch'
 import { KanjiExample } from '@/types/kanji'
 import { toRomaji } from 'wanakana'
 import { kanjiService, KanjiMnemonic } from '@/services/kanjiService'
+import { AnimatePresence } from 'framer-motion'
+import { useI18n } from '@/i18n/I18nContext'
 import AddToListButton from '@/components/lists/AddToListButton'
 
 // Helper to check if text is a single kanji (TTS can't pronounce without context)
@@ -35,9 +37,11 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
   const [showExamples, setShowExamples] = useState(false)
   const [showSentences, setShowSentences] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
+  const [showMnemonic, setShowMnemonic] = useState(false)
   const [sentences, setSentences] = useState<CachedSentence[]>([])
   const [fallbackExamples, setFallbackExamples] = useState<KanjiExample[]>([])
   const [mnemonic, setMnemonic] = useState<KanjiMnemonic | null>(null)
+  const { strings } = useI18n()
   const { play, preload, loading: ttsLoading, playing: ttsPlaying, currentText } = useTTS({ cacheFirst: true })
   const resolvedExamples = kanji.examples && kanji.examples.length > 0 ? kanji.examples : fallbackExamples
 
@@ -212,6 +216,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
     // Reset states for next kanji
     setShowExamples(false)
     setShowSentences(false)
+    setShowMnemonic(false)
     setSentences([])
     setMnemonic(null)
     onComplete()
@@ -385,54 +390,67 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
             </motion.div>
           </div>
 
-          {/* Memory Aid / Mnemonic - more compact */}
+          {/* Memory Aid / Mnemonic - collapsed by default */}
           {mnemonic && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mb-3 p-2.5 bg-amber-50/80 dark:bg-amber-900/20 rounded-lg border border-amber-200/50 dark:border-amber-800/30 text-left"
-            >
-              <div className="flex items-start gap-2">
-                <span className="text-amber-500 flex-shrink-0">💡</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                    {mnemonic.mnemonic}
-                  </p>
-                  {mnemonic.components && mnemonic.components.length > 0 && (
-                    <div className="mt-1.5 flex flex-wrap gap-1.5">
-                      {mnemonic.components.map((comp, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-800/30 rounded text-xs text-amber-700 dark:text-amber-300"
-                        >
-                          <span className="font-medium">{comp.part}</span>
-                          <span className="opacity-70">({comp.meaning})</span>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {/* Attribution for Koohii community mnemonics */}
-                  {mnemonic.provider === 'koohii' && mnemonic.author && (
-                    <p className="mt-1.5 text-xs text-amber-500/60 dark:text-amber-400/40">
-                      Story by <span className="font-medium">{mnemonic.author}</span>
-                      {mnemonic.votes !== undefined && mnemonic.votes > 0 && (
-                        <span className="ml-1">({mnemonic.votes} votes)</span>
+            <div className="mb-3 text-left">
+              <button
+                onClick={() => setShowMnemonic(!showMnemonic)}
+                className="flex items-center gap-2 group"
+              >
+                <span className={`text-lg transition-transform duration-200 ${showMnemonic ? 'scale-110' : 'group-hover:scale-110'}`}>💡</span>
+                <span className={`text-sm font-semibold uppercase tracking-wider transition-colors ${showMnemonic ? 'text-amber-600 dark:text-amber-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-amber-500'}`}>
+                  {strings?.kanji?.memoryAid || 'Memory Aid'}
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {showMnemonic && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-2 p-2.5 bg-amber-50/80 dark:bg-amber-900/20 rounded-lg border border-amber-200/50 dark:border-amber-800/30">
+                      <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
+                        {mnemonic.mnemonic}
+                      </p>
+                      {mnemonic.components && mnemonic.components.length > 0 && (
+                        <div className="mt-1.5 flex flex-wrap gap-1.5">
+                          {mnemonic.components.map((comp, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-800/30 rounded text-xs text-amber-700 dark:text-amber-300"
+                            >
+                              <span className="font-medium">{comp.part}</span>
+                              <span className="opacity-70">({comp.meaning})</span>
+                            </span>
+                          ))}
+                        </div>
                       )}
-                      {' · '}
-                      <a
-                        href={`https://kanji.koohii.com/study/kanji/${mnemonic.kanji}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-amber-600 dark:hover:text-amber-300 underline"
-                      >
-                        Kanji Koohii
-                      </a>
-                    </p>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+                      {mnemonic.provider === 'koohii' && mnemonic.author && (
+                        <p className="mt-1.5 text-xs text-amber-500/60 dark:text-amber-400/40">
+                          Story by <span className="font-medium">{mnemonic.author}</span>
+                          {mnemonic.votes !== undefined && mnemonic.votes > 0 && (
+                            <span className="ml-1">({mnemonic.votes} votes)</span>
+                          )}
+                          {' · '}
+                          <a
+                            href={`https://kanji.koohii.com/study/kanji/${mnemonic.kanji}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-amber-600 dark:hover:text-amber-300 underline"
+                          >
+                            Kanji Koohii
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           )}
 
           {/* Readings Section - side by side on desktop */}

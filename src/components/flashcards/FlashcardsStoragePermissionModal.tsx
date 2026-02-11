@@ -5,6 +5,7 @@ import { Database, HardDrive, Check, AlertCircle } from 'lucide-react'
 import Modal from '@/components/ui/Modal'
 import { useI18n } from '@/i18n/I18nContext'
 import { storageManager } from '@/lib/flashcards/StorageManager'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface FlashcardsStoragePermissionModalProps {
   onComplete?: (granted: boolean) => void
@@ -25,6 +26,7 @@ export function FlashcardsStoragePermissionModal({
   onOpenChange,
 }: FlashcardsStoragePermissionModalProps) {
   const { t } = useI18n()
+  const { showToast } = useToast()
   const [internalOpen, setInternalOpen] = useState(false)
   const [isPersisted, setIsPersisted] = useState<boolean | null>(null)
   const [requesting, setRequesting] = useState(false)
@@ -104,10 +106,25 @@ export function FlashcardsStoragePermissionModal({
 
       if (granted) {
         setShowModal(false)
+      } else {
+        setShowModal(false)
+        localStorage.setItem(STORAGE_DISMISSED_KEY, new Date().toISOString())
+        showToast(
+          t('flashcards.storage.permission.denied') ||
+            'Offline storage was not enabled by your browser.',
+          'info'
+        )
       }
     } catch (error) {
       console.error('[FlashcardsStoragePermission] Failed to request persistence:', error)
       onComplete?.(false)
+      setShowModal(false)
+      localStorage.setItem(STORAGE_DISMISSED_KEY, new Date().toISOString())
+      showToast(
+        t('flashcards.storage.permission.error') ||
+          'Unable to enable offline storage right now.',
+        'error'
+      )
     } finally {
       setRequesting(false)
     }
@@ -154,17 +171,20 @@ export function FlashcardsStoragePermissionModal({
                 {t('flashcards.storage.currentUsage') || 'Current storage usage'}
               </span>
               <span className="font-medium text-gray-900 dark:text-gray-100">
-                {formatBytes(storageEstimate.usage)} / {formatBytes(storageEstimate.quota)}
+                {formatBytes(storageEstimate.usage)}
+                {storageEstimate.quota ? ` / ${formatBytes(storageEstimate.quota)}` : ''}
               </span>
             </div>
-            <div className="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary-500 rounded-full transition-all"
-                style={{
-                  width: `${Math.min((storageEstimate.usage / storageEstimate.quota) * 100, 100)}%`,
-                }}
-              />
-            </div>
+            {storageEstimate.quota ? (
+              <div className="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary-500 rounded-full transition-all"
+                  style={{
+                    width: `${Math.min((storageEstimate.usage / storageEstimate.quota) * 100, 100)}%`,
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         )}
 

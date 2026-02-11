@@ -302,7 +302,6 @@ export class CircuitBreaker extends EventEmitter {
 
     this.failures++
     this.totalRequests++
-    this.consecutiveFailures++
     this.consecutiveSuccesses = 0
     this.lastFailureTime = new Date()
 
@@ -313,6 +312,7 @@ export class CircuitBreaker extends EventEmitter {
     // Remove old failures outside window
     const windowStart = now - this.failureWindow
     this.failureTimestamps = this.failureTimestamps.filter(ts => ts > windowStart)
+    this.consecutiveFailures = this.failureTimestamps.length
 
     reviewLogger.warn(`CircuitBreaker ${this.name} recorded failure`, {
       consecutiveFailures: this.consecutiveFailures,

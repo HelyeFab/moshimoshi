@@ -3,7 +3,7 @@
  * Connects Review Engine events to notification scheduling
  */
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { reviewLogger } from '@/lib/monitoring/logger'
 import {
@@ -54,6 +54,7 @@ export function useNotificationIntegration() {
   const sessionManagerRef = useRef<any>(null)
   const scheduledNotificationsRef = useRef<Map<string, NodeJS.Timeout>>(new Map())
   const preferencesRef = useRef<NotificationPreferences | null>(null)
+  const [preferences, setPreferences] = useState<NotificationPreferences | null>(null)
 
   /**
    * Load user notification preferences
@@ -68,6 +69,7 @@ export function useNotificationIntegration() {
       if (docSnap.exists()) {
         const prefs = docSnap.data() as NotificationPreferences
         preferencesRef.current = prefs
+        setPreferences(prefs)
         return prefs
       }
 
@@ -101,9 +103,11 @@ export function useNotificationIntegration() {
       })
 
       preferencesRef.current = defaultPrefs
+      setPreferences(defaultPrefs)
       return defaultPrefs
     } catch (error) {
       reviewLogger.error('Failed to load notification preferences:', error)
+      setPreferences(null)
       return null
     }
   }, [user])
@@ -367,7 +371,10 @@ export function useNotificationIntegration() {
         doc(db, 'notifications_queue', `${notification.userId}_${notification.itemId}`),
         {
           ...notification,
+          // Keep both keys during migration; snake_case is the canonical queue contract.
+          scheduled_for: notification.scheduledFor,
           scheduledFor: notification.scheduledFor,
+          created_at: new Date(),
           createdAt: new Date(),
           status: 'pending'
         }
@@ -383,13 +390,20 @@ export function useNotificationIntegration() {
   const handleItemAnswered = useCallback(async (event: CustomEvent<ItemAnsweredPayload>) => {
     if (!user || !preferencesRef.current) return
 
-    const { itemId, correct, contentType } = event.detail
+    const detail = event.detail as ItemAnsweredPayload & { item?: { id?: string; contentType?: string } }
+    const itemId = detail.itemId || detail.item?.id
+    const contentType = detail.contentType || detail.item?.contentType
+    const correct = !!detail.correct
+    const repetitions = typeof detail.srsData?.repetitions === 'number'
+      ? detail.srsData.repetitions
+      : 0
+    if (!itemId) return
 
     // Calculate next review time
     const nextReviewTime = calculateNextReviewTime(
       correct,
       2.5, // default difficulty
-      correct ? 1 : 0 // consecutive correct count
+      correct ? repetitions : 0
     )
 
     // Schedule notification for next review
@@ -476,14 +490,22 @@ export function useNotificationIntegration() {
         const sessionCompletedHandler = handleSessionCompleted as unknown as EventListener
         const progressUpdatedHandler = handleProgressUpdated as unknown as EventListener
 
+        // Legacy DOM events used by existing tests/older integration points.
         window.addEventListener(`review:${ReviewEventType.ITEM_ANSWERED}`, itemAnsweredHandler)
         window.addEventListener(`review:${ReviewEventType.SESSION_COMPLETED}`, sessionCompletedHandler)
         window.addEventListener(`review:${ReviewEventType.PROGRESS_UPDATED}`, progressUpdatedHandler)
+        // Current ReviewEngine DOM events emitted by ReviewEngine.tsx.
+        window.addEventListener('reviewEngine:itemAnswered', itemAnsweredHandler)
+        window.addEventListener('reviewEngine:sessionCompleted', sessionCompletedHandler)
+        window.addEventListener('reviewEngine:progressUpdated', progressUpdatedHandler)
 
         cleanup = () => {
           window.removeEventListener(`review:${ReviewEventType.ITEM_ANSWERED}`, itemAnsweredHandler)
           window.removeEventListener(`review:${ReviewEventType.SESSION_COMPLETED}`, sessionCompletedHandler)
           window.removeEventListener(`review:${ReviewEventType.PROGRESS_UPDATED}`, progressUpdatedHandler)
+          window.removeEventListener('reviewEngine:itemAnswered', itemAnsweredHandler)
+          window.removeEventListener('reviewEngine:sessionCompleted', sessionCompletedHandler)
+          window.removeEventListener('reviewEngine:progressUpdated', progressUpdatedHandler)
         }
 
         reviewLogger.info('Notification integration initialized', {
@@ -551,12 +573,19 @@ export function useNotificationIntegration() {
   ) => {
     if (!user || !db) return
 
+    const mergedPreferences = {
+      ...(preferencesRef.current || {}),
+      ...preferences
+    } as NotificationPreferences
+
     const docRef = doc(db, 'notifications_preferences', user.uid)
     await setDoc(docRef, {
-      ...preferencesRef.current,
-      ...preferences,
+      ...mergedPreferences,
       updated_at: new Date()
     }, { merge: true })
+
+    preferencesRef.current = mergedPreferences
+    setPreferences(mergedPreferences)
 
     // Reload preferences
     await loadPreferences()
@@ -567,6 +596,6 @@ export function useNotificationIntegration() {
     requestNotificationPermission,
     testNotification,
     updatePreferences,
-    preferences: preferencesRef.current
+    preferences: preferences ?? preferencesRef.current
   }
 }

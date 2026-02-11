@@ -442,6 +442,21 @@
       }
     },
     {
+      "id": "kanji_lookup",
+      "name": "Kanji Lookup",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Open kanji details including readings, examples, and mnemonics",
+      "metadata": {
+        "contentType": "kanji",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
       "id": "news",
       "name": "News Reading",
       "category": "learning",
@@ -602,6 +617,7 @@
         "pwa_badging": 0,
         "pwa_media_session": 0,
         "word_lookup": 0,
+        "kanji_lookup": 0,
         "news": 0,
         "story": 0,
         "kanji_mood_board": 0,
@@ -649,6 +665,7 @@
         "pwa_badging": 0,
         "pwa_media_session": 0,
         "word_lookup": 8,
+        "kanji_lookup": 8,
         "news": 1,
         "story": 1,
         "kanji_mood_board": 1,
@@ -656,7 +673,7 @@
         "blast_mode": 2,
         "my_list": -1,
         "textbook_vocabulary": 0,
-        "flashcards": 0,
+        "flashcards": -1,
         "resources": -1,
         "blogs": -1,
         "vocabulary": -1,
@@ -696,6 +713,7 @@
         "pwa_badging": -1,
         "pwa_media_session": -1,
         "word_lookup": -1,
+        "kanji_lookup": -1,
         "news": -1,
         "story": -1,
         "kanji_mood_board": -1,
@@ -743,6 +761,7 @@
         "pwa_badging": -1,
         "pwa_media_session": -1,
         "word_lookup": -1,
+        "kanji_lookup": -1,
         "news": -1,
         "story": -1,
         "kanji_mood_board": -1,

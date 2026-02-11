@@ -88,6 +88,25 @@ describe('/api/flashcards/decks POST', () => {
     const response = await POST(request)
     expect(response.status).toBe(403)
   })
+
+  it('returns 403 for free user syncing DeckMarket-origin decks (sync is premium-only)', async () => {
+    mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: { allow: true, remaining: -1, reason: 'ok', limit: -1 },
+    })
+
+    const request = new NextRequest('http://localhost/api/flashcards/decks', {
+      method: 'POST',
+      body: JSON.stringify({
+        decks: [{ id: 'dm-deck-1', userId: 'user-1', source: 'user', origin: 'deckmarket', updatedAt: 1 }],
+      }),
+    })
+
+    const response = await POST(request)
+    // Free DeckMarket decks are local-only; Firebase sync is premium-only
+    expect(response.status).toBe(403)
+  })
 })
 
 describe('/api/flashcards/decks GET', () => {

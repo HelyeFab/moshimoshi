@@ -160,13 +160,13 @@ test.describe('Entitlement gating (free vs premium)', () => {
   test.describe('free account', () => {
     test.use({ storageState: 'e2e/.auth/free.json' })
 
-    test('free user is redirected away from flashcards', async ({ page }) => {
+    test('free user can access flashcards page', async ({ page }) => {
       test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
 
       await ensureAuthenticated(page)
       await page.goto('/en/flashcards')
-      await page.waitForURL(/\/en\/pricing\?from=flashcards/)
-      await expect(page).toHaveURL(/\/en\/pricing\?from=flashcards/)
+      await page.waitForURL(/\/en\/flashcards/)
+      await expect(page).toHaveURL(/\/en\/flashcards/)
     })
 
     test('free user is redirected away from textbook vocabulary', async ({ page }) => {

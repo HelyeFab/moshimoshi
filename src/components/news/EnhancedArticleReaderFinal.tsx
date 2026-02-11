@@ -23,6 +23,9 @@ import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
 import { QuizPlayer } from '@/components/quiz/QuizPlayer'
 import Navbar from '@/components/layout/Navbar'
 import { useGamificationStore } from '@/state/userGamification'
+import { useFeature } from '@/hooks/useFeature'
+import { hasSeenWordLookup } from '@/utils/wordLookupSeen'
+import { useSubscription } from '@/hooks/useSubscription'
 
 // Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
@@ -317,7 +320,11 @@ function ArticleContentWithPlayButtons({
                     </span>
                     {/* Play button inline after each segment - Always visible */}
                     <button
-                      onClick={() => onPlaySentence(segment, currentGlobalIndex)}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        onPlaySentence(segment, currentGlobalIndex)
+                      }}
                       disabled={
                         isFullArticlePlaying ||
                         sentenceAudioLoading !== null ||  // Disable all while any is loading
@@ -792,6 +799,8 @@ export default function EnhancedArticleReader({
   const { t } = useI18n()
   const { user } = useAuth()
   const { showToast } = useToast()
+  const { checkOnly: checkWordLookupOnly } = useFeature('word_lookup')
+  const { isPremium } = useSubscription()
   const gamificationStore = useGamificationStore()
 
   const {
@@ -1513,6 +1522,19 @@ export default function EnhancedArticleReader({
 
     // Use the specific sentence context if provided, otherwise fall back to current content
     const context = sentenceContext || currentContent
+    if (!hasSeenWordLookup(cleanWord)) {
+      const decision = await checkWordLookupOnly({ failOpen: false })
+      if (!decision.allow) {
+        const upgradeAction = !isPremium
+          ? {
+              label: t('subscription.actions.upgrade'),
+              onClick: () => router.push('/pricing'),
+            }
+          : undefined
+        showToast(t('entitlements.messages.lookupLimitReached'), 'warning', 5000, upgradeAction)
+        return
+      }
+    }
     console.log('[Article Reader] Opening word modal with context:', context?.substring(0, 100))
     setIsWordModalOpen(true)
     setWordContext(context)
@@ -2117,6 +2139,16 @@ export default function EnhancedArticleReader({
   // Handle playing individual sentence with pre-cached audio + fallback
   // Flow: Pre-cached audio → VOICEVOX API → App TTS fallback
   const handlePlaySentence = async (sentence: string, index: number) => {
+    const isAbortError = (error: unknown) => {
+      if (!error || typeof error !== 'object') return false
+      const maybeError = error as { name?: string; message?: string }
+      if (maybeError.name === 'AbortError') return true
+      if (typeof maybeError.message === 'string' &&
+          maybeError.message.toLowerCase().includes('aborted')) {
+        return true
+      }
+      return false
+    }
     // Stop full story mode when playing individual sentences
     if (isPlayingFullStory) {
       setIsPlayingFullStory(false)
@@ -2388,6 +2420,14 @@ export default function EnhancedArticleReader({
         'color: #f44336; font-weight: bold;'
       )
     } catch (voicevoxError) {
+      if (isAbortError(voicevoxError)) {
+        console.log('[Article Reader] VOICEVOX sentence playback aborted (no fallback)')
+        setSentenceAudioLoading(null)
+        setPlayingSentenceIndex(null)
+        setIsSentenceAudioPlaying(false)
+        sentenceAudioRef.current = null
+        return
+      }
       console.log(
         '%c⚠️ VOICEVOX error, falling back to app TTS:',
         'color: #f44336; font-weight: bold;',
@@ -2674,6 +2714,23 @@ export default function EnhancedArticleReader({
 
       {/* Article Content */}
       <article className="max-w-4xl mx-auto px-0 sm:px-6 pb-32 pt-8">
+        {/* Sticky Settings Button - overlays hero, sticks on scroll */}
+        {!settings.shadowingMode && (
+          <div className="sticky top-[4.5rem] z-40 -mb-9 flex justify-end pr-3 sm:pr-1">
+            <button
+              onClick={() => setShowMobileSettings(true)}
+              className="w-7 h-7 rounded-full backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 bg-primary-500 dark:bg-primary-600 shadow-lg"
+              style={{
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
+              }}
+              title={t('news.reader.settings')}
+            >
+              <Settings className="w-4 h-4 text-white" />
+            </button>
+          </div>
+        )}
+
         {/* Hero Image Section */}
         <div className="mb-10 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10 aspect-[21/9] relative bg-gray-100 dark:bg-gray-800 group">
           {/* Story mode with missing image - show beautiful gradient with emojis */}
@@ -2690,23 +2747,6 @@ export default function EnhancedArticleReader({
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
-
-          {/* Settings Button - Top Right inside image */}
-          {!settings.shadowingMode && (
-            <div className="absolute top-1 right-1 z-10">
-              <button
-                onClick={() => setShowMobileSettings(true)}
-                className="w-7 h-7 rounded-full backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 bg-primary-500 dark:bg-primary-600"
-                style={{
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
-                }}
-                title={t('news.reader.settings')}
-              >
-                <Settings className="w-4 h-4 text-white" />
-              </button>
-            </div>
-          )}
 
           {/* Metadata Badges on Image */}
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between animate-fade-in-up">
@@ -2868,7 +2908,7 @@ export default function EnhancedArticleReader({
             playingSentenceIndex={playingSentenceIndex}
             sentenceAudioLoading={sentenceAudioLoading}
             isFullArticlePlaying={ttsPlaying && playingSentenceIndex === null}
-            isSentenceAudioPlaying={isSentenceAudioPlaying}
+          isSentenceAudioPlaying={isSentenceAudioPlaying}
             translatingSegmentIndex={translatingSegmentIndex}
             segmentTranslations={segmentTranslations}
           />

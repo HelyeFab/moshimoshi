@@ -55,7 +55,11 @@ export function useStorageQuota(checkIntervalMs: number = 60000): StorageQuotaSt
         const storageEstimate = await navigator.storage.estimate()
         setEstimate(storageEstimate)
 
-        if (storageEstimate.usage !== undefined && storageEstimate.quota !== undefined) {
+        if (
+          storageEstimate.usage !== undefined &&
+          storageEstimate.quota !== undefined &&
+          storageEstimate.quota > 0
+        ) {
           const percentage = (storageEstimate.usage / storageEstimate.quota) * 100
           setPercentageUsed(percentage)
 
@@ -67,6 +71,9 @@ export function useStorageQuota(checkIntervalMs: number = 60000): StorageQuotaSt
           } else {
             setWarningLevel('none')
           }
+        } else {
+          setPercentageUsed(0)
+          setWarningLevel('none')
         }
 
         setIsLoading(false)
