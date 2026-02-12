@@ -7511,6 +7511,7 @@ export const strings = {
     warningLargeSession: 'Studying more than 20 kanji per session may reduce retention. Consider smaller, more frequent sessions.',
     startingSession: 'Starting Session...',
     startLearningSession: 'Start Learning Session',
+    startReviewSession: 'Start Review Session',
     errorStartSession: 'Failed to start session. Please try again.',
     howItWorks: 'How It Works',
     step1Title: 'Configure Your Session',

@@ -7249,6 +7249,7 @@ export const strings = {
     warningLargeSession: 'Das Lernen von mehr als 20 Kanji pro Sitzung kann das Behalten beeinträchtigen. Erwäge kürzere, häufigere Sitzungen.',
     startingSession: 'Sitzung wird gestartet...',
     startLearningSession: 'Lernsitzung starten',
+    startReviewSession: 'Wiederholungssitzung starten',
     errorStartSession: 'Sitzung konnte nicht gestartet werden. Bitte versuche es erneut.',
     howItWorks: 'So funktioniert es',
     step1Title: 'Konfiguriere deine Sitzung',

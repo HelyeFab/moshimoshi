@@ -7268,6 +7268,7 @@ export const strings = {
     warningLargeSession: '1セッションで20漢字以上を学習すると記憶保持率が低下する可能性があります。より短く頻繁なセッションをご検討ください。',
     startingSession: 'セッション開始中...',
     startLearningSession: '学習セッション開始',
+    startReviewSession: '復習セッション開始',
     errorStartSession: 'セッションの開始に失敗しました。もう一度お試しください。',
     howItWorks: '使い方',
     step1Title: 'セッションの設定',

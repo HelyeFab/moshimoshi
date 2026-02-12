@@ -7278,6 +7278,7 @@ export const strings = {
     warningLargeSession: 'Studiare più di 20 kanji per sessione può ridurre la ritenzione. Considera sessioni più brevi e frequenti.',
     startingSession: 'Avvio Sessione...',
     startLearningSession: 'Inizia Sessione di Apprendimento',
+    startReviewSession: 'Inizia Sessione di Ripasso',
     errorStartSession: 'Impossibile avviare la sessione. Riprova.',
     howItWorks: 'Come Funziona',
     step1Title: 'Configura la Tua Sessione',
