@@ -31,6 +31,7 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useSubscription } from '@/hooks/useSubscription'
 import AudioButton from '@/components/ui/AudioButton'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 const PREVIEW_LIMIT = 10
 
@@ -224,6 +225,7 @@ function formatDate(value: string | null | undefined): string {
 
 export default function DeckMarketDetailPage() {
   const { strings } = useI18n()
+  const { showToast } = useToast()
   const { user, loading: authLoading } = useAuth()
   const params = useParams()
   const locale = (params?.locale as string) || 'en'
@@ -457,10 +459,36 @@ export default function DeckMarketDetailPage() {
         }).catch(() => {})
       }
     } catch (err: any) {
-      if (err?.code === 'DUPLICATE_DECK_NAME') {
+      const code = err?.code || err?.message
+      const reason = typeof err?.reason === 'string' && err.reason.trim().length > 0
+        ? err.reason
+        : null
+
+      console.error('[DeckMarket] Add to Flashcards failed', {
+        code,
+        reason,
+        message: err?.message,
+      })
+
+      if (code === 'DUPLICATE_DECK_NAME') {
         setAddError(strings.deckmarket.deck.addDuplicateName)
+      } else if (code === 'DECKMARKET_LIMIT_REACHED' || code === 'FREE_DECKMARKET_ONLY') {
+        setAddError(strings.deckmarket.deck.addLimitReached)
+      } else if (
+        code === 'ANKI_IMPORT_LIMIT_REACHED' ||
+        code === 'DECK_LIMIT_REACHED' ||
+        reason === 'limit_reached'
+      ) {
+        setAddError(null)
+        showToast(strings.deckmarket.deck.monthlyLimitReached, 'warning')
+      } else if (code === 'Failed to check anki_imports entitlement') {
+        setAddError(reason || strings.deckmarket.deck.addFailed)
+      } else if (code === 'Download failed') {
+        setAddError('Failed to download deck package. Please try again.')
+      } else if (code === 'No cards found') {
+        setAddError('This deck has no importable cards.')
       } else {
-        setAddError(strings.deckmarket.deck.addFailed)
+        setAddError(reason || strings.deckmarket.deck.addFailed)
       }
       setAddState('idle')
     }

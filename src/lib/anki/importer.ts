@@ -217,7 +217,9 @@ export class AnkiImporter {
         return `<img${cleanBefore}src="${filename}" data-anki-media="${mediaKey}"${cleanAfter}>`
       })
 
-      console.log(`[AnkiImporter] ${side} - Total images marked: ${imageCount}`)
+      if (imageCount > 0) {
+        console.log(`[AnkiImporter] ${side} - Total images marked: ${imageCount}`)
+      }
       return result
     }
 

@@ -7715,6 +7715,7 @@ export const strings = {
       added: '追加済み',
       alreadyAdded: '追加済み',
       addFailed: 'デッキの追加に失敗しました。もう一度お試しください。',
+      monthlyLimitReached: '月間上限に達しました。',
       addDuplicateName: 'この名前のデッキはすでに存在します。',
       addLimitReached: '無料ユーザーはDeckMarketのデッキを1つまで追加できます。現在のデッキを削除するか、プレミアムにアップグレードしてください。',
       goToFlashcards: 'フラッシュカードへ',

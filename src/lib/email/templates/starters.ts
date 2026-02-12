@@ -586,6 +586,121 @@ Unsubscribe: {{unsubscribeUrl}}
 }
 
 /**
+ * Flashcards Launch Announcement Starter
+ * Announce the new flashcards feature with study modes and DeckMarket
+ */
+export function flashcardsLaunchStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.primary}, ${EMAIL_COLORS.secondary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">
+        NEW FEATURE
+      </span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      Flashcards just landed in Moshimoshi
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}; text-align: center; color: ${EMAIL_COLORS.textLight}; font-size: 18px;">
+      Build, import, and master vocabulary with smart spaced repetition &mdash; right where you already learn.
+    </p>
+
+    <hr style="${EMAIL_STYLES.divider}" />
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "{{name}}-san! I've been waiting to tell you this &mdash; you can study flashcards with me now! Create your own decks, import your Anki collection, or grab a deck from DeckMarket. Let's get that vocabulary locked in together!",
+    })}
+
+    <h2 style="${EMAIL_STYLES.heading2}">
+      Here's what you can do
+    </h2>
+
+    ${featureList([
+      '<strong>Create your own decks</strong> &mdash; type in vocab, phrases, or kanji and start studying in seconds',
+      '<strong>Import Anki decks</strong> &mdash; drop in any .apkg file and your cards, media, and progress come along',
+      '<strong>Browse DeckMarket</strong> &mdash; pick from curated community decks and add them with one tap',
+      '<strong>Smart SRS scheduling</strong> &mdash; the app figures out what you need to review and when',
+      '<strong>Study offline</strong> &mdash; your cards live on your device, so you can study on the train, in a cafe, anywhere',
+    ])}
+
+    <!-- Study modes highlight -->
+    <div style="background: linear-gradient(135deg, #fdf2f8, #ede9fe); border-radius: 12px; padding: 24px; margin: 24px 0;">
+      <p style="margin: 0 0 16px 0; font-weight: 700; font-size: 18px; color: ${EMAIL_COLORS.text};">
+        Multiple ways to study
+      </p>
+      <p style="margin: 0 0 10px 0; color: ${EMAIL_COLORS.textLight}; font-size: 15px;">
+        <strong style="color: ${EMAIL_COLORS.primary};">Mistake Replay</strong> &mdash; revisit cards you got wrong across your last 3 sessions
+      </p>
+      <p style="margin: 0 0 10px 0; color: ${EMAIL_COLORS.textLight}; font-size: 15px;">
+        <strong style="color: ${EMAIL_COLORS.secondary};">Audio First</strong> &mdash; practice listening with audio-only card sessions
+      </p>
+      <p style="margin: 0 0 10px 0; color: ${EMAIL_COLORS.textLight}; font-size: 15px;">
+        <strong style="color: ${EMAIL_COLORS.accent};">Heat Focus</strong> &mdash; surfaces your most fragile cards so you nail the hard ones first
+      </p>
+      <p style="margin: 0; color: ${EMAIL_COLORS.textLight}; font-size: 15px;">
+        <strong style="color: ${EMAIL_COLORS.success};">Momentum Coach</strong> &mdash; quick nudges to keep your streak alive
+      </p>
+    </div>
+
+    ${highlightBox({
+      type: 'info',
+      title: 'Pro tip',
+      content: 'Already use Anki? Export your deck as .apkg and import it into Moshimoshi &mdash; all your cards and media come with it. No starting over.',
+    })}
+
+    ${ctaButton({ text: 'Try Flashcards Now', url: 'https://moshimoshi.app/en/flashcards' })}
+
+    <p style="${EMAIL_STYLES.smallText}; text-align: center;">
+      Free users can study a DeckMarket deck for free. Premium users get unlimited decks, cross-device sync, and cloud backup.
+    </p>
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+NEW FEATURE: Flashcards just landed in Moshimoshi
+
+Build, import, and master vocabulary with smart spaced repetition - right where you already learn.
+
+Hey {{name}},
+
+Doshi says: "{{name}}-san! I've been waiting to tell you this - you can study flashcards with me now! Create your own decks, import your Anki collection, or grab a deck from DeckMarket. Let's get that vocabulary locked in together!"
+
+HERE'S WHAT YOU CAN DO:
+- Create your own decks - type in vocab, phrases, or kanji and start studying in seconds
+- Import Anki decks - drop in any .apkg file and your cards, media, and progress come along
+- Browse DeckMarket - pick from curated community decks and add them with one tap
+- Smart SRS scheduling - the app figures out what you need to review and when
+- Study offline - your cards live on your device, so you can study anywhere
+
+STUDY MODES:
+- Mistake Replay: revisit cards you got wrong across your last 3 sessions
+- Audio First: practice listening with audio-only card sessions
+- Heat Focus: surfaces your most fragile cards so you nail the hard ones first
+- Momentum Coach: quick nudges to keep your streak alive
+
+Pro tip: Already use Anki? Export your deck as .apkg and import it into Moshimoshi - all your cards and media come with it. No starting over.
+
+Try Flashcards Now: https://moshimoshi.app/en/flashcards
+
+Free users can study a DeckMarket deck for free. Premium users get unlimited decks, cross-device sync, and cloud backup.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: '{{name}}, your new secret weapon for Japanese is here',
+  }
+}
+
+/**
  * Simple Newsletter Starter
  * Clean template for general announcements
  */
@@ -693,6 +808,11 @@ export function getStarterTemplates() {
       name: 'Co-Journey Series Announcement',
       description: "Announce Moshi's Minna no Nihongo Adventure video series on TikTok",
       ...coJourneyAnnouncementStarter(),
+    },
+    flashcardsLaunch: {
+      name: 'Flashcards Launch Announcement',
+      description: 'Announce the new flashcards feature with study modes, Anki import, and DeckMarket integration',
+      ...flashcardsLaunchStarter(),
     },
   }
 }

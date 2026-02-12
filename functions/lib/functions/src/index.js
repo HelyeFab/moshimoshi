@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onAnswerVoteDeleted = exports.onAnswerVoteCreated = exports.onQuestionVoteDeleted = exports.onQuestionVoteCreated = exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuestionOnUpdate = exports.moderateQuestion = exports.backfillSentenceData = exports.dailyReminderEligibilityJob = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.onComicPublished = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.onBookPrecomputeRequested = exports.onBookPublished = exports.processBookWordBatch = exports.processStoryWordBatch = exports.onStoryPublished = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.onAnswerVoteDeleted = exports.onAnswerVoteCreated = exports.onQuestionVoteDeleted = exports.onQuestionVoteCreated = exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuestionOnUpdate = exports.moderateQuestion = exports.backfillSentenceData = exports.cleanupEmailSendJournal = exports.dailyReminderEligibilityJob = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.onComicPublished = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.onBookPrecomputeRequested = exports.onBookPublished = exports.processBookWordBatch = exports.processStoryWordBatch = exports.onStoryPublished = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -355,6 +355,12 @@ Object.defineProperty(exports, "manualArticleAudioGenerator", { enumerable: true
  */
 var reminderEligibilityScheduler_1 = require("./scheduled/reminderEligibilityScheduler");
 Object.defineProperty(exports, "dailyReminderEligibilityJob", { enumerable: true, get: function () { return reminderEligibilityScheduler_1.dailyReminderEligibilityJob; } });
+/**
+ * Export email send journal cleanup scheduler
+ * Deletes journal records older than the retention policy.
+ */
+var emailSendJournalCleanup_1 = require("./scheduled/emailSendJournalCleanup");
+Object.defineProperty(exports, "cleanupEmailSendJournal", { enumerable: true, get: function () { return emailSendJournalCleanup_1.cleanupEmailSendJournal; } });
 /**
  * Export sentence data backfill function
  * One-time callable to pre-generate sentence audio/translations for existing content

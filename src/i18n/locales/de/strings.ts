@@ -7752,6 +7752,7 @@ export const strings = {
       added: 'Hinzugefügt',
       alreadyAdded: 'Bereits hinzugefügt',
       addFailed: 'Deck konnte nicht hinzugefügt werden. Bitte erneut versuchen.',
+      monthlyLimitReached: 'Monatliches Limit erreicht.',
       addDuplicateName: 'Ein Deck mit diesem Namen existiert bereits.',
       addLimitReached: 'Kostenlose Nutzer können ein DeckMarket-Deck haben. Entferne dein aktuelles Deck oder upgrade auf Premium.',
       goToFlashcards: 'Zu Karteikarten',

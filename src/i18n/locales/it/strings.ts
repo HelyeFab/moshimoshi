@@ -7781,6 +7781,7 @@ export const strings = {
       added: 'Aggiunto',
       alreadyAdded: 'Già aggiunto',
       addFailed: 'Impossibile aggiungere il deck. Riprova.',
+      monthlyLimitReached: 'Limite mensile raggiunto.',
       addDuplicateName: 'Esiste già un deck con questo nome.',
       addLimitReached: 'Gli utenti gratuiti possono avere un deck DeckMarket. Rimuovi il tuo deck attuale o passa a Premium.',
       goToFlashcards: 'Vai alle Flashcard',
