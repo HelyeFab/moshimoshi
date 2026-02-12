@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { motion } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import type { EmailCampaign, SendCampaignRequest } from '@/lib/email/campaigns/types'
+import type { TemplateVariable } from '@/lib/email/templates/types'
 
 export default function EmailCampaignsPage() {
   const { user } = useAuth()
@@ -819,6 +820,7 @@ interface FirestoreTemplate {
   subject: string
   status: string
   category: string
+  variables?: TemplateVariable[]
 }
 
 function NewCampaignModal({
@@ -859,6 +861,10 @@ function NewCampaignModal({
   })
   const [firestoreTemplates, setFirestoreTemplates] = useState<FirestoreTemplate[]>([])
   const [templatesLoading, setTemplatesLoading] = useState(true)
+  const [templateVariablesInput, setTemplateVariablesInput] = useState<string>(() =>
+    campaign?.templateVariables ? JSON.stringify(campaign.templateVariables, null, 2) : '{}'
+  )
+  const [templateVariablesError, setTemplateVariablesError] = useState<string | null>(null)
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(() => {
     // For editing, use templateId if custom template, otherwise use the template type
     if (campaign?.templateId) return campaign.templateId
@@ -901,14 +907,17 @@ function NewCampaignModal({
   // Handle template selection
   const handleTemplateChange = (templateId: string) => {
     setSelectedTemplateId(templateId)
+    setTemplateVariablesError(null)
 
     // Check if it's a built-in template
     const builtInTemplates = ['waitlist', 'welcome', 'password_reset']
     if (builtInTemplates.includes(templateId)) {
+      setTemplateVariablesInput('{}')
       setFormData(prev => ({
         ...prev,
         template: templateId as any,
         templateId: undefined,
+        templateVariables: undefined,
       }))
     } else {
       // It's a Firestore template
@@ -922,9 +931,24 @@ function NewCampaignModal({
     }
   }
 
+  const selectedTemplate = firestoreTemplates.find((t) => t.id === selectedTemplateId)
+  const isCustomTemplateSelected =
+    !!selectedTemplateId && !['waitlist', 'welcome', 'password_reset'].includes(selectedTemplateId)
+  const requiredTemplateVariables = (selectedTemplate?.variables || []).filter((variable) => variable.required)
+  const isReminderSummaryTemplate = selectedTemplate?.slug === 'reminder-summary-daily'
+
+  const reminderSummaryExample: Record<string, string> = {
+    userName: 'Learner',
+    topFeatures:
+      '[{"name":"Kana Practice","url":"https://moshimoshi.app/learn/hiragana"},{"name":"Flashcards & SRS","url":"https://moshimoshi.app/review"}]',
+    ctaUrl: 'https://moshimoshi.app/review',
+    summaryDate: '2026-02-12',
+  }
+
   const handleSubmit = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault()
     setValidationError(null)
+    setTemplateVariablesError(null)
 
     // Client-side validation since button is outside form
     if (!formData.name.trim()) {
@@ -944,7 +968,27 @@ function NewCampaignModal({
       return
     }
 
-    onSave(formData)
+    if (isCustomTemplateSelected) {
+      try {
+        const parsed = JSON.parse(templateVariablesInput || '{}')
+        if (parsed && typeof parsed !== 'object') {
+          setTemplateVariablesError('Template variables must be a JSON object')
+          return
+        }
+        onSave({
+          ...formData,
+          templateVariables: parsed && Object.keys(parsed).length > 0 ? parsed : undefined,
+        })
+      } catch {
+        setTemplateVariablesError('Invalid JSON in template variables')
+      }
+      return
+    }
+
+    onSave({
+      ...formData,
+      templateVariables: undefined,
+    })
   }
 
   return (
@@ -1033,7 +1077,7 @@ function NewCampaignModal({
                 </optgroup>
               </select>
             )}
-            {selectedTemplateId && !['waitlist', 'welcome', 'password_reset'].includes(selectedTemplateId) && (
+            {isCustomTemplateSelected && (
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Using custom template from your library
               </p>
@@ -1054,6 +1098,66 @@ function NewCampaignModal({
               className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
+
+          {isCustomTemplateSelected && (
+            <div className="space-y-3">
+              <div className="rounded-lg border border-gray-200 dark:border-dark-600 bg-gray-50 dark:bg-dark-700/40 p-3">
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200 mb-2">
+                  Required template variables
+                </p>
+                {requiredTemplateVariables.length === 0 ? (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">No required variables</p>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {requiredTemplateVariables.map((variable) => (
+                      <span
+                        key={variable.name}
+                        className="px-2 py-1 rounded-md bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-600 text-xs text-gray-700 dark:text-gray-300 font-mono"
+                      >
+                        {`{{${variable.name}}}`}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {isReminderSummaryTemplate && (
+                <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs text-blue-800 dark:text-blue-200">
+                      Reminder summary template expects `topFeatures` as a JSON string array.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setTemplateVariablesInput(JSON.stringify(reminderSummaryExample, null, 2))}
+                      className="px-2 py-1 rounded bg-blue-600 text-white text-xs hover:bg-blue-700 transition-colors"
+                    >
+                      Insert Sample
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+                  Template Variables (JSON)
+                </label>
+                <textarea
+                  value={templateVariablesInput}
+                  onChange={(e) => setTemplateVariablesInput(e.target.value)}
+                  placeholder='{"userName":"Learner","ctaUrl":"https://moshimoshi.app/review"}'
+                  rows={8}
+                  className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono text-sm"
+                />
+                {templateVariablesError && (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{templateVariablesError}</p>
+                )}
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  Keys here override template defaults for this campaign.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Segment Type */}
           <div>

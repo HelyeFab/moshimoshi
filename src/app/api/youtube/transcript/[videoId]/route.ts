@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Innertube } from 'youtubei.js'
 import { transcriptCache } from '@/lib/transcript/cache'
 import { getTranscriptFromSupa, isSupaConfigured } from '@/lib/supa/client'
+import {
+  mergeTranscriptSegments,
+  shouldMergeTranscriptSegments,
+  type MergeableTranscriptSegment,
+} from '@/lib/transcript/mergeSegments'
 
 interface TranscriptSegment {
   start: number
@@ -11,6 +16,7 @@ interface TranscriptSegment {
   endTime: number
   text: string
   words?: string[]
+  translation?: string
 }
 
 interface TranscriptResponse {
@@ -35,6 +41,30 @@ interface TranscriptResponse {
 }
 
 let youtubeClient: Innertube | null = null
+
+function normalizeSegmentsForCache(segments: TranscriptSegment[]): TranscriptSegment[] {
+  const mergeCandidates: MergeableTranscriptSegment[] = segments.map(seg => ({
+    start: seg.start,
+    end: seg.end,
+    text: seg.text,
+    words: seg.words,
+  }))
+
+  if (!shouldMergeTranscriptSegments(mergeCandidates)) {
+    return segments
+  }
+
+  const merged = mergeTranscriptSegments(mergeCandidates)
+  return merged.map(seg => ({
+    start: seg.start,
+    end: seg.end,
+    duration: seg.end - seg.start,
+    startTime: seg.start,
+    endTime: seg.end,
+    text: seg.text,
+    words: seg.words,
+  }))
+}
 
 async function getClient(): Promise<Innertube> {
   if (!youtubeClient) {
@@ -389,16 +419,38 @@ export async function GET(
         translation: line.translation,
       }))
 
+      const hasTranslations = segments.some(seg => !!seg.translation)
+      const mergedSegments = hasTranslations ? segments : normalizeSegmentsForCache(segments)
+
+      if (!hasTranslations && mergedSegments.length !== segments.length) {
+        transcriptCache
+          .updateTranscriptWithMetadata({
+            contentId,
+            transcript: mergedSegments.map((seg, i) => ({
+              id: String(i + 1),
+              text: seg.text,
+              startTime: seg.start,
+              endTime: seg.end,
+              words: seg.words,
+              translation: seg.translation,
+            })),
+            metadata: {
+              'metadata.segmentMergedAt': new Date(),
+            },
+          })
+          .catch(err => console.error('[TRANSCRIPT-API] Cache merge update failed:', err))
+      }
+
       return NextResponse.json<TranscriptResponse>({
         available: true,
         videoId,
         title: cached.videoTitle || 'Cached Video',
-        segments,
+        segments: mergedSegments,
         language: cached.language || 'ja',
         source: 'firebase-cache',
         cached: true,
-        totalSegments: segments.length,
-        totalDuration: segments[segments.length - 1]?.end || 0,
+        totalSegments: mergedSegments.length,
+        totalDuration: mergedSegments[mergedSegments.length - 1]?.end || 0,
       })
     }
 
@@ -410,12 +462,13 @@ export async function GET(
     const railwayResult = await tryRailwayTranscriptServer(videoId)
 
     if (railwayResult && railwayResult.segments) {
+      const normalizedSegments = normalizeSegmentsForCache(railwayResult.segments)
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
           contentId,
           contentType: 'youtube',
-          transcript: railwayResult.segments.map((seg, i) => ({
+          transcript: normalizedSegments.map((seg, i) => ({
             id: String(i + 1),
             text: seg.text,
             startTime: seg.start,
@@ -431,7 +484,12 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(railwayResult)
+      return NextResponse.json<TranscriptResponse>({
+        ...railwayResult,
+        segments: normalizedSegments,
+        totalSegments: normalizedSegments.length,
+        totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+      })
     }
 
     // ==========================================
@@ -440,12 +498,13 @@ export async function GET(
     const sheldonResult = await trySheldonTranscriptServer(videoId)
 
     if (sheldonResult && sheldonResult.segments) {
+      const normalizedSegments = normalizeSegmentsForCache(sheldonResult.segments)
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
           contentId,
           contentType: 'youtube',
-          transcript: sheldonResult.segments.map((seg, i) => ({
+          transcript: normalizedSegments.map((seg, i) => ({
             id: String(i + 1),
             text: seg.text,
             startTime: seg.start,
@@ -461,7 +520,12 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(sheldonResult)
+      return NextResponse.json<TranscriptResponse>({
+        ...sheldonResult,
+        segments: normalizedSegments,
+        totalSegments: normalizedSegments.length,
+        totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+      })
     }
 
     // ==========================================
@@ -470,12 +534,13 @@ export async function GET(
     const enhancedResult = await tryEnhancedYouTubeiJS(videoId)
 
     if (enhancedResult && enhancedResult.segments) {
+      const normalizedSegments = normalizeSegmentsForCache(enhancedResult.segments)
       // Store to Firebase cache (async, don't block response) - using Admin SDK
       transcriptCache
         .set({
           contentId,
           contentType: 'youtube',
-          transcript: enhancedResult.segments.map((seg, i) => ({
+          transcript: normalizedSegments.map((seg, i) => ({
             id: String(i + 1),
             text: seg.text,
             startTime: seg.start,
@@ -491,7 +556,12 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(enhancedResult)
+      return NextResponse.json<TranscriptResponse>({
+        ...enhancedResult,
+        segments: normalizedSegments,
+        totalSegments: normalizedSegments.length,
+        totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+      })
     }
 
     // ==========================================
@@ -500,12 +570,13 @@ export async function GET(
     const standardResult = await tryStandardYouTubeiJS(videoId)
 
     if (standardResult && standardResult.segments) {
+      const normalizedSegments = normalizeSegmentsForCache(standardResult.segments)
       // Store to Firebase cache - using Admin SDK
       transcriptCache
         .set({
           contentId,
           contentType: 'youtube',
-          transcript: standardResult.segments.map((seg, i) => ({
+          transcript: normalizedSegments.map((seg, i) => ({
             id: String(i + 1),
             text: seg.text,
             startTime: seg.start,
@@ -521,7 +592,12 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(standardResult)
+      return NextResponse.json<TranscriptResponse>({
+        ...standardResult,
+        segments: normalizedSegments,
+        totalSegments: normalizedSegments.length,
+        totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+      })
     }
 
     // ==========================================
@@ -542,13 +618,20 @@ export async function GET(
           text: seg.text,
           words: seg.words,
         }))
+        const normalizedSegments = normalizeSegmentsForCache(segments)
 
         // Store to Firebase cache - using Admin SDK
         transcriptCache
           .set({
             contentId,
             contentType: 'youtube',
-            transcript: supaResult.transcript,
+            transcript: normalizedSegments.map((seg, i) => ({
+              id: String(i + 1),
+              text: seg.text,
+              startTime: seg.start,
+              endTime: seg.end,
+              words: seg.words,
+            })),
             language: supaResult.language,
             videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
             videoTitle: supaResult.title,
@@ -558,18 +641,18 @@ export async function GET(
           })
           .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-        console.log(`[TRANSCRIPT-API] ✅ Supa API success: ${segments.length} segments`)
+        console.log(`[TRANSCRIPT-API] ✅ Supa API success: ${normalizedSegments.length} segments`)
 
         return NextResponse.json<TranscriptResponse>({
           available: true,
           videoId,
           title: supaResult.title || 'Unknown title',
-          segments,
+          segments: normalizedSegments,
           language: supaResult.language,
           availableLanguages: supaResult.availableLanguages,
           source: 'supa-api',
-          totalSegments: segments.length,
-          totalDuration: segments[segments.length - 1]?.end || 0,
+          totalSegments: normalizedSegments.length,
+          totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
         })
       }
     }

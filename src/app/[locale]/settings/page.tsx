@@ -18,7 +18,6 @@ import CollapsibleSection from '@/components/common/CollapsibleSection'
 import { preferencesManager } from '@/utils/preferencesManager'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
-import { ReviewNotificationSettings } from '@/components/notifications/ReviewNotificationSettings'
 import { Select } from '@/components/ui/Select'
 import Dialog from '@/components/ui/Dialog'
 import { AppVersionSection } from '@/components/pwa/AppVersionSection'
@@ -42,6 +41,8 @@ export default function SettingsPage() {
     weeklyProgress: false,
     marketingEmails: false,
   })
+  const [featureRemindersEnabled, setFeatureRemindersEnabled] = useState(true)
+  const [updatingFeatureReminders, setUpdatingFeatureReminders] = useState(false)
 
   const [learning, setLearning] = useState({
     autoplay: true,
@@ -113,6 +114,20 @@ export default function SettingsPage() {
 
       // Also check leaderboard opt-out status from dedicated API
       if (user) {
+        try {
+          const prefsResponse = await fetch('/api/notifications/preferences', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (prefsResponse.ok) {
+            const prefsData = await prefsResponse.json()
+            const enabled = prefsData?.data?.feature_reminders?.enabled
+            setFeatureRemindersEnabled(typeof enabled === 'boolean' ? enabled : true)
+          }
+        } catch (error) {
+          console.error('[Settings] Failed to load feature reminder master toggle:', error)
+        }
+
         try {
           const response = await fetch('/api/leaderboard/opt-out')
           if (response.ok) {
@@ -464,71 +479,46 @@ export default function SettingsPage() {
               defaultOpen={false}
             >
             <div className="space-y-6">
-              {/* Review Notifications (NEW) */}
-              <div className="mb-6">
-                <ReviewNotificationSettings />
-              </div>
-
               {/* Email Notifications */}
               <div className="p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl">
                 <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                   <span>📧</span>
                   Email Notifications
                 </h4>
-                <SettingToggle
-                  label={
-                    strings.settings?.sections?.notifications?.dailyReminder?.label ||
-                    'Daily Study Reminder'
-                  }
-                  description={
-                    strings.settings?.sections?.notifications?.dailyReminder?.description ||
-                    'Get reminded to practice every day'
-                  }
-                  enabled={notifications.dailyReminder}
-                  onChange={value => setNotifications({ ...notifications, dailyReminder: value })}
-                  icon="📅"
-                />
-                <SettingToggle
-                  label={
-                    strings.settings?.sections?.notifications?.achievementAlerts?.label ||
-                    'Achievement Alerts'
-                  }
-                  description={
-                    strings.settings?.sections?.notifications?.achievementAlerts?.description ||
-                    'Celebrate when you unlock achievements'
-                  }
-                  enabled={notifications.achievementAlerts}
-                  onChange={value =>
-                    setNotifications({ ...notifications, achievementAlerts: value })
-                  }
-                  icon="🏆"
-                />
-                <SettingToggle
-                  label={
-                    strings.settings?.sections?.notifications?.weeklyProgress?.label ||
-                    'Weekly Progress Report'
-                  }
-                  description={
-                    strings.settings?.sections?.notifications?.weeklyProgress?.description ||
-                    'Receive a summary of your weekly progress'
-                  }
-                  enabled={notifications.weeklyProgress}
-                  onChange={value => setNotifications({ ...notifications, weeklyProgress: value })}
-                  icon="📊"
-                />
-                <SettingToggle
-                  label={
-                    strings.settings?.sections?.notifications?.marketingEmails?.label ||
-                    'Marketing Emails'
-                  }
-                  description={
-                    strings.settings?.sections?.notifications?.marketingEmails?.description ||
-                    'Updates about new features and content'
-                  }
-                  enabled={notifications.marketingEmails}
-                  onChange={value => setNotifications({ ...notifications, marketingEmails: value })}
-                  icon="📧"
-                />
+                {user && (
+                  <SettingToggle
+                    label="Feature Reminders (Master)"
+                    description="Enable or disable all per-feature reminder bells across the app"
+                    enabled={featureRemindersEnabled}
+                    onChange={async value => {
+                      const previous = featureRemindersEnabled
+                      setFeatureRemindersEnabled(value)
+                      setUpdatingFeatureReminders(true)
+                      try {
+                        const response = await fetch('/api/notifications/preferences', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            setting: 'feature_reminders_enabled',
+                            value,
+                          }),
+                        })
+
+                        if (!response.ok) {
+                          throw new Error('Failed to update feature reminders master toggle')
+                        }
+                      } catch (error) {
+                        console.error('[Settings] Failed to update feature reminders master toggle:', error)
+                        setFeatureRemindersEnabled(previous)
+                        showToast('Failed to update feature reminders master toggle', 'error')
+                      } finally {
+                        setUpdatingFeatureReminders(false)
+                      }
+                    }}
+                    icon="🔔"
+                    disabled={updatingFeatureReminders}
+                  />
+                )}
               </div>
             </div>
           </CollapsibleSection>

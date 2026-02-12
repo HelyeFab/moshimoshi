@@ -58,6 +58,11 @@ function hasKanji(text: string): boolean {
   return /[\u4e00-\u9faf]/.test(text);
 }
 
+const PARTICLE_FORMS = new Set(['の', 'は', 'が', 'を', 'で', 'に', 'と', 'へ', 'も']);
+const KUNYOMI_OVERRIDES: Record<string, string> = {
+  '風': 'かぜ',
+};
+
 // Check if a word should have spacing after it (not particles, connectors, etc.)
 function shouldAddWordSpacing(token: KuromojiToken, nextToken?: KuromojiToken): boolean {
   const { part_of_speech, surface_form } = token;
@@ -90,6 +95,17 @@ function shouldAddWordSpacing(token: KuromojiToken, nextToken?: KuromojiToken): 
   return true;
 }
 
+function resolveReadingOverride(
+  token: KuromojiToken,
+  nextToken?: KuromojiToken
+): string | null {
+  const surface = token.surface_form;
+  if (surface.length !== 1) return null;
+  if (!hasKanji(surface)) return null;
+  if (!nextToken || !PARTICLE_FORMS.has(nextToken.surface_form)) return null;
+  return KUNYOMI_OVERRIDES[surface] || null;
+}
+
 function generateFurigana(tokens: KuromojiToken[]): string {
   return tokens
     .map((token, index) => {
@@ -109,7 +125,10 @@ function generateFurigana(tokens: KuromojiToken[]): string {
       }
       // Only add furigana if the surface form contains kanji and we have a reading
       else if (hasKanji(surface_form) && reading && reading !== surface_form) {
-        const hiraganaReading = convertKatakanaToHiragana(reading);
+        const overrideReading = resolveReadingOverride(token, nextToken);
+        const hiraganaReading = overrideReading
+          ? overrideReading
+          : convertKatakanaToHiragana(reading);
 
         // Don't add furigana if the reading is the same as the surface form
         if (hiraganaReading === surface_form) {

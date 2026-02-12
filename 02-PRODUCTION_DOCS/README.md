@@ -27,6 +27,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── user-agent-tracking/           # User agent tracking for support forms
 ├── entertainment-system/          # Games, achievements, leaderboard, review hub
 ├── user-analytics/                # User retention and engagement analysis scripts
+├── youtube-shadowing/             # YouTube Shadowing player documentation
 └── i18n/                          # Internationalization system (6 languages)
 ```
 
@@ -107,6 +108,22 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Notification System (`notification_system/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./notification_system/README.md) | Notification system overview and index |
+| [NEW_DEVELOPER_ONBOARDING.md](./notification_system/NEW_DEVELOPER_ONBOARDING.md) | Full onboarding guide for notifications |
+
+**Key Topics:**
+- Email, in-app, browser, and push notification flows
+- Preferences, quiet hours, and delivery gating
+- FCM token registration and service worker wiring
+- Queueing, scheduling, and notification logging
+- Known schema and documentation mismatches
+
+---
+
 ### Content Generation (`content-generation/`)
 
 | Document | Description |
@@ -149,6 +166,14 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Mobile-responsive layout (compact 36px cells)
 - i18n translations (6 languages)
 - SRS status visualization (Mastered/Review/Learning)
+
+---
+
+### YouTube Shadowing (`youtube-shadowing/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./youtube-shadowing/README.md) | Full production guide for the YouTube Shadowing player |
 
 ---
 

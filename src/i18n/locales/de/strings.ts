@@ -4023,6 +4023,7 @@ export const strings = {
       transcriptWillAppear: 'Das Transkript erscheint hier nach dem Laden.',
       pasteToStart: 'Füge einen YouTube-Link ein, um mit dem Shadowing zu beginnen.',
       firstLoadInfo: 'Beim ersten Laden wird YouTube Timedtext verwendet; als Fallback dient der Transkriptionsdienst.',
+      editFurigana: 'Tipp: Tippe auf das Furigana, um die Lesung zu bearbeiten.',
     },
     settings: {
       title: 'Einstellungen',
@@ -5503,6 +5504,14 @@ export const strings = {
         pushButton: 'Testserver-Push (FCM)',
         success: 'Push-Benachrichtigung gesendet! Überprüfen Sie Ihr Gerät.',
         error: 'Fehler beim Senden der Push-Benachrichtigung',
+      },
+      featureReminderToggle: {
+        on: 'Erinnerung an',
+        off: 'Erinnerung aus',
+        tooltip: 'Tägliche Erinnerung für diese Funktion: {{state}}',
+        tooltipDisabled: 'Die tägliche Erinnerung für diese Funktion ist nicht verfügbar, solange globale E-Mail-Erinnerungen deaktiviert sind',
+        ariaLabel: 'Tägliche Erinnerung für diese Funktion umschalten',
+        globalDisabled: 'Globale E-Mail-Erinnerungen sind deaktiviert',
       },
     },
     badge: {

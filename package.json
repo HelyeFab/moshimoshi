@@ -41,6 +41,8 @@
     "notebooklm:clean": "node scripts/notebooklm-sync.js --clean",
     "migrate:quiz": "tsx src/scripts/migrate-quiz-data.ts",
     "migrate:quiz:dry-run": "tsx src/scripts/migrate-quiz-data.ts --dry-run",
+    "migrate:notifications:feature-reminders": "tsx scripts/migrations/backfill-notification-feature-reminders.ts",
+    "seed:email:reminder-summary-template": "node scripts/seed-reminder-summary-template.mjs",
     "add-furigana": "tsx src/scripts/add-comic-furigana.ts --live",
     "add-furigana:dry-run": "tsx src/scripts/add-comic-furigana.ts",
     "tatoeba:start": "node scripts/backfill-tatoeba-audio.js --limit 200 --batch-size 20 --auto-resume --sleep-ms 1000",

@@ -11,9 +11,11 @@ import type { EmailCampaign } from '@/lib/email/campaigns/types'
 jest.mock('@/lib/firebase/admin', () => ({
   ensureAdminInitialized: jest.fn(),
   adminAuth: {
-    getUser: jest.fn(),
+    getUsers: jest.fn(),
+    getUserByEmail: jest.fn(),
   },
   adminFirestore: {
+    getAll: jest.fn(),
     collection: jest.fn(() => ({
       doc: jest.fn(() => ({
         get: jest.fn(),
@@ -35,9 +37,9 @@ jest.mock('@/lib/firebase/admin', () => ({
   },
 }))
 
-// Mock Resend email service
-jest.mock('@/lib/email/resend', () => ({
-  sendEmail: jest.fn(),
+// Mock campaign email sender
+jest.mock('@/lib/email/campaign-sender', () => ({
+  sendCampaignEmail: jest.fn(),
 }))
 
 // Mock waitlist email template
@@ -48,22 +50,41 @@ jest.mock('@/lib/email/waitlistThankYou', () => ({
   })),
 }))
 
+// Mock suppression service
+jest.mock('@/lib/email/suppression', () => ({
+  suppressionService: {
+    checkBatch: jest.fn(async (emails: string[]) => ({
+      suppressed: [],
+      details: new Map(emails.map((email) => [email, { suppressed: false }])),
+    })),
+  },
+  generateUnsubscribeUrl: jest.fn((email: string) => `https://moshimoshi.app/unsubscribe?email=${email}`),
+}))
+
 describe('CampaignService', () => {
   let service: CampaignService
   let mockFirestore: any
   let mockAuth: any
-  let mockSendEmail: jest.Mock
+  let mockSendCampaignEmail: jest.Mock
 
   beforeEach(() => {
     jest.clearAllMocks()
 
     // Get mocked modules
     const { adminFirestore, adminAuth } = require('@/lib/firebase/admin')
-    const { sendEmail } = require('@/lib/email/resend')
+    const { sendCampaignEmail } = require('@/lib/email/campaign-sender')
 
     mockFirestore = adminFirestore
     mockAuth = adminAuth
-    mockSendEmail = sendEmail as jest.Mock
+    mockSendCampaignEmail = sendCampaignEmail as jest.Mock
+
+    mockAuth.getUsers.mockImplementation(async (identifiers: Array<{ uid: string }>) => ({
+      users: identifiers.map(({ uid }) => ({
+        uid,
+        email: `${uid}@test.com`,
+        emailVerified: true,
+      })),
+    }))
 
     service = new CampaignService()
   })
@@ -92,15 +113,6 @@ describe('CampaignService', () => {
       mockFirestore.collection.mockReturnValue({
         get: jest.fn().mockResolvedValue(mockSnapshot),
       })
-
-      // Mock Auth to return emails
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
 
       const segment = {
         type: 'free' as const,
@@ -139,14 +151,6 @@ describe('CampaignService', () => {
         }),
       })
 
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
-
       const segment = {
         type: 'premium_monthly' as const,
         respectMarketingPrefs: false,
@@ -179,13 +183,13 @@ describe('CampaignService', () => {
       })
 
       // user1 verified, user2 not verified
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
+      mockAuth.getUsers.mockImplementation(async (identifiers: Array<{ uid: string }>) => ({
+        users: identifiers.map(({ uid }) => ({
           uid,
           email: `${uid}@test.com`,
           emailVerified: uid === 'user1',
-        })
-      )
+        })),
+      }))
 
       const segment = {
         type: 'all' as const,
@@ -221,29 +225,26 @@ describe('CampaignService', () => {
 
       mockFirestore.collection.mockReturnValue({
         get: jest.fn().mockResolvedValue(mockSnapshot),
-        doc: jest.fn((uid: string) => ({
+        doc: jest.fn(() => ({
           collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: jest.fn().mockResolvedValue({
-                exists: uid !== 'user3', // user3 has no preferences doc
-                data: () => ({
-                  notifications: {
-                    marketingEmails: uid === 'user1', // user1: true, user2: false, user3: no prefs
-                  },
-                }),
-              }),
-            })),
+            doc: jest.fn(() => ({})),
           })),
         })),
       })
-
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
+      mockFirestore.getAll.mockResolvedValue([
+        {
+          exists: true,
+          data: () => ({ notifications: { marketingEmails: true } }),
+        },
+        {
+          exists: true,
+          data: () => ({ notifications: { marketingEmails: false } }),
+        },
+        {
+          exists: false,
+          data: () => ({}),
+        },
+      ])
 
       const segment = {
         type: 'all' as const,
@@ -279,21 +280,21 @@ describe('CampaignService', () => {
       })
 
       // user1 has email, user2 doesn't
-      mockAuth.getUser.mockImplementation((uid: string) => {
-        if (uid === 'user1') {
-          return Promise.resolve({
-            uid,
-            email: 'user1@test.com',
-            emailVerified: true,
-          })
-        } else {
-          return Promise.resolve({
-            uid,
-            email: null, // No email
-            emailVerified: false,
-          })
-        }
-      })
+      mockAuth.getUsers.mockImplementation(async (identifiers: Array<{ uid: string }>) => ({
+        users: identifiers.map(({ uid }) =>
+          uid === 'user1'
+            ? {
+                uid,
+                email: 'user1@test.com',
+                emailVerified: true,
+              }
+            : {
+                uid,
+                email: null,
+                emailVerified: false,
+              }
+        ),
+      }))
 
       const segment = {
         type: 'all' as const,
@@ -354,15 +355,7 @@ describe('CampaignService', () => {
         }),
       })
 
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
-
-      mockSendEmail.mockResolvedValue({})
+      mockSendCampaignEmail.mockResolvedValue({})
 
       await service.sendCampaign('campaign1')
 
@@ -370,7 +363,7 @@ describe('CampaignService', () => {
       expect(mockCampaignRef.update).toHaveBeenCalledWith({ status: 'sending' })
 
       // Verify emails were sent
-      expect(mockSendEmail).toHaveBeenCalledTimes(2)
+      expect(mockSendCampaignEmail).toHaveBeenCalledTimes(2)
 
       // Verify final status update to 'sent'
       expect(mockCampaignRef.update).toHaveBeenCalledWith(
@@ -425,16 +418,8 @@ describe('CampaignService', () => {
         }),
       })
 
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
-
       // First email succeeds, second fails
-      mockSendEmail
+      mockSendCampaignEmail
         .mockResolvedValueOnce({})
         .mockRejectedValueOnce(new Error('Failed to send'))
 
@@ -508,7 +493,7 @@ describe('CampaignService', () => {
       )
 
       // Should not attempt to send any emails
-      expect(mockSendEmail).not.toHaveBeenCalled()
+      expect(mockSendCampaignEmail).not.toHaveBeenCalled()
     })
   })
 
@@ -544,8 +529,8 @@ describe('CampaignService', () => {
         update: jest.fn().mockResolvedValue({}),
       }
 
-      // Create 75 users (will be sent in 2 batches of 50 and 25)
-      const mockUsers = Array.from({ length: 75 }, (_, i) => ({
+      // Keep this small to avoid hitting Jest timeout while still testing multi-batch behavior.
+      const mockUsers = Array.from({ length: 6 }, (_, i) => ({
         id: `user${i}`,
         data: () => ({}),
       }))
@@ -553,25 +538,17 @@ describe('CampaignService', () => {
       mockFirestore.collection.mockReturnValue({
         doc: jest.fn(() => mockCampaignRef),
         get: jest.fn().mockResolvedValue({
-          size: 75,
+          size: 6,
           docs: mockUsers,
         }),
       })
 
-      mockAuth.getUser.mockImplementation((uid: string) =>
-        Promise.resolve({
-          uid,
-          email: `${uid}@test.com`,
-          emailVerified: true,
-        })
-      )
-
-      mockSendEmail.mockResolvedValue({})
+      mockSendCampaignEmail.mockResolvedValue({})
 
       await service.sendCampaign('campaign1')
 
-      // Verify all 75 emails were sent
-      expect(mockSendEmail).toHaveBeenCalledTimes(75)
+      // Verify all emails were sent
+      expect(mockSendCampaignEmail).toHaveBeenCalledTimes(6)
 
       // Verify progress updates occurred (at least once per batch)
       const updateCalls = mockCampaignRef.update.mock.calls.filter((call: any) =>

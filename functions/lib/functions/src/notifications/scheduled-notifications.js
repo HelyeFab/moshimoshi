@@ -46,6 +46,9 @@ if (!admin.apps.length) {
     admin.initializeApp();
 }
 const db = admin.firestore();
+function createUnsubscribeToken(userId, notificationType) {
+    return Buffer.from(`${userId}:${notificationType}:${Date.now()}`).toString('base64');
+}
 /**
  * Daily Reminder - Runs every day at 12:00 PM UTC
  * Sends daily study reminders to users who have enabled them
@@ -93,7 +96,7 @@ exports.dailyReminderNotification = (0, scheduler_1.onSchedule)({
                     dueReviews: stats.dueReviews || 0,
                     lastStudyDate: ((_e = stats.lastStudyDate) === null || _e === void 0 ? void 0 : _e.toDate()) || null,
                     studyUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/review`,
-                    unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${Buffer.from(userId).toString('base64')}`,
+                    unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${createUnsubscribeToken(userId, 'daily_reminder')}`,
                     preferencesUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/settings`
                 };
                 // Call your notification API
@@ -105,7 +108,7 @@ exports.dailyReminderNotification = (0, scheduler_1.onSchedule)({
                     },
                     body: JSON.stringify({
                         type: 'dailyReminder',
-                        data: notificationData
+                        data: { userId }
                     })
                 });
                 if (!response.ok) {
@@ -223,7 +226,7 @@ exports.weeklyProgressNotification = (0, scheduler_1.onSchedule)({
                     },
                     achievements: achievements.slice(0, 3), // Top 3 achievements
                     dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/dashboard`,
-                    unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${Buffer.from(userId).toString('base64')}`,
+                    unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/notifications/unsubscribe?token=${createUnsubscribeToken(userId, 'weekly_progress')}`,
                     preferencesUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/settings`
                 };
                 // Call your notification API
@@ -235,7 +238,7 @@ exports.weeklyProgressNotification = (0, scheduler_1.onSchedule)({
                     },
                     body: JSON.stringify({
                         type: 'weeklyProgress',
-                        data: notificationData
+                        data: { userId }
                     })
                 });
                 if (!response.ok) {

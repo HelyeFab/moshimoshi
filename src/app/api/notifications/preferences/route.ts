@@ -27,6 +27,28 @@ import admin from 'firebase-admin'
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 import { getSession } from '@/lib/auth/session'
 
+const FEATURE_REMINDER_KEYS = [
+  'kana',
+  'kanji_mastery',
+  'flashcards_srs',
+  'news',
+  'stories',
+  'library',
+  'vocabulary'
+] as const
+
+type FeatureReminderKey = typeof FEATURE_REMINDER_KEYS[number]
+
+const DEFAULT_FEATURE_REMINDERS: Record<FeatureReminderKey, boolean> = {
+  kana: true,
+  kanji_mastery: true,
+  flashcards_srs: true,
+  news: true,
+  stories: true,
+  library: true,
+  vocabulary: true
+}
+
 interface NotificationPreferences {
   userId: string
   channels: {
@@ -66,8 +88,127 @@ interface NotificationPreferences {
     enabled: boolean
     pattern: number[]      // vibration pattern
   }
+  feature_reminders: {
+    enabled: boolean
+    features: Record<FeatureReminderKey, boolean>
+  }
   updated_at: admin.firestore.Timestamp
   created_at: admin.firestore.Timestamp
+}
+
+function buildDefaultPreferences(userId: string): Omit<NotificationPreferences, 'created_at' | 'updated_at'> {
+  return {
+    userId,
+    channels: {
+      browser: false,
+      inApp: true,
+      push: false,
+      email: true
+    },
+    timing: {
+      immediate: true,
+      daily: true,
+      overdue: true
+    },
+    quiet_hours: {
+      enabled: false,
+      start: '22:00',
+      end: '08:00',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    },
+    batching: {
+      enabled: true,
+      window_minutes: 5
+    },
+    email: {
+      dailyReminder: true,
+      achievementAlerts: true,
+      weeklyProgress: false,
+      marketingEmails: false,
+      reminderTime: '09:00'
+    },
+    sound: {
+      enabled: true,
+      volume: 50,
+      customSound: 'default'
+    },
+    vibration: {
+      enabled: true,
+      pattern: [200, 100, 200]
+    },
+    feature_reminders: {
+      enabled: true,
+      features: { ...DEFAULT_FEATURE_REMINDERS }
+    }
+  }
+}
+
+function normalizeFeatureReminderMap(features: unknown): Record<FeatureReminderKey, boolean> {
+  const normalized = { ...DEFAULT_FEATURE_REMINDERS }
+  if (!features || typeof features !== 'object') return normalized
+
+  for (const key of FEATURE_REMINDER_KEYS) {
+    if (key in (features as Record<string, unknown>)) {
+      normalized[key] = !!(features as Record<string, unknown>)[key]
+    }
+  }
+
+  return normalized
+}
+
+function mergeWithDefaultPreferences(
+  userId: string,
+  prefs: Partial<NotificationPreferences> | null | undefined
+): Omit<NotificationPreferences, 'created_at' | 'updated_at'> {
+  const defaults = buildDefaultPreferences(userId)
+  const merged = {
+    ...defaults,
+    ...prefs,
+    userId,
+    channels: {
+      ...defaults.channels,
+      ...(prefs?.channels || {})
+    },
+    timing: {
+      ...defaults.timing,
+      ...(prefs?.timing || {})
+    },
+    quiet_hours: {
+      ...defaults.quiet_hours,
+      ...(prefs?.quiet_hours || {})
+    },
+    batching: {
+      ...defaults.batching,
+      ...(prefs?.batching || {})
+    },
+    email: {
+      ...defaults.email,
+      ...(prefs?.email || {})
+    },
+    sound: {
+      ...defaults.sound,
+      ...(prefs?.sound || {})
+    },
+    vibration: {
+      ...defaults.vibration,
+      ...(prefs?.vibration || {})
+    },
+    feature_reminders: {
+      enabled: prefs?.feature_reminders?.enabled ?? defaults.feature_reminders.enabled,
+      features: normalizeFeatureReminderMap(prefs?.feature_reminders?.features)
+    }
+  }
+
+  return merged
+}
+
+function needsFeatureReminderMigration(prefs: Partial<NotificationPreferences> | null | undefined): boolean {
+  if (!prefs?.feature_reminders) return true
+  if (typeof prefs.feature_reminders.enabled !== 'boolean') return true
+  if (!prefs.feature_reminders.features || typeof prefs.feature_reminders.features !== 'object') return true
+
+  const features = prefs.feature_reminders.features
+  return FEATURE_REMINDER_KEYS.some((key) => !(key in features))
 }
 
 /**
@@ -95,56 +236,28 @@ export async function GET(request: NextRequest) {
 
     if (prefsDoc?.exists) {
       const data = prefsDoc.data()
+      const mergedData = mergeWithDefaultPreferences(userId, data as Partial<NotificationPreferences>)
+
+      if (decision.shouldWriteToFirebase && adminDb && needsFeatureReminderMigration(data as Partial<NotificationPreferences>)) {
+        await adminDb
+          .collection('notifications_preferences')
+          .doc(userId)
+          .set({
+            feature_reminders: mergedData.feature_reminders,
+            updated_at: admin.firestore.FieldValue.serverTimestamp()
+          }, { merge: true })
+      }
 
       // Convert Firestore timestamps to dates
       return createStorageResponse({
-        ...data,
+        ...mergedData,
         created_at: data?.created_at?.toDate(),
         updated_at: data?.updated_at?.toDate()
       }, decision)
     }
 
     // Return default preferences if none exist
-    const defaultPreferences: Omit<NotificationPreferences, 'created_at' | 'updated_at'> = {
-      userId,
-      channels: {
-        browser: false,
-        inApp: true,
-        push: false,
-        email: true
-      },
-      timing: {
-        immediate: true,
-        daily: true,
-        overdue: true
-      },
-      quiet_hours: {
-        enabled: false,
-        start: '22:00',
-        end: '08:00',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      },
-      batching: {
-        enabled: true,
-        window_minutes: 5
-      },
-      email: {
-        dailyReminder: true,
-        achievementAlerts: true,
-        weeklyProgress: false,
-        marketingEmails: false,
-        reminderTime: '09:00'
-      },
-      sound: {
-        enabled: true,
-        volume: 50,
-        customSound: 'default'
-      },
-      vibration: {
-        enabled: true,
-        pattern: [200, 100, 200]
-      }
-    }
+    const defaultPreferences = buildDefaultPreferences(userId)
 
     // Only save to Firebase for premium users
     if (decision.shouldWriteToFirebase && adminDb) {
@@ -473,6 +586,14 @@ function validatePreferences(prefs: any): Partial<NotificationPreferences> {
     }
   }
 
+  // Validate reminder summary feature toggles
+  if (prefs.feature_reminders) {
+    validated.feature_reminders = {
+      enabled: prefs.feature_reminders.enabled !== undefined ? !!prefs.feature_reminders.enabled : true,
+      features: normalizeFeatureReminderMap(prefs.feature_reminders.features)
+    }
+  }
+
   return validated
 }
 
@@ -508,7 +629,8 @@ function mapSettingToPath(setting: string): string | null {
     'daily_reminder': 'email.dailyReminder',
     'achievement_alerts': 'email.achievementAlerts',
     'weekly_progress': 'email.weeklyProgress',
-    'marketing_emails': 'email.marketingEmails'
+    'marketing_emails': 'email.marketingEmails',
+    'feature_reminders_enabled': 'feature_reminders.enabled'
   }
 
   return mappings[setting] || null

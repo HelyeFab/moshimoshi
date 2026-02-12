@@ -17,6 +17,7 @@ import { sendCampaignEmail } from '@/lib/email/campaign-sender'
 import { buildWaitlistThankYouContent } from '@/lib/email/waitlistThankYou'
 import { suppressionService, generateUnsubscribeUrl } from '@/lib/email/suppression'
 import { substituteVariables, buildVariableContext } from '@/lib/email/templates/variables'
+import { normalizeCampaignTemplateVariables } from './template-variables'
 import type { EmailTemplate } from '@/lib/email/templates/types'
 import type {
   EmailCampaign,
@@ -434,10 +435,13 @@ export class CampaignService {
 
     // Generate unsubscribe URL for this user
     const unsubscribeUrl = generateUnsubscribeUrl(user.email)
+    const normalizedTemplateVariables = normalizeCampaignTemplateVariables(
+      campaign.templateVariables
+    )
 
     // Build variable context for subject line substitution
     const variableContext = buildVariableContext(user.email, [], {
-      ...campaign.templateVariables,
+      ...normalizedTemplateVariables,
       unsubscribeUrl,
     })
 
@@ -569,7 +573,7 @@ Unsubscribe: ${unsubscribeUrl}
       user.email,
       template.variables || [],
       {
-        ...campaign.templateVariables,
+        ...normalizeCampaignTemplateVariables(campaign.templateVariables),
         unsubscribeUrl,
       }
     )

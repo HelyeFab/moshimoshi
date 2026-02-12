@@ -4171,6 +4171,7 @@ export const strings = {
       transcriptWillAppear: 'トランスクリプトは読み込み後にここに表示されます。',
       pasteToStart: 'YouTubeリンクを貼り付けてシャドーイングを開始。',
       firstLoadInfo: '最初の読み込みはYouTube timedtextを使用。フォールバックはトランスクリプトサービス。',
+      editFurigana: 'ヒント：ふりがなをタップして読みを編集できます。',
     },
     settings: {
       title: '設定',
@@ -5707,6 +5708,14 @@ export const strings = {
         pushButton: 'サーバープッシュをテスト (FCM)',
         success: 'プッシュ通知を送信しました！デバイスを確認してください。',
         error: 'プッシュ通知の送信に失敗しました',
+      },
+      featureReminderToggle: {
+        on: 'リマインダー オン',
+        off: 'リマインダー オフ',
+        tooltip: 'この機能の日次リマインダー: {{state}}',
+        tooltipDisabled: 'グローバルメールリマインダーがオフの間は、この機能の日次リマインダーは利用できません',
+        ariaLabel: 'この機能の日次リマインダーを切り替える',
+        globalDisabled: 'グローバルメールリマインダーはオフになっています',
       },
     },
     badge: {

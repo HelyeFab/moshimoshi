@@ -11,6 +11,7 @@ import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
 import { buildWaitlistThankYouContent } from '@/lib/email/waitlistThankYou'
 import { generateUnsubscribeUrl } from '@/lib/email/suppression'
 import { substituteVariables, buildPreviewContext } from '@/lib/email/templates/variables'
+import { normalizeCampaignTemplateVariables } from '@/lib/email/campaigns/template-variables'
 import type { EmailCampaign } from '@/lib/email/campaigns/types'
 import type { EmailTemplate } from '@/lib/email/templates/types'
 
@@ -154,11 +155,12 @@ async function buildFromCustomTemplate(
 
   // Build preview context with sample data
   const unsubscribeUrl = generateUnsubscribeUrl(email)
+  const normalizedOverrides = normalizeCampaignTemplateVariables(overrides)
   const variableContext = buildPreviewContext(template.variables || [], {
     email,
     name: email.split('@')[0],
     unsubscribeUrl,
-    ...overrides,
+    ...normalizedOverrides,
   })
 
   // Substitute variables

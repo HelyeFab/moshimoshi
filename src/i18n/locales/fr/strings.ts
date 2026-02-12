@@ -3978,6 +3978,7 @@ export const strings = {
       transcriptWillAppear: 'La transcription apparaîtra ici une fois chargée.',
       pasteToStart: 'Collez un lien YouTube pour commencer le shadowing.',
       firstLoadInfo: 'Le premier chargement utilise YouTube timedtext ; le service de transcription est utilisé en secours.',
+      editFurigana: 'Astuce : touchez le furigana pour modifier la lecture.',
     },
     settings: {
       title: 'Paramètres',
@@ -5454,6 +5455,14 @@ export const strings = {
         pushButton: 'Test du serveur de push (FCM)',
         success: 'Notification push envoyée ! Vérifiez votre appareil.',
         error: 'Échec de l\'envoi de la notification push',
+      },
+      featureReminderToggle: {
+        on: 'Rappel activé',
+        off: 'Rappel désactivé',
+        tooltip: 'Rappel quotidien pour cette fonctionnalité : {{state}}',
+        tooltipDisabled: 'Le rappel quotidien pour cette fonctionnalité n’est pas disponible tant que les rappels e-mail globaux sont désactivés',
+        ariaLabel: 'Activer ou désactiver le rappel quotidien pour cette fonctionnalité',
+        globalDisabled: 'Les rappels e-mail globaux sont désactivés',
       },
     },
     badge: {

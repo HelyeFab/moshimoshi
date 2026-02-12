@@ -4448,6 +4448,7 @@ export const strings = {
       transcriptWillAppear: 'Transcript will appear here once loaded.',
       pasteToStart: 'Paste a YouTube link to start shadowing.',
       firstLoadInfo: 'First load uses YouTube timedtext; fallback is transcript service.',
+      editFurigana: 'Tip: Tap furigana to edit readings.',
     },
 
     settings: {
@@ -6150,6 +6151,14 @@ export const strings = {
         pushButton: 'Test Server Push (FCM)',
         success: 'Push notification sent! Check your device.',
         error: 'Failed to send push notification',
+      },
+      featureReminderToggle: {
+        on: 'Reminder On',
+        off: 'Reminder Off',
+        tooltip: 'Daily reminder for this feature: {{state}}',
+        tooltipDisabled: 'Daily reminder for this feature is unavailable while global email reminders are off',
+        ariaLabel: 'Toggle daily reminder for this feature',
+        globalDisabled: 'Global email reminders are turned off',
       },
     },
     badge: {

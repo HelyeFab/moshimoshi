@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withAdminAuth, AdminContext } from '@/lib/admin/adminAuth'
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
+import { normalizeCampaignTemplateVariables } from '@/lib/email/campaigns/template-variables'
 
 /**
  * POST - Send a test email for a campaign
@@ -115,8 +116,12 @@ export const POST = withAdminAuth(
         }
       }
 
-      // Campaign-level overrides take precedence
-      Object.assign(variables, campaign.templateVariables || {})
+      // Campaign-level overrides take precedence, then normalize reminder summary fields
+      const normalizedVariables = normalizeCampaignTemplateVariables({
+        ...variables,
+        ...(campaign.templateVariables || {}),
+      })
+      Object.assign(variables, normalizedVariables)
 
       // Replace variables in content
       let finalHtml = htmlContent

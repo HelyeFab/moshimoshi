@@ -4006,6 +4006,7 @@ export const strings = {
       transcriptWillAppear: 'La trascrizione apparirà qui una volta caricata.',
       pasteToStart: 'Incolla un link YouTube per iniziare lo shadowing.',
       firstLoadInfo: 'Il primo caricamento usa YouTube timedtext; il servizio di trascrizione è usato come fallback.',
+      editFurigana: 'Suggerimento: tocca il furigana per modificare la lettura.',
     },
     settings: {
       title: 'Impostazioni',
@@ -5575,6 +5576,14 @@ export const strings = {
         pushButton: 'Test Server Push (FCM)',
         success: 'Notifica push inviata! Controlla il tuo dispositivo.',
         error: 'Invio della notifica push fallito',
+      },
+      featureReminderToggle: {
+        on: 'Promemoria attivo',
+        off: 'Promemoria disattivo',
+        tooltip: 'Promemoria giornaliero per questa funzione: {{state}}',
+        tooltipDisabled: 'Il promemoria giornaliero per questa funzione non è disponibile mentre i promemoria email globali sono disattivati',
+        ariaLabel: 'Attiva o disattiva il promemoria giornaliero per questa funzione',
+        globalDisabled: 'I promemoria email globali sono disattivati',
       },
     },
     badge: {

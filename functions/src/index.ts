@@ -394,6 +394,12 @@ export {
 } from './scheduled/articleAudioGenerator'
 
 /**
+ * Export reminder eligibility scheduler
+ * Runs daily at 18:00 UTC and triggers reminder-summary campaign flow
+ */
+export { dailyReminderEligibilityJob } from './scheduled/reminderEligibilityScheduler'
+
+/**
  * Export sentence data backfill function
  * One-time callable to pre-generate sentence audio/translations for existing content
  * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'

@@ -1,7 +1,10 @@
 'use client'
 
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import KuromojiService, { TokenWithHighlight, POS_COLORS } from '@/utils/kuromojiService'
+import { getSentenceOverride, setSentenceOverride } from '@/utils/furiganaOverrides'
+import Modal from '@/components/ui/Modal'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 interface GrammarHighlightedTextProps {
   text: string
@@ -10,6 +13,8 @@ interface GrammarHighlightedTextProps {
   showFurigana?: boolean
   className?: string
   furiganaClassName?: string
+  furiganaContextKey?: string
+  enableFuriganaEditing?: boolean
 }
 
 // Convert katakana to hiragana
@@ -27,11 +32,19 @@ export function GrammarHighlightedText({
   showFurigana = false,
   className = '',
   furiganaClassName = '',
+  furiganaContextKey,
+  enableFuriganaEditing = true,
 }: GrammarHighlightedTextProps) {
   const [tokens, setTokens] = useState<TokenWithHighlight[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isKuromojiReady, setIsKuromojiReady] = useState(false)
+  const [overrideMap, setOverrideMap] = useState<Record<number, string>>({})
+  const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [editingSurface, setEditingSurface] = useState('')
+  const [editingValue, setEditingValue] = useState('')
+  const [isEditingOpen, setIsEditingOpen] = useState(false)
+  const isMobile = useIsMobile()
 
   // Track the current request to avoid race conditions
   const requestIdRef = useRef(0)
@@ -42,6 +55,30 @@ export function GrammarHighlightedText({
     // It uses the /api/furigana endpoint internally
     setIsKuromojiReady(true)
   }, [])
+
+  const contextKey = furiganaContextKey || 'global'
+
+  useEffect(() => {
+    if (!showFurigana || !text) {
+      setOverrideMap({})
+      return
+    }
+
+    let active = true
+    getSentenceOverride(contextKey, text)
+      .then((record) => {
+        if (!active) return
+        setOverrideMap(record?.overrides || {})
+      })
+      .catch(() => {
+        if (!active) return
+        setOverrideMap({})
+      })
+
+    return () => {
+      active = false
+    }
+  }, [contextKey, text, showFurigana])
 
   useEffect(() => {
     // Increment request ID to invalidate any pending requests
@@ -152,6 +189,63 @@ export function GrammarHighlightedText({
     }
   }
 
+  const openFuriganaEditor = (
+    token: TokenWithHighlight,
+    index: number,
+    event: React.MouseEvent
+  ) => {
+    if (!enableFuriganaEditing || !showFurigana) return
+    event.preventDefault()
+    event.stopPropagation()
+
+    const hasKanji = /[\u4E00-\u9FAF]/.test(token.surface_form)
+    if (!hasKanji) return
+
+    const currentReading =
+      overrideMap[index] || (token.reading ? convertKatakanaToHiragana(token.reading) : '')
+
+    setEditingIndex(index)
+    setEditingSurface(token.surface_form)
+    setEditingValue(currentReading)
+    setIsEditingOpen(true)
+  }
+
+  const closeFuriganaEditor = () => {
+    setIsEditingOpen(false)
+    setEditingIndex(null)
+    setEditingSurface('')
+    setEditingValue('')
+  }
+
+  const saveFuriganaOverride = () => {
+    if (editingIndex === null) return
+    const normalized = convertKatakanaToHiragana(editingValue.trim())
+
+    setOverrideMap((prev) => {
+      const next = { ...prev }
+      if (!normalized) {
+        delete next[editingIndex]
+      } else {
+        next[editingIndex] = normalized
+      }
+      void setSentenceOverride(contextKey, text, next)
+      return next
+    })
+
+    closeFuriganaEditor()
+  }
+
+  const clearFuriganaOverride = () => {
+    if (editingIndex === null) return
+    setOverrideMap((prev) => {
+      const next = { ...prev }
+      delete next[editingIndex]
+      void setSentenceOverride(contextKey, text, next)
+      return next
+    })
+    closeFuriganaEditor()
+  }
+
   if (loading || !isKuromojiReady) {
     return (
       <span className={`${className} japanese-text font-ja`} data-quickcontext="true">
@@ -205,7 +299,8 @@ export function GrammarHighlightedText({
         const hasKanji = /[\u4E00-\u9FAF]/.test(token.surface_form)
 
         // Convert katakana reading to hiragana
-        const hiraganaReading = token.reading ? convertKatakanaToHiragana(token.reading) : ''
+        const baseReading = token.reading ? convertKatakanaToHiragana(token.reading) : ''
+        const hiraganaReading = overrideMap[index] || baseReading
 
         if (showFurigana && hiraganaReading && token.surface_form !== hiraganaReading && hasKanji) {
           // Render with furigana only for words containing kanji
@@ -237,6 +332,7 @@ export function GrammarHighlightedText({
                   fontWeight: 'normal',
                   ...(!furiganaClassName && { color: 'var(--article-text-secondary)', opacity: 0.85 }),
                 }}
+                onClick={e => openFuriganaEditor(token, index, e)}
               >
                 {hiraganaReading}
               </span>
@@ -266,6 +362,55 @@ export function GrammarHighlightedText({
           )
         }
       })}
+      <Modal
+        isOpen={isEditingOpen}
+        onClose={closeFuriganaEditor}
+        title="Edit Furigana"
+        size={isMobile ? 'full' : 'sm'}
+        mobileBottomSheet
+      >
+        <div className="space-y-4">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Kanji
+          </div>
+          <div className="text-2xl font-semibold text-gray-900 dark:text-white">
+            {editingSurface}
+          </div>
+          <label className="block text-sm text-gray-500 dark:text-gray-400">
+            Reading (hiragana)
+          </label>
+          <input
+            type="text"
+            value={editingValue}
+            onChange={(e) => setEditingValue(e.target.value)}
+            className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-base text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            placeholder="e.g. かぜ"
+            inputMode="text"
+          />
+          <div className="flex items-center justify-between gap-3 pt-2">
+            <button
+              onClick={clearFuriganaOverride}
+              className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              Clear Override
+            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={closeFuriganaEditor}
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveFuriganaOverride}
+                className="px-4 py-2 rounded-lg bg-emerald-500 text-white"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </span>
   )
 }

@@ -13,6 +13,7 @@ Moshimoshi is a Japanese learning platform built on Next.js, blending spaced rep
 
 ## Production Docs
 - Entitlements & gating: `02-PRODUCTION_DOCS/entitlements/README.md`
+- Notification system: `02-PRODUCTION_DOCS/notification_system/README.md`
 
 ## License
 This project is licensed under the ISC License.

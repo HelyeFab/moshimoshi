@@ -14,6 +14,7 @@ interface ModalProps {
   showCloseButton?: boolean
   className?: string
   noPadding?: boolean
+  mobileBottomSheet?: boolean
   /** Custom aria-labelledby ID when using custom header */
   ariaLabelledBy?: string
   /** Custom aria-describedby ID for modal description */
@@ -31,6 +32,7 @@ export default function Modal({
   showCloseButton = true,
   className = '',
   noPadding = false,
+  mobileBottomSheet = false,
   ariaLabelledBy,
   ariaDescribedBy,
 }: ModalProps) {
@@ -114,7 +116,7 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 overflow-y-auto"
+      className={`fixed inset-0 z-50 flex ${mobileBottomSheet ? 'items-end sm:items-center' : 'items-center'} justify-center px-4 overflow-y-auto`}
       style={{
         paddingTop: 'calc(0.5rem + env(safe-area-inset-top))',
         paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom))',
@@ -137,10 +139,11 @@ export default function Modal({
         className={`
           relative w-full ${getSizeClasses()}
           bg-white dark:bg-gray-800
-          rounded-2xl md:rounded-2xl shadow-xl
+          ${mobileBottomSheet ? 'rounded-t-2xl rounded-b-none sm:rounded-2xl' : 'rounded-2xl md:rounded-2xl'}
+          shadow-xl
           transform transition-all
           animate-in fade-in zoom-in-95 duration-200
-          my-4 sm:my-0
+          ${mobileBottomSheet ? 'my-0 sm:my-0' : 'my-4 sm:my-0'}
           ${className}
         `}
       >

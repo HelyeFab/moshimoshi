@@ -125,6 +125,7 @@ function YouTubeShadowingContent() {
   const [videoLoopEnabled, setVideoLoopEnabled] = useState(false);
   const [isScreenLocked, setIsScreenLocked] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [translationInFlight, setTranslationInFlight] = useState<Set<string>>(() => new Set());
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
   const trackFeaturedClick = useCallback(() => {
@@ -189,6 +190,8 @@ function YouTubeShadowingContent() {
   const clearedSessionRef = useRef(false);
   const videoLoopEnabledRef = useRef(false);
   const translationRequestRef = useRef<{ videoId: string; startedAt: number } | null>(null);
+  const translationInFlightRef = useRef<Set<string>>(new Set());
+  const furiganaHintShownRef = useRef(false);
 
   const opts: YouTubeProps["opts"] = useMemo(
     () => ({
@@ -428,7 +431,6 @@ function YouTubeShadowingContent() {
         setSource(data.source);
         setShowUrlInput(false); // Auto-collapse form after successful load
         setVideoLoopEnabled(false); // Reset video loop when loading new video
-        setShowTranslation(true); // Auto-translate on load
 
         setStatus(
           t('youtubeShadowing.status.transcriptLoaded', {
@@ -601,6 +603,74 @@ function YouTubeShadowingContent() {
     }, 3000);
   }, [showTranslation, videoId, segments, language, clearTranslationPoll]);
 
+  useEffect(() => {
+    if (!showTranslation || !videoId) return;
+
+    const segment = segments[currentSegmentIndex];
+    if (!segment || segment.translation) return;
+
+    const key = `${videoId}:${segment.start}-${segment.end}:${segment.text}`;
+    if (translationInFlightRef.current.has(key)) return;
+    translationInFlightRef.current.add(key);
+    setTranslationInFlight(prev => {
+      const next = new Set(prev);
+      next.add(key);
+      return next;
+    });
+
+    const run = async () => {
+      try {
+        const response = await fetch('/api/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: segment.text,
+            mode: 'full',
+            userLevel: 'N4',
+            includeGrammarNotes: false,
+            preserveGrammarStructure: true,
+          }),
+        });
+
+        if (!response.ok) return;
+        const data = await response.json();
+        const translatedText = data?.data?.translatedText;
+        if (!translatedText) return;
+
+        setSegments(prev => {
+          const current = prev[currentSegmentIndex];
+          if (!current || current.translation) return prev;
+          const next = [...prev];
+          next[currentSegmentIndex] = { ...current, translation: translatedText };
+          segmentsRef.current = next;
+          return next;
+        });
+
+        await fetch('/api/youtube/transcript/segment-translation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            videoId,
+            segment: { start: segment.start, end: segment.end, text: segment.text },
+            translation: translatedText,
+          }),
+        });
+      } catch {
+        // silent fail
+      } finally {
+        translationInFlightRef.current.delete(key);
+        setTranslationInFlight(prev => {
+          if (!prev.has(key)) return prev;
+          const next = new Set(prev);
+          next.delete(key);
+          return next;
+        });
+      }
+    };
+
+    void run();
+  }, [showTranslation, videoId, segments, currentSegmentIndex]);
+
   // Auto-trigger word precompute on cached session restores or navigation
   useEffect(() => {
     if (!videoId || segments.length === 0) return;
@@ -691,6 +761,21 @@ function YouTubeShadowingContent() {
       clearPoll();
     };
   }, [clearPoll]);
+
+  useEffect(() => {
+    if (!showFurigana || furiganaHintShownRef.current) return;
+    if (typeof window === "undefined") return;
+
+    const hintKey = "moshiFuriganaEditHintSeen";
+    if (localStorage.getItem(hintKey)) {
+      furiganaHintShownRef.current = true;
+      return;
+    }
+
+    showToast(t('youtubeShadowing.hints.editFurigana'), "info", 4500);
+    localStorage.setItem(hintKey, "1");
+    furiganaHintShownRef.current = true;
+  }, [showFurigana, showToast]);
 
   // Keep videoLoopEnabled ref in sync with state
   useEffect(() => {
@@ -931,6 +1016,7 @@ function YouTubeShadowingContent() {
                       text={segments[currentSegmentIndex].text}
                       highlightMode={highlightMode}
                       showFurigana={showFurigana}
+                      furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
                       onWordClick={(word: string, event: React.MouseEvent) => {
                         event.stopPropagation();
                         handleWordTap(word, segments[currentSegmentIndex].text);
@@ -944,6 +1030,16 @@ function YouTubeShadowingContent() {
                       {segments[currentSegmentIndex].translation}
                     </p>
                   )}
+                  {showTranslation &&
+                    !segments[currentSegmentIndex]?.translation &&
+                    videoId &&
+                    translationInFlight.has(
+                      `${videoId}:${segments[currentSegmentIndex]?.start}-${segments[currentSegmentIndex]?.end}:${segments[currentSegmentIndex]?.text}`
+                    ) && (
+                      <p className="text-base text-gray-500 dark:text-gray-400 mt-1 italic text-center">
+                        {t('common.loading')}
+                      </p>
+                    )}
                 </div>
               ) : (
                 <div className={styles.emptyState}>
@@ -1056,6 +1152,7 @@ function YouTubeShadowingContent() {
                             text={segment.text}
                             highlightMode={highlightMode}
                             showFurigana={showFurigana}
+                            furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
                             onWordClick={(word, e) => {
                               e.stopPropagation();
                               handleWordTap(word, segment.text);

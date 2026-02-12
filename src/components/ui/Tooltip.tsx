@@ -38,18 +38,29 @@ export default function Tooltip({
     if (!triggerRef.current || !tooltipRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
-    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    let tooltipRect = tooltipRef.current.getBoundingClientRect();
     const spacing = 8;
     const isMobile = window.innerWidth < 640; // sm breakpoint
 
     let top = 0;
     let left = 0;
+    const padding = 10;
 
     // On mobile, center horizontally
     if (isMobile) {
-      left = (window.innerWidth - tooltipRect.width) / 2;
-      // Position below trigger on mobile for better visibility
-      top = triggerRect.bottom + spacing;
+      const maxTooltipWidth = window.innerWidth - padding * 2;
+      if (tooltipRef.current) {
+        tooltipRef.current.style.maxWidth = `${maxTooltipWidth}px`;
+        // Re-measure after max width is applied so positioning uses wrapped dimensions.
+        tooltipRect = tooltipRef.current.getBoundingClientRect();
+      }
+
+      // Prefer below trigger, but flip above if there is no room.
+      const hasRoomBelow = triggerRect.bottom + spacing + tooltipRect.height <= window.innerHeight - padding;
+      top = hasRoomBelow
+        ? triggerRect.bottom + spacing
+        : triggerRect.top - tooltipRect.height - spacing;
+      left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
     } else {
       switch (position) {
         case 'top':
@@ -72,7 +83,6 @@ export default function Tooltip({
     }
 
     // Adjust if tooltip goes off-screen
-    const padding = 10;
     if (left < padding) left = padding;
     if (left + tooltipRect.width > window.innerWidth - padding) {
       left = window.innerWidth - tooltipRect.width - padding;
@@ -134,7 +144,8 @@ export default function Tooltip({
       className={`
         fixed z-50 px-2 py-1 text-xs font-medium text-white
         bg-gray-900 dark:bg-gray-700 rounded-md shadow-lg
-        pointer-events-none select-none
+        pointer-events-none select-none whitespace-normal break-words
+        max-w-[calc(100vw-20px)]
         transition-opacity duration-200
         ${isVisible ? 'opacity-100' : 'opacity-0'}
         ${className}
