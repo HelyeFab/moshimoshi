@@ -2,7 +2,7 @@
  * Daily study reminder email template
  */
 
-import { baseEmailTemplate, baseTextTemplate, EmailTemplateProps } from './base-template'
+import { baseEmailTemplate, baseTextTemplate, EmailTemplateProps, escapeHtml } from './base-template'
 
 export interface DailyReminderData extends EmailTemplateProps {
   streak?: {
@@ -20,11 +20,13 @@ export const dailyReminderHtml = (data: DailyReminderData) => {
   const currentStreak = data.streak?.current ?? data.currentStreak ?? 0
   const streakEmoji = currentStreak > 0 ? '🔥' : '💪'
   const encouragement = getEncouragementMessage(currentStreak, data.dueReviews)
+  const safeUserName = escapeHtml(data.userName)
+  const safeStudyUrl = escapeHtml(data.studyUrl)
 
   const content = `
     <div style="text-align: center; margin-bottom: 30px;">
       <h2 style="color: #1f2937; font-size: 24px; margin: 0 0 10px 0;">
-        Hello ${data.userName}! 👋
+        Hello ${safeUserName}! 👋
       </h2>
       <p style="color: #6b7280; font-size: 16px; margin: 0;">
         ${encouragement}
@@ -71,7 +73,7 @@ export const dailyReminderHtml = (data: DailyReminderData) => {
 
     <!-- CTA Button -->
     <div style="text-align: center; margin: 40px 0;">
-      <a href="${data.studyUrl}"
+      <a href="${safeStudyUrl}"
          style="display: inline-block; background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); color: #ffffff; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 6px rgba(139, 92, 246, 0.25);">
         Start Today's Study Session 📖
       </a>

@@ -9,10 +9,12 @@ import { GET as dailyReminderGET, POST as dailyReminderPOST } from '@/app/api/no
 import { GET as weeklyProgressGET, POST as weeklyProgressPOST } from '@/app/api/notifications/weekly-progress/route'
 import { GET as unsubscribeGET, POST as unsubscribePOST } from '@/app/api/notifications/unsubscribe/route'
 
+const mockHeaderGet = jest.fn()
+
 // Mock Next.js headers
 jest.mock('next/headers', () => ({
-  headers: jest.fn(() => ({
-    get: jest.fn(),
+  headers: jest.fn(async () => ({
+    get: mockHeaderGet,
   })),
 }))
 
@@ -21,6 +23,11 @@ jest.mock('@/lib/firebase/admin', () => ({
   adminDb: {
     collection: jest.fn(),
   },
+  getAdminDb: jest.fn(function () {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { adminDb } = require('@/lib/firebase/admin')
+    return adminDb
+  }),
 }))
 
 // Mock notification service
@@ -32,15 +39,11 @@ jest.mock('@/lib/notifications/notification-service', () => ({
 }))
 
 describe('Daily Reminder API Endpoint', () => {
-  let mockHeaders: jest.Mock
   const mockCronSecret = 'test-cron-secret'
 
   beforeEach(() => {
     jest.clearAllMocks()
     process.env.CRON_SECRET = mockCronSecret
-
-    const { headers } = require('next/headers')
-    mockHeaders = headers().get
   })
 
   afterEach(() => {
@@ -49,7 +52,7 @@ describe('Daily Reminder API Endpoint', () => {
 
   describe('GET /api/notifications/daily-reminder', () => {
     it('should reject requests without proper authorization', async () => {
-      mockHeaders.mockReturnValue('invalid-token')
+      mockHeaderGet.mockReturnValue('invalid-token')
 
       const request = new NextRequest('http://localhost/api/notifications/daily-reminder')
       const response = await dailyReminderGET(request)
@@ -60,7 +63,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should accept requests with valid cron secret', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
 
       const { adminDb } = require('@/lib/firebase/admin')
       adminDb.collection.mockReturnValue({
@@ -81,7 +84,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should process users with daily reminders enabled', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
 
       const mockUsers = [
         {
@@ -141,8 +144,7 @@ describe('Daily Reminder API Endpoint', () => {
       notificationService.sendDailyReminder.mockResolvedValue(true)
 
       // Mock date to match reminder time
-      const mockDate = new Date('2024-01-20T09:00:00Z')
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any)
+      jest.spyOn(Date, 'now').mockReturnValue(new Date('2024-01-20T09:00:00Z').getTime())
 
       const request = new NextRequest('http://localhost/api/notifications/daily-reminder')
       const response = await dailyReminderGET(request)
@@ -154,7 +156,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should skip users already notified today', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
 
       const mockUser = {
         id: 'user1',
@@ -200,7 +202,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should handle errors gracefully', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
 
       const { adminDb } = require('@/lib/firebase/admin')
       adminDb.collection.mockImplementation(() => {
@@ -219,7 +221,7 @@ describe('Daily Reminder API Endpoint', () => {
 
   describe('POST /api/notifications/daily-reminder', () => {
     it('should require authentication', async () => {
-      mockHeaders.mockReturnValue(null)
+      mockHeaderGet.mockReturnValue(null)
 
       const request = new NextRequest('http://localhost/api/notifications/daily-reminder', {
         method: 'POST',
@@ -234,7 +236,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should require userId in request body', async () => {
-      mockHeaders.mockReturnValue('Bearer valid-token')
+      mockHeaderGet.mockReturnValue('Bearer valid-token')
 
       const request = new NextRequest('http://localhost/api/notifications/daily-reminder', {
         method: 'POST',
@@ -249,7 +251,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should send reminder to specific user', async () => {
-      mockHeaders.mockReturnValue('Bearer valid-token')
+      mockHeaderGet.mockReturnValue('Bearer valid-token')
 
       const { notificationService } = require('@/lib/notifications/notification-service')
       notificationService.sendDailyReminder.mockResolvedValue(true)
@@ -269,7 +271,7 @@ describe('Daily Reminder API Endpoint', () => {
     })
 
     it('should handle send failure', async () => {
-      mockHeaders.mockReturnValue('Bearer valid-token')
+      mockHeaderGet.mockReturnValue('Bearer valid-token')
 
       const { notificationService } = require('@/lib/notifications/notification-service')
       notificationService.sendDailyReminder.mockResolvedValue(false)
@@ -290,28 +292,23 @@ describe('Daily Reminder API Endpoint', () => {
 })
 
 describe('Weekly Progress API Endpoint', () => {
-  let mockHeaders: jest.Mock
   const mockCronSecret = 'test-cron-secret'
 
   beforeEach(() => {
     jest.clearAllMocks()
     process.env.CRON_SECRET = mockCronSecret
 
-    const { headers } = require('next/headers')
-    mockHeaders = headers().get
   })
 
   describe('GET /api/notifications/weekly-progress', () => {
     it('should only run on Sundays', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
-
-      // Mock a Monday
-      const monday = new Date('2024-01-22T18:00:00Z')  // Monday
-      jest.spyOn(global, 'Date').mockImplementation(() => monday as any)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
+      jest.useFakeTimers().setSystemTime(new Date('2024-01-22T18:00:00Z')) // Monday
 
       const request = new NextRequest('http://localhost/api/notifications/weekly-progress')
       const response = await weeklyProgressGET(request)
       const data = await response.json()
+      jest.useRealTimers()
 
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
@@ -320,11 +317,8 @@ describe('Weekly Progress API Endpoint', () => {
     })
 
     it('should process users on Sunday', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
-
-      // Mock a Sunday
-      const sunday = new Date('2024-01-21T18:00:00Z')  // Sunday
-      jest.spyOn(global, 'Date').mockImplementation(() => sunday as any)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
+      jest.useFakeTimers().setSystemTime(new Date('2024-01-21T18:00:00Z')) // Sunday
 
       const mockUsers = [
         {
@@ -342,22 +336,46 @@ describe('Weekly Progress API Endpoint', () => {
       const { adminDb } = require('@/lib/firebase/admin')
       adminDb.collection.mockImplementation(() => ({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            where: jest.fn().mockReturnThis(),
-            orderBy: jest.fn().mockReturnThis(),
-            limit: jest.fn().mockReturnThis(),
-            get: jest.fn().mockResolvedValue({
-              empty: false,
-              docs: [{
-                data: () => ({
-                  createdAt: {
-                    toMillis: () => Date.now() - 86400000,  // 1 day ago
-                  },
+          collection: jest.fn((subcollection: string) => {
+            if (subcollection === 'reviewSessions') {
+              return {
+                where: jest.fn().mockReturnThis(),
+                orderBy: jest.fn().mockReturnThis(),
+                limit: jest.fn().mockReturnThis(),
+                get: jest.fn().mockResolvedValue({
+                  empty: false,
+                  docs: [{
+                    data: () => ({
+                      createdAt: {
+                        toMillis: () => Date.now() - 86400000, // 1 day ago
+                      },
+                    }),
+                  }],
                 }),
-              }],
-            }),
-            add: jest.fn(),
-          })),
+              }
+            }
+
+            if (subcollection === 'notificationLogs') {
+              return {
+                where: jest.fn().mockReturnThis(),
+                orderBy: jest.fn().mockReturnThis(),
+                limit: jest.fn().mockReturnThis(),
+                get: jest.fn().mockResolvedValue({
+                  empty: true,
+                  docs: [],
+                }),
+                add: jest.fn(),
+              }
+            }
+
+            return {
+              where: jest.fn().mockReturnThis(),
+              orderBy: jest.fn().mockReturnThis(),
+              limit: jest.fn().mockReturnThis(),
+              get: jest.fn().mockResolvedValue({ empty: true, docs: [] }),
+              add: jest.fn(),
+            }
+          }),
         })),
         where: jest.fn().mockReturnThis(),
         get: jest.fn().mockResolvedValue({
@@ -373,6 +391,7 @@ describe('Weekly Progress API Endpoint', () => {
       const request = new NextRequest('http://localhost/api/notifications/weekly-progress')
       const response = await weeklyProgressGET(request)
       const data = await response.json()
+      jest.useRealTimers()
 
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
@@ -380,11 +399,8 @@ describe('Weekly Progress API Endpoint', () => {
     })
 
     it('should skip inactive users (30+ days)', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
-
-      // Mock Sunday
-      const sunday = new Date('2024-01-21T18:00:00Z')
-      jest.spyOn(global, 'Date').mockImplementation(() => sunday as any)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
+      jest.useFakeTimers().setSystemTime(new Date('2024-01-21T18:00:00Z')) // Sunday
 
       const mockUser = {
         id: 'inactive-user',
@@ -427,6 +443,7 @@ describe('Weekly Progress API Endpoint', () => {
       const request = new NextRequest('http://localhost/api/notifications/weekly-progress')
       const response = await weeklyProgressGET(request)
       const data = await response.json()
+      jest.useRealTimers()
 
       expect(response.status).toBe(200)
       expect(data.results.skipped).toBe(1)
@@ -436,11 +453,8 @@ describe('Weekly Progress API Endpoint', () => {
     })
 
     it('should log job execution', async () => {
-      mockHeaders.mockReturnValue(`Bearer ${mockCronSecret}`)
-
-      // Mock Sunday
-      const sunday = new Date('2024-01-21T18:00:00Z')
-      jest.spyOn(global, 'Date').mockImplementation(() => sunday as any)
+      mockHeaderGet.mockReturnValue(`Bearer ${mockCronSecret}`)
+      jest.useFakeTimers().setSystemTime(new Date('2024-01-21T18:00:00Z')) // Sunday
 
       const { adminDb } = require('@/lib/firebase/admin')
       const addMock = jest.fn()
@@ -457,6 +471,7 @@ describe('Weekly Progress API Endpoint', () => {
 
       const request = new NextRequest('http://localhost/api/notifications/weekly-progress')
       await weeklyProgressGET(request)
+      jest.useRealTimers()
 
       expect(addMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -470,7 +485,7 @@ describe('Weekly Progress API Endpoint', () => {
 
   describe('POST /api/notifications/weekly-progress', () => {
     it('should send weekly report to specific user', async () => {
-      mockHeaders.mockReturnValue('Bearer valid-token')
+      mockHeaderGet.mockReturnValue('Bearer valid-token')
 
       const { notificationService } = require('@/lib/notifications/notification-service')
       notificationService.sendWeeklyProgressReport.mockResolvedValue(true)

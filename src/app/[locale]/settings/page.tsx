@@ -85,8 +85,7 @@ export default function SettingsPage() {
       const preferences = await preferencesManager.getPreferences(user, isPremium ?? false)
 
       // Update state with loaded preferences
-      if (process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && preferences.notifications)
-        setNotifications(preferences.notifications)
+      if (preferences.notifications) setNotifications(preferences.notifications)
       if (process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && preferences.learning)
         setLearning(preferences.learning)
       if (process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && preferences.privacy)
@@ -159,7 +158,7 @@ export default function SettingsPage() {
         theme,
         language,
         palette: selectedPalette,
-        ...(process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && { notifications }),
+        notifications,
         ...(process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && { learning }),
         ...(process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && { privacy }),
         accessibility,
@@ -472,12 +471,11 @@ export default function SettingsPage() {
           </CollapsibleSection>
 
           {/* Notifications */}
-          {process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && (
-            <CollapsibleSection
-              title={strings.settings?.sections?.notifications?.title || 'Notifications'}
-              icon="🔔"
-              defaultOpen={false}
-            >
+          <CollapsibleSection
+            title={strings.settings?.sections?.notifications?.title || 'Notifications'}
+            icon="🔔"
+            defaultOpen={false}
+          >
             <div className="space-y-6">
               {/* Email Notifications */}
               <div className="p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl">
@@ -522,7 +520,6 @@ export default function SettingsPage() {
               </div>
             </div>
           </CollapsibleSection>
-          )}
 
           {/* Privacy */}
           {process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && (

@@ -2,7 +2,7 @@
  * Achievement alert email template
  */
 
-import { baseEmailTemplate, baseTextTemplate, EmailTemplateProps } from './base-template'
+import { baseEmailTemplate, baseTextTemplate, EmailTemplateProps, escapeHtml } from './base-template'
 
 export interface AchievementAlertData extends EmailTemplateProps {
   achievementName: string
@@ -38,11 +38,16 @@ export const achievementAlertHtml = (data: AchievementAlertData) => {
     legendary: 'Legendary',
   }
 
+  const safeUserName = escapeHtml(data.userName)
+  const safeAchievementName = escapeHtml(data.achievementName)
+  const safeAchievementDescription = escapeHtml(data.achievementDescription)
+  const safeProfileUrl = escapeHtml(data.profileUrl)
+
   const content = `
     <!-- Celebration Header -->
     <div style="text-align: center; margin-bottom: 30px;">
       <h2 style="color: #1f2937; font-size: 28px; margin: 0 0 10px 0;">
-        🎉 Congratulations, ${data.userName}! 🎉
+        🎉 Congratulations, ${safeUserName}! 🎉
       </h2>
       <p style="color: #6b7280; font-size: 16px; margin: 0;">
         You've unlocked a new achievement!
@@ -63,12 +68,12 @@ export const achievementAlertHtml = (data: AchievementAlertData) => {
 
       <!-- Achievement Name -->
       <h3 style="color: #111827; font-size: 24px; margin: 0 0 10px 0; font-weight: bold;">
-        ${data.achievementName}
+        ${safeAchievementName}
       </h3>
 
       <!-- Achievement Description -->
       <p style="color: #4b5563; font-size: 14px; margin: 0 0 20px 0;">
-        ${data.achievementDescription}
+        ${safeAchievementDescription}
       </p>
 
       <!-- Points Earned -->
@@ -131,7 +136,7 @@ export const achievementAlertHtml = (data: AchievementAlertData) => {
 
     <!-- CTA Button -->
     <div style="text-align: center; margin: 40px 0;">
-      <a href="${data.profileUrl}"
+      <a href="${safeProfileUrl}"
          style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); color: #ffffff; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 6px rgba(139, 92, 246, 0.25);">
         View All Achievements 🏆
       </a>

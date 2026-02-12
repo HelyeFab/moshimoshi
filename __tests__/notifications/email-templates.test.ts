@@ -386,9 +386,8 @@ describe('Email Templates', () => {
       }
 
       const html = dailyReminderHtml(maliciousData)
-      // The userName should be displayed but the script should not execute
-      expect(html).toContain('<script>alert("XSS")</script>')
-      // Should not contain unescaped script tags
+      // The userName should be escaped and script should never render as a real tag
+      expect(html).toContain('&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;')
       expect(html).not.toMatch(/<script[^>]*>.*alert.*<\/script>/i)
     })
 

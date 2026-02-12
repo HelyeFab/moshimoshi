@@ -9,6 +9,19 @@ export interface EmailTemplateProps {
   preferencesUrl: string
 }
 
+export function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function safeUrl(value: string): string {
+  return escapeHtml(value.trim())
+}
+
 export const baseEmailTemplate = (content: string, props: EmailTemplateProps) => `
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +64,12 @@ export const baseEmailTemplate = (content: string, props: EmailTemplateProps) =>
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center">
-                    <a href="${props.preferencesUrl}"
+                    <a href="${safeUrl(props.preferencesUrl)}"
                        style="color: #8b5cf6; text-decoration: none; font-size: 14px; margin: 0 15px;">
                       Manage Preferences
                     </a>
                     <span style="color: #d1d5db;">|</span>
-                    <a href="${props.unsubscribeUrl}"
+                    <a href="${safeUrl(props.unsubscribeUrl)}"
                        style="color: #8b5cf6; text-decoration: none; font-size: 14px; margin: 0 15px;">
                       Unsubscribe
                     </a>
