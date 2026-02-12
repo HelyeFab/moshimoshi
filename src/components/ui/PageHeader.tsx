@@ -7,8 +7,6 @@ import DoshiMascot from './DoshiMascot'
 import PillBackButton from '@/components/common/PillBackButton'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
-import FeatureReminderToggle from '@/components/notifications/FeatureReminderToggle'
-import type { FeatureReminderKey } from '@/lib/notifications/feature-reminders'
 
 interface PageHeaderProps {
   // Header content
@@ -42,8 +40,6 @@ interface PageHeaderProps {
   // Navigation
   backHref?: string
   alwaysUseBackHref?: boolean
-  featureReminderKey?: FeatureReminderKey
-  showFeatureReminderToggle?: boolean
 }
 
 /**
@@ -64,8 +60,6 @@ export default function PageHeader({
   minimal = false,
   backHref = '/dashboard',
   alwaysUseBackHref = false,
-  featureReminderKey,
-  showFeatureReminderToggle = true,
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
   const { language } = useI18n()
@@ -169,12 +163,7 @@ export default function PageHeader({
             </div>
 
             {/* Actions slot - mobile (separate row under title) */}
-            {(actions || showFeatureReminderToggle) && (
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                {actions}
-                {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
-              </div>
-            )}
+            {actions && <div className="mt-2">{actions}</div>}
 
             {/* Expandable Content */}
             <AnimatePresence mode="wait">
@@ -248,12 +237,7 @@ export default function PageHeader({
             {/* Top row: back button and actions */}
             <div className="flex items-center justify-between gap-3 mb-4">
               <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
-              {(actions || showFeatureReminderToggle) && (
-                <div className="flex items-center gap-3">
-                  {actions}
-                  {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
-                </div>
-              )}
+              {actions && <div className="flex items-center gap-3">{actions}</div>}
             </div>
 
             {/* Main content */}

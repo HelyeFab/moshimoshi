@@ -7,8 +7,6 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import PillBackButton from '@/components/common/PillBackButton'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
-import FeatureReminderToggle from '@/components/notifications/FeatureReminderToggle'
-import type { FeatureReminderKey } from '@/lib/notifications/feature-reminders'
 
 type ViewMode = 'browse' | 'study' | 'review'
 
@@ -54,8 +52,6 @@ interface LearningPageHeaderProps {
   backHref?: string
   // Hide bottom control bar (e.g., when search is focused on mobile)
   hideBottomBar?: boolean
-  featureReminderKey?: FeatureReminderKey
-  showFeatureReminderToggle?: boolean
 }
 
 export default function LearningPageHeader({
@@ -79,8 +75,6 @@ export default function LearningPageHeader({
   mobileExtra,
   backHref = '/dashboard',
   hideBottomBar = false,
-  featureReminderKey,
-  showFeatureReminderToggle = true,
 }: LearningPageHeaderProps) {
   const { t } = useI18n()
   const { resolvedTheme } = useTheme()
@@ -239,11 +233,6 @@ export default function LearningPageHeader({
                       </span>
                       /{stats.total} ({progressPercentage}%)
                     </p>
-                  )}
-                  {showFeatureReminderToggle && (
-                    <div className="mt-2">
-                      <FeatureReminderToggle featureKey={featureReminderKey} />
-                    </div>
                   )}
                 </div>
 
@@ -455,12 +444,6 @@ export default function LearningPageHeader({
                   <h1 className={`text-3xl sm:text-4xl font-bold mb-2 ${titleClasses}`}>{title}</h1>
                   <p className={`text-lg ${descriptionClasses}`}>{description}</p>
                   {subtitle && <p className={`text-sm mt-2 ${subtitleClasses}`}>{subtitle}</p>}
-                  {showFeatureReminderToggle && (
-                    <div className="mt-3">
-                      <FeatureReminderToggle featureKey={featureReminderKey} />
-                    </div>
-                  )}
-
                   {/* Stats Row */}
                   {stats && (
                     <div className="mt-4 flex flex-wrap gap-4 text-sm">

@@ -86,3 +86,6 @@ data/memories.db
 moshimoshi-service-account.json
 new key
 new-key
+
+# Local git worktree
+.worktree-notification/

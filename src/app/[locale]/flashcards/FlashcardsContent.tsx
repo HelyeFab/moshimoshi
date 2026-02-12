@@ -207,18 +207,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     for (const deck of decks) {
       for (const card of deck.cards) {
-        if (Array.isArray(card.media)) {
-          for (const mediaKey of card.media) {
-            if (typeof mediaKey === 'string') {
-              referencedRawFilenames.add(stripAnkiMediaKey(mediaKey))
-            }
-          }
+        if (typeof card.metadata?.audioFilename === 'string') {
+          referencedRawFilenames.add(stripAnkiMediaKey(card.metadata.audioFilename))
         }
-        if (typeof card.audioFilename === 'string') {
-          referencedRawFilenames.add(stripAnkiMediaKey(card.audioFilename))
-        }
-        if (typeof card.imageFilename === 'string') {
-          referencedRawFilenames.add(stripAnkiMediaKey(card.imageFilename))
+        if (typeof card.metadata?.imageFilename === 'string') {
+          referencedRawFilenames.add(stripAnkiMediaKey(card.metadata.imageFilename))
         }
       }
     }
