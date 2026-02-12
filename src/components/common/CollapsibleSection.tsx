@@ -23,7 +23,7 @@ export default function CollapsibleSection({
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className={`relative bg-soft-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg ${isOpen ? 'overflow-visible z-50' : 'overflow-hidden'} ${className}`}>
+    <div className={`relative bg-soft-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg ${isOpen ? 'overflow-visible' : 'overflow-hidden'} ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"

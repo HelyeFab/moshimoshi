@@ -13,11 +13,12 @@
 
 import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
 import { Timestamp } from 'firebase-admin/firestore'
+import { createHash } from 'node:crypto'
 import { sendCampaignEmail } from '@/lib/email/campaign-sender'
 import { buildWaitlistThankYouContent } from '@/lib/email/waitlistThankYou'
 import { suppressionService, generateUnsubscribeUrl } from '@/lib/email/suppression'
 import { substituteVariables, buildVariableContext } from '@/lib/email/templates/variables'
-import { normalizeCampaignTemplateVariables } from './template-variables'
+import { normalizeCampaignTemplateVariables, parseReminderSummaryFeatures } from './template-variables'
 import type { EmailTemplate } from '@/lib/email/templates/types'
 import type {
   EmailCampaign,
@@ -26,6 +27,9 @@ import type {
 } from './types'
 
 export class CampaignService {
+  private readonly SEND_JOURNAL_COLLECTION = 'email_send_journal'
+  private readonly JOURNAL_RETENTION_DAYS = 180
+
   // Resend rate limit: 2 emails per second
   // We send 2 emails, then wait 1 second
   private readonly EMAILS_PER_SECOND = 2
@@ -431,41 +435,152 @@ export class CampaignService {
     user: CampaignRecipient,
     campaign: EmailCampaign
   ): Promise<void> {
-    const emailContent = await this.buildEmailFromTemplate(campaign.template, user, campaign)
-
-    // Generate unsubscribe URL for this user
-    const unsubscribeUrl = generateUnsubscribeUrl(user.email)
     const normalizedTemplateVariables = normalizeCampaignTemplateVariables(
       campaign.templateVariables
     )
 
-    // Build variable context for subject line substitution
-    const variableContext = buildVariableContext(user.email, [], {
-      ...normalizedTemplateVariables,
-      unsubscribeUrl,
-    })
+    try {
+      const emailContent = await this.buildEmailFromTemplate(campaign.template, user, campaign)
 
-    // Substitute variables in subject line
-    const subject = substituteVariables(campaign.subject, variableContext)
+      // Generate unsubscribe URL for this user
+      const unsubscribeUrl = generateUnsubscribeUrl(user.email)
 
-    // Append unsubscribe footer to HTML content
-    const htmlWithUnsubscribe = this.appendUnsubscribeFooter(
-      emailContent.html,
-      unsubscribeUrl
-    )
-    const textWithUnsubscribe = this.appendUnsubscribeFooterText(
-      emailContent.text,
-      unsubscribeUrl
-    )
+      // Build variable context for subject line substitution
+      const variableContext = buildVariableContext(user.email, [], {
+        ...normalizedTemplateVariables,
+        unsubscribeUrl,
+      })
 
-    await sendCampaignEmail({
-      to: user.email,
-      subject,
-      html: htmlWithUnsubscribe,
-      text: textWithUnsubscribe,
-      from: 'Moshimoshi <noreply@moshimoshi.app>',
+      // Substitute variables in subject line
+      const subject = substituteVariables(campaign.subject, variableContext)
+
+      // Append unsubscribe footer to HTML content
+      const htmlWithUnsubscribe = this.appendUnsubscribeFooter(
+        emailContent.html,
+        unsubscribeUrl
+      )
+      const textWithUnsubscribe = this.appendUnsubscribeFooterText(
+        emailContent.text,
+        unsubscribeUrl
+      )
+
+      await sendCampaignEmail({
+        to: user.email,
+        subject,
+        html: htmlWithUnsubscribe,
+        text: textWithUnsubscribe,
+        from: 'Moshimoshi <noreply@moshimoshi.app>',
+        campaignId: campaign.id,
+      })
+
+      await this.writeSendJournalEntry({
+        campaign,
+        user,
+        status: 'sent',
+        normalizedTemplateVariables,
+      })
+    } catch (error) {
+      await this.writeSendJournalEntry({
+        campaign,
+        user,
+        status: 'failed',
+        normalizedTemplateVariables,
+        error,
+      })
+      throw error
+    }
+  }
+
+  /**
+   * Privacy-first journaling of campaign send attempts.
+   * Stores only minimized data (no raw body, no raw recipient email).
+   */
+  private async writeSendJournalEntry(params: {
+    campaign: EmailCampaign
+    user: CampaignRecipient
+    status: 'sent' | 'failed'
+    normalizedTemplateVariables: Record<string, string>
+    error?: unknown
+  }): Promise<void> {
+    if (!adminFirestore) {
+      return
+    }
+
+    const { campaign, user, status, normalizedTemplateVariables, error } = params
+    const now = new Date()
+    const sentDateKey = now.toISOString().slice(0, 10)
+    const emailHash = this.hashEmail(user.email)
+    const emailDomain = user.email.includes('@') ? user.email.split('@')[1].toLowerCase() : null
+    const featureSnapshot = this.extractReminderFeatureSnapshot(normalizedTemplateVariables)
+    const metadata = (campaign as unknown as { metadata?: Record<string, unknown> }).metadata
+    const notificationType =
+      (typeof metadata?.type === 'string' && metadata.type) || campaign.template || 'campaign'
+
+    const journalEntry: Record<string, unknown> = {
       campaignId: campaign.id,
-    })
+      template: campaign.template,
+      templateId: campaign.templateId ?? null,
+      notificationType,
+      status,
+      retentionDays: this.JOURNAL_RETENTION_DAYS,
+      sentAt: Timestamp.fromDate(now),
+      sentDateKey,
+      createdAt: Timestamp.now(),
+      recipient: {
+        uid: user.uid || null,
+        emailHash,
+        emailMasked: this.maskEmail(user.email),
+        emailDomain,
+      },
+      content: {
+        summaryDate:
+          typeof normalizedTemplateVariables.summaryDate === 'string'
+            ? normalizedTemplateVariables.summaryDate
+            : null,
+        topFeatureCount: featureSnapshot.length,
+        topFeatureNames: featureSnapshot,
+      },
+      source: 'campaign_service',
+    }
+
+    if (status === 'failed') {
+      journalEntry.error = {
+        message: error instanceof Error ? error.message : String(error || 'Unknown error'),
+      }
+    }
+
+    try {
+      await adminFirestore
+        .collection(this.SEND_JOURNAL_COLLECTION)
+        .doc()
+        .set(journalEntry)
+    } catch (journalError) {
+      console.warn('[CampaignService] Failed to write email send journal entry:', journalError)
+    }
+  }
+
+  private extractReminderFeatureSnapshot(
+    normalizedTemplateVariables: Record<string, string>
+  ): string[] {
+    const parsed = parseReminderSummaryFeatures(normalizedTemplateVariables.topFeatures)
+    return parsed
+      .map((feature) => feature.name.trim())
+      .filter(Boolean)
+      .slice(0, 5)
+  }
+
+  private hashEmail(email: string): string {
+    const normalizedEmail = email.trim().toLowerCase()
+    const salt = process.env.EMAIL_JOURNAL_HASH_SALT || ''
+    return createHash('sha256').update(`${salt}:${normalizedEmail}`).digest('hex')
+  }
+
+  private maskEmail(email: string): string {
+    const normalized = email.trim().toLowerCase()
+    const [localPart = '', domain = ''] = normalized.split('@')
+    if (!domain) return '***'
+    if (localPart.length <= 2) return `***@${domain}`
+    return `${localPart.slice(0, 2)}***@${domain}`
   }
 
   /**

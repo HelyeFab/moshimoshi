@@ -400,6 +400,12 @@ export {
 export { dailyReminderEligibilityJob } from './scheduled/reminderEligibilityScheduler'
 
 /**
+ * Export email send journal cleanup scheduler
+ * Deletes journal records older than the retention policy.
+ */
+export { cleanupEmailSendJournal } from './scheduled/emailSendJournalCleanup'
+
+/**
  * Export sentence data backfill function
  * One-time callable to pre-generate sentence audio/translations for existing content
  * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'

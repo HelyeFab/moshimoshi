@@ -336,6 +336,7 @@ describe('CampaignService', () => {
           data: () => mockCampaignData,
         }),
         update: jest.fn().mockResolvedValue({}),
+        set: jest.fn().mockResolvedValue({}),
       }
 
       mockFirestore.collection.mockReturnValue({
@@ -364,6 +365,13 @@ describe('CampaignService', () => {
 
       // Verify emails were sent
       expect(mockSendCampaignEmail).toHaveBeenCalledTimes(2)
+
+      // Verify journal entries are privacy-minimized (no raw recipient email)
+      expect(mockCampaignRef.set).toHaveBeenCalled()
+      const journalPayload = mockCampaignRef.set.mock.calls[0][0]
+      expect(journalPayload.recipient.emailHash).toBeDefined()
+      expect(journalPayload.recipient.emailMasked).toContain('***@')
+      expect(journalPayload.recipient.email).toBeUndefined()
 
       // Verify final status update to 'sent'
       expect(mockCampaignRef.update).toHaveBeenCalledWith(
@@ -399,6 +407,7 @@ describe('CampaignService', () => {
           data: () => mockCampaignData,
         }),
         update: jest.fn().mockResolvedValue({}),
+        set: jest.fn().mockResolvedValue({}),
       }
 
       mockFirestore.collection.mockReturnValue({
@@ -467,6 +476,7 @@ describe('CampaignService', () => {
           data: () => mockCampaignData,
         }),
         update: jest.fn().mockResolvedValue({}),
+        set: jest.fn().mockResolvedValue({}),
       }
 
       mockFirestore.collection.mockReturnValue({
@@ -527,6 +537,7 @@ describe('CampaignService', () => {
           data: () => mockCampaignData,
         }),
         update: jest.fn().mockResolvedValue({}),
+        set: jest.fn().mockResolvedValue({}),
       }
 
       // Keep this small to avoid hitting Jest timeout while still testing multi-batch behavior.
