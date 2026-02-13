@@ -17,6 +17,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── content-generation/            # AI-generated content, stories, comics
 ├── community/                     # Discord, social integrations
 ├── kanji-mastery/                 # Kanji learning tool documentation
+├── nhk-news/                      # NHK News scraping system (Railway + Firebase + frontend)
 ├── blast-mode/                    # Blast Mode documentation
 ├── entitlements/                  # Entitlements and gating documentation
 ├── admin-dashboard/               # Admin dashboard development guide
@@ -121,6 +122,41 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - FCM token registration and service worker wiring
 - Queueing, scheduling, and notification logging
 - Known schema and documentation mismatches
+
+---
+
+### NHK News Scraping (`nhk-news/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./nhk-news/README.md) | Complete system guide: Railway infrastructure, Firebase functions, pre-caching pipeline, frontend integration, troubleshooting |
+
+**Key Topics:**
+- 4-layer architecture: Kotlin scraper (Railway) → Python auth proxy (Railway) → Firebase Cloud Functions → Next.js frontend
+- Railway services: MySQL, nhk-easy-api, nhk-easy-task, nhk-api-proxy
+- Daily scheduled scraping at 12:00 JST with 4-stage pre-caching (audio, translations, word explanations, sentences)
+- VOICEVOX TTS and Qwen 2.5 32B via Modal for asset generation
+- Offline-first reader with IndexedDB cache, furigana, audio, XP rewards
+- Firestore collections: news_articles, news_article_translations, news_article_word_explanations
+- Timeout chain analysis and common failure modes
+- Railway CLI operations and troubleshooting guide
+
+**Key Files:**
+- `functions/src/scheduled/newsScheduler.ts:1035` - Scheduled scraper function
+- `functions/src/scrapers/nhkEasyScraper.ts:74` - NHK Easy scraper
+- `functions/src/utils/newsAudioGenerator.ts:342` - Audio generation
+- `functions/src/utils/translationPreGenerator.ts:377` - Translation generation
+- `src/app/[locale]/news/page.tsx:318` - News list page
+- `src/app/[locale]/news/[id]/page.tsx:13` - Article reader page
+
+**Essential Reading for:**
+- ✅ Debugging scraping failures and "all scrapers failed" alerts
+- ✅ Understanding the Railway infrastructure and services
+- ✅ Adding new news sources
+- ✅ Modifying the pre-caching pipeline
+- ✅ Railway CLI operations and service management
+
+**Implementation Date:** 2025-12-03 (Railway migration)
 
 ---
 

@@ -12,7 +12,14 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 async function resetYouTubeUsage() {
-  const userId = '7banGXGgYMawoaHZs8ejmV3v2wb2'; // seanconnery23@gmail.com
+  const email = process.argv[2];
+  if (!email) {
+    console.error('Usage: node scripts/reset-youtube-usage-fixed.js <email>');
+    process.exit(1);
+  }
+  const userRecord = await admin.auth().getUserByEmail(email);
+  const userId = userRecord.uid;
+  console.log(`Found user: ${email} → ${userId}`);
   const featureId = 'youtube_shadowing';
   
   // Get today's date in YYYY-MM-DD format (UTC)

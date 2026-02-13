@@ -98,11 +98,16 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest) => {
       return true
     })
 
-    const uniqueRecipientHashes = new Set(
-      filtered
-        .map((item) => item.recipient.emailHash)
-        .filter((value): value is string => Boolean(value))
-    )
+    const uniqueRecipients = new Set<string>()
+    for (const item of filtered) {
+      const uid = item.recipient.uid?.trim()
+      const hash = item.recipient.emailHash?.trim()
+      const masked = item.recipient.emailMasked?.trim()
+
+      // Stable dedupe key fallback chain to handle mixed historical rows.
+      const key = uid ? `uid:${uid}` : hash ? `hash:${hash}` : masked ? `masked:${masked}` : null
+      if (key) uniqueRecipients.add(key)
+    }
 
     const byNotificationType = filtered.reduce<Record<string, number>>((acc, item) => {
       const key = item.notificationType || 'unknown'
@@ -117,7 +122,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest) => {
         total: filtered.length,
         sent: filtered.filter((item) => item.status === 'sent').length,
         failed: filtered.filter((item) => item.status === 'failed').length,
-        uniqueRecipients: uniqueRecipientHashes.size,
+        uniqueRecipients: uniqueRecipients.size,
         byNotificationType,
       },
     })

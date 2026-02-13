@@ -7,6 +7,11 @@ import {
   shouldMergeTranscriptSegments,
   type MergeableTranscriptSegment,
 } from '@/lib/transcript/mergeSegments'
+import { chunkTranscriptSegments } from '@/lib/transcript/chunkSegments'
+import type { ResegmentedSegment } from '@/lib/transcript/resegmentation'
+import { validateResegmentedOutput } from '@/lib/transcript/resegmentation'
+import { computeSegmentQuality } from '@/lib/transcript/segmentQuality'
+import { alignAiTextsToSourceTimeline } from '@/lib/transcript/aiTimingAlignment'
 
 interface TranscriptSegment {
   start: number
@@ -36,34 +41,544 @@ interface TranscriptResponse {
   cached?: boolean
   totalSegments?: number
   totalDuration?: number
+  processing?: {
+    aiProcessed?: boolean
+    aiMethod?: string
+    aiReason?: string
+    aiPipelineVersion?: string
+    aiQualityBefore?: number
+    aiQualityAfter?: number
+    correctionApplied?: boolean
+  }
   message?: string
   error?: string
 }
 
 let youtubeClient: Innertube | null = null
 
+const TINY_DUPLICATE_MAX_CHARS = 4
+const TINY_DUPLICATE_MAX_DURATION = 1.2
+const TINY_DUPLICATE_MAX_GAP = 0.2
+const ORPHAN_PARTICLE_REGEX = /^(ね|よ|な|か|さ|ぞ|ぜ|わ|よね|ねえ|ねぇ)[。！？!?]?$/
+const TIMELINE_EPSILON_SECONDS = 0.02
+const MIN_SEGMENT_DURATION_SECONDS = 0.2
+const OPENAI_TIMEOUT_MS = 35_000
+const AI_PIPELINE_VERSION = '2.2.0'
+const OPENAI_MODEL = 'gpt-4o-mini'
+const SENTENCE_END_REGEX = /[。！？!?]$/
+const LEADING_PARTICLE_REGEX = /^(は|が|を|に|へ|で|と|の|も|や|か|ね|よ|な|さ|ぞ|ぜ|わ)(?:$|[、。！？!?])/
+const EMERGENCY_DISABLE_AI_SHADOWING = false
+const AI_MIN_QUALITY_DELTA = 0.03
+const AI_MAX_SEGMENT_DURATION_SECONDS = 10
+const AI_SKIP_SEGMENTATION_SEGMENT_COUNT = 260
+const AI_SKIP_SEGMENTATION_TEXT_LENGTH = 6_000
+
+function removeTinyAdjacentTextOverlap(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (segments.length < 2) return segments
+
+  const cleaned: TranscriptSegment[] = []
+  for (const current of segments) {
+    const prev = cleaned[cleaned.length - 1]
+    if (!prev) {
+      cleaned.push(current)
+      continue
+    }
+
+    const currentText = (current.text || '').trim()
+    const prevText = (prev.text || '').trim()
+    if (!currentText || !prevText) {
+      cleaned.push(current)
+      continue
+    }
+
+    const currentDuration = Math.max(current.end - current.start, 0)
+    const gap = current.start - prev.end
+    const isOverlappingDuplicate = current.start < prev.end
+
+    const isLikelyOrphanParticle = ORPHAN_PARTICLE_REGEX.test(currentText)
+    const isTinyDuplicate =
+      currentText.length <= TINY_DUPLICATE_MAX_CHARS &&
+      (
+        (currentDuration <= TINY_DUPLICATE_MAX_DURATION && gap <= TINY_DUPLICATE_MAX_GAP) ||
+        isOverlappingDuplicate ||
+        isLikelyOrphanParticle
+      ) &&
+      prevText.endsWith(currentText)
+
+    if (isTinyDuplicate) continue
+    cleaned.push(current)
+  }
+
+  return cleaned
+}
+
 function normalizeSegmentsForCache(segments: TranscriptSegment[]): TranscriptSegment[] {
-  const mergeCandidates: MergeableTranscriptSegment[] = segments.map(seg => ({
+  const deduped = removeTinyAdjacentTextOverlap(segments)
+
+  const mergeCandidates: MergeableTranscriptSegment[] = deduped.map(seg => ({
     start: seg.start,
     end: seg.end,
     text: seg.text,
     words: seg.words,
   }))
 
-  if (!shouldMergeTranscriptSegments(mergeCandidates)) {
-    return segments
-  }
+  const merged = shouldMergeTranscriptSegments(mergeCandidates)
+    ? mergeTranscriptSegments(mergeCandidates)
+    : mergeCandidates
 
-  const merged = mergeTranscriptSegments(mergeCandidates)
-  return merged.map(seg => ({
+  // Split multi-clause lines (e.g. "...ね。山綺麗だね。") into repeat-friendly units.
+  // This keeps text and timing aligned better for looped playback.
+  const chunked = chunkTranscriptSegments(
+    merged.map(seg => ({
+      start: seg.start,
+      end: seg.end,
+      text: seg.text,
+    }))
+  )
+
+  const healed = healBrokenWordBoundaries(chunked.map(seg => ({
     start: seg.start,
     end: seg.end,
     duration: seg.end - seg.start,
     startTime: seg.start,
     endTime: seg.end,
     text: seg.text,
-    words: seg.words,
+    words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
+  })))
+
+  return enforceNonOverlappingTimeline(healed)
+}
+
+function enforceNonOverlappingTimeline(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (segments.length <= 1) return segments
+
+  const normalized: TranscriptSegment[] = []
+
+  for (let i = 0; i < segments.length; i++) {
+    const current = segments[i]
+    const prev = normalized[i - 1]
+    const next = segments[i + 1]
+
+    let start = current.start
+    let end = current.end
+
+    // Prevent backward/overlapping starts.
+    if (prev && start < prev.end) {
+      start = prev.end + TIMELINE_EPSILON_SECONDS
+    }
+
+    // Clamp end to before the next segment start to avoid audio bleed across repeats.
+    if (next && end > next.start) {
+      end = next.start - TIMELINE_EPSILON_SECONDS
+    }
+
+    // Keep segments playable even after clamping.
+    if (end <= start) {
+      end = start + MIN_SEGMENT_DURATION_SECONDS
+    }
+
+    normalized.push({
+      ...current,
+      start,
+      end,
+      startTime: start,
+      endTime: end,
+      duration: end - start,
+    })
+  }
+
+  return normalized
+}
+
+function healBrokenWordBoundaries(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (segments.length < 2) return segments
+
+  const merged: TranscriptSegment[] = []
+  for (const current of segments) {
+    const prev = merged[merged.length - 1]
+    if (!prev) {
+      merged.push(current)
+      continue
+    }
+
+    const prevText = prev.text.trim()
+    const currentText = current.text.trim()
+    const prevEndsKanji = /[\u4E00-\u9FFF]$/.test(prevText)
+    const currentStartsHiragana = /^[ぁ-ん]/.test(currentText)
+    const prevEndsSentence = SENTENCE_END_REGEX.test(prevText)
+    const currentStartsParticle = LEADING_PARTICLE_REGEX.test(currentText)
+
+    const shouldHealBoundary =
+      prevEndsKanji &&
+      currentStartsHiragana &&
+      !prevEndsSentence &&
+      !currentStartsParticle
+
+    if (!shouldHealBoundary) {
+      merged.push(current)
+      continue
+    }
+
+    const mergedText = `${prev.text}${current.text}`
+    const mergedEnd = Math.max(prev.end, current.end)
+    merged[merged.length - 1] = {
+      ...prev,
+      text: mergedText,
+      end: mergedEnd,
+      endTime: mergedEnd,
+      duration: mergedEnd - prev.start,
+      words: mergedText.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
+    }
+  }
+
+  return merged
+}
+
+function toResegmentedSegments(segments: TranscriptSegment[]): ResegmentedSegment[] {
+  return segments.map(seg => ({
+    text: seg.text,
+    start: seg.start,
+    end: seg.end,
   }))
+}
+
+function toTranscriptSegments(segments: ResegmentedSegment[]): TranscriptSegment[] {
+  return segments.map(seg => ({
+    start: seg.start,
+    end: seg.end,
+    duration: seg.end - seg.start,
+    startTime: seg.start,
+    endTime: seg.end,
+    text: seg.text,
+    words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
+  }))
+}
+
+function hasUnsafeSegmentDurations(segments: TranscriptSegment[]): boolean {
+  return segments.some(seg => (seg.end - seg.start) > AI_MAX_SEGMENT_DURATION_SECONDS)
+}
+
+function ensureAiTiming(
+  aiSegments: ResegmentedSegment[],
+  sourceSegments: TranscriptSegment[]
+): ResegmentedSegment[] {
+  if (aiSegments.length === 0) return aiSegments
+
+  const validation = validateResegmentedOutput(aiSegments)
+  if (validation.valid) return aiSegments
+
+  const sourceStart = sourceSegments[0]?.start ?? 0
+  const sourceEnd = sourceSegments[sourceSegments.length - 1]?.end ?? sourceStart + 1
+  const totalDuration = Math.max(sourceEnd - sourceStart, 0.5)
+  const cleanTexts = aiSegments.map(s => (s.text || '').trim()).filter(Boolean)
+  if (cleanTexts.length === 0) return []
+  const totalChars = cleanTexts.reduce((sum, t) => sum + t.length, 0)
+
+  let cursor = sourceStart
+  return cleanTexts.map((text, idx) => {
+    const remaining = cleanTexts.length - idx - 1
+    const minRemaining = remaining * MIN_SEGMENT_DURATION_SECONDS
+    const proportional = totalChars > 0 ? (text.length / totalChars) * totalDuration : 0.8
+    const desiredEnd = cursor + Math.max(proportional, MIN_SEGMENT_DURATION_SECONDS)
+    const safeEnd = idx === cleanTexts.length - 1
+      ? sourceEnd
+      : Math.min(desiredEnd, sourceEnd - minRemaining)
+    const end = Math.max(safeEnd, cursor + MIN_SEGMENT_DURATION_SECONDS)
+
+    const seg: ResegmentedSegment = { text, start: cursor, end }
+    cursor = end
+    return seg
+  })
+}
+
+async function runAiShadowingPipeline(
+  videoId: string,
+  videoTitle: string,
+  segments: TranscriptSegment[]
+): Promise<{
+  segments: TranscriptSegment[]
+  method: 'ai' | 'deterministic'
+  reason: string
+  qualityBefore: number
+  qualityAfter: number
+  correctionApplied: boolean
+}> {
+  const baseline = normalizeSegmentsForCache(segments)
+  const qualityBefore = computeSegmentQuality(
+    baseline.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
+  ).score
+
+  // Emergency rollback: AI-first pipeline introduced timing regressions in player looping.
+  // Keep deterministic normalization active while we redesign AI timing alignment.
+  if (EMERGENCY_DISABLE_AI_SHADOWING) {
+    return {
+      segments: baseline,
+      method: 'deterministic',
+      reason: 'ai_emergency_disabled',
+      qualityBefore,
+      qualityAfter: qualityBefore,
+      correctionApplied: false,
+    }
+  }
+
+  try {
+    const sourceText = baseline.map(seg => seg.text).join('')
+    const shouldSkipSegmentation =
+      baseline.length >= AI_SKIP_SEGMENTATION_SEGMENT_COUNT ||
+      sourceText.length >= AI_SKIP_SEGMENTATION_TEXT_LENGTH
+    if (shouldSkipSegmentation) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'openai_skipped_large_transcript',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied: false,
+      }
+    }
+
+    // Keep AI segmentation anchored to original transcript text.
+    // Correction pass can improve wording, but it also lowers alignment match and causes fallback churn.
+    const segmentationInputText = sourceText
+    const correctionApplied = false
+
+    const aiMapped = await requestOpenAiShadowingSegmentation(videoTitle, segmentationInputText)
+    if (!aiMapped || aiMapped.length === 0) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'openai_unsuccessful_response',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied,
+      }
+    }
+
+    const anchored = alignAiTextsToSourceTimeline(
+      aiMapped.map(seg => seg.text),
+      baseline.map(seg => ({ text: seg.text, start: seg.start, end: seg.end })),
+      0.9
+    )
+    if (!anchored) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'openai_alignment_failed',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied,
+      }
+    }
+
+    const aiValidation = validateResegmentedOutput(anchored.segments)
+    if (!aiValidation.valid) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'ai_validation_failed',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied,
+      }
+    }
+
+    const aiNormalized = normalizeSegmentsForCache(toTranscriptSegments(anchored.segments))
+    const qualityAfter = computeSegmentQuality(
+      aiNormalized.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
+    ).score
+    const qualityDelta = qualityAfter - qualityBefore
+
+    if (hasUnsafeSegmentDurations(aiNormalized)) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'openai_duration_safety_reject',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied,
+      }
+    }
+
+    if (qualityDelta < AI_MIN_QUALITY_DELTA) {
+      return {
+        segments: baseline,
+        method: 'deterministic',
+        reason: 'openai_quality_regression',
+        qualityBefore,
+        qualityAfter: qualityBefore,
+        correctionApplied,
+      }
+    }
+
+    console.log(
+      `[TRANSCRIPT-API] ✅ OpenAI shadowing pipeline applied for ${videoId}: ${baseline.length} -> ${aiNormalized.length} segments (quality ${qualityBefore.toFixed(2)} -> ${qualityAfter.toFixed(2)}), correction=${correctionApplied}`
+    )
+    return {
+      segments: aiNormalized,
+      method: 'ai',
+      reason: correctionApplied ? 'openai_corrected_and_segmented' : 'openai_segmented',
+      qualityBefore,
+      qualityAfter,
+      correctionApplied,
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    console.warn(`[TRANSCRIPT-API] OpenAI shadowing pipeline failed for ${videoId}:`, message)
+    return {
+      segments: baseline,
+      method: 'deterministic',
+      reason: message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error',
+      qualityBefore,
+      qualityAfter: qualityBefore,
+      correctionApplied: false,
+    }
+  }
+}
+
+async function requestOpenAiShadowingSegmentation(
+  videoTitle: string,
+  sourceText: string
+): Promise<ResegmentedSegment[] | null> {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) return null
+
+  if (!sourceText.trim()) return null
+
+  const systemPrompt = [
+    'You are a Japanese shadowing segmentation engine.',
+    'Split transcript text into natural short units for repetition.',
+    'Rules:',
+    '1) Keep each segment <= 20 Japanese characters when possible.',
+    '2) Never split inside a word/morpheme (e.g. 結ばれる must stay together).',
+    '3) Prefer clause boundaries and punctuation boundaries.',
+    '4) Keep semantic coherence; avoid orphan particles like ね。 by themselves.',
+    'Return strict JSON object: {"segments":["...","..."]}',
+  ].join('\n')
+
+  const userPrompt = `Title: ${videoTitle}\n\nTranscript:\n${sourceText}`
+
+  const requestBody = {
+    model: OPENAI_MODEL,
+    temperature: 0.1,
+    response_format: { type: 'json_object' },
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+  }
+
+  const fetchPromise = fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(requestBody),
+  })
+
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+  const response = await Promise.race([
+    fetchPromise,
+    new Promise<never>((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error('OPENAI_TIMEOUT')), OPENAI_TIMEOUT_MS)
+    }),
+  ])
+  if (timeoutId) clearTimeout(timeoutId)
+  if (!response.ok) {
+    const err = await response.text().catch(() => '')
+    throw new Error(`OPENAI_HTTP_${response.status}:${err}`)
+  }
+
+  const payload = await response.json()
+  const content = payload?.choices?.[0]?.message?.content
+  if (typeof content !== 'string' || !content.trim()) return null
+
+  let parsed: any
+  try {
+    parsed = JSON.parse(content)
+  } catch {
+    const match = content.match(/\{[\s\S]*\}/)
+    if (!match) return null
+    parsed = JSON.parse(match[0])
+  }
+
+  const rawSegments = Array.isArray(parsed?.segments) ? parsed.segments : []
+  const texts = rawSegments
+    .map((seg: any) => (typeof seg === 'string' ? seg : seg?.text))
+    .filter((text: any): text is string => typeof text === 'string' && text.trim().length > 0)
+    .map((text: string): string => text.trim())
+
+  if (texts.length === 0) return null
+
+  return texts.map((text: string) => ({ text, start: 0, end: 0 }))
+}
+
+async function requestOpenAiTranscriptCorrection(
+  videoTitle: string,
+  sourceText: string
+): Promise<string | null> {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey || !sourceText.trim()) return null
+
+  const systemPrompt = [
+    'You are a Japanese transcript correction engine for shadowing practice.',
+    'Fix obvious ASR/caption errors while preserving meaning and style.',
+    'Rules:',
+    '1) Return corrected Japanese text only (single string in JSON).',
+    '2) Keep punctuation natural and sentence boundaries explicit.',
+    '3) Do not translate, summarize, or add new content.',
+    '4) Preserve proper nouns when possible.',
+    'Return strict JSON object: {"corrected":"..."}',
+  ].join('\n')
+
+  const userPrompt = `Title: ${videoTitle}\n\nTranscript:\n${sourceText}`
+  const requestBody = {
+    model: OPENAI_MODEL,
+    temperature: 0.1,
+    response_format: { type: 'json_object' },
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+  }
+
+  const fetchPromise = fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(requestBody),
+  })
+
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+  const response = await Promise.race([
+    fetchPromise,
+    new Promise<never>((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error('OPENAI_TIMEOUT')), OPENAI_TIMEOUT_MS)
+    }),
+  ])
+  if (timeoutId) clearTimeout(timeoutId)
+  if (!response.ok) {
+    const err = await response.text().catch(() => '')
+    throw new Error(`OPENAI_HTTP_${response.status}:${err}`)
+  }
+
+  const payload = await response.json()
+  const content = payload?.choices?.[0]?.message?.content
+  if (typeof content !== 'string' || !content.trim()) return null
+
+  try {
+    const parsed = JSON.parse(content)
+    const corrected = typeof parsed?.corrected === 'string' ? parsed.corrected.trim() : ''
+    return corrected || null
+  } catch {
+    const match = content.match(/\{[\s\S]*\}/)
+    if (!match) return null
+    const parsed = JSON.parse(match[0])
+    const corrected = typeof parsed?.corrected === 'string' ? parsed.corrected.trim() : ''
+    return corrected || null
+  }
 }
 
 async function getClient(): Promise<Innertube> {
@@ -405,6 +920,14 @@ export async function GET(
     const cached = await transcriptCache.get(contentId)
 
     if (cached && cached.transcript && cached.transcript.length > 0) {
+      if (
+        EMERGENCY_DISABLE_AI_SHADOWING &&
+        (cached as any)?.metadata?.aiShadowingMethod === 'ai'
+      ) {
+        console.warn(
+          `[TRANSCRIPT-API] Skipping cached AI-processed transcript for ${videoId} (emergency rollback)`
+        )
+      } else {
       console.log(`[TRANSCRIPT-API] ✅ Cache hit! Returning ${cached.transcript.length} segments`)
 
       // Transform cached format to API format
@@ -420,9 +943,67 @@ export async function GET(
       }))
 
       const hasTranslations = segments.some(seg => !!seg.translation)
-      const mergedSegments = hasTranslations ? segments : normalizeSegmentsForCache(segments)
+      const cleanedSegments = removeTinyAdjacentTextOverlap(segments)
+      let mergedSegments = hasTranslations
+        ? enforceNonOverlappingTimeline(cleanedSegments)
+        : normalizeSegmentsForCache(cleanedSegments)
+      let processingInfo = {
+        aiProcessed: true,
+        aiMethod: (cached as any)?.metadata?.aiShadowingMethod,
+        aiReason: (cached as any)?.metadata?.aiShadowingReason,
+        aiPipelineVersion: (cached as any)?.metadata?.aiShadowingPipelineVersion,
+        aiQualityBefore: (cached as any)?.metadata?.aiShadowingQualityBefore,
+        aiQualityAfter: (cached as any)?.metadata?.aiShadowingQualityAfter,
+        correctionApplied: Boolean((cached as any)?.metadata?.aiShadowingCorrectionApplied),
+      }
+      const cachedAiMethod = (cached as any)?.metadata?.aiShadowingMethod
+      const cachedPipelineVersion = (cached as any)?.metadata?.aiShadowingPipelineVersion
+      const needsAiUpgrade =
+        !cachedAiMethod ||
+        cachedAiMethod !== 'ai' ||
+        cachedPipelineVersion !== AI_PIPELINE_VERSION
 
-      if (!hasTranslations && mergedSegments.length !== segments.length) {
+      if (needsAiUpgrade) {
+        const aiProcessed = await runAiShadowingPipeline(
+          videoId,
+          cached.videoTitle || 'Cached Video',
+          mergedSegments
+        )
+        mergedSegments = aiProcessed.segments
+        processingInfo = {
+          aiProcessed: true,
+          aiMethod: aiProcessed.method,
+          aiReason: aiProcessed.reason,
+          aiPipelineVersion: AI_PIPELINE_VERSION,
+          aiQualityBefore: aiProcessed.qualityBefore,
+          aiQualityAfter: aiProcessed.qualityAfter,
+          correctionApplied: aiProcessed.correctionApplied,
+        }
+        transcriptCache
+          .updateTranscriptWithMetadata({
+            contentId,
+            transcript: mergedSegments.map((seg, i) => ({
+              id: String(i + 1),
+              text: seg.text,
+              startTime: seg.start,
+              endTime: seg.end,
+              words: seg.words,
+              translation: seg.translation,
+            })),
+            metadata: {
+              'metadata.aiShadowingProcessedAt': new Date(),
+              'metadata.aiShadowingMethod': aiProcessed.method,
+              'metadata.aiShadowingReason': aiProcessed.reason,
+              'metadata.aiShadowingQualityBefore': aiProcessed.qualityBefore,
+              'metadata.aiShadowingQualityAfter': aiProcessed.qualityAfter,
+              'metadata.aiShadowingPipelineVersion': AI_PIPELINE_VERSION,
+              'metadata.aiShadowingCorrectionApplied': aiProcessed.correctionApplied,
+            },
+          })
+          .catch(err => console.error('[TRANSCRIPT-API] Cache AI update failed:', err))
+      }
+
+      if (!hasTranslations && mergedSegments.length !== cleanedSegments.length) {
         transcriptCache
           .updateTranscriptWithMetadata({
             contentId,
@@ -451,7 +1032,9 @@ export async function GET(
         cached: true,
         totalSegments: mergedSegments.length,
         totalDuration: mergedSegments[mergedSegments.length - 1]?.end || 0,
+        processing: processingInfo,
       })
+      }
     }
 
     console.log(`[TRANSCRIPT-API] Cache miss - proceeding to fetch`)
@@ -462,7 +1045,12 @@ export async function GET(
     const railwayResult = await tryRailwayTranscriptServer(videoId)
 
     if (railwayResult && railwayResult.segments) {
-      const normalizedSegments = normalizeSegmentsForCache(railwayResult.segments)
+      const aiProcessed = await runAiShadowingPipeline(
+        videoId,
+        railwayResult.title || 'Unknown title',
+        railwayResult.segments
+      )
+      const normalizedSegments = aiProcessed.segments
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
@@ -480,6 +1068,13 @@ export async function GET(
           videoTitle: railwayResult.title,
           metadata: {
             youtubeVideoId: videoId,
+            aiShadowingProcessedAt: new Date(),
+            aiShadowingMethod: aiProcessed.method,
+            aiShadowingReason: aiProcessed.reason,
+            aiShadowingQualityBefore: aiProcessed.qualityBefore,
+            aiShadowingQualityAfter: aiProcessed.qualityAfter,
+            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -489,6 +1084,15 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+        processing: {
+          aiProcessed: true,
+          aiMethod: aiProcessed.method,
+          aiReason: aiProcessed.reason,
+          aiPipelineVersion: AI_PIPELINE_VERSION,
+          aiQualityBefore: aiProcessed.qualityBefore,
+          aiQualityAfter: aiProcessed.qualityAfter,
+          correctionApplied: aiProcessed.correctionApplied,
+        },
       })
     }
 
@@ -498,7 +1102,12 @@ export async function GET(
     const sheldonResult = await trySheldonTranscriptServer(videoId)
 
     if (sheldonResult && sheldonResult.segments) {
-      const normalizedSegments = normalizeSegmentsForCache(sheldonResult.segments)
+      const aiProcessed = await runAiShadowingPipeline(
+        videoId,
+        sheldonResult.title || 'Unknown title',
+        sheldonResult.segments
+      )
+      const normalizedSegments = aiProcessed.segments
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
@@ -516,6 +1125,13 @@ export async function GET(
           videoTitle: sheldonResult.title,
           metadata: {
             youtubeVideoId: videoId,
+            aiShadowingProcessedAt: new Date(),
+            aiShadowingMethod: aiProcessed.method,
+            aiShadowingReason: aiProcessed.reason,
+            aiShadowingQualityBefore: aiProcessed.qualityBefore,
+            aiShadowingQualityAfter: aiProcessed.qualityAfter,
+            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -525,6 +1141,15 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+        processing: {
+          aiProcessed: true,
+          aiMethod: aiProcessed.method,
+          aiReason: aiProcessed.reason,
+          aiPipelineVersion: AI_PIPELINE_VERSION,
+          aiQualityBefore: aiProcessed.qualityBefore,
+          aiQualityAfter: aiProcessed.qualityAfter,
+          correctionApplied: aiProcessed.correctionApplied,
+        },
       })
     }
 
@@ -534,7 +1159,12 @@ export async function GET(
     const enhancedResult = await tryEnhancedYouTubeiJS(videoId)
 
     if (enhancedResult && enhancedResult.segments) {
-      const normalizedSegments = normalizeSegmentsForCache(enhancedResult.segments)
+      const aiProcessed = await runAiShadowingPipeline(
+        videoId,
+        enhancedResult.title || 'Unknown title',
+        enhancedResult.segments
+      )
+      const normalizedSegments = aiProcessed.segments
       // Store to Firebase cache (async, don't block response) - using Admin SDK
       transcriptCache
         .set({
@@ -552,6 +1182,13 @@ export async function GET(
           videoTitle: enhancedResult.title,
           metadata: {
             youtubeVideoId: videoId,
+            aiShadowingProcessedAt: new Date(),
+            aiShadowingMethod: aiProcessed.method,
+            aiShadowingReason: aiProcessed.reason,
+            aiShadowingQualityBefore: aiProcessed.qualityBefore,
+            aiShadowingQualityAfter: aiProcessed.qualityAfter,
+            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -561,6 +1198,15 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+        processing: {
+          aiProcessed: true,
+          aiMethod: aiProcessed.method,
+          aiReason: aiProcessed.reason,
+          aiPipelineVersion: AI_PIPELINE_VERSION,
+          aiQualityBefore: aiProcessed.qualityBefore,
+          aiQualityAfter: aiProcessed.qualityAfter,
+          correctionApplied: aiProcessed.correctionApplied,
+        },
       })
     }
 
@@ -570,7 +1216,12 @@ export async function GET(
     const standardResult = await tryStandardYouTubeiJS(videoId)
 
     if (standardResult && standardResult.segments) {
-      const normalizedSegments = normalizeSegmentsForCache(standardResult.segments)
+      const aiProcessed = await runAiShadowingPipeline(
+        videoId,
+        standardResult.title || 'Unknown title',
+        standardResult.segments
+      )
+      const normalizedSegments = aiProcessed.segments
       // Store to Firebase cache - using Admin SDK
       transcriptCache
         .set({
@@ -588,6 +1239,13 @@ export async function GET(
           videoTitle: standardResult.title,
           metadata: {
             youtubeVideoId: videoId,
+            aiShadowingProcessedAt: new Date(),
+            aiShadowingMethod: aiProcessed.method,
+            aiShadowingReason: aiProcessed.reason,
+            aiShadowingQualityBefore: aiProcessed.qualityBefore,
+            aiShadowingQualityAfter: aiProcessed.qualityAfter,
+            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -597,6 +1255,15 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+        processing: {
+          aiProcessed: true,
+          aiMethod: aiProcessed.method,
+          aiReason: aiProcessed.reason,
+          aiPipelineVersion: AI_PIPELINE_VERSION,
+          aiQualityBefore: aiProcessed.qualityBefore,
+          aiQualityAfter: aiProcessed.qualityAfter,
+          correctionApplied: aiProcessed.correctionApplied,
+        },
       })
     }
 
@@ -618,7 +1285,12 @@ export async function GET(
           text: seg.text,
           words: seg.words,
         }))
-        const normalizedSegments = normalizeSegmentsForCache(segments)
+        const aiProcessed = await runAiShadowingPipeline(
+          videoId,
+          supaResult.title || 'Unknown title',
+          segments
+        )
+        const normalizedSegments = aiProcessed.segments
 
         // Store to Firebase cache - using Admin SDK
         transcriptCache
@@ -637,6 +1309,13 @@ export async function GET(
             videoTitle: supaResult.title,
             metadata: {
               youtubeVideoId: videoId,
+              aiShadowingProcessedAt: new Date(),
+              aiShadowingMethod: aiProcessed.method,
+              aiShadowingReason: aiProcessed.reason,
+              aiShadowingQualityBefore: aiProcessed.qualityBefore,
+              aiShadowingQualityAfter: aiProcessed.qualityAfter,
+              aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+              aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
             },
           })
           .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -653,6 +1332,15 @@ export async function GET(
           source: 'supa-api',
           totalSegments: normalizedSegments.length,
           totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
+          processing: {
+            aiProcessed: true,
+            aiMethod: aiProcessed.method,
+            aiReason: aiProcessed.reason,
+            aiPipelineVersion: AI_PIPELINE_VERSION,
+            aiQualityBefore: aiProcessed.qualityBefore,
+            aiQualityAfter: aiProcessed.qualityAfter,
+            correctionApplied: aiProcessed.correctionApplied,
+          },
         })
       }
     }

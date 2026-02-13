@@ -6,6 +6,14 @@ If you change the feature, update this file.
 
 ---
 
+## 0. Start Here (Session Handoff)
+
+For the latest full technical handoff, current blockers, and exact next implementation plan toward Miraa-grade quality, read:
+
+- `02-PRODUCTION_DOCS/youtube-shadowing/08-ULTIMATE-HANDOFF-FOR-NEXT-SESSION.md`
+
+---
+
 ## 1. Overview
 
 YouTube Shadowing is an interactive listening and speaking practice experience using YouTube videos. The player combines:

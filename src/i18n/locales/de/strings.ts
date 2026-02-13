@@ -4054,6 +4054,23 @@ export const strings = {
     freeAccess: 'Kostenloser Zugang',
     loadingTitle: 'Videotitel wird geladen...',
     by: 'von',
+    resegment: {
+      status: {
+        inProgress: 'Transkript wird neu segmentiert...',
+        completeAi: 'Neusegmentierung abgeschlossen (KI über {{provider}}).',
+        completeDeterministic: 'Neusegmentierung abgeschlossen (deterministisch: {{reason}}, Anbieter: {{provider}}).',
+      },
+      toast: {
+        completeAi: 'KI-Neusegmentierung abgeschlossen ({{provider}}).',
+        deterministicFallback: 'Deterministischer Fallback: {{reason}} ({{provider}}).',
+      },
+      button: {
+        idle: 'KI-Neusegmentierung',
+        loading: 'Segmentierung läuft...',
+        title: 'Transkript-Neusegmentierung ausführen',
+      },
+    },
+
     usage: {
       today: 'Heutige Nutzung',
       unlimited: 'Unbegrenzt',

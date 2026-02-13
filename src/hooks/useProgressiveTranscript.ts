@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { isFeatureEnabled } from '@/lib/features/featureFlags'
+import { computeSegmentQuality } from '@/lib/transcript/segmentQuality'
 import type { TranscriptLine } from '@/types/youtubeShadowing'
 
 export type TranscriptSegment = TranscriptLine & {
@@ -29,6 +31,10 @@ interface ProgressiveState {
   aiEnhancing: boolean
   aiProgress: number
   refetch: () => void
+  /** Request resegmentation of the current transcript (non-blocking). */
+  resegment: () => void
+  /** True while a resegmentation request is in flight. */
+  resegmenting: boolean
 }
 
 const YOUTUBE_URL_PATTERNS = [
@@ -98,6 +104,7 @@ export function useProgressiveTranscript(
   const [aiEnhancing, setAiEnhancing] = useState(false)
   const [aiProgress, setAiProgress] = useState(0)
   const [reloadFlag, setReloadFlag] = useState(0)
+  const [resegmenting, setResegmenting] = useState(false)
 
   const abortControllerRef = useRef<AbortController | null>(null)
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -335,6 +342,109 @@ export function useProgressiveTranscript(
     setReloadFlag(flag => flag + 1)
   }, [])
 
+  /**
+   * Quality-gated resegmentation threshold.
+   * Segments above this quality score are considered good enough – skip resegmentation.
+   */
+  const RESEGMENT_QUALITY_THRESHOLD = 0.6
+
+  /**
+   * Request resegmentation of the current transcript via /api/youtube/resegment.
+   *
+   * Guarded by two gates before any network call:
+   *   1. Feature flag: AI_RESEGMENTATION must be enabled (checked client-side).
+   *   2. Quality gate: computeSegmentQuality() must be below threshold.
+   *
+   * Non-blocking: playback continues with existing segments while the request
+   * is in flight.
+   */
+  const resegment = useCallback(() => {
+    if (!url || !transcript || resegmenting) return
+
+    // Gate 1: Feature flag check (client-side)
+    if (!isFeatureEnabled('AI_RESEGMENTATION')) {
+      console.log('[ProgressiveTranscript] resegment skipped: AI_RESEGMENTATION flag is off')
+      return
+    }
+
+    const videoId = extractVideoId(url)
+    if (!videoId) return
+
+    const currentSegments = transcript.segments
+    if (!currentSegments || currentSegments.length === 0) return
+
+    // Gate 2: Quality gate – only resegment if current quality is below threshold
+    const quality = computeSegmentQuality(
+      currentSegments.map(seg => ({
+        text: seg.text,
+        start: seg.startTime,
+        end: seg.endTime,
+      }))
+    )
+
+    if (quality.score >= RESEGMENT_QUALITY_THRESHOLD) {
+      console.log(
+        `[ProgressiveTranscript] resegment skipped: quality ${quality.score.toFixed(2)} >= threshold ${RESEGMENT_QUALITY_THRESHOLD}`
+      )
+      return
+    }
+
+    const controller = new AbortController()
+
+    setResegmenting(true)
+
+    fetch('/api/youtube/resegment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        videoId,
+        segments: currentSegments.map(seg => ({
+          text: seg.text,
+          start: seg.startTime,
+          end: seg.endTime,
+        })),
+      }),
+      signal: controller.signal,
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Resegmentation request failed')
+        return res.json()
+      })
+      .then(data => {
+        if (!data?.success || !Array.isArray(data.segments)) {
+          throw new Error(data?.message || 'Invalid resegmentation response')
+        }
+
+        const resegmented = mapToSegments(
+          data.segments.map((seg: { text: string; start: number; end: number }, idx: number) => ({
+            id: String(idx + 1),
+            text: seg.text,
+            startTime: seg.start,
+            endTime: seg.end,
+          }))
+        )
+
+        setTranscript(prev =>
+          prev
+            ? createTranscriptState(resegmented, prev.source, prev.videoTitle, {
+                ...prev.metadata,
+                resegmented: true,
+                resegmentSource: data.source,
+              })
+            : prev
+        )
+      })
+      .catch(err => {
+        if (!controller.signal.aborted) {
+          console.warn('[ProgressiveTranscript] Resegmentation failed:', err)
+          showToast('Resegmentation failed. Continuing with current segments.', 'warning')
+        }
+      })
+      .finally(() => {
+        setResegmenting(false)
+      })
+  }, [url, transcript, resegmenting, showToast])
+
   return {
     transcript,
     loading,
@@ -342,6 +452,8 @@ export function useProgressiveTranscript(
     aiEnhancing,
     aiProgress,
     refetch,
+    resegment,
+    resegmenting,
   }
 }
 

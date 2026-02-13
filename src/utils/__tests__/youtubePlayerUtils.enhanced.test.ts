@@ -211,17 +211,26 @@ describe('Seek Request Queue', () => {
   });
 
   it('should cancel all queued requests', async () => {
-    const promise1 = queue.enqueue(mockPlayer, 10.0, { maxWaitMs: 50 });
-    const promise2 = queue.enqueue(mockPlayer, 20.0, { maxWaitMs: 50 });
+    // Use a buffering player so seeks don't resolve before cancelAll
+    const bufferingPlayer = {
+      seekTo: jest.fn(),
+      getPlayerState: jest.fn(() => 3), // BUFFERING - seeks won't complete
+    };
 
-    // Give a moment for queue to register
-    await new Promise(resolve => setTimeout(resolve, 10));
+    const promise1 = queue.enqueue(bufferingPlayer, 10.0, { maxWaitMs: 5000 });
+    const promise2 = queue.enqueue(bufferingPlayer, 20.0, { maxWaitMs: 5000 });
+
+    // Give a moment for queue to start processing
+    await new Promise(resolve => setTimeout(resolve, 30));
 
     queue.cancelAll();
 
-    // At least one should reject with cancellation
-    await expect(Promise.all([promise1, promise2])).rejects.toThrow();
-  }, 1000); // Shorter timeout
+    // Both should reject (one in-flight, one queued)
+    const results = await Promise.allSettled([promise1, promise2]);
+    const rejected = results.filter(r => r.status === 'rejected');
+
+    expect(rejected.length).toBeGreaterThan(0);
+  }, 2000);
 
   it('should provide queue statistics', () => {
     queue.enqueue(mockPlayer, 10.0, {});

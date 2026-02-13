@@ -4052,6 +4052,23 @@ export const strings = {
     freeAccess: 'Acceso Gratuito',
     loadingTitle: 'Cargando título del video...',
     by: 'por',
+    resegment: {
+      status: {
+        inProgress: 'Resegmentando transcripción...',
+        completeAi: 'Resegmentación completada (IA vía {{provider}}).',
+        completeDeterministic: 'Resegmentación completada (determinista: {{reason}}, proveedor: {{provider}}).',
+      },
+      toast: {
+        completeAi: 'Resegmentación por IA completada ({{provider}}).',
+        deterministicFallback: 'Respaldo determinista: {{reason}} ({{provider}}).',
+      },
+      button: {
+        idle: 'Resegmentar con IA',
+        loading: 'Resegmentando...',
+        title: 'Ejecutar resegmentación de transcripción',
+      },
+    },
+
     usage: {
       today: 'Uso de hoy',
       unlimited: 'Ilimitado',

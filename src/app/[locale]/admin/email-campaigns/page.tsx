@@ -31,13 +31,14 @@ export default function EmailCampaignsPage() {
   const [successMessage, setSuccessMessage] = useState<string>('')
   const [editingCampaign, setEditingCampaign] = useState<EmailCampaign | null>(null)
   const [sendingTestId, setSendingTestId] = useState<string | null>(null)
+  const [showSystemCampaigns, setShowSystemCampaigns] = useState(false)
 
   // Fetch campaigns on mount and when user changes
   useEffect(() => {
     if (user) {
       fetchCampaigns()
     }
-  }, [user])
+  }, [user, showSystemCampaigns])
 
   // Auto-refresh while any campaign is sending
   useEffect(() => {
@@ -58,8 +59,9 @@ export default function EmailCampaignsPage() {
         setError(null)
       }
 
-      const response = await fetch('/api/admin/campaigns', {
+      const response = await fetch(`/api/admin/campaigns?includeSystem=${showSystemCampaigns ? '1' : '0'}`, {
         credentials: 'include',
+        cache: 'no-store',
       })
 
       const data = await response.json()
@@ -314,6 +316,15 @@ export default function EmailCampaignsPage() {
           </div>
           {/* Desktop buttons */}
           <div className="hidden md:flex gap-3">
+            <label className="px-3 py-3 rounded-lg border border-gray-200 dark:border-dark-600 bg-white dark:bg-dark-800 text-xs text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showSystemCampaigns}
+                onChange={(e) => setShowSystemCampaigns(e.target.checked)}
+                className="rounded border-gray-300"
+              />
+              Show system campaigns
+            </label>
             <Link
               href="/admin/email-templates"
               className="px-4 py-3 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors font-medium flex items-center gap-2"
@@ -373,6 +384,17 @@ export default function EmailCampaignsPage() {
         </div>
       ) : (
         <div className="space-y-4 md:space-y-6">
+          <div className="md:hidden">
+            <label className="px-3 py-2 rounded-lg border border-gray-200 dark:border-dark-600 bg-white dark:bg-dark-800 text-xs text-gray-700 dark:text-gray-300 inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showSystemCampaigns}
+                onChange={(e) => setShowSystemCampaigns(e.target.checked)}
+                className="rounded border-gray-300"
+              />
+              Show system campaigns
+            </label>
+          </div>
           {campaigns.map((campaign) => (
             <CampaignCard
               key={campaign.id}

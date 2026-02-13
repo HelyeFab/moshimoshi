@@ -11,6 +11,10 @@ type MergeOptions = {
   minDuration?: number;
   maxChars?: number;
   maxGap?: number;
+  /** Fragments shorter than this are merged with neighbors when gap is small */
+  lonelyFragmentChars?: number;
+  /** Max gap (seconds) for merging lonely fragments */
+  lonelyFragmentMaxGap?: number;
 };
 
 const DEFAULT_OPTIONS: Required<MergeOptions> = {
@@ -18,6 +22,8 @@ const DEFAULT_OPTIONS: Required<MergeOptions> = {
   minDuration: 0.6,
   maxChars: 45,
   maxGap: 0.9,
+  lonelyFragmentChars: 5,
+  lonelyFragmentMaxGap: 0.3,
 };
 
 const SENTENCE_END_REGEX = /[。！？!?]$/;
@@ -38,6 +44,13 @@ function splitWords(text: string): string[] {
   return text.split(WORD_SPLIT_REGEX).filter(Boolean);
 }
 
+function isLonelyFragment(
+  segment: MergeableTranscriptSegment,
+  options: Required<MergeOptions>
+): boolean {
+  return segment.text.trim().length < options.lonelyFragmentChars;
+}
+
 function shouldMergePair(
   current: MergeableTranscriptSegment,
   next: MergeableTranscriptSegment,
@@ -56,15 +69,17 @@ function shouldMergePair(
     currentText.length + nextText.length + (needsSpaceJoin(currentText, nextText) ? 1 : 0);
   if (combinedLength > options.maxChars) return false;
 
+  // Sentence boundary: a punctuation-ended segment is always a complete unit.
+  // Never merge forward from it — short sentences like はい。 stay separate.
+  if (SENTENCE_END_REGEX.test(currentText)) return false;
+
+  // Lonely fragment rule: very short segments without sentence-ending punctuation
+  // with small gaps merge into their neighbor.
+  if (isLonelyFragment(current, options) && gap <= options.lonelyFragmentMaxGap) return true;
+  if (isLonelyFragment({ ...next, text: nextText }, options) && gap <= options.lonelyFragmentMaxGap) return true;
+
   const currentDuration = current.end - current.start;
   const nextDuration = next.end - next.start;
-
-  const currentComplete =
-    SENTENCE_END_REGEX.test(currentText) &&
-    currentText.length >= options.minChars &&
-    currentDuration >= options.minDuration;
-
-  if (currentComplete) return false;
 
   if (currentText.length < options.minChars || currentDuration < options.minDuration) return true;
   if (nextText.length < options.minChars || nextDuration < options.minDuration) return true;
@@ -82,7 +97,7 @@ export function shouldMergeTranscriptSegments(
   if (segments.length < 6) return false;
   const shortCount = segments.filter(seg => seg.text.trim().length <= 3).length;
   const ratio = shortCount / segments.length;
-  return ratio >= 0.35;
+  return ratio >= 0.20;
 }
 
 export function mergeTranscriptSegments(

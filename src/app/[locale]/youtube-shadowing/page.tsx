@@ -29,6 +29,8 @@ import { useYouTubePracticeTracking } from "@/hooks/useYouTubePracticeTracking";
 import { useToast } from "@/components/ui/Toast";
 import { hasSeenWordLookup } from "@/utils/wordLookupSeen";
 import { useSubscription } from "@/hooks/useSubscription";
+import { isFeatureEnabled } from "@/lib/features/featureFlags";
+import { verifySeekLanding, calculateSegmentBuffers } from "@/utils/youtubePlayerUtils";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -64,6 +66,26 @@ type TranscriptResponse = {
   source: string;
 };
 
+const SEGMENT_EPSILON_SECONDS = 0.02;
+const MIN_SEGMENT_DURATION_SECONDS = 0.2;
+
+function normalizeSegmentsForPlayback(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (!Array.isArray(segments) || segments.length === 0) return [];
+  const normalized = segments.map((seg) => ({ ...seg }));
+
+  for (let i = 1; i < normalized.length; i++) {
+    const prev = normalized[i - 1];
+    const current = normalized[i];
+    const maxPrevEnd = current.start - SEGMENT_EPSILON_SECONDS;
+
+    if (prev.end > maxPrevEnd) {
+      prev.end = Math.max(prev.start + MIN_SEGMENT_DURATION_SECONDS, maxPrevEnd);
+    }
+  }
+
+  return normalized;
+}
+
 type VideoMetadata = {
   title: string;
   channelTitle: string;
@@ -81,6 +103,12 @@ const PLAYER_STATES = {
   buffering: 3,
   cued: 5,
 } as const;
+
+// SYNC_PRECISION_V2: evaluated once at module load, not per-render
+const SYNC_V2 = isFeatureEnabled('SYNC_PRECISION_V2');
+const POLL_INTERVAL_MS = SYNC_V2 ? 100 : 250;
+const REENTRY_DELAY_MS = 50;
+const MIN_TRIGGER_BUFFER_SEC = 0.15;
 
 function YouTubeShadowingContent() {
   const { t } = useI18n();
@@ -126,6 +154,7 @@ function YouTubeShadowingContent() {
   const [isScreenLocked, setIsScreenLocked] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [translationInFlight, setTranslationInFlight] = useState<Set<string>>(() => new Set());
+  const [resegmenting, setResegmenting] = useState(false);
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
   const trackFeaturedClick = useCallback(() => {
@@ -192,6 +221,7 @@ function YouTubeShadowingContent() {
   const translationRequestRef = useRef<{ videoId: string; startedAt: number } | null>(null);
   const translationInFlightRef = useRef<Set<string>>(new Set());
   const furiganaHintShownRef = useRef(false);
+  const reentryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const opts: YouTubeProps["opts"] = useMemo(
     () => ({
@@ -211,12 +241,20 @@ function YouTubeShadowingContent() {
     return videoId ? `https://www.youtube.com/watch?v=${videoId}` : null;
   }, [videoId]);
 
+  const clearReentryTimeout = useCallback(() => {
+    if (reentryTimeoutRef.current) {
+      clearTimeout(reentryTimeoutRef.current);
+      reentryTimeoutRef.current = null;
+    }
+  }, []);
+
   const clearPoll = useCallback(() => {
     if (pollRef.current) {
       clearInterval(pollRef.current);
       pollRef.current = null;
     }
-  }, []);
+    clearReentryTimeout();
+  }, [clearReentryTimeout]);
 
   const clearTranslationPoll = useCallback(() => {
     if (translationPollRef.current) {
@@ -232,6 +270,9 @@ function YouTubeShadowingContent() {
 
       if (!player || !segment) return;
 
+      // Cancel any pending re-entry from previous segment
+      clearReentryTimeout();
+
       segmentIndexRef.current = index;
       currentRepeatRef.current = 1;
       setCurrentSegmentIndex(index);
@@ -239,8 +280,13 @@ function YouTubeShadowingContent() {
 
       player.seekTo(segment.start, true);
       player.playVideo();
+
+      // SYNC_V2: fire-and-forget seek verification (no perceived latency)
+      if (SYNC_V2) {
+        void verifySeekLanding(player, segment.start);
+      }
     },
-    [setCurrentSegmentIndex],
+    [setCurrentSegmentIndex, clearReentryTimeout],
   );
 
   const evaluatePlayback = useCallback(() => {
@@ -251,9 +297,24 @@ function YouTubeShadowingContent() {
 
     const currentTime = player.getCurrentTime();
     setCurrentTime(currentTime);
-    const segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);
+
+    // SYNC_V2: adaptive buffer based on segment duration and playback rate
+    let segmentEnd: number;
+    if (SYNC_V2) {
+      const segmentDuration = segment.end - segment.start;
+      const playbackRate = player.getPlaybackRate?.() ?? 1.0;
+      const { triggerBuffer } = calculateSegmentBuffers(segmentDuration, playbackRate);
+      const safeTriggerBuffer = Math.max(triggerBuffer, MIN_TRIGGER_BUFFER_SEC);
+      segmentEnd = Math.max(segment.end - safeTriggerBuffer, segment.start + 0.05);
+    } else {
+      segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);
+    }
 
     if (currentTime >= segmentEnd) {
+      // Hard stop at boundary to avoid audible spill into the next segment
+      // while async seek verification is running.
+      player.pauseVideo();
+
       // When video loop is enabled, bypass segment repeat (treat as repeatCount=1)
       const effectiveRepeatCount = videoLoopEnabledRef.current ? 1 : repeatCountRef.current;
 
@@ -294,17 +355,34 @@ function YouTubeShadowingContent() {
 
       const target = segmentsRef.current[next.segmentIndex];
       if (target) {
-        player.seekTo(target.start, true);
-        player.playVideo();
+        // SYNC_V2: re-entry stabilization with settle delay + seek verification
+        if (SYNC_V2) {
+          const expectedSegmentIndex = next.segmentIndex;
+          player.seekTo(target.start, true);
+          clearReentryTimeout();
+          reentryTimeoutRef.current = setTimeout(() => {
+            reentryTimeoutRef.current = null;
+            // Guard: only resume if we're still on the expected segment and poll is active
+            if (segmentIndexRef.current !== expectedSegmentIndex || !pollRef.current) return;
+            void verifySeekLanding(player, target.start).then(() => {
+              // Re-check after async verification — state may have changed
+              if (segmentIndexRef.current !== expectedSegmentIndex || !pollRef.current) return;
+              player.playVideo();
+            });
+          }, REENTRY_DELAY_MS);
+        } else {
+          player.seekTo(target.start, true);
+          player.playVideo();
+        }
       } else {
         clearPoll();
       }
     }
-  }, [clearPoll]);
+  }, [clearPoll, clearReentryTimeout]);
 
   const startPoll = useCallback(() => {
     if (pollRef.current) return;
-    pollRef.current = setInterval(evaluatePlayback, 250);
+    pollRef.current = setInterval(evaluatePlayback, POLL_INTERVAL_MS);
   }, [evaluatePlayback]);
 
   const handleStateChange: YouTubeProps["onStateChange"] = (event) => {
@@ -330,8 +408,14 @@ function YouTubeShadowingContent() {
           setCurrentRepeat(1);
 
           // Seek to first segment and play
-          playerRef.current.seekTo(firstSegment.start, true);
-          playerRef.current.playVideo();
+          const p = playerRef.current;
+          p.seekTo(firstSegment.start, true);
+          p.playVideo();
+
+          // SYNC_V2: verify seek landing on loop restart
+          if (SYNC_V2) {
+            void verifySeekLanding(p, firstSegment.start);
+          }
         }
       }
     }
@@ -420,9 +504,10 @@ function YouTubeShadowingContent() {
           }
         }
 
+        const normalizedSegments = normalizeSegmentsForPlayback(data.segments);
         setVideoId(extractedId);
-        setSegments(data.segments);
-        segmentsRef.current = data.segments;
+        setSegments(normalizedSegments);
+        segmentsRef.current = normalizedSegments;
         segmentIndexRef.current = 0;
         currentRepeatRef.current = 1;
         repeatCountRef.current = repeatCount;
@@ -439,8 +524,13 @@ function YouTubeShadowingContent() {
           }),
         );
 
-        if (data.segments[0] && playerRef.current) {
-          playerRef.current.seekTo(data.segments[0].start, true);
+        if (normalizedSegments[0] && playerRef.current) {
+          playerRef.current.seekTo(normalizedSegments[0].start, true);
+
+          // SYNC_V2: verify initial transcript seek landing
+          if (SYNC_V2) {
+            void verifySeekLanding(playerRef.current, normalizedSegments[0].start);
+          }
         }
 
         // Fetch video metadata
@@ -448,8 +538,8 @@ function YouTubeShadowingContent() {
 
         // Prefetch word explanations - prioritize first segments for instant response
         const PRIORITY_SEGMENTS = 3; // Precompute first 3 segments immediately
-        const prioritySegments = data.segments.slice(0, PRIORITY_SEGMENTS);
-        const remainingSegments = data.segments.slice(PRIORITY_SEGMENTS);
+        const prioritySegments = normalizedSegments.slice(0, PRIORITY_SEGMENTS);
+        const remainingSegments = normalizedSegments.slice(PRIORITY_SEGMENTS);
 
         const priorityText = prioritySegments.map((s) => s.text).join(" ");
         const remainingText = remainingSegments.map((s) => s.text).join(" ");
@@ -534,6 +624,83 @@ function YouTubeShadowingContent() {
     [seekToSegment],
   );
 
+  const handleResegment = useCallback(async () => {
+    if (!videoId || !segmentsRef.current.length || resegmenting) return;
+
+    setResegmenting(true);
+    setStatus("Resegmenting transcript...");
+    setError(null);
+
+    try {
+      const response = await fetch("/api/youtube/resegment?forceRefresh=1", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          videoId,
+          segments: segmentsRef.current.map((seg) => ({
+            text: seg.text,
+            start: seg.start,
+            end: seg.end,
+          })),
+        }),
+      });
+
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.success || !Array.isArray(data?.segments)) {
+        throw new Error(data?.message || "Resegmentation failed");
+      }
+
+      const nextSegments = normalizeSegmentsForPlayback(data.segments.map(
+        (seg: { text: string; start: number; end: number }) => ({
+          text: seg.text,
+          start: seg.start,
+          end: seg.end,
+        }),
+      ));
+
+      if (!nextSegments.length) {
+        throw new Error("Resegmentation returned no segments");
+      }
+
+      const nextIndex = Math.min(segmentIndexRef.current, nextSegments.length - 1);
+      setSegments(nextSegments);
+      segmentsRef.current = nextSegments;
+      segmentIndexRef.current = nextIndex;
+      currentRepeatRef.current = 1;
+      setCurrentSegmentIndex(nextIndex);
+      setCurrentRepeat(1);
+
+      const target = nextSegments[nextIndex];
+      if (target && playerRef.current) {
+        playerRef.current.seekTo(target.start, true);
+        if (SYNC_V2) {
+          void verifySeekLanding(playerRef.current, target.start);
+        }
+      }
+
+      const sourceLabel = data.source || "deterministic";
+      const fallbackReason = data.fallbackReason || "none";
+      const providerAttempted = data.providerAttempted || "unknown";
+      setStatus(
+        sourceLabel === "ai"
+          ? `Resegmentation complete (ai via ${providerAttempted}).`
+          : `Resegmentation complete (deterministic: ${fallbackReason}, provider: ${providerAttempted}).`,
+      );
+      showToast(
+        sourceLabel === "ai"
+          ? `AI resegmentation complete (${providerAttempted}).`
+          : `Deterministic fallback: ${fallbackReason} (${providerAttempted}).`,
+        sourceLabel === "ai" ? "success" : "warning",
+      );
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Resegmentation failed";
+      setError(message);
+      showToast(message, "warning");
+    } finally {
+      setResegmenting(false);
+    }
+  }, [videoId, resegmenting, showToast]);
+
   useEffect(() => {
     return () => {
       clearTranslationPoll();
@@ -573,8 +740,9 @@ function YouTubeShadowingContent() {
         if (!response.ok) return;
         const data = (await response.json()) as TranscriptResponse;
         if (Array.isArray(data.segments) && data.segments.length) {
-          setSegments(data.segments);
-          segmentsRef.current = data.segments;
+          const normalizedSegments = normalizeSegmentsForPlayback(data.segments);
+          setSegments(normalizedSegments);
+          segmentsRef.current = normalizedSegments;
         }
       } catch (err) {
         console.warn("[YouTubeShadowing] Failed to refresh transcript translations", err);
@@ -809,8 +977,9 @@ function YouTubeShadowingContent() {
         fetchVideoMetadata(parsed.videoId);
       }
       if (parsed.segments?.length) {
-        setSegments(parsed.segments);
-        segmentsRef.current = parsed.segments;
+        const normalizedSegments = normalizeSegmentsForPlayback(parsed.segments);
+        setSegments(normalizedSegments);
+        segmentsRef.current = normalizedSegments;
         setShowUrlInput(false); // Collapse form when restoring a session
       }
       if (parsed.source) setSource(parsed.source);
@@ -986,13 +1155,27 @@ function YouTubeShadowingContent() {
 
                 {/* Clear Session Button - bottom right */}
                 {videoId && (
-                  <button
-                    onClick={() => setShowClearConfirm(true)}
-                    className={styles.clearSessionButton}
-                    title={t("youtubeShadowing.settings.clearSession")}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className={styles.rightActions}>
+                    <button
+                      onClick={() => {
+                        void handleResegment();
+                      }}
+                      className={styles.aiResegmentButton}
+                      title="Run transcript resegmentation"
+                      disabled={resegmenting}
+                    >
+                      <RefreshCw className={`w-4 h-4 ${resegmenting ? "animate-spin" : ""}`} />
+                      <span>{resegmenting ? "Resegmenting..." : "AI Resegment"}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setShowClearConfirm(true)}
+                      className={styles.clearSessionButton}
+                      title={t("youtubeShadowing.settings.clearSession")}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

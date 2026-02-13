@@ -4292,6 +4292,23 @@ export const strings = {
     freeAccess: '無料アクセス',
     loadingTitle: '動画タイトルを読み込み中...',
     by: '作成者',
+    resegment: {
+      status: {
+        inProgress: '文字起こしを再分割中...',
+        completeAi: '再分割完了（AI: {{provider}}）。',
+        completeDeterministic: '再分割完了（決定的: {{reason}}、プロバイダー: {{provider}}）。',
+      },
+      toast: {
+        completeAi: 'AI再分割完了（{{provider}}）。',
+        deterministicFallback: '決定的フォールバック: {{reason}}（{{provider}}）。',
+      },
+      button: {
+        idle: 'AI再分割',
+        loading: '再分割中...',
+        title: '文字起こしの再分割を実行',
+      },
+    },
+
     usage: {
       today: '今日の使用状況',
       unlimited: '無制限',

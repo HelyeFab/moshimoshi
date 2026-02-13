@@ -130,20 +130,30 @@ export const GET = withAdminAuth(async (request: NextRequest, context: AdminCont
       throw new Error('Firebase Admin not initialized')
     }
 
+    const includeSystem = request.nextUrl.searchParams.get('includeSystem') === '1'
+
     // Fetch all campaigns ordered by creation date (newest first)
     const snapshot = await adminFirestore
       .collection('email_campaigns')
       .orderBy('createdAt', 'desc')
-      .limit(100)
+      .limit(includeSystem ? 100 : 500)
       .get()
 
-    const campaigns = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      // Convert Timestamps to ISO strings for JSON serialization
-      createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || null,
-      sentAt: doc.data().sentAt?.toDate?.()?.toISOString() || null,
-    }))
+    const campaigns = snapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        // Convert Timestamps to ISO strings for JSON serialization
+        createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || null,
+        sentAt: doc.data().sentAt?.toDate?.()?.toISOString() || null,
+      }))
+      .filter((campaign: any) => {
+        if (includeSystem) return true
+        if (campaign.createdBy === 'system:reminder-summary-job') return false
+        if (campaign.metadata?.type === 'reminder_summary_daily') return false
+        return true
+      })
+      .slice(0, 100)
 
     return NextResponse.json({
       success: true,

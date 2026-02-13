@@ -283,8 +283,7 @@ export function GrammarHighlightedText({
         if (token.surface_form === '。') {
           return (
             <React.Fragment key={index}>
-              <span className="inline-block mx-1">。</span>
-              <br />
+              <span className="inline-block mx-0.5">。</span>
               <br />
             </React.Fragment>
           )
@@ -307,11 +306,11 @@ export function GrammarHighlightedText({
           return (
             <span
               key={index}
-              className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-2 inline-block relative min-w-[2.5em] text-center ${
+              className={`cursor-pointer hover:bg-primary/10 transition-colors px-1 py-0 mx-0.5 my-1 inline-block relative min-w-[1.5em] text-center ${
                 isHighlighted ? `grammar-${posType}` : ''
               }`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#e0e0e0' } : {}),
+                ...(isHighlighted ? { borderBottom: `2px solid ${token.color}`, paddingBottom: '1px' } : {}),
                 paddingTop: showFurigana ? '1.1em' : undefined, // Tighter furigana spacing
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
@@ -344,9 +343,9 @@ export function GrammarHighlightedText({
           return (
             <span
               key={index}
-              className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-1 inline-block min-w-[2.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''}`}
+              className={`cursor-pointer hover:bg-primary/10 transition-colors px-1 py-0 mx-0.5 my-0.5 inline-block min-w-[1.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''}`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}50`, color: '#e0e0e0' } : {}),
+                ...(isHighlighted ? { borderBottom: `2px solid ${token.color}`, paddingBottom: '1px' } : {}),
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',
@@ -430,13 +429,14 @@ export function GrammarLegend() {
       {categories.map(cat => (
         <div
           key={cat.type}
-          className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0 bg-white dark:bg-[#a0aace] rounded-md"
+          className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0"
         >
-          <div
-            className="w-3 h-3 md:w-4 md:h-4 rounded"
-            style={{ backgroundColor: `${cat.color}50` }}
-          />
-          <span className="text-muted-foreground">{cat.label}</span>
+          <span
+            className="text-muted-foreground"
+            style={{ borderBottom: `2px solid ${cat.color}`, paddingBottom: '1px' }}
+          >
+            {cat.label}
+          </span>
         </div>
       ))}
     </div>

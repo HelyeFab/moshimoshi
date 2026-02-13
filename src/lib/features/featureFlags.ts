@@ -36,6 +36,8 @@ export type FeatureFlag =
   | 'GAMES'                     // Learning games
   | 'TODOS'                     // Task manager / todos
   | 'BLAST_MODE'                // Blast Mode learning flow
+  | 'AI_RESEGMENTATION'         // AI-powered transcript resegmentation (off by default)
+  | 'SYNC_PRECISION_V2'         // Enhanced seek verification & adaptive poll timing (off by default)
 
 /**
  * Default feature states
@@ -81,6 +83,10 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
   BLOG: true,
   NEWSLETTER: true,
   NOTIFICATIONS: true,
+
+  // Experimental (off by default)
+  AI_RESEGMENTATION: false,
+  SYNC_PRECISION_V2: false,
 }
 
 /**
@@ -92,6 +98,8 @@ const PRODUCTION_DISABLED_FEATURES: FeatureFlag[] = [
   // 'AI_STORIES',
   // 'YOUTUBE_SHADOWING',
   // BLAST_MODE feature flag removed - now always enabled
+  'AI_RESEGMENTATION',
+  'SYNC_PRECISION_V2',
 ]
 
 /**
@@ -278,6 +286,16 @@ export function getFeatureMetadata(feature: FeatureFlag): {
     BLAST_MODE: {
       name: 'Blast Mode',
       description: 'High-velocity learning flow',
+      category: 'Learning'
+    },
+    AI_RESEGMENTATION: {
+      name: 'AI Resegmentation',
+      description: 'AI-powered transcript resegmentation fallback (off by default)',
+      category: 'Learning'
+    },
+    SYNC_PRECISION_V2: {
+      name: 'Sync Precision V2',
+      description: 'Enhanced seek verification, adaptive buffers, and tighter poll timing',
       category: 'Learning'
     },
   }

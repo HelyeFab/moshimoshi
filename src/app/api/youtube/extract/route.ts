@@ -54,6 +54,59 @@ interface CaptionTrack {
   trackId: string
 }
 
+const TINY_DUPLICATE_MAX_CHARS = 4
+const TINY_DUPLICATE_MAX_DURATION = 1.2
+const TINY_DUPLICATE_MAX_GAP = 0.2
+const ORPHAN_PARTICLE_REGEX = /^(ね|よ|な|か|さ|ぞ|ぜ|わ|よね|ねえ|ねぇ)[。！？!?]?$/
+
+/**
+ * Remove tiny adjacent overlap artifacts such as "...だね。" followed by "ね。".
+ * Applied on extract path so canonical transcript payloads are cleaner by default.
+ */
+function removeTinyAdjacentTextOverlap<
+  T extends { text: string; startTime: number; endTime: number }
+>(segments: T[]): T[] {
+  if (!Array.isArray(segments) || segments.length < 2) return segments
+
+  const cleaned: T[] = []
+  for (const current of segments) {
+    const prev = cleaned[cleaned.length - 1]
+    if (!prev) {
+      cleaned.push(current)
+      continue
+    }
+
+    const currentText = current.text.trim()
+    const prevText = prev.text.trim()
+    if (!currentText || !prevText) {
+      cleaned.push(current)
+      continue
+    }
+
+    const currentStart = current.startTime
+    const currentEnd = current.endTime
+    const prevEnd = prev.endTime
+    const currentDuration = Math.max(currentEnd - currentStart, 0)
+    const gap = currentStart - prevEnd
+
+    const isOverlappingDuplicate = currentStart < prevEnd
+    const isLikelyOrphanParticle = ORPHAN_PARTICLE_REGEX.test(currentText)
+    const isTinyDuplicate =
+      currentText.length <= TINY_DUPLICATE_MAX_CHARS &&
+      (
+        (currentDuration <= TINY_DUPLICATE_MAX_DURATION && gap <= TINY_DUPLICATE_MAX_GAP) ||
+        isOverlappingDuplicate ||
+        isLikelyOrphanParticle
+      ) &&
+      prevText.endsWith(currentText)
+
+    if (isTinyDuplicate) continue
+    cleaned.push(current)
+  }
+
+  return cleaned
+}
+
 // Helper function to get available caption tracks using YouTube Data API
 async function getAvailableCaptionTracks(videoId: string): Promise<{
   tracks: CaptionTrack[]
@@ -441,7 +494,7 @@ async function formatTranscriptWithAI(
       )
     }
 
-    return formattedTranscript
+    return removeTinyAdjacentTextOverlap(formattedTranscript)
   } catch (error: any) {
     console.error('❌ [AI] Error formatting transcript:', error)
     console.error('❌ [AI] Error details:', {
@@ -587,13 +640,13 @@ async function extractWithYouTubeNative(
       return null
     }
 
-    const transcript = segments.map((segment: any, index: number) => ({
+    const transcript: TranscriptLine[] = removeTinyAdjacentTextOverlap(segments.map((segment: any, index: number) => ({
       id: String(index + 1),
       text: segment.text,
       startTime: segment.start,
       endTime: segment.end,
       words: segment.text.split(/[\s、。！？]/g).filter((w: string) => w.length > 0),
-    }))
+    })))
 
     // Cast to any to access extended properties not in base type definition
     const basicInfo = (videoInfo?.basic_info || {}) as Record<string, any>
@@ -776,13 +829,13 @@ async function extractWithYouTubeTranscriptIO(
     })
 
     if (response.data && response.data.transcript) {
-      const transcript = response.data.transcript.map((segment: any, index: number) => ({
+      const transcript: TranscriptLine[] = removeTinyAdjacentTextOverlap(response.data.transcript.map((segment: any, index: number) => ({
         id: String(index + 1),
         text: segment.text || '',
         startTime: segment.start || index * 5,
         endTime: segment.end || segment.start + segment.duration || (index + 1) * 5,
         words: (segment.text || '').split(/[\s、。！？]/g).filter((w: string) => w.length > 0),
-      }))
+      })))
 
       // Save to cache only for authenticated users
       if (isAuthenticated) {
@@ -1014,6 +1067,10 @@ export async function POST(request: NextRequest) {
 
       if (cachedTranscript && cachedTranscript.transcript.length > 0) {
         console.log('✅ [CACHE HIT] Returning cached transcript for:', videoId)
+        const cleanedCachedTranscript = removeTinyAdjacentTextOverlap(cachedTranscript.transcript)
+        const cleanedCachedFormattedTranscript = Array.isArray(cachedTranscript.formattedTranscript)
+          ? removeTinyAdjacentTextOverlap(cachedTranscript.formattedTranscript)
+          : null
 
         // Save to YouTube history even for cached videos (to update watch count)
         if (isAuthenticated && userId && userId !== 'anonymous') {
@@ -1022,15 +1079,15 @@ export async function POST(request: NextRequest) {
             videoId,
             cachedTranscript.videoTitle || 'Unknown',
             url,
-            cachedTranscript.formattedTranscript || cachedTranscript.transcript,
+            cleanedCachedFormattedTranscript || cleanedCachedTranscript,
             cachedTranscript.metadata || {}
           )
         }
 
         return NextResponse.json({
           success: true,
-          transcript: cachedTranscript.transcript,
-          formattedTranscript: cachedTranscript.formattedTranscript || null,
+          transcript: cleanedCachedTranscript,
+          formattedTranscript: cleanedCachedFormattedTranscript,
           language: cachedTranscript.language,
           videoTitle: cachedTranscript.videoTitle,
           videoMetadata: cachedTranscript.metadata,
@@ -1276,7 +1333,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Parse SupaData response to our format
-        const transcript = parseSupaDataTranscript(supaResponse.data)
+        const transcript = removeTinyAdjacentTextOverlap(parseSupaDataTranscript(supaResponse.data))
 
         if (transcript && transcript.length > 0) {
           // Save to cache only for authenticated users
@@ -1432,13 +1489,13 @@ export async function POST(request: NextRequest) {
 
       if (captions && captions.length > 0) {
         // Convert to our format
-        const transcript = captions.map((caption: any, index: number) => ({
+        const transcript = removeTinyAdjacentTextOverlap(captions.map((caption: any, index: number) => ({
           id: String(index + 1),
           text: caption.text || '',
           startTime: (caption.start || 0) / 1000, // Convert ms to seconds
           endTime: ((caption.start || 0) + (caption.dur || 5000)) / 1000,
           words: (caption.text || '').split(/[\s、。！？]/g).filter((w: string) => w.length > 0),
-        }))
+        })))
 
         // Save to cache only for authenticated users
         if (isAuthenticated) {

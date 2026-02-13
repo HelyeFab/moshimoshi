@@ -55,6 +55,10 @@ function shorten(value: string | null, length = 20): string {
   return `${value.slice(0, length)}…`
 }
 
+function getTodayDateKey(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
 export default function EmailSendJournalPage() {
   const [items, setItems] = useState<JournalItem[]>([])
   const [summary, setSummary] = useState<JournalSummary | null>(null)
@@ -158,6 +162,23 @@ export default function EmailSendJournalPage() {
     })
   }, [items, search])
 
+  const applyReminderTodayPreset = () => {
+    const today = getTodayDateKey()
+    setStatus('sent')
+    setNotificationType('reminder_summary_daily')
+    setStartDate(today)
+    setEndDate(today)
+    setSearch('')
+  }
+
+  const clearFilters = () => {
+    setStatus('all')
+    setNotificationType('')
+    setStartDate('')
+    setEndDate('')
+    setSearch('')
+  }
+
   return (
     <AdminErrorBoundary componentName="Email Send Journal">
       <motion.div
@@ -243,6 +264,18 @@ export default function EmailSendJournalPage() {
               onChange={(value) => setLimit(Number(value))}
               className="w-28"
             />
+            <button
+              onClick={applyReminderTodayPreset}
+              className="px-3 py-2 rounded-lg border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300 text-sm font-medium hover:bg-primary-50 dark:hover:bg-primary-900/20"
+            >
+              Reminder sends (today)
+            </button>
+            <button
+              onClick={clearFilters}
+              className="px-3 py-2 rounded-lg border border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-dark-700"
+            >
+              Clear filters
+            </button>
             <button
               onClick={() => fetchJournal()}
               className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium"

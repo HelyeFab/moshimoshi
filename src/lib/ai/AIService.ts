@@ -452,14 +452,19 @@ export class AIService {
       }
     }
 
-    await this.cacheManager.set(cacheKey, result, duration, {
-      task: request.task,
-      model: result.model || this.defaultConfig.model,
-      userId: request.metadata?.userId,
-      cost: result.usage?.estimatedCost || 0,
-    })
+    try {
+      await this.cacheManager.set(cacheKey, result, duration, {
+        task: request.task,
+        model: result.model || this.defaultConfig.model,
+        userId: request.metadata?.userId,
+        cost: result.usage?.estimatedCost || 0,
+      })
 
-    console.log(`💾 Cached for ${duration}s: ${request.task}`)
+      console.log(`💾 Cached for ${duration}s: ${request.task}`)
+    } catch (error) {
+      // Cache failures must never fail the primary AI response path.
+      console.warn(`⚠️ Cache write skipped for ${request.task}:`, error)
+    }
   }
 
   /**

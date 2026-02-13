@@ -4577,6 +4577,23 @@ export const strings = {
     audioFile: 'Audio File',
     by: 'by',
 
+    resegment: {
+      status: {
+        inProgress: 'Resegmenting transcript...',
+        completeAi: 'Resegmentation complete (ai via {{provider}}).',
+        completeDeterministic: 'Resegmentation complete (deterministic: {{reason}}, provider: {{provider}}).',
+      },
+      toast: {
+        completeAi: 'AI resegmentation complete ({{provider}}).',
+        deterministicFallback: 'Deterministic fallback: {{reason}} ({{provider}}).',
+      },
+      button: {
+        idle: 'AI Resegment',
+        loading: 'Resegmenting...',
+        title: 'Run transcript resegmentation',
+      },
+    },
+
     usage: {
       today: "Today's usage",
       unlimited: 'Unlimited',

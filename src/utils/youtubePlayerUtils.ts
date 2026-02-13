@@ -82,7 +82,7 @@ export async function seekAndWaitForReady(
   const startTime = performance.now();
   let elapsedMs = 0;
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const checkReady = () => {
       elapsedMs = performance.now() - startTime;
 
@@ -94,7 +94,14 @@ export async function seekAndWaitForReady(
       }
 
       const state = player.getPlayerState();
-      onProgress?.(elapsedMs);
+
+      // onProgress may throw to signal abort — propagate as rejection
+      try {
+        onProgress?.(elapsedMs);
+      } catch (err) {
+        reject(err);
+        return;
+      }
 
       // YouTube Player States:
       // UNSTARTED(-1), ENDED(0), PLAYING(1), PAUSED(2), BUFFERING(3), CUED(5)
@@ -116,6 +123,110 @@ export async function seekAndWaitForReady(
     // Start checking after small initial delay (allows frame flush)
     setTimeout(checkReady, 16);
   });
+}
+
+// ============================================================================
+// SEEK LANDING VERIFICATION (SYNC_PRECISION_V2)
+// ============================================================================
+
+export interface SeekLandingResult {
+  success: boolean;
+  targetTime: number;
+  actualTime: number;
+  error: number;
+  correctionAttempts: number;
+  totalMs: number;
+}
+
+export interface VerifySeekOptions {
+  threshold?: number;       // Max acceptable error in seconds (default: 0.15)
+  maxCorrections?: number;  // Max re-seek attempts (default: 2)
+  settleMs?: number;        // Wait time before reading position (default: 80)
+}
+
+/**
+ * Verifies that a seek landed close to the target time, correcting if needed.
+ *
+ * YouTube snaps seeks to the nearest keyframe (every 2-4s), so the actual
+ * landing position can drift. This function reads back the player position
+ * after a short settle period and re-seeks if the error exceeds the threshold.
+ *
+ * Budget: ~250ms worst case (3 reads x 80ms settle)
+ *
+ * @param player - YouTube IFrame player instance
+ * @param targetTime - The time we intended to seek to
+ * @param options - Configuration for threshold, max corrections, settle time
+ * @returns SeekLandingResult with success status and timing metrics
+ */
+export async function verifySeekLanding(
+  player: any,
+  targetTime: number,
+  options: VerifySeekOptions = {}
+): Promise<SeekLandingResult> {
+  const {
+    threshold = 0.15,
+    maxCorrections = 2,
+    settleMs = 80,
+  } = options;
+
+  const startTime = performance.now();
+  let correctionAttempts = 0;
+
+  // Validate player instance
+  if (!player?.getCurrentTime || !player?.seekTo) {
+    return {
+      success: false,
+      targetTime,
+      actualTime: 0,
+      error: Infinity,
+      correctionAttempts: 0,
+      totalMs: performance.now() - startTime,
+    };
+  }
+
+  // Wait for initial settle, then read position
+  await new Promise(resolve => setTimeout(resolve, settleMs));
+  let actualTime = player.getCurrentTime();
+  let error = Math.abs(actualTime - targetTime);
+
+  debugLogger.seekPerformance(
+    `Verify seek: target=${targetTime.toFixed(3)}s, actual=${actualTime.toFixed(3)}s, error=${error.toFixed(3)}s`
+  );
+
+  // Re-seek if error exceeds threshold (up to maxCorrections times)
+  while (error > threshold && correctionAttempts < maxCorrections) {
+    correctionAttempts++;
+    debugLogger.seekPerformance(
+      `Correction attempt ${correctionAttempts}: re-seeking to ${targetTime.toFixed(3)}s`
+    );
+
+    player.seekTo(targetTime, true);
+    await new Promise(resolve => setTimeout(resolve, settleMs));
+    actualTime = player.getCurrentTime();
+    error = Math.abs(actualTime - targetTime);
+
+    debugLogger.seekPerformance(
+      `After correction ${correctionAttempts}: actual=${actualTime.toFixed(3)}s, error=${error.toFixed(3)}s`
+    );
+  }
+
+  const totalMs = performance.now() - startTime;
+  const success = error <= threshold;
+
+  if (!success) {
+    debugLogger.seekPerformance(
+      `Seek verification failed after ${correctionAttempts} corrections: error=${error.toFixed(3)}s (threshold=${threshold}s)`
+    );
+  }
+
+  return {
+    success,
+    targetTime,
+    actualTime,
+    error,
+    correctionAttempts,
+    totalMs,
+  };
 }
 
 // ============================================================================

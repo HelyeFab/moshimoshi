@@ -95,8 +95,11 @@ export class PersistentCacheManager extends CacheManager {
     // Persist to Firestore if enabled
     if (this.persistenceEnabled && db) {
       try {
+        const cleanData = this.sanitizeForFirestore(data);
+        const cleanMetadata = this.sanitizeForFirestore(metadata ?? {});
+
         // Check data size (Firestore has 1MB limit per document)
-        const dataSize = JSON.stringify(data).length;
+        const dataSize = JSON.stringify(cleanData).length;
         if (dataSize > this.MAX_FIRESTORE_SIZE) {
           console.warn(`⚠️ Data too large for Firestore (${dataSize} bytes), skipping persistence`);
           return;
@@ -105,14 +108,9 @@ export class PersistentCacheManager extends CacheManager {
         const docId = this.generateDocId(key);
         const expiresAt = new Date(Date.now() + durationSeconds * 1000);
 
-        // Filter out undefined values from metadata to avoid Firestore errors
-        const cleanMetadata = metadata ? Object.fromEntries(
-          Object.entries(metadata).filter(([_, value]) => value !== undefined)
-        ) : {};
-
         await db.collection(this.COLLECTION_NAME).doc(docId).set({
           key,
-          data,
+          data: cleanData,
           metadata: cleanMetadata,
           timestamp: Timestamp.now(),
           expiresAt: Timestamp.fromDate(expiresAt),
@@ -126,6 +124,31 @@ export class PersistentCacheManager extends CacheManager {
         // Don't throw - memory cache is still valid
       }
     }
+  }
+
+  /**
+   * Recursively sanitize payloads for Firestore:
+   * - Remove undefined object properties
+   * - Replace undefined array items with null
+   */
+  private sanitizeForFirestore<T>(value: T): T {
+    if (value === undefined) return null as T;
+    if (value === null) return value;
+
+    if (Array.isArray(value)) {
+      return value.map((item) =>
+        item === undefined ? null : this.sanitizeForFirestore(item)
+      ) as T;
+    }
+
+    if (typeof value === 'object') {
+      const entries = Object.entries(value as Record<string, unknown>)
+        .filter(([, v]) => v !== undefined)
+        .map(([k, v]) => [k, this.sanitizeForFirestore(v)]);
+      return Object.fromEntries(entries) as T;
+    }
+
+    return value;
   }
 
   /**
