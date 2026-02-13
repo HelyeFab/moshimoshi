@@ -12,7 +12,6 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 // Premium gradient border - no import needed
 import SyncStatusMenuItem from "@/components/sync/SyncStatusMenuItem";
-import BuyMeACoffeeButton from "@/components/common/BuyMeACoffeeButton";
 
 interface NavbarProps {
   user?: {
@@ -440,11 +439,6 @@ export default function Navbar({
                         </div>
                       </Link>
                     )}
-
-                    {/* Buy Me a Coffee Button */}
-                    <div className="border-t border-gray-200 dark:border-dark-700">
-                      <BuyMeACoffeeButton variant="inline" />
-                    </div>
 
                     <div className="border-t border-gray-200 dark:border-dark-700 pt-2">
                       <button

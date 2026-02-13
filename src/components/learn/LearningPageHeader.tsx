@@ -220,10 +220,10 @@ export default function LearningPageHeader({
           <div className="container mx-auto px-4 py-4 relative z-10">
             {/* Compact Header */}
             <div className="relative">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 {/* Remove Doshi mascot on mobile */}
-                <div className="flex-1">
-                  <h1 className={`text-2xl font-bold ${titleClasses}`}>{title}</h1>
+                <div className="flex-1 min-w-0">
+                  <h1 className={`text-2xl font-bold truncate ${titleClasses}`}>{title}</h1>
                   {stats && (
                     <p className={`text-sm mt-1 ${descriptionClasses}`}>
                       <span
@@ -240,12 +240,10 @@ export default function LearningPageHeader({
                       /{stats.total} ({progressPercentage}%)
                     </p>
                   )}
-                  {showFeatureReminderToggle && (
-                    <div className="mt-2">
-                      <FeatureReminderToggle featureKey={featureReminderKey} />
-                    </div>
-                  )}
                 </div>
+
+                {/* Bell - right-aligned on mobile */}
+                {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
 
                 {/* Expand/Collapse Button */}
                 <button

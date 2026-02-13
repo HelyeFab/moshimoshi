@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { doc, onSnapshot, setDoc } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 import { useAuth } from '@/hooks/useAuth'
-import { db } from '@/lib/firebase/config'
+import { db, auth as firebaseAuth } from '@/lib/firebase/config'
 import type { FeatureReminderKey } from '@/lib/notifications/feature-reminders'
 
 interface UseFeatureReminderToggleResult {
@@ -24,7 +25,7 @@ export function useFeatureReminderToggle(featureKey: FeatureReminderKey | null):
 
   useEffect(() => {
     if (authLoading) return
-    if (!user || !db || !featureKey) {
+    if (!user || !db || !featureKey || !firebaseAuth) {
       setEnabled(true)
       setIsGlobalDisabled(false)
       setLoading(false)
@@ -32,29 +33,67 @@ export function useFeatureReminderToggle(featureKey: FeatureReminderKey | null):
     }
 
     setLoading(true)
-    const docRef = doc(db, 'notifications_preferences', user.uid)
-    const unsubscribe = onSnapshot(
-      docRef,
-      docSnap => {
-        const data = docSnap.data() || {}
-        const stored = data?.feature_reminders?.features?.[featureKey]
-        const channelsEmailEnabled = data?.channels?.email !== false
-        const featureRemindersEnabled = data?.feature_reminders?.enabled !== false
-        const hasGlobalGateEnabled = channelsEmailEnabled && featureRemindersEnabled
+    let unsubSnapshot: (() => void) | undefined
 
-        setEnabled(typeof stored === 'boolean' ? stored : true)
-        setIsGlobalDisabled(!hasGlobalGateEnabled)
-        setLoading(false)
-      },
-      error => {
-        console.error('Failed to subscribe to feature reminder preference:', error)
-        setEnabled(true)
-        setIsGlobalDisabled(true)
-        setLoading(false)
+    // Gate the Firestore subscription on Firebase client auth being ready.
+    // The server session (useAuth) can resolve before Firebase client auth
+    // initializes, which causes "Missing or insufficient permissions" because
+    // Firestore security rules check request.auth (client-side auth state).
+    const unsubAuth = onAuthStateChanged(firebaseAuth, fbUser => {
+      // Clean up any previous Firestore listener when auth state changes
+      if (unsubSnapshot) {
+        unsubSnapshot()
+        unsubSnapshot = undefined
       }
-    )
 
-    return () => unsubscribe()
+      if (!fbUser) {
+        // Firebase client auth not ready yet — set safe defaults
+        setEnabled(true)
+        setIsGlobalDisabled(false)
+        setLoading(false)
+        return
+      }
+
+      // Wait for the Firebase Auth ID token to be ready before subscribing
+      // to Firestore. Even after onAuthStateChanged fires, the Firestore
+      // auth token may not have propagated yet, causing permission errors.
+      fbUser.getIdToken().then(() => {
+        // Token is now ready — safe to subscribe to Firestore
+        const docRef = doc(db, 'notifications_preferences', fbUser.uid)
+        unsubSnapshot = onSnapshot(
+          docRef,
+          docSnap => {
+            const data = docSnap.data() || {}
+            const stored = data?.feature_reminders?.features?.[featureKey]
+            const channelsEmailEnabled = data?.channels?.email !== false
+            const featureRemindersEnabled = data?.feature_reminders?.enabled !== false
+            const hasGlobalGateEnabled = channelsEmailEnabled && featureRemindersEnabled
+
+            setEnabled(typeof stored === 'boolean' ? stored : true)
+            setIsGlobalDisabled(!hasGlobalGateEnabled)
+            setLoading(false)
+          },
+          error => {
+            console.error('Failed to subscribe to feature reminder preference:', error)
+            setEnabled(true)
+            setIsGlobalDisabled(true)
+            setLoading(false)
+          }
+        )
+      }).catch(() => {
+        // Token fetch failed — set safe defaults
+        setEnabled(true)
+        setIsGlobalDisabled(false)
+        setLoading(false)
+      })
+    })
+
+    return () => {
+      unsubAuth()
+      if (unsubSnapshot) {
+        unsubSnapshot()
+      }
+    }
   }, [authLoading, featureKey, user])
 
   const toggle = useCallback(async () => {

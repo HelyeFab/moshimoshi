@@ -22,6 +22,7 @@ import PerfDebugPanel from '@/components/debug/PerfDebugPanel';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
+import CoffeeBanner from '@/components/banners/CoffeeBanner';
 import { locales, type Locale } from '@/i18n/routing';
 import type { Language } from '@/i18n/config';
 
@@ -79,6 +80,7 @@ export default async function LocaleLayout({
                       <LearningVillageTracker />
                       <PageVisitTracker />
                       {children}
+                      <CoffeeBanner />
                       <PerfDebugPanel />
                       {process.env.NODE_ENV === 'development' &&
                         process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (

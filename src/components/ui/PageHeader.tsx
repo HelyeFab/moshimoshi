@@ -141,10 +141,14 @@ export default function PageHeader({
 
           <div className="container mx-auto px-4 py-4 relative z-10">
             {/* Compact Header */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <div className="flex-1 min-w-0">
                 <h1 className={`text-2xl font-bold truncate ${titleClasses}`}>{title}</h1>
               </div>
+
+              {/* Actions + Bell - right-aligned on mobile */}
+              {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
+              {actions}
 
               {/* Expand/Collapse Button - only if there's content to expand */}
               {(description || subtitle || children) && (
@@ -167,14 +171,6 @@ export default function PageHeader({
               {/* Back Button - Mobile */}
               <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
             </div>
-
-            {/* Actions slot - mobile (separate row under title) */}
-            {(actions || showFeatureReminderToggle) && (
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                {actions}
-                {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
-              </div>
-            )}
 
             {/* Expandable Content */}
             <AnimatePresence mode="wait">

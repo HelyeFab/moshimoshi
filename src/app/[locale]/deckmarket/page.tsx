@@ -315,6 +315,7 @@ export default function DeckMarketCataloguePage() {
         title={strings.deckmarket.title}
         description={strings.deckmarket.subtitle}
         backHref="/flashcards"
+        showFeatureReminderToggle={false}
       />
 
       <div className="container mx-auto px-4 py-8 pb-24">

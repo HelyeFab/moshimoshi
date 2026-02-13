@@ -164,6 +164,7 @@ export default function DeckMarketNoteDetailPage() {
         title={note?.title || strings.deckmarket.notes.title}
         description={note?.description || strings.deckmarket.notes.subtitle}
         backHref="/deckmarket"
+        showFeatureReminderToggle={false}
       />
 
       <div className="container mx-auto px-4 py-8 pb-24">
