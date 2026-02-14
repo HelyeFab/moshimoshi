@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { X, Coffee, Heart } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
@@ -15,6 +16,7 @@ import { getDonationAmounts, DONATION_CONFIG } from '@/config/donations'
  * Dismiss state is kept in React state only (resets on page reload).
  */
 export default function CoffeeBanner() {
+  const pathname = usePathname()
   const { user } = useAuth()
   const { showToast } = useToast()
   const { strings } = useI18n()
@@ -78,7 +80,9 @@ export default function CoffeeBanner() {
     }
   }
 
-  if (!mounted || dismissed) return null
+  // Hide on auth pages and for unauthenticated users
+  const isAuthPage = pathname?.includes('/auth/')
+  if (!mounted || dismissed || isAuthPage || !user) return null
 
   return (
     <AnimatePresence>
