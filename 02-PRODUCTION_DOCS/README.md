@@ -16,6 +16,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── email/                         # Email notifications and delivery systems
 ├── content-generation/            # AI-generated content, stories, comics
 ├── community/                     # Discord, social integrations
+├── kanji-drawing-practice/        # Kanji Drawing Practice (muscle-memory writing drill)
 ├── kanji-mastery/                 # Kanji learning tool documentation
 ├── nhk-news/                      # NHK News scraping system (Railway + Firebase + frontend)
 ├── blast-mode/                    # Blast Mode documentation
@@ -186,6 +187,39 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Bot configuration
 - Community channels
 - Moderation setup
+
+---
+
+### Kanji Drawing Practice (`kanji-drawing-practice/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./kanji-drawing-practice/README.md) | Feature overview, architecture, entitlements, and quick start |
+| [FEATURE_GUIDE.md](./kanji-drawing-practice/FEATURE_GUIDE.md) | Complete implementation guide with component deep dives and troubleshooting |
+
+**Key Topics:**
+- Muscle-memory kanji writing drill (12 cells per practice sheet)
+- SimpleDrawingCanvas with readings overlay (replaces separate reading cards)
+- StrokeBuildup component parsing KanjiVG SVG data
+- Stroke-count-gated overlay (readings appear only after all strokes drawn)
+- Entitlement gating (`kanji_drawing_practice`: guest=0, free=2/day, premium=unlimited)
+- i18n support (6 languages)
+- Integration with Kanji Mastery settings page (Drawing Approach toggle)
+
+**Key Files:**
+- `src/components/drawing-practice/SimpleDrawingCanvas.tsx:1` - Drawing canvas with readings overlay
+- `src/components/drawing-practice/StrokeBuildup.tsx:1` - Progressive stroke buildup
+- `src/app/[locale]/tools/kanji-mastery/drawing/page.tsx:1` - Selection + practice page
+- `src/app/[locale]/tools/kanji-mastery/drawing/DrawingPracticeSheet.tsx:1` - Practice sheet layout
+- `config/features.v1.json:139` - Feature entitlement definition
+
+**Essential Reading for:**
+- Adding new drawing/writing practice features
+- Understanding canvas-based components
+- KanjiVG SVG parsing patterns
+- Entitlement gating on interactive features
+
+**Implementation Date:** 2026-02-14
 
 ---
 
@@ -725,5 +759,5 @@ Add a link to your new feature documentation in the appropriate section:
 
 ---
 
-*Last Updated: 2026-02-03*
+*Last Updated: 2026-02-14*
 

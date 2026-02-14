@@ -6700,12 +6700,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - Kostenlose japanische Anki-Decks | JLPT-Studien-Decks',
-        description: 'Stöbere und lade kostenlose japanische Anki-Decks für die JLPT N5-N1 Vorbereitung herunter. Vokabel-, Kanji-, Grammatik- und Satz-Decks. Direkt in dein Flashcard-System importieren.',
+        title: 'DeckMarket - Kostenlose japanische Anki-Decks Download | JLPT N5-N1 Vokabel- & Kanji-Decks',
+        description: 'Kostenlose japanische Anki-Decks für JLPT N5, N4, N3, N2 und N1 Vorbereitung herunterladen. Vokabel-, Kanji-, Grammatik- und Satz-Flashcard-Decks. In Moshimoshi oder jede Anki-kompatible App direkt importieren.',
       },
       detail: {
-        title: '{deckTitle} - Kostenloses japanisches Anki-Deck | DeckMarket',
-        description: 'Lade {deckTitle} zum Japanischlernen herunter. {deckDescription}',
+        title: '{deckTitle} - Kostenloses japanisches Anki-Deck Download | Moshimoshi DeckMarket',
+        description: '{deckTitle} herunterladen - kostenloses japanisches Anki-Flashcard-Deck. {deckDescription} Für JLPT-Studium in Moshimoshi oder Anki-App importieren.',
       },
     },
     drill: {
@@ -6811,6 +6811,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: 'Kanji-Meister-Lernsitzung - Aktive Kanji-Praxis',
       description: 'Aktive Kanji-Meister-Lernsitzung. Progressives Kanji-Studium mit intelligentem Algorithmus und adaptiver Schwierigkeit. Meistern Sie Jōyō-Kanji systematisch.',
+    },
+    kanjiMasteryDrawing: {
+      title: 'Kostenlose Kanji-Schreibübung Online - Strichreihenfolge-Zeichentool | JLPT N5-N1',
+      description: 'Kanji schreiben online üben - kostenlos mit Strichreihenfolge-Anleitungen. Jedes Kanji 12 Mal zeichnen für Muskelgedächtnis. Alle 2136 Joyo-Kanji von JLPT N5 bis N1 mit On/Kun-Lesungen, Bedeutungen und progressiver Strichaufbau-Referenz.',
     },
     youtubeSeries: {
       title: 'Japanische YouTube-Serie - Lernen Sie Japanisch mit Drama & YouTube-Shadowing',
@@ -7292,6 +7296,35 @@ export const strings = {
       inLearning: 'Beim Lernen',
       hoverForDetails: 'Hover über ein Kanji für Details',
       lastStudied: 'Zuletzt gelernt:',
+    },
+    drawingApproach: {
+      toggle: 'Zeichen-Ansatz',
+      toggleDescription: 'Wiederholende Muskelgedächtnis-Kanji-Schreibübung',
+      startButton: 'Zeichenübung starten',
+      pageTitle: 'Zeichenübung',
+      pageDescription: 'Wähle ein Kanji und übe es wiederholt zu zeichnen',
+      selectKanji: 'Kanji auswählen',
+      searchPlaceholder: 'Suche nach Kanji, Bedeutung oder Lesung...',
+      practiceSheetTitle: 'Übungsblatt',
+      strokeBuildup: 'Strichaufbau',
+      drawingCell: 'Zeichnung',
+      readingCell: 'Lesungen',
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
+      meaning: 'Bedeutung',
+      strokes: 'Striche',
+      strokeCount: '{{count}} Striche',
+      cell: 'Zelle',
+      of: 'von',
+      backToSelection: 'Zurück zur Auswahl',
+      backToSettings: 'Zurück zu Einstellungen',
+      loading: 'Kanji-Daten werden geladen...',
+      loadingSvg: 'Strichdaten werden geladen...',
+      unavailable: 'Strichdaten für dieses Kanji nicht verfügbar',
+      clear: 'Löschen',
+      undo: 'Rückgängig',
+      noResults: 'Kein Kanji gefunden',
+      drawHere: 'Hier zeichnen',
     },
   },
   qa: {

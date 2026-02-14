@@ -50,6 +50,7 @@ const pages = [
 
   // Tools
   { path: '/tools/kanji-mastery', priority: 0.7, changeFrequency: 'weekly' as const },
+  { path: '/tools/kanji-mastery/drawing', priority: 0.8, changeFrequency: 'weekly' as const },
   { path: '/tools/blast-mode', priority: 0.7, changeFrequency: 'weekly' as const },
   { path: '/review-dashboard', priority: 0.7, changeFrequency: 'daily' as const },
 

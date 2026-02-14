@@ -6507,12 +6507,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - Decks Anki japonais gratuits | Decks d\'étude JLPT',
-        description: 'Parcourez et téléchargez des decks Anki japonais gratuits pour la préparation JLPT N5-N1. Vocabulaire, kanji, grammaire et phrases. Importation directe dans votre système de flashcards.',
+        title: 'DeckMarket - Télécharger Decks Anki Japonais Gratuits | JLPT N5-N1 Vocabulaire & Kanji',
+        description: 'Téléchargez des decks Anki japonais gratuits pour la préparation JLPT N5, N4, N3, N2 et N1. Decks de vocabulaire, kanji, grammaire et flashcards de phrases. Importez directement dans Moshimoshi ou toute application compatible Anki.',
       },
       detail: {
-        title: '{deckTitle} - Deck Anki japonais gratuit | DeckMarket',
-        description: 'Téléchargez {deckTitle} pour étudier le japonais. {deckDescription}',
+        title: '{deckTitle} - Télécharger Deck Anki Japonais Gratuit | Moshimoshi DeckMarket',
+        description: 'Téléchargez {deckTitle} - deck Anki japonais gratuit. {deckDescription} Importez dans Moshimoshi ou Anki pour étudier le JLPT.',
       },
     },
     drill: {
@@ -6618,6 +6618,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: 'Session d\'Apprentissage de Maîtrise des Kanji - Pratique Active des Kanji',
       description: 'Session d\'apprentissage active de maîtrise des kanji. Étude progressive des kanji avec un algorithme intelligent et une difficulté adaptative. Maîtrisez les kanji jōyō de manière systématique.',
+    },
+    kanjiMasteryDrawing: {
+      title: 'Pratique d\'Écriture Kanji Gratuite en Ligne - Outil Ordre des Traits | JLPT N5-N1',
+      description: 'Pratiquez l\'écriture des kanji en ligne gratuitement avec guides d\'ordre des traits. Dessinez chaque kanji 12 fois pour la mémoire musculaire. Couvre les 2136 kanji joyo de JLPT N5 à N1 avec lectures on/kun, significations et référence progressive des traits.',
     },
     youtubeSeries: {
       title: 'Séries YouTube Japonaises - Apprenez le Japonais avec des Dramas & le Shadowing YouTube',
@@ -7097,6 +7101,35 @@ export const strings = {
       inLearning: 'En apprentissage',
       hoverForDetails: 'Survolez un kanji pour voir les détails',
       lastStudied: 'Dernière étude:',
+    },
+    drawingApproach: {
+      toggle: 'Approche de Dessin',
+      toggleDescription: 'Pratique d\'écriture de kanji par mémoire musculaire répétitive',
+      startButton: 'Commencer la Pratique de Dessin',
+      pageTitle: 'Pratique de Dessin',
+      pageDescription: 'Sélectionnez un kanji et entraînez-vous à le dessiner de manière répétée',
+      selectKanji: 'Sélectionner un Kanji',
+      searchPlaceholder: 'Rechercher par kanji, signification ou lecture...',
+      practiceSheetTitle: 'Feuille de Pratique',
+      strokeBuildup: 'Construction des Traits',
+      drawingCell: 'Dessin',
+      readingCell: 'Lectures',
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
+      meaning: 'Signification',
+      strokes: 'Traits',
+      strokeCount: '{{count}} traits',
+      cell: 'Cellule',
+      of: 'de',
+      backToSelection: 'Retour à la Sélection',
+      backToSettings: 'Retour aux Paramètres',
+      loading: 'Chargement des données kanji...',
+      loadingSvg: 'Chargement des données de traits...',
+      unavailable: 'Données de traits non disponibles pour ce kanji',
+      clear: 'Effacer',
+      undo: 'Annuler',
+      noResults: 'Aucun kanji trouvé',
+      drawHere: 'Dessinez ici',
     },
   },
   qa: {

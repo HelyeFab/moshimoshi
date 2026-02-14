@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-11T08:27:45.798Z
+ * Generated at: 2026-02-14T09:07:40.008Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -78,6 +78,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Practice handwriting for kanji and kana with stroke feedback and recognition',
+  },
+  kanji_drawing_practice: {
+    id: 'kanji_drawing_practice',
+    name: 'Kanji Drawing Practice',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Practice drawing kanji through repetitive muscle-memory exercises',
   },
   custom_lists: {
     id: 'custom_lists',

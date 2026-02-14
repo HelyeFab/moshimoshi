@@ -11,21 +11,13 @@ interface Props {
   children: React.ReactNode
 }
 
-function getOgLocale(locale: string) {
-  switch (locale) {
-    case 'ja':
-      return 'ja_JP'
-    case 'de':
-      return 'de_DE'
-    case 'es':
-      return 'es_ES'
-    case 'fr':
-      return 'fr_FR'
-    case 'it':
-      return 'it_IT'
-    default:
-      return 'en_US'
-  }
+const ogLocaleMap: Record<string, string> = {
+  en: 'en_US',
+  ja: 'ja_JP',
+  de: 'de_DE',
+  es: 'es_ES',
+  fr: 'fr_FR',
+  it: 'it_IT',
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -39,6 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   })
   let jlpt = ''
   let tags: string[] = []
+  let deckTitle = ''
+  let downloadCount = 0
 
   try {
     if (adminFirestore) {
@@ -46,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       if (deckDoc.exists) {
         const data = deckDoc.data()
         if (data?.isPublished) {
-          const deckTitle = data.title || 'DeckMarket'
+          deckTitle = data.title || 'DeckMarket'
           const deckDescription = data.description || ''
           title = t('seo.deckmarket.detail.title', { deckTitle })
           description = t('seo.deckmarket.detail.description', {
@@ -55,6 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           }).slice(0, 160)
           jlpt = data.jlpt || ''
           tags = Array.isArray(data.tags) ? data.tags : []
+          downloadCount = data.downloadCount || 0
         }
       }
     }
@@ -71,9 +66,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const keywords = [
     'Japanese Anki deck',
     'free Japanese flashcards',
+    'download Anki deck',
     'JLPT study deck',
-    ...(jlpt ? [`${jlpt} deck`, `JLPT ${jlpt}`] : []),
+    ...(jlpt ? [`${jlpt} deck`, `JLPT ${jlpt}`, `JLPT ${jlpt} Anki deck`] : []),
+    ...(deckTitle ? [deckTitle] : []),
     ...tags.map((tag) => `Japanese ${tag} deck`),
+    'Anki import',
     'Moshimoshi DeckMarket',
   ]
 
@@ -87,10 +85,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${baseUrl}/${locale}/deckmarket/${deckId}`,
       siteName: 'Moshimoshi',
       type: 'article',
-      locale: getOgLocale(locale),
+      locale: ogLocaleMap[locale] || 'en_US',
+      alternateLocale: locales
+        .filter((l) => l !== locale)
+        .map((l) => ogLocaleMap[l] || l),
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
     },

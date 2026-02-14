@@ -8,13 +8,13 @@ import '@/styles/globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://moshimoshi.app'),
   title: {
-    default: 'Moshimoshi - Best Japanese Learning App 2025',
+    default: 'Moshimoshi - Best Japanese Learning App 2026',
     template: '%s | Moshimoshi',
   },
   description:
     'Revolutionary Japanese learning platform with YouTube shadowing for native pronunciation, one-click Anki deck import, complete Genki & Minna no Nihongo vocabulary, unique kanji connection system with visual patterns and families, 2136 joyo kanji browser, SRS flashcards, JLPT N5-N1 preparation, interactive games, and progress tracking. Import your Anki decks, practice with real YouTube videos, master kanji through visual relationships, and study with worldwide textbooks. The complete Japanese learning solution.',
   keywords: [
-    'best Japanese learning app 2025',
+    'best Japanese learning app 2026',
     'YouTube shadowing Japanese',
     'import Anki decks Japanese',
     'Genki vocabulary app',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://moshimoshi.app',
     siteName: 'Moshimoshi',
-    title: 'Learn Japanese Online - Best Japanese Learning App 2025',
+    title: 'Learn Japanese Online - Best Japanese Learning App 2026',
     description:
       'Master Japanese with SRS flashcards, JLPT preparation, kanji browser, YouTube shadowing & more',
     images: [
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Learn Japanese Online - Best Japanese Learning App 2025',
+    title: 'Learn Japanese Online - Best Japanese Learning App 2026',
     description: 'Master Japanese with SRS, JLPT prep, YouTube shadowing & more',
     creator: '@moshimoshiapp',
     images: ['https://moshimoshi.app/moshimoshi-logo.png'],

@@ -6804,12 +6804,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - 無料日本語Ankiデッキ | JLPT対策デッキ',
-        description: 'JLPT N5-N1対策用の無料日本語Ankiデッキをダウンロード。語彙、漢字、文法、例文デッキ。フラッシュカードシステムに直接インポート。',
+        title: 'DeckMarket - 無料日本語Ankiデッキ ダウンロード | JLPT N5-N1 語彙・漢字デッキ',
+        description: 'JLPT N5・N4・N3・N2・N1対策用の無料日本語Ankiデッキをダウンロード。語彙、漢字、文法、例文フラッシュカードデッキ。Moshimoshiやお使いのAnki対応アプリに直接インポート可能。',
       },
       detail: {
-        title: '{deckTitle} - 無料日本語Ankiデッキ | DeckMarket',
-        description: '{deckTitle}をダウンロード。{deckDescription}',
+        title: '{deckTitle} - 無料日本語Ankiデッキ ダウンロード | Moshimoshi DeckMarket',
+        description: '{deckTitle}をダウンロード - 無料日本語Ankiフラッシュカードデッキ。{deckDescription} JLPT対策にMoshimoshiまたはAnkiアプリにインポート。',
       },
     },
     drill: {
@@ -6915,6 +6915,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: '漢字マスター学習セッション - アクティブな漢字練習',
       description: 'アクティブな漢字マスター学習セッション。インテリジェントなアルゴリズムと適応的な難易度で進行的な漢字学習。常用漢字を体系的に習得。',
+    },
+    kanjiMasteryDrawing: {
+      title: '漢字書き取り練習 無料オンラインツール - 筆順ガイド付き | JLPT N5-N1対応',
+      description: '無料で漢字の書き取りをオンライン練習。筆順ガイド付きで各漢字を12回繰り返し書いて筋肉記憶を定着。常用漢字2136字全対応、JLPT N5からN1まで。音読み・訓読み・意味・筆順分解リファレンス付き。',
     },
     youtubeSeries: {
       title: '日本語YouTubeシリーズ - ドラマとYouTubeシャドーイングで日本語を学ぶ',
@@ -7311,6 +7315,35 @@ export const strings = {
       inLearning: '学習中',
       hoverForDetails: '漢字にカーソルを合わせると詳細が表示されます',
       lastStudied: '最終学習日:',
+    },
+    drawingApproach: {
+      toggle: '書き取り練習',
+      toggleDescription: '反復的な筋肉記憶による漢字書き取り練習',
+      startButton: '書き取り練習を開始',
+      pageTitle: '書き取り練習',
+      pageDescription: '漢字を選んで繰り返し書く練習をしましょう',
+      selectKanji: '漢字を選択',
+      searchPlaceholder: '漢字、意味、読みで検索...',
+      practiceSheetTitle: '練習シート',
+      strokeBuildup: '画の積み上げ',
+      drawingCell: '書き取り',
+      readingCell: '読み',
+      onyomi: '音読み',
+      kunyomi: '訓読み',
+      meaning: '意味',
+      strokes: '画数',
+      strokeCount: '{{count}}画',
+      cell: 'マス',
+      of: '/',
+      backToSelection: '選択に戻る',
+      backToSettings: '設定に戻る',
+      loading: '漢字データを読み込み中...',
+      loadingSvg: '画データを読み込み中...',
+      unavailable: 'この漢字の画データは利用できません',
+      clear: 'クリア',
+      undo: '元に戻す',
+      noResults: '漢字が見つかりません',
+      drawHere: 'ここに書く',
     },
   },
   qa: {

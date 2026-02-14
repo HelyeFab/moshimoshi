@@ -49,6 +49,14 @@ interface TranscriptResponse {
     aiQualityBefore?: number
     aiQualityAfter?: number
     correctionApplied?: boolean
+    ai_attempted?: boolean
+    ai_chunks_total?: number
+    ai_chunks_failed?: number
+    ai_accept_ratio?: number
+    ai_latency_ms_total?: number
+    quality_before?: number
+    quality_after?: number
+    reject_reason_histogram?: Record<string, number>
   }
   message?: string
   error?: string
@@ -63,15 +71,43 @@ const ORPHAN_PARTICLE_REGEX = /^(ね|よ|な|か|さ|ぞ|ぜ|わ|よね|ねえ|�
 const TIMELINE_EPSILON_SECONDS = 0.02
 const MIN_SEGMENT_DURATION_SECONDS = 0.2
 const OPENAI_TIMEOUT_MS = 35_000
-const AI_PIPELINE_VERSION = '2.2.0'
+const AI_PIPELINE_VERSION = '2.3.0'
 const OPENAI_MODEL = 'gpt-4o-mini'
+const AI_CHUNK_STRATEGY_VERSION = '1.0.0'
 const SENTENCE_END_REGEX = /[。！？!?]$/
 const LEADING_PARTICLE_REGEX = /^(は|が|を|に|へ|で|と|の|も|や|か|ね|よ|な|さ|ぞ|ぜ|わ)(?:$|[、。！？!?])/
 const EMERGENCY_DISABLE_AI_SHADOWING = false
 const AI_MIN_QUALITY_DELTA = 0.03
 const AI_MAX_SEGMENT_DURATION_SECONDS = 10
-const AI_SKIP_SEGMENTATION_SEGMENT_COUNT = 260
-const AI_SKIP_SEGMENTATION_TEXT_LENGTH = 6_000
+const AI_CHUNK_MIN_SEGMENTS = 80
+const AI_CHUNK_TARGET_SEGMENTS = 120
+const AI_CHUNK_MAX_SEGMENTS = 180
+const AI_ALIGNMENT_MIN_MATCH_RATIO = 0.9
+
+interface AiPipelineMetrics {
+  ai_attempted: boolean
+  ai_chunks_total: number
+  ai_chunks_failed: number
+  ai_accept_ratio: number
+  ai_latency_ms_total: number
+  quality_before: number
+  quality_after: number
+  reject_reason_histogram: Record<string, number>
+}
+
+interface AiPipelineResult {
+  segments: TranscriptSegment[]
+  method: 'ai' | 'deterministic'
+  reason: string
+  qualityBefore: number
+  qualityAfter: number
+  correctionApplied: boolean
+  metrics: AiPipelineMetrics
+}
+
+interface AiChunkWindow {
+  segments: TranscriptSegment[]
+}
 
 function removeTinyAdjacentTextOverlap(segments: TranscriptSegment[]): TranscriptSegment[] {
   if (segments.length < 2) return segments
@@ -258,6 +294,99 @@ function hasUnsafeSegmentDurations(segments: TranscriptSegment[]): boolean {
   return segments.some(seg => (seg.end - seg.start) > AI_MAX_SEGMENT_DURATION_SECONDS)
 }
 
+function createDefaultAiMetrics(qualityBefore: number): AiPipelineMetrics {
+  return {
+    ai_attempted: false,
+    ai_chunks_total: 0,
+    ai_chunks_failed: 0,
+    ai_accept_ratio: 0,
+    ai_latency_ms_total: 0,
+    quality_before: qualityBefore,
+    quality_after: qualityBefore,
+    reject_reason_histogram: {},
+  }
+}
+
+function incrementRejectReason(metrics: AiPipelineMetrics, reason: string): void {
+  metrics.reject_reason_histogram[reason] = (metrics.reject_reason_histogram[reason] || 0) + 1
+}
+
+function createAiChunkWindows(segments: TranscriptSegment[]): AiChunkWindow[] {
+  if (segments.length === 0) return []
+
+  const windows: AiChunkWindow[] = []
+  let cursor = 0
+  while (cursor < segments.length) {
+    const remaining = segments.length - cursor
+    if (remaining <= AI_CHUNK_MAX_SEGMENTS) {
+      if (remaining < AI_CHUNK_MIN_SEGMENTS && windows.length > 0) {
+        windows[windows.length - 1].segments.push(...segments.slice(cursor))
+      } else {
+        windows.push({ segments: segments.slice(cursor) })
+      }
+      break
+    }
+
+    const minEnd = Math.min(cursor + AI_CHUNK_MIN_SEGMENTS, segments.length)
+    const targetEnd = Math.min(cursor + AI_CHUNK_TARGET_SEGMENTS, segments.length)
+    const maxEnd = Math.min(cursor + AI_CHUNK_MAX_SEGMENTS, segments.length)
+
+    let selectedEnd = targetEnd
+    for (let i = targetEnd; i <= maxEnd; i++) {
+      if (SENTENCE_END_REGEX.test((segments[i - 1]?.text || '').trim())) {
+        selectedEnd = i
+        break
+      }
+    }
+
+    if (selectedEnd === targetEnd) {
+      for (let i = targetEnd; i >= minEnd; i--) {
+        if (SENTENCE_END_REGEX.test((segments[i - 1]?.text || '').trim())) {
+          selectedEnd = i
+          break
+        }
+      }
+    }
+
+    if (selectedEnd <= cursor) {
+      selectedEnd = Math.min(cursor + AI_CHUNK_TARGET_SEGMENTS, segments.length)
+    }
+
+    windows.push({ segments: segments.slice(cursor, selectedEnd) })
+    cursor = selectedEnd
+  }
+
+  return windows
+}
+
+function buildProcessingInfo(ai: AiPipelineResult): NonNullable<TranscriptResponse['processing']> {
+  return {
+    aiProcessed: true,
+    aiMethod: ai.method,
+    aiReason: ai.reason,
+    aiPipelineVersion: AI_PIPELINE_VERSION,
+    aiQualityBefore: ai.qualityBefore,
+    aiQualityAfter: ai.qualityAfter,
+    correctionApplied: ai.correctionApplied,
+    ...ai.metrics,
+  }
+}
+
+function buildAiMetadata(ai: AiPipelineResult): Record<string, unknown> {
+  return {
+    aiShadowingProcessedAt: new Date(),
+    aiShadowingMethod: ai.method,
+    aiShadowingReason: ai.reason,
+    aiShadowingQualityBefore: ai.qualityBefore,
+    aiShadowingQualityAfter: ai.qualityAfter,
+    aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
+    aiShadowingCorrectionApplied: ai.correctionApplied,
+    aiShadowingModel: OPENAI_MODEL,
+    aiShadowingChunkStrategyVersion: AI_CHUNK_STRATEGY_VERSION,
+    aiShadowingMetrics: ai.metrics,
+  }
+}
+
 function ensureAiTiming(
   aiSegments: ResegmentedSegment[],
   sourceSegments: TranscriptSegment[]
@@ -295,18 +424,12 @@ async function runAiShadowingPipeline(
   videoId: string,
   videoTitle: string,
   segments: TranscriptSegment[]
-): Promise<{
-  segments: TranscriptSegment[]
-  method: 'ai' | 'deterministic'
-  reason: string
-  qualityBefore: number
-  qualityAfter: number
-  correctionApplied: boolean
-}> {
+): Promise<AiPipelineResult> {
   const baseline = normalizeSegmentsForCache(segments)
   const qualityBefore = computeSegmentQuality(
     baseline.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
   ).score
+  const metrics = createDefaultAiMetrics(qualityBefore)
 
   // Emergency rollback: AI-first pipeline introduced timing regressions in player looping.
   // Keep deterministic normalization active while we redesign AI timing alignment.
@@ -318,112 +441,148 @@ async function runAiShadowingPipeline(
       qualityBefore,
       qualityAfter: qualityBefore,
       correctionApplied: false,
+      metrics,
+    }
+  }
+
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    return {
+      segments: baseline,
+      method: 'deterministic',
+      reason: 'openai_unconfigured',
+      qualityBefore,
+      qualityAfter: qualityBefore,
+      correctionApplied: false,
+      metrics,
     }
   }
 
   try {
-    const sourceText = baseline.map(seg => seg.text).join('')
-    const shouldSkipSegmentation =
-      baseline.length >= AI_SKIP_SEGMENTATION_SEGMENT_COUNT ||
-      sourceText.length >= AI_SKIP_SEGMENTATION_TEXT_LENGTH
-    if (shouldSkipSegmentation) {
+    const chunkWindows = createAiChunkWindows(baseline)
+    if (chunkWindows.length === 0) {
       return {
         segments: baseline,
         method: 'deterministic',
-        reason: 'openai_skipped_large_transcript',
+        reason: 'openai_empty_baseline',
         qualityBefore,
         qualityAfter: qualityBefore,
         correctionApplied: false,
+        metrics,
       }
     }
 
-    // Keep AI segmentation anchored to original transcript text.
-    // Correction pass can improve wording, but it also lowers alignment match and causes fallback churn.
-    const segmentationInputText = sourceText
     const correctionApplied = false
+    metrics.ai_attempted = true
+    metrics.ai_chunks_total = chunkWindows.length
 
-    const aiMapped = await requestOpenAiShadowingSegmentation(videoTitle, segmentationInputText)
-    if (!aiMapped || aiMapped.length === 0) {
-      return {
-        segments: baseline,
-        method: 'deterministic',
-        reason: 'openai_unsuccessful_response',
-        qualityBefore,
-        qualityAfter: qualityBefore,
-        correctionApplied,
+    const merged: TranscriptSegment[] = []
+    let acceptedChunks = 0
+
+    for (const window of chunkWindows) {
+      const chunkSource = window.segments
+      const chunkSourceQuality = computeSegmentQuality(
+        chunkSource.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
+      ).score
+
+      const sourceText = chunkSource.map(seg => seg.text).join('')
+      const chunkStartTime = Date.now()
+      let fallbackReason = 'openai_unsuccessful_response'
+      let acceptedChunk: TranscriptSegment[] | null = null
+
+      try {
+        const aiMapped = await requestOpenAiShadowingSegmentation(videoTitle, sourceText)
+        if (!aiMapped || aiMapped.length === 0) {
+          fallbackReason = 'openai_unsuccessful_response'
+        } else {
+          const anchored = alignAiTextsToSourceTimeline(
+            aiMapped.map(seg => seg.text),
+            chunkSource.map(seg => ({ text: seg.text, start: seg.start, end: seg.end })),
+            AI_ALIGNMENT_MIN_MATCH_RATIO
+          )
+
+          if (!anchored) {
+            fallbackReason = 'openai_alignment_failed'
+          } else {
+            const aiValidation = validateResegmentedOutput(anchored.segments)
+            if (!aiValidation.valid) {
+              fallbackReason = 'ai_validation_failed'
+            } else {
+              const aiNormalized = normalizeSegmentsForCache(toTranscriptSegments(anchored.segments))
+              const chunkQualityAfter = computeSegmentQuality(
+                aiNormalized.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
+              ).score
+              const chunkQualityDelta = chunkQualityAfter - chunkSourceQuality
+
+              if (hasUnsafeSegmentDurations(aiNormalized)) {
+                fallbackReason = 'openai_duration_safety_reject'
+              } else if (chunkQualityDelta < AI_MIN_QUALITY_DELTA) {
+                fallbackReason = 'openai_quality_regression'
+              } else {
+                acceptedChunk = aiNormalized
+              }
+            }
+          }
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error)
+        fallbackReason = message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error'
+      }
+
+      metrics.ai_latency_ms_total += Date.now() - chunkStartTime
+      if (acceptedChunk) {
+        acceptedChunks += 1
+        merged.push(...acceptedChunk)
+      } else {
+        metrics.ai_chunks_failed += 1
+        incrementRejectReason(metrics, fallbackReason)
+        merged.push(...chunkSource)
       }
     }
 
-    const anchored = alignAiTextsToSourceTimeline(
-      aiMapped.map(seg => seg.text),
-      baseline.map(seg => ({ text: seg.text, start: seg.start, end: seg.end })),
-      0.9
-    )
-    if (!anchored) {
+    metrics.ai_accept_ratio = metrics.ai_chunks_total > 0
+      ? acceptedChunks / metrics.ai_chunks_total
+      : 0
+
+    if (acceptedChunks === 0) {
+      const topReason = Object.entries(metrics.reject_reason_histogram)
+        .sort((a, b) => b[1] - a[1])[0]?.[0] || 'openai_all_chunks_failed'
+      metrics.quality_after = qualityBefore
       return {
         segments: baseline,
         method: 'deterministic',
-        reason: 'openai_alignment_failed',
+        reason: topReason,
         qualityBefore,
         qualityAfter: qualityBefore,
         correctionApplied,
+        metrics,
       }
     }
 
-    const aiValidation = validateResegmentedOutput(anchored.segments)
-    if (!aiValidation.valid) {
-      return {
-        segments: baseline,
-        method: 'deterministic',
-        reason: 'ai_validation_failed',
-        qualityBefore,
-        qualityAfter: qualityBefore,
-        correctionApplied,
-      }
-    }
-
-    const aiNormalized = normalizeSegmentsForCache(toTranscriptSegments(anchored.segments))
+    const aiNormalized = enforceNonOverlappingTimeline(removeTinyAdjacentTextOverlap(merged))
     const qualityAfter = computeSegmentQuality(
       aiNormalized.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
     ).score
-    const qualityDelta = qualityAfter - qualityBefore
-
-    if (hasUnsafeSegmentDurations(aiNormalized)) {
-      return {
-        segments: baseline,
-        method: 'deterministic',
-        reason: 'openai_duration_safety_reject',
-        qualityBefore,
-        qualityAfter: qualityBefore,
-        correctionApplied,
-      }
-    }
-
-    if (qualityDelta < AI_MIN_QUALITY_DELTA) {
-      return {
-        segments: baseline,
-        method: 'deterministic',
-        reason: 'openai_quality_regression',
-        qualityBefore,
-        qualityAfter: qualityBefore,
-        correctionApplied,
-      }
-    }
+    metrics.quality_after = qualityAfter
 
     console.log(
-      `[TRANSCRIPT-API] ✅ OpenAI shadowing pipeline applied for ${videoId}: ${baseline.length} -> ${aiNormalized.length} segments (quality ${qualityBefore.toFixed(2)} -> ${qualityAfter.toFixed(2)}), correction=${correctionApplied}`
+      `[TRANSCRIPT-API] ✅ OpenAI shadowing pipeline applied for ${videoId}: ${baseline.length} -> ${aiNormalized.length} segments, chunks accepted=${acceptedChunks}/${metrics.ai_chunks_total} (quality ${qualityBefore.toFixed(2)} -> ${qualityAfter.toFixed(2)}), correction=${correctionApplied}`
     )
     return {
       segments: aiNormalized,
       method: 'ai',
-      reason: correctionApplied ? 'openai_corrected_and_segmented' : 'openai_segmented',
+      reason: acceptedChunks < metrics.ai_chunks_total
+        ? 'openai_segmented_partial_fallback'
+        : (correctionApplied ? 'openai_corrected_and_segmented' : 'openai_segmented'),
       qualityBefore,
       qualityAfter,
       correctionApplied,
+      metrics,
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     console.warn(`[TRANSCRIPT-API] OpenAI shadowing pipeline failed for ${videoId}:`, message)
+    incrementRejectReason(metrics, message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error')
     return {
       segments: baseline,
       method: 'deterministic',
@@ -431,6 +590,7 @@ async function runAiShadowingPipeline(
       qualityBefore,
       qualityAfter: qualityBefore,
       correctionApplied: false,
+      metrics,
     }
   }
 }
@@ -911,13 +1071,14 @@ export async function GET(
     }
 
     const contentId = `youtube_${videoId}`
+    const forceRefresh = request.nextUrl.searchParams.get('forceRefresh') === 'true'
 
     // ==========================================
     // STEP 1: CHECK FIREBASE CACHE FIRST (Admin SDK)
     // ==========================================
     console.log(`[TRANSCRIPT-API] Step 1: Checking Firebase cache for ${videoId}`)
 
-    const cached = await transcriptCache.get(contentId)
+    const cached = forceRefresh ? null : await transcriptCache.get(contentId)
 
     if (cached && cached.transcript && cached.transcript.length > 0) {
       if (
@@ -947,7 +1108,7 @@ export async function GET(
       let mergedSegments = hasTranslations
         ? enforceNonOverlappingTimeline(cleanedSegments)
         : normalizeSegmentsForCache(cleanedSegments)
-      let processingInfo = {
+      let processingInfo: NonNullable<TranscriptResponse['processing']> = {
         aiProcessed: true,
         aiMethod: (cached as any)?.metadata?.aiShadowingMethod,
         aiReason: (cached as any)?.metadata?.aiShadowingReason,
@@ -955,13 +1116,25 @@ export async function GET(
         aiQualityBefore: (cached as any)?.metadata?.aiShadowingQualityBefore,
         aiQualityAfter: (cached as any)?.metadata?.aiShadowingQualityAfter,
         correctionApplied: Boolean((cached as any)?.metadata?.aiShadowingCorrectionApplied),
+        ai_attempted: Boolean((cached as any)?.metadata?.aiShadowingMetrics?.ai_attempted),
+        ai_chunks_total: (cached as any)?.metadata?.aiShadowingMetrics?.ai_chunks_total,
+        ai_chunks_failed: (cached as any)?.metadata?.aiShadowingMetrics?.ai_chunks_failed,
+        ai_accept_ratio: (cached as any)?.metadata?.aiShadowingMetrics?.ai_accept_ratio,
+        ai_latency_ms_total: (cached as any)?.metadata?.aiShadowingMetrics?.ai_latency_ms_total,
+        quality_before: (cached as any)?.metadata?.aiShadowingMetrics?.quality_before,
+        quality_after: (cached as any)?.metadata?.aiShadowingMetrics?.quality_after,
+        reject_reason_histogram: (cached as any)?.metadata?.aiShadowingMetrics?.reject_reason_histogram,
       }
       const cachedAiMethod = (cached as any)?.metadata?.aiShadowingMethod
       const cachedPipelineVersion = (cached as any)?.metadata?.aiShadowingPipelineVersion
+      const cachedAiModel = (cached as any)?.metadata?.aiShadowingModel
+      const cachedChunkStrategy = (cached as any)?.metadata?.aiShadowingChunkStrategyVersion
       const needsAiUpgrade =
         !cachedAiMethod ||
         cachedAiMethod !== 'ai' ||
-        cachedPipelineVersion !== AI_PIPELINE_VERSION
+        cachedPipelineVersion !== AI_PIPELINE_VERSION ||
+        cachedAiModel !== OPENAI_MODEL ||
+        cachedChunkStrategy !== AI_CHUNK_STRATEGY_VERSION
 
       if (needsAiUpgrade) {
         const aiProcessed = await runAiShadowingPipeline(
@@ -970,15 +1143,7 @@ export async function GET(
           mergedSegments
         )
         mergedSegments = aiProcessed.segments
-        processingInfo = {
-          aiProcessed: true,
-          aiMethod: aiProcessed.method,
-          aiReason: aiProcessed.reason,
-          aiPipelineVersion: AI_PIPELINE_VERSION,
-          aiQualityBefore: aiProcessed.qualityBefore,
-          aiQualityAfter: aiProcessed.qualityAfter,
-          correctionApplied: aiProcessed.correctionApplied,
-        }
+        processingInfo = buildProcessingInfo(aiProcessed)
         transcriptCache
           .updateTranscriptWithMetadata({
             contentId,
@@ -991,13 +1156,12 @@ export async function GET(
               translation: seg.translation,
             })),
             metadata: {
-              'metadata.aiShadowingProcessedAt': new Date(),
-              'metadata.aiShadowingMethod': aiProcessed.method,
-              'metadata.aiShadowingReason': aiProcessed.reason,
-              'metadata.aiShadowingQualityBefore': aiProcessed.qualityBefore,
-              'metadata.aiShadowingQualityAfter': aiProcessed.qualityAfter,
-              'metadata.aiShadowingPipelineVersion': AI_PIPELINE_VERSION,
-              'metadata.aiShadowingCorrectionApplied': aiProcessed.correctionApplied,
+              ...Object.fromEntries(
+                Object.entries(buildAiMetadata(aiProcessed)).map(([key, value]) => [
+                  `metadata.${key}`,
+                  value,
+                ])
+              ),
             },
           })
           .catch(err => console.error('[TRANSCRIPT-API] Cache AI update failed:', err))
@@ -1068,13 +1232,7 @@ export async function GET(
           videoTitle: railwayResult.title,
           metadata: {
             youtubeVideoId: videoId,
-            aiShadowingProcessedAt: new Date(),
-            aiShadowingMethod: aiProcessed.method,
-            aiShadowingReason: aiProcessed.reason,
-            aiShadowingQualityBefore: aiProcessed.qualityBefore,
-            aiShadowingQualityAfter: aiProcessed.qualityAfter,
-            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
-            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
+            ...buildAiMetadata(aiProcessed),
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -1084,15 +1242,7 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
-        processing: {
-          aiProcessed: true,
-          aiMethod: aiProcessed.method,
-          aiReason: aiProcessed.reason,
-          aiPipelineVersion: AI_PIPELINE_VERSION,
-          aiQualityBefore: aiProcessed.qualityBefore,
-          aiQualityAfter: aiProcessed.qualityAfter,
-          correctionApplied: aiProcessed.correctionApplied,
-        },
+        processing: buildProcessingInfo(aiProcessed),
       })
     }
 
@@ -1125,13 +1275,7 @@ export async function GET(
           videoTitle: sheldonResult.title,
           metadata: {
             youtubeVideoId: videoId,
-            aiShadowingProcessedAt: new Date(),
-            aiShadowingMethod: aiProcessed.method,
-            aiShadowingReason: aiProcessed.reason,
-            aiShadowingQualityBefore: aiProcessed.qualityBefore,
-            aiShadowingQualityAfter: aiProcessed.qualityAfter,
-            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
-            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
+            ...buildAiMetadata(aiProcessed),
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -1141,15 +1285,7 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
-        processing: {
-          aiProcessed: true,
-          aiMethod: aiProcessed.method,
-          aiReason: aiProcessed.reason,
-          aiPipelineVersion: AI_PIPELINE_VERSION,
-          aiQualityBefore: aiProcessed.qualityBefore,
-          aiQualityAfter: aiProcessed.qualityAfter,
-          correctionApplied: aiProcessed.correctionApplied,
-        },
+        processing: buildProcessingInfo(aiProcessed),
       })
     }
 
@@ -1182,13 +1318,7 @@ export async function GET(
           videoTitle: enhancedResult.title,
           metadata: {
             youtubeVideoId: videoId,
-            aiShadowingProcessedAt: new Date(),
-            aiShadowingMethod: aiProcessed.method,
-            aiShadowingReason: aiProcessed.reason,
-            aiShadowingQualityBefore: aiProcessed.qualityBefore,
-            aiShadowingQualityAfter: aiProcessed.qualityAfter,
-            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
-            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
+            ...buildAiMetadata(aiProcessed),
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -1198,15 +1328,7 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
-        processing: {
-          aiProcessed: true,
-          aiMethod: aiProcessed.method,
-          aiReason: aiProcessed.reason,
-          aiPipelineVersion: AI_PIPELINE_VERSION,
-          aiQualityBefore: aiProcessed.qualityBefore,
-          aiQualityAfter: aiProcessed.qualityAfter,
-          correctionApplied: aiProcessed.correctionApplied,
-        },
+        processing: buildProcessingInfo(aiProcessed),
       })
     }
 
@@ -1239,13 +1361,7 @@ export async function GET(
           videoTitle: standardResult.title,
           metadata: {
             youtubeVideoId: videoId,
-            aiShadowingProcessedAt: new Date(),
-            aiShadowingMethod: aiProcessed.method,
-            aiShadowingReason: aiProcessed.reason,
-            aiShadowingQualityBefore: aiProcessed.qualityBefore,
-            aiShadowingQualityAfter: aiProcessed.qualityAfter,
-            aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
-            aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
+            ...buildAiMetadata(aiProcessed),
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -1255,15 +1371,7 @@ export async function GET(
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
-        processing: {
-          aiProcessed: true,
-          aiMethod: aiProcessed.method,
-          aiReason: aiProcessed.reason,
-          aiPipelineVersion: AI_PIPELINE_VERSION,
-          aiQualityBefore: aiProcessed.qualityBefore,
-          aiQualityAfter: aiProcessed.qualityAfter,
-          correctionApplied: aiProcessed.correctionApplied,
-        },
+        processing: buildProcessingInfo(aiProcessed),
       })
     }
 
@@ -1309,13 +1417,7 @@ export async function GET(
             videoTitle: supaResult.title,
             metadata: {
               youtubeVideoId: videoId,
-              aiShadowingProcessedAt: new Date(),
-              aiShadowingMethod: aiProcessed.method,
-              aiShadowingReason: aiProcessed.reason,
-              aiShadowingQualityBefore: aiProcessed.qualityBefore,
-              aiShadowingQualityAfter: aiProcessed.qualityAfter,
-              aiShadowingPipelineVersion: AI_PIPELINE_VERSION,
-              aiShadowingCorrectionApplied: aiProcessed.correctionApplied,
+              ...buildAiMetadata(aiProcessed),
             },
           })
           .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
@@ -1332,15 +1434,7 @@ export async function GET(
           source: 'supa-api',
           totalSegments: normalizedSegments.length,
           totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
-          processing: {
-            aiProcessed: true,
-            aiMethod: aiProcessed.method,
-            aiReason: aiProcessed.reason,
-            aiPipelineVersion: AI_PIPELINE_VERSION,
-            aiQualityBefore: aiProcessed.qualityBefore,
-            aiQualityAfter: aiProcessed.qualityAfter,
-            correctionApplied: aiProcessed.correctionApplied,
-          },
+          processing: buildProcessingInfo(aiProcessed),
         })
       }
     }

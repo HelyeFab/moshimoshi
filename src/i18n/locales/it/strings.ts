@@ -6808,12 +6808,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - Deck Anki di giapponese gratuiti | Deck di studio JLPT',
-        description: 'Sfoglia e scarica deck Anki di giapponese gratuiti per la preparazione JLPT N5-N1. Deck di vocabolario, kanji, grammatica e frasi. Importa direttamente nel tuo sistema di flashcard.',
+        title: 'DeckMarket - Scarica Gratis Deck Anki Giapponesi | JLPT N5-N1 Vocabolario e Kanji',
+        description: 'Scarica gratuitamente deck Anki giapponesi per la preparazione JLPT N5, N4, N3, N2 e N1. Deck di vocabolario, kanji, grammatica e flashcard di frasi. Importa direttamente in Moshimoshi o qualsiasi app compatibile Anki.',
       },
       detail: {
-        title: '{deckTitle} - Deck Anki di giapponese gratuito | DeckMarket',
-        description: 'Scarica {deckTitle} per studiare giapponese. {deckDescription}',
+        title: '{deckTitle} - Scarica Gratis Deck Anki Giapponese | Moshimoshi DeckMarket',
+        description: 'Scarica {deckTitle} - deck Anki giapponese gratuito. {deckDescription} Importa in Moshimoshi o qualsiasi app Anki per studiare JLPT.',
       },
     },
     drill: {
@@ -6919,6 +6919,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: 'Sessione di apprendimento della padronanza dei kanji - Pratica attiva dei kanji',
       description: 'Sessione di apprendimento attiva della padronanza dei kanji. Studio progressivo dei kanji con algoritmo intelligente e difficoltà adattiva. Padroneggia sistematicamente i kanji jōyō.',
+    },
+    kanjiMasteryDrawing: {
+      title: 'Pratica Scrittura Kanji Gratuita Online - Strumento Ordine dei Tratti | JLPT N5-N1',
+      description: 'Pratica a scrivere kanji online gratuitamente con guide all\'ordine dei tratti. Disegna ogni kanji 12 volte per la memoria muscolare. Copre tutti i 2136 kanji joyo da JLPT N5 a N1 con letture on/kun, significati e riferimento progressivo dei tratti.',
     },
     youtubeSeries: {
       title: 'Serie YouTube giapponese - Impara il giapponese con drama e shadowing su YouTube',
@@ -7321,6 +7325,35 @@ export const strings = {
       inLearning: 'In apprendimento',
       hoverForDetails: 'Passa il mouse su un kanji per vedere i dettagli',
       lastStudied: 'Ultimo studio:',
+    },
+    drawingApproach: {
+      toggle: 'Approccio di Disegno',
+      toggleDescription: 'Pratica di scrittura dei kanji con memoria muscolare ripetitiva',
+      startButton: 'Inizia Pratica di Disegno',
+      pageTitle: 'Pratica di Disegno',
+      pageDescription: 'Seleziona un kanji e pratica a disegnarlo ripetutamente',
+      selectKanji: 'Seleziona un Kanji',
+      searchPlaceholder: 'Cerca per kanji, significato o lettura...',
+      practiceSheetTitle: 'Foglio di Pratica',
+      strokeBuildup: 'Costruzione dei Tratti',
+      drawingCell: 'Disegno',
+      readingCell: 'Letture',
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
+      meaning: 'Significato',
+      strokes: 'Tratti',
+      strokeCount: '{{count}} tratti',
+      cell: 'Cella',
+      of: 'di',
+      backToSelection: 'Torna alla Selezione',
+      backToSettings: 'Torna alle Impostazioni',
+      loading: 'Caricamento dati kanji...',
+      loadingSvg: 'Caricamento dati dei tratti...',
+      unavailable: 'Dati dei tratti non disponibili per questo kanji',
+      clear: 'Cancella',
+      undo: 'Annulla',
+      noResults: 'Nessun kanji trovato',
+      drawHere: 'Disegna qui',
     },
   },
   qa: {

@@ -7334,12 +7334,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - Free Japanese Anki Decks | JLPT Study Decks',
-        description: 'Browse and download free Japanese Anki decks for JLPT N5-N1 preparation. Vocabulary, kanji, grammar, and sentence decks. Import directly into your flashcard system.',
+        title: 'DeckMarket - Free Japanese Anki Decks Download | JLPT N5-N1 Vocabulary & Kanji Decks',
+        description: 'Download free Japanese Anki decks for JLPT N5, N4, N3, N2, and N1 preparation. Vocabulary, kanji, grammar, and sentence flashcard decks. Browse, preview, and import directly into Moshimoshi or any Anki-compatible app.',
       },
       detail: {
-        title: '{deckTitle} - Free Japanese Anki Deck | DeckMarket',
-        description: 'Download {deckTitle} for Japanese study. {deckDescription}',
+        title: '{deckTitle} - Free Japanese Anki Deck Download | Moshimoshi DeckMarket',
+        description: 'Download {deckTitle} - free Japanese Anki flashcard deck. {deckDescription} Import into Moshimoshi or any Anki app for JLPT study.',
       },
     },
     drill: {
@@ -7445,6 +7445,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: 'Kanji Mastery Learning Session - Active Kanji Practice',
       description: 'Active kanji mastery learning session. Progressive kanji study with intelligent algorithm and adaptive difficulty. Master jōyō kanji systematically.',
+    },
+    kanjiMasteryDrawing: {
+      title: 'Free Kanji Writing Practice Online - Stroke Order Drawing Tool | JLPT N5-N1',
+      description: 'Practice writing kanji online for free with stroke order guides. Draw each kanji 12 times for muscle memory. Covers all 2136 joyo kanji from JLPT N5 to N1 with on/kun readings, meanings, and progressive stroke buildup reference.',
     },
     youtubeSeries: {
       title: 'Japanese YouTube Series - Learn Japanese with Drama & YouTube Shadowing',
@@ -7554,6 +7558,35 @@ export const strings = {
       inLearning: 'In Learning',
       hoverForDetails: 'Hover over a kanji to see details',
       lastStudied: 'Last studied:',
+    },
+    drawingApproach: {
+      toggle: 'Drawing Approach',
+      toggleDescription: 'Repetitive muscle-memory kanji writing practice',
+      startButton: 'Start Drawing Practice',
+      pageTitle: 'Drawing Practice',
+      pageDescription: 'Select a kanji and practice drawing it repeatedly',
+      selectKanji: 'Select a Kanji',
+      searchPlaceholder: 'Search by kanji, meaning, or reading...',
+      practiceSheetTitle: 'Practice Sheet',
+      strokeBuildup: 'Stroke Buildup',
+      drawingCell: 'Drawing',
+      readingCell: 'Readings',
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
+      meaning: 'Meaning',
+      strokes: 'Strokes',
+      strokeCount: '{{count}} strokes',
+      cell: 'Cell',
+      of: 'of',
+      backToSelection: 'Back to Selection',
+      backToSettings: 'Back to Settings',
+      loading: 'Loading kanji data...',
+      loadingSvg: 'Loading stroke data...',
+      unavailable: 'Stroke data unavailable for this kanji',
+      clear: 'Clear',
+      undo: 'Undo',
+      noResults: 'No kanji found',
+      drawHere: 'Draw here',
     },
   },
 

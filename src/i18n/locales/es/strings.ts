@@ -6698,12 +6698,12 @@ export const strings = {
     },
     deckmarket: {
       list: {
-        title: 'DeckMarket - Decks de Anki japoneses gratis | Decks de estudio JLPT',
-        description: 'Explora y descarga decks de Anki japoneses gratis para la preparación JLPT N5-N1. Decks de vocabulario, kanji, gramática y oraciones. Importa directamente en tu sistema de flashcards.',
+        title: 'DeckMarket - Descarga Gratis Decks Anki Japoneses | JLPT N5-N1 Vocabulario y Kanji',
+        description: 'Descarga gratis decks de Anki japoneses para preparación JLPT N5, N4, N3, N2 y N1. Decks de vocabulario, kanji, gramática y flashcards de oraciones. Importa directamente en Moshimoshi o cualquier app compatible con Anki.',
       },
       detail: {
-        title: '{deckTitle} - Deck de Anki japonés gratis | DeckMarket',
-        description: 'Descarga {deckTitle} para estudiar japonés. {deckDescription}',
+        title: '{deckTitle} - Descarga Gratis Deck Anki Japonés | Moshimoshi DeckMarket',
+        description: 'Descarga {deckTitle} - deck Anki de japonés gratis. {deckDescription} Importa en Moshimoshi o cualquier app Anki para estudiar JLPT.',
       },
     },
     drill: {
@@ -6809,6 +6809,10 @@ export const strings = {
     kanjiMasteryLearn: {
       title: 'Sesión de Aprendizaje de Dominio de Kanji - Práctica Activa de Kanji',
       description: 'Sesión activa de aprendizaje de dominio de kanji. Estudio progresivo de kanji con algoritmo inteligente y dificultad adaptativa. Domina los kanji jōyō sistemáticamente.',
+    },
+    kanjiMasteryDrawing: {
+      title: 'Practica Escritura de Kanji Gratis Online - Herramienta de Orden de Trazos | JLPT N5-N1',
+      description: 'Practica escribir kanji online gratis con guías de orden de trazos. Dibuja cada kanji 12 veces para memoria muscular. Cubre los 2136 kanji joyo de JLPT N5 a N1 con lecturas on/kun, significados y referencia progresiva de trazos.',
     },
     youtubeSeries: {
       title: 'Serie Japonesa de YouTube - Aprende Japonés con Drama y Sombreado de YouTube',
@@ -7286,6 +7290,35 @@ export const strings = {
       inLearning: 'Aprendiendo',
       hoverForDetails: 'Pasa el cursor sobre un kanji para ver detalles',
       lastStudied: 'Último estudio:',
+    },
+    drawingApproach: {
+      toggle: 'Enfoque de Dibujo',
+      toggleDescription: 'Práctica de escritura de kanji con memoria muscular repetitiva',
+      startButton: 'Iniciar Práctica de Dibujo',
+      pageTitle: 'Práctica de Dibujo',
+      pageDescription: 'Selecciona un kanji y practica dibujándolo repetidamente',
+      selectKanji: 'Selecciona un Kanji',
+      searchPlaceholder: 'Buscar por kanji, significado o lectura...',
+      practiceSheetTitle: 'Hoja de Práctica',
+      strokeBuildup: 'Construcción de Trazos',
+      drawingCell: 'Dibujo',
+      readingCell: 'Lecturas',
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
+      meaning: 'Significado',
+      strokes: 'Trazos',
+      strokeCount: '{{count}} trazos',
+      cell: 'Celda',
+      of: 'de',
+      backToSelection: 'Volver a la Selección',
+      backToSettings: 'Volver a Configuración',
+      loading: 'Cargando datos de kanji...',
+      loadingSvg: 'Cargando datos de trazos...',
+      unavailable: 'Datos de trazos no disponibles para este kanji',
+      clear: 'Borrar',
+      undo: 'Deshacer',
+      noResults: 'No se encontraron kanji',
+      drawHere: 'Dibuja aquí',
     },
   },
   qa: {
