@@ -11,7 +11,7 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles, MoreVertical } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles, MoreVertical, FileText, AudioLines } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
@@ -1854,90 +1854,102 @@ function YouTubeShadowingContent() {
                           )}
                         </div>
                         {editMode && (
-                          <div className={styles.segmentEditRow}>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleSplitSegment(index)}
-                            >
-                              Split
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleTimingNudge(index, 'start', -TIMING_NUDGE_SECONDS)}
-                            >
-                              Start-
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleTimingNudge(index, 'start', TIMING_NUDGE_SECONDS)}
-                            >
-                              Start+
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleTimingNudge(index, 'end', -TIMING_NUDGE_SECONDS)}
-                            >
-                              End-
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleTimingNudge(index, 'end', TIMING_NUDGE_SECONDS)}
-                            >
-                              End+
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleBoundaryTakeFromNext(index)}
-                              disabled={index >= segments.length - 1}
-                            >
-                              Take Next
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleBoundaryTakeFromNext(index, 2)}
-                              disabled={index >= segments.length - 1}
-                            >
-                              Take 2
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleBoundaryGiveToNext(index)}
-                              disabled={index >= segments.length - 1}
-                            >
-                              Give Next
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleBoundaryGiveToNext(index, 2)}
-                              disabled={index >= segments.length - 1}
-                            >
-                              Give 2
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleMergeWithPrevious(index)}
-                              disabled={index === 0}
-                            >
-                              Merge Prev
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.segmentEditButton}
-                              onClick={() => handleMergeWithNext(index)}
-                              disabled={index >= segments.length - 1}
-                            >
-                              Merge Next
-                            </button>
+                          <div className={styles.segmentEditGroups}>
+                            <div className={styles.segmentEditLabel}>
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Text</span>
+                            </div>
+                            <div className={styles.segmentEditRow}>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleSplitSegment(index)}
+                              >
+                                Split
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleBoundaryTakeFromNext(index)}
+                                disabled={index >= segments.length - 1}
+                              >
+                                Take Next
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleBoundaryTakeFromNext(index, 2)}
+                                disabled={index >= segments.length - 1}
+                              >
+                                Take 2
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleBoundaryGiveToNext(index)}
+                                disabled={index >= segments.length - 1}
+                              >
+                                Give Next
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleBoundaryGiveToNext(index, 2)}
+                                disabled={index >= segments.length - 1}
+                              >
+                                Give 2
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleMergeWithPrevious(index)}
+                                disabled={index === 0}
+                              >
+                                Merge Prev
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.segmentEditButton}
+                                onClick={() => handleMergeWithNext(index)}
+                                disabled={index >= segments.length - 1}
+                              >
+                                Merge Next
+                              </button>
+                            </div>
+                            <div className={styles.segmentTimingLabel}>
+                              <AudioLines className="w-3.5 h-3.5" />
+                              <span>Audio Timing</span>
+                            </div>
+                            <div className={styles.segmentTimingRow}>
+                              <button
+                                type="button"
+                                className={`${styles.segmentEditButton} ${styles.segmentTimingButton}`}
+                                onClick={() => handleTimingNudge(index, 'start', -TIMING_NUDGE_SECONDS)}
+                              >
+                                Start-
+                              </button>
+                              <button
+                                type="button"
+                                className={`${styles.segmentEditButton} ${styles.segmentTimingButton}`}
+                                onClick={() => handleTimingNudge(index, 'start', TIMING_NUDGE_SECONDS)}
+                              >
+                                Start+
+                              </button>
+                              <button
+                                type="button"
+                                className={`${styles.segmentEditButton} ${styles.segmentTimingButton}`}
+                                onClick={() => handleTimingNudge(index, 'end', -TIMING_NUDGE_SECONDS)}
+                              >
+                                End-
+                              </button>
+                              <button
+                                type="button"
+                                className={`${styles.segmentEditButton} ${styles.segmentTimingButton}`}
+                                onClick={() => handleTimingNudge(index, 'end', TIMING_NUDGE_SECONDS)}
+                              >
+                                End+
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>

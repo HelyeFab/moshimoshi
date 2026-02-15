@@ -528,7 +528,48 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+  padding-left: 30px;
+}
+
+.segmentEditGroups {
   margin-top: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.segmentEditLabel,
+.segmentTimingLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding-left: 30px;
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.segmentEditLabel {
+  color: var(--color-dark-500);
+}
+
+.segmentTimingLabel {
+  color: #0e7490;
+}
+
+:global(.dark) .segmentEditLabel {
+  color: var(--color-gray-400);
+}
+
+:global(.dark) .segmentTimingLabel {
+  color: #67e8f9;
+}
+
+.segmentTimingRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
   padding-left: 30px;
 }
 
@@ -557,6 +598,23 @@
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.12);
   color: var(--color-gray-300);
+}
+
+.segmentTimingButton {
+  background: rgba(14, 116, 144, 0.1);
+  border-color: rgba(14, 116, 144, 0.32);
+  color: #0e7490;
+}
+
+.segmentTimingButton:hover:not(:disabled) {
+  border-color: rgba(14, 116, 144, 0.55);
+  color: #0c4a6e;
+}
+
+:global(.dark) .segmentTimingButton {
+  background: rgba(14, 116, 144, 0.2);
+  border-color: rgba(103, 232, 249, 0.35);
+  color: #67e8f9;
 }
 
 @media (min-width: 1024px) {
