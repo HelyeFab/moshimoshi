@@ -230,6 +230,7 @@ export default function SimpleDrawingCanvas({
     <div
       ref={containerRef}
       className={`flex flex-col items-center gap-2 ${className}`}
+      style={{ maxWidth: width + 4 }}
       onKeyDown={handleKeyDown}
       role="group"
       aria-label={canvasLabel}
