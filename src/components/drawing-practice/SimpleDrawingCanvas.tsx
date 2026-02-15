@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react'
 import DOMPurify from 'isomorphic-dompurify'
-import { Trash2, Undo2 } from 'lucide-react'
+import { Eraser, Undo2 } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface Point {
@@ -333,7 +333,7 @@ export default function SimpleDrawingCanvas({
           title={t('kanjiMasteryTool.drawingApproach.clear')}
           className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
-          <Trash2 className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
+          <Eraser className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
         </button>
         <button
           onClick={undoLastStroke}
