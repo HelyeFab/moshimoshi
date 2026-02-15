@@ -245,9 +245,9 @@ export default function PageHeader({
             <div className="flex items-center justify-between gap-3 mb-4">
               <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
               {(actions || showFeatureReminderToggle) && (
-                <div className="flex items-center gap-3">
-                  {actions}
+                <div className="flex flex-col items-end gap-3">
                   {showFeatureReminderToggle && <FeatureReminderToggle featureKey={featureReminderKey} />}
+                  {actions}
                 </div>
               )}
             </div>
