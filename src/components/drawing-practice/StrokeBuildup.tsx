@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface StrokeBuildupProps {
@@ -57,23 +58,25 @@ export default function StrokeBuildup({ svgData, totalStrokes, cellSize = 80 }: 
   if (buildupSteps.length === 0) return null
 
   return (
-    <div>
+    <section aria-label={t('kanjiMasteryTool.drawingApproach.strokeBuildup')}>
       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
         {t('kanjiMasteryTool.drawingApproach.strokeBuildup')}
       </h3>
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-dark-600">
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-dark-600" role="list" aria-label={`${t('kanjiMasteryTool.drawingApproach.strokeBuildup')} — ${buildupSteps.length} ${t('kanjiMasteryTool.drawingApproach.strokes').toLowerCase()}`}>
         {buildupSteps.map((svgHtml, index) => (
           <div
             key={index}
             className="flex-shrink-0 bg-white dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-dark-700 p-1 relative"
+            role="listitem"
+            aria-label={`${t('kanjiMasteryTool.drawingApproach.strokes')} ${index + 1}`}
           >
-            <div dangerouslySetInnerHTML={{ __html: svgHtml }} />
-            <span className="absolute bottom-0.5 right-1 text-[10px] text-gray-400 dark:text-gray-500">
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(svgHtml, { USE_PROFILES: { svg: true, svgFilters: true } }) }} aria-hidden="true" />
+            <span className="absolute bottom-0.5 right-1 text-[10px] text-gray-400 dark:text-gray-500" aria-hidden="true">
               {index + 1}
             </span>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

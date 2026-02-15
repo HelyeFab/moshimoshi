@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useCallback } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
 import { motion } from 'framer-motion'
 import { kanjiCanvasService } from '@/services/kanjiCanvasService'
 
@@ -375,7 +376,7 @@ export default function DrawingCanvasWithRecognition({
             width={width}
             height={height}
             className="absolute inset-0 opacity-20 pointer-events-none"
-            dangerouslySetInnerHTML={{ __html: characterSVG.replace(/<svg[^>]*>|<\/svg>/g, '') }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(characterSVG.replace(/<svg[^>]*>|<\/svg>/g, ''), { USE_PROFILES: { svg: true, svgFilters: true } }) }}
           />
         )}
 

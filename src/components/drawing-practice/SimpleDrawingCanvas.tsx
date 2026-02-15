@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useCallback } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface Point {
@@ -23,6 +24,7 @@ interface SimpleDrawingCanvasProps {
   onyomi?: string[]
   kunyomi?: string[]
   expectedStrokes?: number
+  cellIndex?: number
 }
 
 export default function SimpleDrawingCanvas({
@@ -36,9 +38,11 @@ export default function SimpleDrawingCanvas({
   onyomi,
   kunyomi,
   expectedStrokes,
+  cellIndex,
 }: SimpleDrawingCanvasProps) {
   const { t } = useI18n()
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [currentStroke, setCurrentStroke] = useState<Point[]>([])
   const [strokes, setStrokes] = useState<Stroke[]>([])
@@ -163,6 +167,19 @@ export default function SimpleDrawingCanvas({
     })
   }, [strokes, context, width, height])
 
+  // Keyboard shortcuts when canvas container is focused
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+      e.preventDefault()
+      undoLastStroke()
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      clearCanvas()
+    }
+  }, [undoLastStroke, clearCanvas])
+
   // Add event listeners
   useEffect(() => {
     const canvas = canvasRef.current
@@ -201,9 +218,23 @@ export default function SimpleDrawingCanvas({
     }
   }, [startDrawing, draw, stopDrawing])
 
+  const canvasLabel = cellIndex != null
+    ? `${t('kanjiMasteryTool.drawingApproach.drawHere')} - ${t('kanjiMasteryTool.drawingApproach.cell')} ${cellIndex + 1}`
+    : t('kanjiMasteryTool.drawingApproach.drawHere')
+
+  const strokeStatus = expectedStrokes
+    ? `${strokes.length} ${t('kanjiMasteryTool.drawingApproach.of')} ${expectedStrokes} ${t('kanjiMasteryTool.drawingApproach.strokes').toLowerCase()}`
+    : `${strokes.length} ${t('kanjiMasteryTool.drawingApproach.strokes').toLowerCase()}`
+
   return (
-    <div className={`flex flex-col items-center gap-2 ${className}`}>
-      <div className="relative bg-white dark:bg-dark-900 rounded-lg border-2 border-gray-200 dark:border-dark-700">
+    <div
+      ref={containerRef}
+      className={`flex flex-col items-center gap-2 ${className}`}
+      onKeyDown={handleKeyDown}
+      role="group"
+      aria-label={canvasLabel}
+    >
+      <div className="relative bg-white dark:bg-dark-900 rounded-lg border-2 border-gray-200 dark:border-dark-700 focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-1">
         {/* Ghost character overlay */}
         {showGhost && ghostSVG && !showReadings && (
           <svg
@@ -211,7 +242,8 @@ export default function SimpleDrawingCanvas({
             width={width}
             height={height}
             className="absolute inset-0 opacity-15 pointer-events-none"
-            dangerouslySetInnerHTML={{ __html: ghostSVG.replace(/<svg[^>]*>|<\/svg>/g, '') }}
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(ghostSVG.replace(/<svg[^>]*>|<\/svg>/g, ''), { USE_PROFILES: { svg: true, svgFilters: true } }) }}
           />
         )}
 
@@ -221,6 +253,9 @@ export default function SimpleDrawingCanvas({
           width={width}
           height={height}
           className="cursor-crosshair touch-none"
+          role="img"
+          aria-label={canvasLabel}
+          tabIndex={0}
         />
 
         {/* Crosshair grid overlay */}
@@ -229,6 +264,7 @@ export default function SimpleDrawingCanvas({
             className="absolute inset-0 pointer-events-none opacity-10"
             width={width}
             height={height}
+            aria-hidden="true"
           >
             <line x1={width / 2} y1={0} x2={width / 2} y2={height} stroke="currentColor" />
             <line x1={0} y1={height / 2} x2={width} y2={height / 2} stroke="currentColor" />
@@ -239,24 +275,33 @@ export default function SimpleDrawingCanvas({
 
         {/* Stroke counter badge */}
         {!showReadings && (
-          <div className="absolute top-1 right-1 bg-primary-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+          <div
+            className="absolute top-1 right-1 bg-primary-500 text-white text-[10px] px-1.5 py-0.5 rounded-full"
+            aria-hidden="true"
+          >
             {strokes.length}
           </div>
         )}
 
+        {/* Accessible stroke count for screen readers */}
+        <span className="sr-only" aria-live="polite">{strokeStatus}</span>
+
         {/* Readings overlay - shown after drawing */}
         {showReadings && (
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center bg-amber-50/95 dark:bg-amber-900/80 rounded-md overflow-y-auto px-1.5 py-1.5 gap-0.5 scrollbar-none"
+            className="absolute inset-0 flex flex-col items-center bg-amber-50/95 dark:bg-amber-900/80 rounded-md overflow-y-auto px-2 pt-2 pb-1 gap-1 scrollbar-none"
             style={{ scrollbarWidth: 'none' }}
+            role="status"
+            aria-live="polite"
+            aria-label={t('kanjiMasteryTool.drawingApproach.readingCell')}
           >
             {onyomi && onyomi.length > 0 && (
               <div className="text-center w-full">
-                <span className="text-[8px] uppercase text-amber-600/80 dark:text-amber-400/80 leading-none">
+                <span className="text-[10px] uppercase font-semibold text-amber-600/80 dark:text-amber-400/80 leading-none">
                   {t('kanjiMasteryTool.drawingApproach.onyomi')}
                 </span>
                 {onyomi.map((r, i) => (
-                  <p key={i} className="text-[10px] font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                  <p key={i} className="text-sm font-bold text-gray-900 dark:text-gray-100 leading-snug">
                     {r}
                   </p>
                 ))}
@@ -264,11 +309,11 @@ export default function SimpleDrawingCanvas({
             )}
             {kunyomi && kunyomi.length > 0 && (
               <div className="text-center w-full">
-                <span className="text-[8px] uppercase text-amber-600/80 dark:text-amber-400/80 leading-none">
+                <span className="text-[10px] uppercase font-semibold text-amber-600/80 dark:text-amber-400/80 leading-none">
                   {t('kanjiMasteryTool.drawingApproach.kunyomi')}
                 </span>
                 {kunyomi.map((r, i) => (
-                  <p key={i} className="text-[10px] font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                  <p key={i} className="text-sm font-bold text-gray-900 dark:text-gray-100 leading-snug">
                     {r}
                   </p>
                 ))}
@@ -279,17 +324,19 @@ export default function SimpleDrawingCanvas({
       </div>
 
       {/* Control buttons */}
-      <div className="flex gap-1.5">
+      <div className="flex gap-1.5" role="toolbar" aria-label={t('kanjiMasteryTool.drawingApproach.drawHere')}>
         <button
           onClick={clearCanvas}
-          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors"
+          aria-label={`${t('kanjiMasteryTool.drawingApproach.clear')} (Esc)`}
+          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
           {t('kanjiMasteryTool.drawingApproach.clear')}
         </button>
         <button
           onClick={undoLastStroke}
           disabled={strokes.length === 0 || showReadings}
-          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
+          aria-label={`${t('kanjiMasteryTool.drawingApproach.undo')} (Ctrl+Z)`}
+          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
           {t('kanjiMasteryTool.drawingApproach.undo')}
         </button>

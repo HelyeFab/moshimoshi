@@ -136,24 +136,28 @@ function DrawingPracticeContent() {
             <div className="space-y-4">
               {/* Search bar */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
                   placeholder={t('kanjiMasteryTool.drawingApproach.searchPlaceholder')}
+                  aria-label={t('kanjiMasteryTool.drawingApproach.searchPlaceholder')}
                   className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-gray-100"
                 />
               </div>
 
               {/* JLPT level tabs */}
               {!searchQuery.trim() && (
-                <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
+                <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg" role="tablist" aria-label="JLPT Level">
                   {JLPT_LEVELS.map(level => (
                     <button
                       key={level}
                       onClick={() => setSelectedLevel(level)}
-                      className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                      role="tab"
+                      aria-selected={selectedLevel === level}
+                      aria-label={`JLPT ${level}`}
+                      className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1 ${
                         selectedLevel === level
                           ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -167,21 +171,22 @@ function DrawingPracticeContent() {
 
               {/* Kanji grid */}
               {loading || isSearching ? (
-                <div className="text-center py-12 text-sm text-gray-500 dark:text-gray-400">
+                <div className="text-center py-12 text-sm text-gray-500 dark:text-gray-400" role="status">
                   {t('kanjiMasteryTool.drawingApproach.loading')}
                 </div>
               ) : displayKanji.length === 0 ? (
-                <div className="text-center py-12 text-sm text-gray-400 dark:text-gray-500">
+                <div className="text-center py-12 text-sm text-gray-400 dark:text-gray-500" role="status">
                   {t('kanjiMasteryTool.drawingApproach.noResults')}
                 </div>
               ) : (
-                <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2">
+                <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2" role="grid" aria-label={t('kanjiMasteryTool.drawingApproach.selectKanji')}>
                   {displayKanji.map((kanjiItem, index) => (
                     <button
                       key={`${kanjiItem.kanji}-${index}`}
                       onClick={() => handleKanjiSelect(kanjiItem)}
-                      className="aspect-square flex items-center justify-center bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg text-xl font-serif text-gray-900 dark:text-gray-100 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors cursor-pointer"
+                      className="aspect-square flex items-center justify-center bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg text-xl font-serif text-gray-900 dark:text-gray-100 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
                       title={kanjiItem.meaning}
+                      aria-label={`${kanjiItem.kanji} — ${kanjiItem.meaning}`}
                     >
                       {kanjiItem.kanji}
                     </button>
