@@ -12,80 +12,18 @@ import SettingsDropdown from '@/components/ui/SettingsDropdown';
 import { Settings, Repeat, Type, Highlighter, X, Trash2, Gauge, ChevronDown, ChevronUp, MoreVertical } from 'lucide-react';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { nextOnSegmentEnd, onRepeatCountChange, clampRepeatCount, type RepeatState } from '@/lib/shadowing/repeat';
+import {
+  joinSegmentTexts,
+  findSplitIndexForText,
+  splitLeadingTokens,
+  splitTrailingTokens,
+} from '@/lib/shadowing/transcriptEditing';
 import styles from './MoshiShadowingPlayer.module.css';
 
 type HighlightMode = 'none' | 'all' | 'content' | 'grammar';
 
 function cloneSentences(input: string[]): string[] {
   return input.map(sentence => sentence);
-}
-
-function joinSentenceTexts(left: string, right: string): string {
-  const trimmedLeft = left.trimEnd();
-  const trimmedRight = right.trimStart();
-  const shouldInsertSpace = /[A-Za-z0-9]$/.test(trimmedLeft) && /^[A-Za-z0-9]/.test(trimmedRight);
-  return shouldInsertSpace ? `${trimmedLeft} ${trimmedRight}` : `${trimmedLeft}${trimmedRight}`;
-}
-
-function findSplitIndexForText(text: string): number | null {
-  const trimmed = text.trim();
-  if (trimmed.length < 4) return null;
-
-  const punctuationMatches = [...trimmed.matchAll(/[。！？!?、]/g)];
-  if (punctuationMatches.length > 0) {
-    const midpoint = Math.floor(trimmed.length / 2);
-    const best = punctuationMatches.reduce((acc, match) => {
-      const idx = (match.index ?? 0) + 1;
-      return Math.abs(idx - midpoint) < Math.abs(acc - midpoint) ? idx : acc;
-    }, (punctuationMatches[0].index ?? 0) + 1);
-    if (best >= 2 && best <= trimmed.length - 2) return best;
-  }
-
-  const midpoint = Math.floor(trimmed.length / 2);
-  if (midpoint >= 2 && midpoint <= trimmed.length - 2) return midpoint;
-  return null;
-}
-
-function tokenizeForBoundaryAdjust(text: string): string[] {
-  const trimmed = text.trim();
-  if (!trimmed) return [];
-
-  try {
-    const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
-    const parts = Array.from(segmenter.segment(trimmed))
-      .map((part: any) => String(part.segment ?? ''))
-      .filter(Boolean);
-    if (parts.length > 0) return parts;
-  } catch {
-    // fallback below
-  }
-
-  if (/\s/.test(trimmed)) {
-    return trimmed.split(/\s+/).filter(Boolean);
-  }
-
-  return Array.from(trimmed);
-}
-
-function splitLeadingTokens(text: string, count: number): { token: string; remainder: string } | null {
-  const tokens = tokenizeForBoundaryAdjust(text);
-  if (!tokens.length) return null;
-  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
-  const token = tokens.slice(0, safeCount).join('');
-  const remainder = text.trim().slice(token.length).trimStart();
-  if (!remainder) return null;
-  return { token: token.trim(), remainder };
-}
-
-function splitTrailingTokens(text: string, count: number): { token: string; remainder: string } | null {
-  const tokens = tokenizeForBoundaryAdjust(text);
-  if (!tokens.length) return null;
-  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
-  const token = tokens.slice(tokens.length - safeCount).join('');
-  const trimmed = text.trim();
-  const remainder = trimmed.slice(0, Math.max(0, trimmed.length - token.length)).trimEnd();
-  if (!remainder) return null;
-  return { token: token.trim(), remainder };
 }
 
 interface MoshiShadowingPlayerProps {
@@ -623,14 +561,14 @@ export default function MoshiShadowingPlayer({
   const handleMergeWithPrevious = useCallback((index: number) => {
     if (index <= 0) return;
     const next = cloneSentences(editableSentences);
-    next.splice(index - 1, 2, joinSentenceTexts(next[index - 1], next[index]));
+    next.splice(index - 1, 2, joinSegmentTexts(next[index - 1], next[index]));
     applyEditedSentences(next, Math.max(0, currentSentenceIndexRef.current >= index ? currentSentenceIndexRef.current - 1 : currentSentenceIndexRef.current));
   }, [editableSentences, applyEditedSentences]);
 
   const handleMergeWithNext = useCallback((index: number) => {
     if (index >= editableSentences.length - 1) return;
     const next = cloneSentences(editableSentences);
-    next.splice(index, 2, joinSentenceTexts(next[index], next[index + 1]));
+    next.splice(index, 2, joinSegmentTexts(next[index], next[index + 1]));
     applyEditedSentences(next, Math.min(currentSentenceIndexRef.current, next.length - 1));
   }, [editableSentences, applyEditedSentences]);
 
@@ -639,7 +577,7 @@ export default function MoshiShadowingPlayer({
     const split = splitLeadingTokens(editableSentences[index + 1], tokenCount);
     if (!split) return;
     const next = cloneSentences(editableSentences);
-    next[index] = joinSentenceTexts(next[index], split.token);
+    next[index] = joinSegmentTexts(next[index], split.token);
     next[index + 1] = split.remainder;
     applyEditedSentences(next, currentSentenceIndexRef.current);
   }, [editableSentences, applyEditedSentences]);
@@ -650,7 +588,7 @@ export default function MoshiShadowingPlayer({
     if (!split) return;
     const next = cloneSentences(editableSentences);
     next[index] = split.remainder;
-    next[index + 1] = joinSentenceTexts(split.token, next[index + 1]);
+    next[index + 1] = joinSegmentTexts(split.token, next[index + 1]);
     applyEditedSentences(next, currentSentenceIndexRef.current);
   }, [editableSentences, applyEditedSentences]);
 
