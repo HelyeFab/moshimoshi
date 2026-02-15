@@ -249,10 +249,39 @@
   padding: 0 1rem;
 }
 
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.editMenuButton {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--color-dark-700);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+}
+
+.editMenuButton:hover {
+  border-color: rgba(var(--palette-primary-500), 0.45);
+  color: rgb(var(--palette-primary-700));
+}
+
+:global(.dark) .editMenuButton {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--color-gray-300);
+}
+
 .listTitle {
   font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   padding-left: 0.5rem;
   background: linear-gradient(135deg, rgb(var(--palette-primary-500)), rgb(var(--palette-primary-700)));
   -webkit-background-clip: text;
@@ -265,6 +294,54 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.editActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.editModeButton,
+.saveOverridesButton {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--color-dark-700);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.55rem;
+  transition: all 0.2s ease;
+}
+
+.editModeButton:hover,
+.saveOverridesButton:hover:not(:disabled) {
+  border-color: rgba(var(--palette-primary-500), 0.45);
+  color: rgb(var(--palette-primary-700));
+}
+
+.editModeButtonActive {
+  background: rgba(var(--palette-primary-500), 0.15);
+  border-color: rgba(var(--palette-primary-500), 0.5);
+  color: rgb(var(--palette-primary-700));
+}
+
+.saveOverridesButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+:global(.dark) .editModeButton,
+:global(.dark) .saveOverridesButton {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--color-gray-300);
+}
+
+:global(.dark) .editModeButtonActive {
+  background: rgba(var(--palette-primary-500), 0.3);
+  border-color: rgba(var(--palette-primary-400), 0.5);
+  color: #fff;
 }
 
 .segmentList {
@@ -426,6 +503,60 @@
 
 :global(.dark) .segmentActive .segmentTextSmall {
   color: var(--color-gray-100);
+}
+
+.segmentTextEditor {
+  width: 100%;
+  min-height: 3.1rem;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-dark-800);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  padding: 0.4rem 0.5rem;
+}
+
+:global(.dark) .segmentTextEditor {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--color-gray-200);
+}
+
+.segmentEditRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  padding-left: 30px;
+}
+
+.segmentEditButton {
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--color-dark-700);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+  transition: all 0.15s ease;
+}
+
+.segmentEditButton:hover:not(:disabled) {
+  border-color: rgba(var(--palette-primary-500), 0.4);
+  color: rgb(var(--palette-primary-700));
+}
+
+.segmentEditButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+:global(.dark) .segmentEditButton {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--color-gray-300);
 }
 
 @media (min-width: 1024px) {

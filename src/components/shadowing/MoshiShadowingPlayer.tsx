@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
 import { useWordExplanation } from '@/hooks/useWordExplanation';
@@ -8,12 +8,85 @@ import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 import Modal from '@/components/ui/Modal';
 import Dropdown from '@/components/ui/Dropdown';
-import { Settings, Repeat, Type, Highlighter, X, Trash2, Gauge, ChevronDown, ChevronUp } from 'lucide-react';
+import SettingsDropdown from '@/components/ui/SettingsDropdown';
+import { Settings, Repeat, Type, Highlighter, X, Trash2, Gauge, ChevronDown, ChevronUp, MoreVertical } from 'lucide-react';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { nextOnSegmentEnd, onRepeatCountChange, clampRepeatCount, type RepeatState } from '@/lib/shadowing/repeat';
 import styles from './MoshiShadowingPlayer.module.css';
 
 type HighlightMode = 'none' | 'all' | 'content' | 'grammar';
+
+function cloneSentences(input: string[]): string[] {
+  return input.map(sentence => sentence);
+}
+
+function joinSentenceTexts(left: string, right: string): string {
+  const trimmedLeft = left.trimEnd();
+  const trimmedRight = right.trimStart();
+  const shouldInsertSpace = /[A-Za-z0-9]$/.test(trimmedLeft) && /^[A-Za-z0-9]/.test(trimmedRight);
+  return shouldInsertSpace ? `${trimmedLeft} ${trimmedRight}` : `${trimmedLeft}${trimmedRight}`;
+}
+
+function findSplitIndexForText(text: string): number | null {
+  const trimmed = text.trim();
+  if (trimmed.length < 4) return null;
+
+  const punctuationMatches = [...trimmed.matchAll(/[。！？!?、]/g)];
+  if (punctuationMatches.length > 0) {
+    const midpoint = Math.floor(trimmed.length / 2);
+    const best = punctuationMatches.reduce((acc, match) => {
+      const idx = (match.index ?? 0) + 1;
+      return Math.abs(idx - midpoint) < Math.abs(acc - midpoint) ? idx : acc;
+    }, (punctuationMatches[0].index ?? 0) + 1);
+    if (best >= 2 && best <= trimmed.length - 2) return best;
+  }
+
+  const midpoint = Math.floor(trimmed.length / 2);
+  if (midpoint >= 2 && midpoint <= trimmed.length - 2) return midpoint;
+  return null;
+}
+
+function tokenizeForBoundaryAdjust(text: string): string[] {
+  const trimmed = text.trim();
+  if (!trimmed) return [];
+
+  try {
+    const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
+    const parts = Array.from(segmenter.segment(trimmed))
+      .map((part: any) => String(part.segment ?? ''))
+      .filter(Boolean);
+    if (parts.length > 0) return parts;
+  } catch {
+    // fallback below
+  }
+
+  if (/\s/.test(trimmed)) {
+    return trimmed.split(/\s+/).filter(Boolean);
+  }
+
+  return Array.from(trimmed);
+}
+
+function splitLeadingTokens(text: string, count: number): { token: string; remainder: string } | null {
+  const tokens = tokenizeForBoundaryAdjust(text);
+  if (!tokens.length) return null;
+  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
+  const token = tokens.slice(0, safeCount).join('');
+  const remainder = text.trim().slice(token.length).trimStart();
+  if (!remainder) return null;
+  return { token: token.trim(), remainder };
+}
+
+function splitTrailingTokens(text: string, count: number): { token: string; remainder: string } | null {
+  const tokens = tokenizeForBoundaryAdjust(text);
+  if (!tokens.length) return null;
+  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
+  const token = tokens.slice(tokens.length - safeCount).join('');
+  const trimmed = text.trim();
+  const remainder = trimmed.slice(0, Math.max(0, trimmed.length - token.length)).trimEnd();
+  if (!remainder) return null;
+  return { token: token.trim(), remainder };
+}
 
 interface MoshiShadowingPlayerProps {
   sentences: string[];
@@ -53,6 +126,10 @@ export default function MoshiShadowingPlayer({
   const [highlightMode, setHighlightMode] = useState<HighlightMode>(initialSettings?.highlightMode ?? 'content');
   const [playbackSpeed, setPlaybackSpeed] = useState(initialSettings?.playbackSpeed ?? 1.0);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [splitCursorByIndex, setSplitCursorByIndex] = useState<Record<number, number>>({});
+  const [dirtyEdits, setDirtyEdits] = useState(false);
+  const [canUndo, setCanUndo] = useState(false);
 
   // Word explanation state
   const [wordModalOpen, setWordModalOpen] = useState(false);
@@ -63,7 +140,8 @@ export default function MoshiShadowingPlayer({
   const repeatCountRef = useRef(repeatCount);
   const currentRepeatRef = useRef(currentRepeat);
   const currentSentenceIndexRef = useRef(currentSentenceIndex);
-  const totalSentencesRef = useRef(sentences.length);
+  const [editableSentences, setEditableSentences] = useState<string[]>(() => cloneSentences(sentences));
+  const totalSentencesRef = useRef(editableSentences.length);
   const playbackSpeedRef = useRef(playbackSpeed);
   const isPlayingRef = useRef(false);
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -72,6 +150,8 @@ export default function MoshiShadowingPlayer({
   const isManualStopRef = useRef(false);
   // Ref for cached audio element (separate from TTS audio)
   const cachedAudioRef = useRef<HTMLAudioElement | null>(null);
+  const baselineSentencesRef = useRef<string[]>(cloneSentences(sentences));
+  const editHistoryRef = useRef<string[][]>([]);
 
   // Pause duration between repeats (1 second)
   const PAUSE_DURATION = 1000;
@@ -81,9 +161,20 @@ export default function MoshiShadowingPlayer({
     repeatCountRef.current = repeatCount;
     currentRepeatRef.current = currentRepeat;
     currentSentenceIndexRef.current = currentSentenceIndex;
-    totalSentencesRef.current = sentences.length;
+    totalSentencesRef.current = editableSentences.length;
     playbackSpeedRef.current = playbackSpeed;
-  }, [repeatCount, currentRepeat, currentSentenceIndex, sentences.length, playbackSpeed]);
+  }, [repeatCount, currentRepeat, currentSentenceIndex, editableSentences.length, playbackSpeed]);
+
+  useEffect(() => {
+    const next = cloneSentences(sentences);
+    setEditableSentences(next);
+    baselineSentencesRef.current = cloneSentences(next);
+    editHistoryRef.current = [];
+    setCanUndo(false);
+    setDirtyEdits(false);
+    setSplitCursorByIndex({});
+    setEditMode(false);
+  }, [sentences]);
 
   // Word explanation hook
   const {
@@ -165,7 +256,7 @@ export default function MoshiShadowingPlayer({
 
   // Play current sentence (pre-cached audio → TTS fallback)
   const playSentence = useCallback(async (index: number) => {
-    const sentence = sentences[index];
+    const sentence = editableSentences[index];
     if (!sentence) return;
 
     console.log('[MoshiShadowingPlayer] Playing sentence:', index, sentence.substring(0, 30), 'speed:', playbackSpeedRef.current);
@@ -232,7 +323,7 @@ export default function MoshiShadowingPlayer({
       setIsPlaying(false);
       isPlayingRef.current = false;
     }
-  }, [sentences, playTTS, getAudioUrl, handleAudioEnd]);
+  }, [editableSentences, playTTS, getAudioUrl, handleAudioEnd]);
 
   // Keep playSentenceRef updated
   useEffect(() => {
@@ -259,23 +350,23 @@ export default function MoshiShadowingPlayer({
 
   // Preload sentences
   useEffect(() => {
-    if (sentences.length > 0) {
-      const textsToPreload = sentences.slice(0, Math.min(5, sentences.length));
+    if (editableSentences.length > 0) {
+      const textsToPreload = editableSentences.slice(0, Math.min(5, editableSentences.length));
       preload(textsToPreload, { voice: 'ja-JP-NanamiNeural', speed: 1.0 });
 
       // Prefetch word explanations
-      const fullText = sentences.join(' ');
+      const fullText = editableSentences.join(' ');
       prefetchWordExplanations({
         contentId,
         contentType,
         text: fullText,
       });
     }
-  }, [sentences, contentId, contentType, preload, prefetchWordExplanations]);
+  }, [editableSentences, contentId, contentType, preload, prefetchWordExplanations]);
 
   // Jump to sentence
   const seekToSentence = useCallback((index: number) => {
-    console.log('[MoshiShadowingPlayer] seekToSentence called:', index, 'total:', sentences.length);
+    console.log('[MoshiShadowingPlayer] seekToSentence called:', index, 'total:', editableSentences.length);
 
     // Set guard to prevent handleAudioEnd from firing
     isManualStopRef.current = true;
@@ -309,7 +400,7 @@ export default function MoshiShadowingPlayer({
       console.log('[MoshiShadowingPlayer] About to play sentence:', index);
       playSentence(index);
     }, 50);
-  }, [stopTTS, playSentence, sentences.length]);
+  }, [stopTTS, playSentence, editableSentences.length]);
 
   // Handle repeat count change
   const handleRepeatChange = useCallback((value: number) => {
@@ -317,14 +408,14 @@ export default function MoshiShadowingPlayer({
     setRepeatCount(nextCount);
     repeatCountRef.current = nextCount;
 
-    if (sentences.length === 0) return;
+    if (editableSentences.length === 0) return;
 
     const result = onRepeatCountChange(
       {
         repeatCount: nextCount,
         currentRepeat: currentRepeatRef.current,
         segmentIndex: currentSentenceIndexRef.current,
-        totalSegments: sentences.length,
+        totalSegments: editableSentences.length,
       },
       nextCount,
     );
@@ -351,7 +442,7 @@ export default function MoshiShadowingPlayer({
         }, 50);
       }
     }
-  }, [sentences.length, stopTTS, playSentence]);
+  }, [editableSentences.length, stopTTS, playSentence]);
 
   // Handle word tap
   const handleWordTap = useCallback(async (word: string, context: string) => {
@@ -426,7 +517,7 @@ export default function MoshiShadowingPlayer({
           break;
         case 'ArrowRight':
           e.preventDefault();
-          seekToSentence(Math.min(sentences.length - 1, currentSentenceIndex + 1));
+          seekToSentence(Math.min(editableSentences.length - 1, currentSentenceIndex + 1));
           break;
         case 'Escape':
           e.preventDefault();
@@ -449,18 +540,180 @@ export default function MoshiShadowingPlayer({
     handleStop,
     onClose,
     currentSentenceIndex,
-    sentences.length,
+    editableSentences.length,
     isPlaying,
     settingsModalOpen,
     wordModalOpen,
   ]);
 
-  const currentSentence = sentences[currentSentenceIndex];
+  const currentSentence = editableSentences[currentSentenceIndex];
 
   // Screen reader announcement text
   const playbackStatus = isPlaying
-    ? `Playing sentence ${currentSentenceIndex + 1} of ${sentences.length}, repeat ${currentRepeat} of ${repeatCount}`
-    : `Paused at sentence ${currentSentenceIndex + 1} of ${sentences.length}`;
+    ? `Playing sentence ${currentSentenceIndex + 1} of ${editableSentences.length}, repeat ${currentRepeat} of ${repeatCount}`
+    : `Paused at sentence ${currentSentenceIndex + 1} of ${editableSentences.length}`;
+
+  const applyEditedSentences = useCallback((nextSentences: string[], requestedIndex: number, recordHistory: boolean = true) => {
+    const cleaned = nextSentences.map(sentence => sentence.trim()).filter(Boolean);
+    if (!cleaned.length) return;
+
+    if (recordHistory) {
+      editHistoryRef.current.push(cloneSentences(editableSentences));
+      if (editHistoryRef.current.length > 50) editHistoryRef.current.shift();
+      setCanUndo(editHistoryRef.current.length > 0);
+    }
+
+    const boundedIndex = Math.max(0, Math.min(requestedIndex, cleaned.length - 1));
+    setEditableSentences(cleaned);
+    totalSentencesRef.current = cleaned.length;
+    currentSentenceIndexRef.current = boundedIndex;
+    setCurrentSentenceIndex(boundedIndex);
+    currentRepeatRef.current = 1;
+    setCurrentRepeat(1);
+    setDirtyEdits(true);
+
+    if (isPlayingRef.current) {
+      isManualStopRef.current = true;
+      stopTTS();
+      if (cachedAudioRef.current) {
+        cachedAudioRef.current.pause();
+        cachedAudioRef.current.onended = null;
+        cachedAudioRef.current.onerror = null;
+        cachedAudioRef.current = null;
+      }
+      setTimeout(() => {
+        if (playSentenceRef.current) {
+          playSentenceRef.current(boundedIndex);
+        }
+      }, 50);
+    }
+  }, [editableSentences, stopTTS]);
+
+  const handleSentenceTextChange = useCallback((index: number, text: string) => {
+    editHistoryRef.current.push(cloneSentences(editableSentences));
+    if (editHistoryRef.current.length > 50) editHistoryRef.current.shift();
+    setCanUndo(editHistoryRef.current.length > 0);
+    const next = cloneSentences(editableSentences);
+    next[index] = text;
+    setEditableSentences(next);
+    setDirtyEdits(true);
+  }, [editableSentences]);
+
+  const handleSplitSentence = useCallback((index: number) => {
+    const current = editableSentences[index];
+    if (!current) return;
+    const cursorIndex = splitCursorByIndex[index];
+    const trimmed = current.trim();
+    const cursorSplitValid =
+      typeof cursorIndex === 'number' &&
+      cursorIndex >= 2 &&
+      cursorIndex <= trimmed.length - 2;
+    const splitIndex = cursorSplitValid ? cursorIndex : findSplitIndexForText(current);
+    if (splitIndex == null) return;
+
+    const left = trimmed.slice(0, splitIndex).trim();
+    const right = trimmed.slice(splitIndex).trim();
+    if (!left || !right) return;
+
+    const next = cloneSentences(editableSentences);
+    next.splice(index, 1, left, right);
+    applyEditedSentences(next, currentSentenceIndexRef.current > index ? currentSentenceIndexRef.current + 1 : currentSentenceIndexRef.current);
+  }, [editableSentences, splitCursorByIndex, applyEditedSentences]);
+
+  const handleMergeWithPrevious = useCallback((index: number) => {
+    if (index <= 0) return;
+    const next = cloneSentences(editableSentences);
+    next.splice(index - 1, 2, joinSentenceTexts(next[index - 1], next[index]));
+    applyEditedSentences(next, Math.max(0, currentSentenceIndexRef.current >= index ? currentSentenceIndexRef.current - 1 : currentSentenceIndexRef.current));
+  }, [editableSentences, applyEditedSentences]);
+
+  const handleMergeWithNext = useCallback((index: number) => {
+    if (index >= editableSentences.length - 1) return;
+    const next = cloneSentences(editableSentences);
+    next.splice(index, 2, joinSentenceTexts(next[index], next[index + 1]));
+    applyEditedSentences(next, Math.min(currentSentenceIndexRef.current, next.length - 1));
+  }, [editableSentences, applyEditedSentences]);
+
+  const handleBoundaryTakeFromNext = useCallback((index: number, tokenCount: number = 1) => {
+    if (index >= editableSentences.length - 1) return;
+    const split = splitLeadingTokens(editableSentences[index + 1], tokenCount);
+    if (!split) return;
+    const next = cloneSentences(editableSentences);
+    next[index] = joinSentenceTexts(next[index], split.token);
+    next[index + 1] = split.remainder;
+    applyEditedSentences(next, currentSentenceIndexRef.current);
+  }, [editableSentences, applyEditedSentences]);
+
+  const handleBoundaryGiveToNext = useCallback((index: number, tokenCount: number = 1) => {
+    if (index >= editableSentences.length - 1) return;
+    const split = splitTrailingTokens(editableSentences[index], tokenCount);
+    if (!split) return;
+    const next = cloneSentences(editableSentences);
+    next[index] = split.remainder;
+    next[index + 1] = joinSentenceTexts(split.token, next[index + 1]);
+    applyEditedSentences(next, currentSentenceIndexRef.current);
+  }, [editableSentences, applyEditedSentences]);
+
+  const handleUndoEdit = useCallback(() => {
+    const previous = editHistoryRef.current.pop();
+    if (!previous || !previous.length) return;
+    setCanUndo(editHistoryRef.current.length > 0);
+    applyEditedSentences(previous, Math.min(currentSentenceIndexRef.current, previous.length - 1), false);
+  }, [applyEditedSentences]);
+
+  const handleResetEdits = useCallback(() => {
+    const baseline = baselineSentencesRef.current;
+    if (!baseline.length) return;
+    editHistoryRef.current = [];
+    setCanUndo(false);
+    applyEditedSentences(cloneSentences(baseline), Math.min(currentSentenceIndexRef.current, baseline.length - 1), false);
+    setDirtyEdits(false);
+    setSplitCursorByIndex({});
+  }, [applyEditedSentences]);
+
+  const handleSaveEdits = useCallback(() => {
+    baselineSentencesRef.current = cloneSentences(editableSentences);
+    editHistoryRef.current = [];
+    setCanUndo(false);
+    setDirtyEdits(false);
+  }, [editableSentences]);
+
+  const transcriptEditSections = useMemo(
+    () => [
+      {
+        id: 'audio-transcript-edit',
+        title: 'Transcript Edit',
+        items: [
+          {
+            id: 'toggle-edit',
+            label: 'Edit Transcript',
+            type: 'toggle' as const,
+            value: editMode,
+            onClick: () => setEditMode(prev => !prev),
+          },
+          {
+            id: 'save-edits',
+            label: 'Save Edits',
+            disabled: !dirtyEdits,
+            onClick: handleSaveEdits,
+          },
+          {
+            id: 'undo-edit',
+            label: 'Undo',
+            disabled: !canUndo,
+            onClick: handleUndoEdit,
+          },
+          {
+            id: 'reset-edits',
+            label: 'Reset Edits',
+            disabled: !dirtyEdits,
+            onClick: handleResetEdits,
+          },
+        ],
+      },
+    ],
+    [editMode, dirtyEdits, canUndo, handleSaveEdits, handleUndoEdit, handleResetEdits]
+  );
 
   return (
     <div
@@ -504,7 +757,7 @@ export default function MoshiShadowingPlayer({
               </div>
               <div className={styles.playerMeta}>
                 <span className={styles.meta}>
-                  {t('youtubeShadowing.player.segmentProgress', { current: currentSentenceIndex + 1, total: sentences.length })}
+                  {t('youtubeShadowing.player.segmentProgress', { current: currentSentenceIndex + 1, total: editableSentences.length })}
                 </span>
                 <span className={styles.meta}>
                   {t('youtubeShadowing.player.repeatProgress', { current: currentRepeat, total: repeatCount })}
@@ -542,8 +795,8 @@ export default function MoshiShadowingPlayer({
                   ttsLoading
                     ? 'Loading audio'
                     : isPlaying || ttsPlaying
-                      ? `Pause playback. Sentence ${currentSentenceIndex + 1} of ${sentences.length}, repeat ${currentRepeat} of ${repeatCount}`
-                      : `Play sentence ${currentSentenceIndex + 1} of ${sentences.length}`
+                      ? `Pause playback. Sentence ${currentSentenceIndex + 1} of ${editableSentences.length}, repeat ${currentRepeat} of ${repeatCount}`
+                      : `Play sentence ${currentSentenceIndex + 1} of ${editableSentences.length}`
                 }
                 aria-pressed={isPlaying || ttsPlaying}
               >
@@ -574,10 +827,18 @@ export default function MoshiShadowingPlayer({
                 <p className={styles.pill}>{t('youtubeShadowing.player.transcript.title')}</p>
                 <h2 className={styles.cardTitle}>{t('youtubeShadowing.player.tapWordsForExplanation')}</h2>
               </div>
+              <SettingsDropdown
+                sections={transcriptEditSections}
+                buttonIcon={<MoreVertical className="w-4 h-4" />}
+                showChevron={false}
+                buttonClassName={styles.editMenuButton}
+                position="right"
+                showDividers={false}
+              />
             </div>
 
             <div className={styles.segmentList}>
-              {sentences.map((sentence, index) => {
+              {editableSentences.map((sentence, index) => {
                 const active = index === currentSentenceIndex;
 
                 return (
@@ -606,16 +867,83 @@ export default function MoshiShadowingPlayer({
                     </div>
 
                     <div className={styles.segmentText}>
-                      <GrammarHighlightedText
-                        text={sentence}
-                        highlightMode={highlightMode}
-                        showFurigana={showFurigana}
-                        onWordClick={(word: string, event: React.MouseEvent) => {
-                          event.stopPropagation();
-                          handleWordTap(word, sentence);
-                        }}
-                      />
+                      {editMode ? (
+                        <textarea
+                          value={sentence}
+                          className={styles.segmentTextEditor}
+                          onChange={(event) => handleSentenceTextChange(index, event.target.value)}
+                          onSelect={(event) => {
+                            const value = event.currentTarget.selectionStart ?? 0;
+                            setSplitCursorByIndex(prev => ({ ...prev, [index]: value }));
+                          }}
+                        />
+                      ) : (
+                        <GrammarHighlightedText
+                          text={sentence}
+                          highlightMode={highlightMode}
+                          showFurigana={showFurigana}
+                          onWordClick={(word: string, event: React.MouseEvent) => {
+                            event.stopPropagation();
+                            handleWordTap(word, sentence);
+                          }}
+                        />
+                      )}
                     </div>
+                    {editMode && (
+                      <div className={styles.segmentEditRow}>
+                        <button type="button" className={styles.segmentEditButton} onClick={() => handleSplitSentence(index)}>
+                          Split
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleBoundaryTakeFromNext(index)}
+                          disabled={index >= editableSentences.length - 1}
+                        >
+                          Take Next
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleBoundaryTakeFromNext(index, 2)}
+                          disabled={index >= editableSentences.length - 1}
+                        >
+                          Take 2
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleBoundaryGiveToNext(index)}
+                          disabled={index >= editableSentences.length - 1}
+                        >
+                          Give Next
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleBoundaryGiveToNext(index, 2)}
+                          disabled={index >= editableSentences.length - 1}
+                        >
+                          Give 2
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleMergeWithPrevious(index)}
+                          disabled={index === 0}
+                        >
+                          Merge Prev
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.segmentEditButton}
+                          onClick={() => handleMergeWithNext(index)}
+                          disabled={index >= editableSentences.length - 1}
+                        >
+                          Merge Next
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -633,7 +961,7 @@ export default function MoshiShadowingPlayer({
             <Settings className="w-5 h-5" aria-hidden="true" />
           </button>
           <span className={styles.navProgress}>
-            {t('youtubeShadowing.player.segmentProgress', { current: currentSentenceIndex + 1, total: sentences.length })}
+            {t('youtubeShadowing.player.segmentProgress', { current: currentSentenceIndex + 1, total: editableSentences.length })}
             {' • '}
             {t('youtubeShadowing.player.repeatProgress', { current: currentRepeat, total: repeatCount })}
           </span>

@@ -144,6 +144,7 @@ Key logic:
 - User-edited transcript merge: `src/utils/userEditedTranscripts.ts`
 - Progressive loading: `src/hooks/useProgressiveTranscript.ts`
 - Transcript cache hook: `src/hooks/useTranscriptCache.ts`
+- User transcript override persistence: `src/app/api/youtube/transcript/overrides/route.ts`
 
 Behavioral constraints:
 - Do not change chunk boundaries without considering player sync.
@@ -239,6 +240,7 @@ Core extraction and metadata routes:
 - Native transcript: `src/app/api/youtube/native-transcript/[videoId]/route.ts`
 - Captions: `src/app/api/youtube/captions/route.ts`
 - Segment translation persistence: `src/app/api/youtube/transcript/segment-translation/route.ts`
+- Transcript override persistence: `src/app/api/youtube/transcript/overrides/route.ts`
 
 Supporting routes:
 - Featured videos: `src/app/api/youtube/featured/route.ts`

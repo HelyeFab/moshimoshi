@@ -1,6 +1,6 @@
 # YouTube Shadowing Production Delivery Plan
 
-Last updated: 2026-02-14
+Last updated: 2026-02-15
 Scope: segmentation + sync reliability, benchmark-driven quality, and production readiness.
 
 ## 1. Business Need
@@ -48,6 +48,16 @@ Scope: segmentation + sync reliability, benchmark-driven quality, and production
 - Final timeline normalization for transcript route and resegment route.
 - Playback trigger-buffer adjustments and seek verification hardening.
 - Benchmark harness and docs (`09-BENCHMARK-HARNESS.md`).
+- Phase C editor MVP delivered on YouTube Shadowing page:
+  - transcript edit menu (`⋮`) using app UI component
+  - segment text editing, split, merge prev/next
+  - boundary token transfer (`Take/Give`, including 2-token variants)
+  - timing boundary nudges (`Start-/Start+/End-/End+`)
+  - per-video override save and reload via transcript cache
+- Reset behavior hardened:
+  - `Reset Edits` now restores from Firebase-backed original transcript backup (not local-only reset).
+- Audio shadowing parity started in `MoshiShadowingPlayer`:
+  - same edit menu and sentence-boundary editing controls for article/story/book shadowing sessions.
 
 ### 3.2 Observed outcomes
 - Long video (`t9U8QfOxMMw`) improved materially with chunked AI acceptance.
@@ -85,8 +95,27 @@ Scope: segmentation + sync reliability, benchmark-driven quality, and production
   - merge with previous/next
   - save per-video overrides
   - apply overrides on load
+  - boundary token transfer between adjacent segments
+  - segment timing nudges for precise loop boundary control
+  - reset-to-original transcript from Firebase backup
 - Exit criteria:
   - users can fix bad boundaries in-session without leaving player.
+
+## 4.1 Current Status Snapshot (2026-02-15)
+
+### Completed this cycle
+- YouTube editor controls are now production-usable for manual boundary repair.
+- Override persistence path is in place (`POST /api/youtube/transcript/overrides`).
+- Reset-to-original path is in place (`DELETE /api/youtube/transcript/overrides`) with backup restore from Firebase.
+- Type-check passes after implementation updates.
+
+### Still left to do
+- Add automated tests for override save/reset API behavior and timing-nudge safety clamps.
+- Add integration tests for edit-mode playback boundary correctness (post-edit repeat behavior).
+- Validate reset flow and timing edits with full manual QA on benchmark videos (`Xs0Lxif1u9E`, `t9U8QfOxMMw`).
+- Decide final policy for `Undo` (fix reliability or remove from UI if low value).
+- Decide persistence scope for non-YouTube audio shadowing editor (currently session-level only).
+- Complete Phase D hardening: monitoring events for override usage/reset failures, rollout flags, and rollback checklist validation.
 
 ### Phase D: Hardening and Rollout (P1)
 - Goal: production-safe launch.
@@ -181,4 +210,3 @@ Scope: segmentation + sync reliability, benchmark-driven quality, and production
   - benchmark report
   - blocker summary
   - next-step task assignment
-

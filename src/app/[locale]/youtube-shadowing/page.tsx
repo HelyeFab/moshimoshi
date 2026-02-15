@@ -11,11 +11,12 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles, MoreVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
 import Dropdown from "@/components/ui/Dropdown";
+import SettingsDropdown from "@/components/ui/SettingsDropdown";
 import PageHeader from "@/components/ui/PageHeader";
 import Navbar from "@/components/layout/Navbar";
 import { useAuth } from "@/hooks/useAuth";
@@ -68,6 +69,7 @@ type TranscriptResponse = {
 
 const SEGMENT_EPSILON_SECONDS = 0.02;
 const MIN_SEGMENT_DURATION_SECONDS = 0.2;
+const TIMING_NUDGE_SECONDS = 0.05;
 
 function normalizeSegmentsForPlayback(segments: TranscriptSegment[]): TranscriptSegment[] {
   if (!Array.isArray(segments) || segments.length === 0) return [];
@@ -113,6 +115,78 @@ function normalizeSegmentsForPlayback(segments: TranscriptSegment[]): Transcript
   }
 
   return normalized;
+}
+
+function joinSegmentTexts(left: string, right: string): string {
+  const trimmedLeft = left.trimEnd();
+  const trimmedRight = right.trimStart();
+  const shouldInsertSpace = /[A-Za-z0-9]$/.test(trimmedLeft) && /^[A-Za-z0-9]/.test(trimmedRight);
+  return shouldInsertSpace ? `${trimmedLeft} ${trimmedRight}` : `${trimmedLeft}${trimmedRight}`;
+}
+
+function findSplitIndexForText(text: string): number | null {
+  const trimmed = text.trim();
+  if (trimmed.length < 4) return null;
+
+  const punctuationMatches = [...trimmed.matchAll(/[。！？!?、]/g)];
+  if (punctuationMatches.length > 0) {
+    const midpoint = Math.floor(trimmed.length / 2);
+    const best = punctuationMatches.reduce((acc, match) => {
+      const idx = (match.index ?? 0) + 1;
+      return Math.abs(idx - midpoint) < Math.abs(acc - midpoint) ? idx : acc;
+    }, (punctuationMatches[0].index ?? 0) + 1);
+    if (best >= 2 && best <= trimmed.length - 2) return best;
+  }
+
+  const midpoint = Math.floor(trimmed.length / 2);
+  if (midpoint >= 2 && midpoint <= trimmed.length - 2) return midpoint;
+  return null;
+}
+
+function cloneSegments(segments: TranscriptSegment[]): TranscriptSegment[] {
+  return segments.map(segment => ({ ...segment }));
+}
+
+function tokenizeForBoundaryAdjust(text: string): string[] {
+  const trimmed = text.trim();
+  if (!trimmed) return [];
+
+  try {
+    const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
+    const parts = Array.from(segmenter.segment(trimmed))
+      .map((part: any) => String(part.segment ?? ''))
+      .filter(Boolean);
+    if (parts.length > 0) return parts;
+  } catch {
+    // Fallback handled below
+  }
+
+  if (/\s/.test(trimmed)) {
+    return trimmed.split(/\s+/).filter(Boolean);
+  }
+
+  return Array.from(trimmed);
+}
+
+function splitLeadingTokens(text: string, count: number): { token: string; remainder: string } | null {
+  const tokens = tokenizeForBoundaryAdjust(text);
+  if (!tokens.length) return null;
+  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
+  const token = tokens.slice(0, safeCount).join('');
+  const remainder = text.trim().slice(token.length).trimStart();
+  if (!remainder) return null;
+  return { token: token.trim(), remainder };
+}
+
+function splitTrailingTokens(text: string, count: number): { token: string; remainder: string } | null {
+  const tokens = tokenizeForBoundaryAdjust(text);
+  if (!tokens.length) return null;
+  const safeCount = Math.max(1, Math.min(count, tokens.length - 1));
+  const token = tokens.slice(tokens.length - safeCount).join('');
+  const trimmed = text.trim();
+  const remainder = trimmed.slice(0, Math.max(0, trimmed.length - token.length)).trimEnd();
+  if (!remainder) return null;
+  return { token: token.trim(), remainder };
 }
 
 type VideoMetadata = {
@@ -188,6 +262,12 @@ function YouTubeShadowingContent() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [translationInFlight, setTranslationInFlight] = useState<Set<string>>(() => new Set());
   const [resegmenting, setResegmenting] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [overrideDirty, setOverrideDirty] = useState(false);
+  const [savingOverrides, setSavingOverrides] = useState(false);
+  const [resettingOverrides, setResettingOverrides] = useState(false);
+  const [splitCursorByIndex, setSplitCursorByIndex] = useState<Record<number, number>>({});
+  const [canUndo, setCanUndo] = useState(false);
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
   const trackFeaturedClick = useCallback(() => {
@@ -255,6 +335,8 @@ function YouTubeShadowingContent() {
   const translationInFlightRef = useRef<Set<string>>(new Set());
   const furiganaHintShownRef = useRef(false);
   const reentryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const baselineSegmentsRef = useRef<TranscriptSegment[]>([]);
+  const editHistoryRef = useRef<TranscriptSegment[][]>([]);
 
   const opts: YouTubeProps["opts"] = useMemo(
     () => ({
@@ -569,6 +651,12 @@ function YouTubeShadowingContent() {
         setSource(data.source);
         setShowUrlInput(false); // Auto-collapse form after successful load
         setVideoLoopEnabled(false); // Reset video loop when loading new video
+        setEditMode(false);
+        setOverrideDirty(false);
+        setSplitCursorByIndex({});
+        baselineSegmentsRef.current = cloneSegments(normalizedSegments);
+        editHistoryRef.current = [];
+        setCanUndo(false);
 
         setStatus(
           t('youtubeShadowing.status.transcriptLoaded', {
@@ -745,6 +833,11 @@ function YouTubeShadowingContent() {
           : `Deterministic fallback: ${fallbackReason} (${providerAttempted}).`,
         sourceLabel === "ai" ? "success" : "warning",
       );
+      setOverrideDirty(false);
+      setSplitCursorByIndex({});
+      baselineSegmentsRef.current = cloneSegments(nextSegments);
+      editHistoryRef.current = [];
+      setCanUndo(false);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Resegmentation failed";
       setError(message);
@@ -753,6 +846,400 @@ function YouTubeShadowingContent() {
       setResegmenting(false);
     }
   }, [videoId, resegmenting, showToast]);
+
+  const applyEditedSegments = useCallback(
+    (nextSegments: TranscriptSegment[], requestedIndex: number, options?: { recordHistory?: boolean }) => {
+      const normalized = normalizeSegmentsForPlayback(nextSegments);
+      if (!normalized.length) return;
+      const recordHistory = options?.recordHistory !== false;
+      if (recordHistory && segmentsRef.current.length > 0) {
+        editHistoryRef.current.push(cloneSegments(segmentsRef.current));
+        if (editHistoryRef.current.length > 50) {
+          editHistoryRef.current.shift();
+        }
+        setCanUndo(editHistoryRef.current.length > 0);
+      }
+
+      const boundedIndex = Math.max(0, Math.min(requestedIndex, normalized.length - 1));
+      setSegments(normalized);
+      segmentsRef.current = normalized;
+      segmentIndexRef.current = boundedIndex;
+      setCurrentSegmentIndex(boundedIndex);
+      currentRepeatRef.current = 1;
+      setCurrentRepeat(1);
+      setOverrideDirty(true);
+
+      const target = normalized[boundedIndex];
+      if (target && playerRef.current) {
+        playerRef.current.seekTo(target.start, true);
+        if (SYNC_V2) {
+          void verifySeekLanding(playerRef.current, target.start);
+        }
+      }
+    },
+    []
+  );
+
+  const handleSplitSegment = useCallback(
+    (index: number) => {
+      const current = segmentsRef.current[index];
+      if (!current) return;
+
+      const cursorIndex = splitCursorByIndex[index];
+      const cursorSplitValid =
+        typeof cursorIndex === 'number' &&
+        cursorIndex >= 2 &&
+        cursorIndex <= current.text.trim().length - 2;
+      const splitIndex = cursorSplitValid ? cursorIndex : findSplitIndexForText(current.text);
+      if (splitIndex == null) {
+        showToast("Unable to split this segment automatically.", "warning");
+        return;
+      }
+
+      const segmentDuration = current.end - current.start;
+      if (segmentDuration <= MIN_SEGMENT_DURATION_SECONDS * 2) {
+        showToast("Segment is too short to split safely.", "warning");
+        return;
+      }
+
+      const text = current.text.trim();
+      const leftText = text.slice(0, splitIndex).trim();
+      const rightText = text.slice(splitIndex).trim();
+      if (!leftText || !rightText) {
+        showToast("Split would create an empty segment.", "warning");
+        return;
+      }
+
+      const rawRatio = splitIndex / text.length;
+      const ratio = Math.max(0.2, Math.min(0.8, rawRatio));
+      const splitTime = current.start + segmentDuration * ratio;
+      const safeSplitTime = Math.min(
+        current.end - MIN_SEGMENT_DURATION_SECONDS,
+        Math.max(current.start + MIN_SEGMENT_DURATION_SECONDS, splitTime)
+      );
+
+      const next = [...segmentsRef.current];
+      next.splice(index, 1, {
+        ...current,
+        text: leftText,
+        end: safeSplitTime,
+      }, {
+        ...current,
+        text: rightText,
+        start: safeSplitTime,
+      });
+
+      const selectedIndex = segmentIndexRef.current > index
+        ? segmentIndexRef.current + 1
+        : segmentIndexRef.current;
+      applyEditedSegments(next, selectedIndex);
+    },
+    [applyEditedSegments, showToast, splitCursorByIndex]
+  );
+
+  const handleSegmentTextChange = useCallback((index: number, text: string) => {
+    if (!segmentsRef.current[index]) return;
+    editHistoryRef.current.push(cloneSegments(segmentsRef.current));
+    if (editHistoryRef.current.length > 50) {
+      editHistoryRef.current.shift();
+    }
+    setCanUndo(editHistoryRef.current.length > 0);
+    const next = [...segmentsRef.current];
+    next[index] = { ...next[index], text };
+    setSegments(next);
+    segmentsRef.current = next;
+    setOverrideDirty(true);
+  }, []);
+
+  const handleBoundaryTakeFromNext = useCallback(
+    (index: number, tokenCount: number = 1) => {
+      if (index >= segmentsRef.current.length - 1) return;
+      const current = segmentsRef.current[index];
+      const nextSegment = segmentsRef.current[index + 1];
+      if (!current || !nextSegment) return;
+
+      const nextSplit = splitLeadingTokens(nextSegment.text, tokenCount);
+      if (!nextSplit || !nextSplit.token || !nextSplit.remainder) {
+        showToast("Cannot move boundary from next segment.", "warning");
+        return;
+      }
+
+      const updatedCurrent = {
+        ...current,
+        text: joinSegmentTexts(current.text, nextSplit.token),
+      };
+      const updatedNext = {
+        ...nextSegment,
+        text: nextSplit.remainder,
+      };
+
+      const next = [...segmentsRef.current];
+      next[index] = updatedCurrent;
+      next[index + 1] = updatedNext;
+      applyEditedSegments(next, segmentIndexRef.current);
+    },
+    [applyEditedSegments, showToast]
+  );
+
+  const handleBoundaryGiveToNext = useCallback(
+    (index: number, tokenCount: number = 1) => {
+      if (index >= segmentsRef.current.length - 1) return;
+      const current = segmentsRef.current[index];
+      const nextSegment = segmentsRef.current[index + 1];
+      if (!current || !nextSegment) return;
+
+      const currentSplit = splitTrailingTokens(current.text, tokenCount);
+      if (!currentSplit || !currentSplit.token || !currentSplit.remainder) {
+        showToast("Cannot move boundary to next segment.", "warning");
+        return;
+      }
+
+      const updatedCurrent = {
+        ...current,
+        text: currentSplit.remainder,
+      };
+      const updatedNext = {
+        ...nextSegment,
+        text: joinSegmentTexts(currentSplit.token, nextSegment.text),
+      };
+
+      const next = [...segmentsRef.current];
+      next[index] = updatedCurrent;
+      next[index + 1] = updatedNext;
+      applyEditedSegments(next, segmentIndexRef.current);
+    },
+    [applyEditedSegments, showToast]
+  );
+
+  const handleUndoEdit = useCallback(() => {
+    const previous = editHistoryRef.current.pop();
+    if (!previous || !previous.length) return;
+    setCanUndo(editHistoryRef.current.length > 0);
+    applyEditedSegments(previous, Math.min(segmentIndexRef.current, previous.length - 1), {
+      recordHistory: false,
+    });
+  }, [applyEditedSegments]);
+
+  const handleResetEdits = useCallback(async () => {
+    if (!videoId || resettingOverrides || savingOverrides) return;
+    setResettingOverrides(true);
+    try {
+      const resetResponse = await fetch('/api/youtube/transcript/overrides', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoId }),
+      });
+      const resetData = await resetResponse.json().catch(() => ({}));
+      if (!resetResponse.ok || !resetData?.success) {
+        throw new Error(resetData?.error || 'Failed to reset transcript edits');
+      }
+
+      const reloadResponse = await fetch(
+        `/api/youtube/transcript/${encodeURIComponent(videoId)}?lang=${encodeURIComponent(language)}`,
+        { cache: 'no-store' }
+      );
+      if (!reloadResponse.ok) {
+        throw new Error('Transcript restored but refresh failed');
+      }
+
+      const reloadData = (await reloadResponse.json()) as TranscriptResponse;
+      if (!Array.isArray(reloadData.segments) || reloadData.segments.length === 0) {
+        throw new Error('No transcript segments after reset');
+      }
+
+      const normalizedSegments = normalizeSegmentsForPlayback(reloadData.segments);
+      setSegments(normalizedSegments);
+      segmentsRef.current = normalizedSegments;
+      const nextIndex = Math.min(segmentIndexRef.current, normalizedSegments.length - 1);
+      segmentIndexRef.current = nextIndex;
+      setCurrentSegmentIndex(nextIndex);
+      currentRepeatRef.current = 1;
+      setCurrentRepeat(1);
+
+      baselineSegmentsRef.current = cloneSegments(normalizedSegments);
+      editHistoryRef.current = [];
+      setCanUndo(false);
+      setOverrideDirty(false);
+      setSplitCursorByIndex({});
+      setStatus('Transcript reset to original from cache.');
+      showToast('Transcript reset to original.', 'success');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to reset transcript edits';
+      setError(message);
+      showToast(message, 'warning');
+    } finally {
+      setResettingOverrides(false);
+    }
+  }, [videoId, resettingOverrides, savingOverrides, language, showToast]);
+
+  const handleMergeWithPrevious = useCallback(
+    (index: number) => {
+      if (index <= 0) return;
+      const previous = segmentsRef.current[index - 1];
+      const current = segmentsRef.current[index];
+      if (!previous || !current) return;
+
+      const merged: TranscriptSegment = {
+        start: previous.start,
+        end: current.end,
+        text: joinSegmentTexts(previous.text, current.text),
+        translation: previous.translation || current.translation,
+      };
+
+      const next = [...segmentsRef.current];
+      next.splice(index - 1, 2, merged);
+      const selectedIndex = Math.max(
+        0,
+        segmentIndexRef.current >= index ? segmentIndexRef.current - 1 : segmentIndexRef.current
+      );
+      applyEditedSegments(next, selectedIndex);
+    },
+    [applyEditedSegments]
+  );
+
+  const handleMergeWithNext = useCallback(
+    (index: number) => {
+      if (index >= segmentsRef.current.length - 1) return;
+      const current = segmentsRef.current[index];
+      const nextSegment = segmentsRef.current[index + 1];
+      if (!current || !nextSegment) return;
+
+      const merged: TranscriptSegment = {
+        start: current.start,
+        end: nextSegment.end,
+        text: joinSegmentTexts(current.text, nextSegment.text),
+        translation: current.translation || nextSegment.translation,
+      };
+
+      const next = [...segmentsRef.current];
+      next.splice(index, 2, merged);
+      const selectedIndex = Math.min(segmentIndexRef.current, next.length - 1);
+      applyEditedSegments(next, selectedIndex);
+    },
+    [applyEditedSegments]
+  );
+
+  const handleSaveOverrides = useCallback(async () => {
+    if (!videoId || !segmentsRef.current.length || !overrideDirty || savingOverrides) return;
+
+    setSavingOverrides(true);
+    try {
+      const response = await fetch('/api/youtube/transcript/overrides', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoId,
+          segments: segmentsRef.current.map(segment => ({
+            start: segment.start,
+            end: segment.end,
+            text: segment.text,
+            translation: segment.translation,
+          })),
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data?.success) {
+        throw new Error(data?.error || 'Failed to save transcript edits');
+      }
+
+      setOverrideDirty(false);
+      setStatus('Transcript edits saved.');
+      showToast('Transcript edits saved.', 'success');
+      baselineSegmentsRef.current = cloneSegments(segmentsRef.current);
+      editHistoryRef.current = [];
+      setCanUndo(false);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to save transcript edits';
+      setError(message);
+      showToast(message, 'warning');
+    } finally {
+      setSavingOverrides(false);
+    }
+  }, [videoId, overrideDirty, savingOverrides, showToast]);
+
+  const handleTimingNudge = useCallback(
+    (index: number, edge: 'start' | 'end', delta: number) => {
+      const current = segmentsRef.current[index];
+      if (!current) return;
+
+      const previous = segmentsRef.current[index - 1];
+      const nextSegment = segmentsRef.current[index + 1];
+      const next = [...segmentsRef.current];
+
+      let start = current.start;
+      let end = current.end;
+
+      if (edge === 'start') {
+        const minStart = previous ? previous.end + SEGMENT_EPSILON_SECONDS : 0;
+        const maxStart = end - MIN_SEGMENT_DURATION_SECONDS;
+        start = Math.min(maxStart, Math.max(minStart, start + delta));
+      } else {
+        const minEnd = start + MIN_SEGMENT_DURATION_SECONDS;
+        const maxEnd = nextSegment ? nextSegment.start - SEGMENT_EPSILON_SECONDS : Number.POSITIVE_INFINITY;
+        end = Math.max(minEnd, Math.min(maxEnd, end + delta));
+      }
+
+      next[index] = {
+        ...current,
+        start,
+        end,
+      };
+
+      applyEditedSegments(next, segmentIndexRef.current);
+    },
+    [applyEditedSegments]
+  );
+
+  const transcriptEditSections = useMemo(
+    () => [
+      {
+        id: "transcript-edit",
+        title: "Transcript Edit",
+        items: [
+          {
+            id: "toggle-edit",
+            label: "Edit Transcript",
+            type: "toggle" as const,
+            value: editMode,
+            onClick: () => setEditMode(prev => !prev),
+          },
+          {
+            id: "save-edits",
+            label: savingOverrides ? "Saving..." : "Save Edits",
+            disabled: !overrideDirty || savingOverrides || resettingOverrides,
+            onClick: () => {
+              void handleSaveOverrides();
+            },
+          },
+          {
+            id: "undo-edit",
+            label: "Undo",
+            disabled: !canUndo || savingOverrides || resettingOverrides,
+            onClick: handleUndoEdit,
+          },
+          {
+            id: "reset-edits",
+            label: resettingOverrides ? "Resetting..." : "Reset Edits",
+            disabled: savingOverrides || resettingOverrides,
+            onClick: () => {
+              void handleResetEdits();
+            },
+          },
+        ],
+      },
+    ],
+    [
+      editMode,
+      overrideDirty,
+      savingOverrides,
+      canUndo,
+      resettingOverrides,
+      handleSaveOverrides,
+      handleUndoEdit,
+      handleResetEdits,
+    ]
+  );
 
   useEffect(() => {
     return () => {
@@ -1034,6 +1521,11 @@ function YouTubeShadowingContent() {
         setSegments(normalizedSegments);
         segmentsRef.current = normalizedSegments;
         setShowUrlInput(false); // Collapse form when restoring a session
+        baselineSegmentsRef.current = cloneSegments(normalizedSegments);
+        editHistoryRef.current = [];
+        setCanUndo(false);
+        setOverrideDirty(false);
+        setSplitCursorByIndex({});
       }
       if (parsed.source) setSource(parsed.source);
       if (typeof parsed.currentSegmentIndex === "number") {
@@ -1133,6 +1625,12 @@ function YouTubeShadowingContent() {
     setStatus(null);
     setShowUrlInput(true);
     setVideoMetadata(null);
+    setEditMode(false);
+    setOverrideDirty(false);
+    setSplitCursorByIndex({});
+    baselineSegmentsRef.current = [];
+    editHistoryRef.current = [];
+    setCanUndo(false);
     clearedSessionRef.current = true;
 
     // Remove URL params to avoid auto-reloading a cleared session
@@ -1354,7 +1852,17 @@ function YouTubeShadowingContent() {
           <div className={styles.transcriptColumn}>
             {segments.length > 0 ? (
               <div className={styles.transcriptListSection}>
-                <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+                <div className={styles.listHeader}>
+                  <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+                  <SettingsDropdown
+                    sections={transcriptEditSections}
+                    buttonIcon={<MoreVertical className="w-4 h-4" />}
+                    showChevron={false}
+                    buttonClassName={styles.editMenuButton}
+                    position="right"
+                    showDividers={false}
+                  />
+                </div>
                 <div className={`${styles.segmentList} scrollbar-hide`}>
                   {segments.map((segment, index) => {
                     const active = index === currentSegmentIndex;
@@ -1384,17 +1892,116 @@ function YouTubeShadowingContent() {
                           </div>
                         </div>
                         <div className={styles.segmentTextSmall}>
-                          <GrammarHighlightedText
-                            text={segment.text}
-                            highlightMode={highlightMode}
-                            showFurigana={showFurigana}
-                            furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
-                            onWordClick={(word, e) => {
-                              e.stopPropagation();
-                              handleWordTap(word, segment.text);
-                            }}
-                          />
+                          {editMode ? (
+                            <textarea
+                              value={segment.text}
+                              className={styles.segmentTextEditor}
+                              onChange={(e) => handleSegmentTextChange(index, e.target.value)}
+                              onSelect={(e) => {
+                                const value = e.currentTarget.selectionStart ?? 0;
+                                setSplitCursorByIndex(prev => ({ ...prev, [index]: value }));
+                              }}
+                            />
+                          ) : (
+                            <GrammarHighlightedText
+                              text={segment.text}
+                              highlightMode={highlightMode}
+                              showFurigana={showFurigana}
+                              furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
+                              onWordClick={(word, e) => {
+                                e.stopPropagation();
+                                handleWordTap(word, segment.text);
+                              }}
+                            />
+                          )}
                         </div>
+                        {editMode && (
+                          <div className={styles.segmentEditRow}>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleSplitSegment(index)}
+                            >
+                              Split
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleTimingNudge(index, 'start', -TIMING_NUDGE_SECONDS)}
+                            >
+                              Start-
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleTimingNudge(index, 'start', TIMING_NUDGE_SECONDS)}
+                            >
+                              Start+
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleTimingNudge(index, 'end', -TIMING_NUDGE_SECONDS)}
+                            >
+                              End-
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleTimingNudge(index, 'end', TIMING_NUDGE_SECONDS)}
+                            >
+                              End+
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleBoundaryTakeFromNext(index)}
+                              disabled={index >= segments.length - 1}
+                            >
+                              Take Next
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleBoundaryTakeFromNext(index, 2)}
+                              disabled={index >= segments.length - 1}
+                            >
+                              Take 2
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleBoundaryGiveToNext(index)}
+                              disabled={index >= segments.length - 1}
+                            >
+                              Give Next
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleBoundaryGiveToNext(index, 2)}
+                              disabled={index >= segments.length - 1}
+                            >
+                              Give 2
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleMergeWithPrevious(index)}
+                              disabled={index === 0}
+                            >
+                              Merge Prev
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.segmentEditButton}
+                              onClick={() => handleMergeWithNext(index)}
+                              disabled={index >= segments.length - 1}
+                            >
+                              Merge Next
+                            </button>
+                          </div>
+                        )}
                       </div>
                     );
                   })}

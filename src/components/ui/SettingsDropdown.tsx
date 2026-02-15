@@ -27,6 +27,7 @@ interface SettingsDropdownProps {
   sections: SettingsSection[]
   buttonLabel?: string
   buttonIcon?: React.ReactNode
+  showChevron?: boolean
   buttonClassName?: string
   dropdownClassName?: string
   position?: 'left' | 'right'
@@ -38,6 +39,7 @@ export default function SettingsDropdown({
   sections,
   buttonLabel,
   buttonIcon = <Settings className="w-4 h-4" />,
+  showChevron = true,
   buttonClassName = '',
   dropdownClassName = '',
   position = 'right',
@@ -120,7 +122,9 @@ export default function SettingsDropdown({
       >
         {buttonIcon}
         {buttonLabel && <span>{buttonLabel}</span>}
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        {showChevron && (
+          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        )}
       </button>
 
       {isOpen && (

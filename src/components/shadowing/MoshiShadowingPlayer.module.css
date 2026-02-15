@@ -487,6 +487,81 @@
   color: var(--color-dark-50);
 }
 
+.editMenuButton {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--color-dark-700);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+}
+
+.editMenuButton:hover {
+  border-color: rgba(var(--palette-primary-500), 0.45);
+  color: rgb(var(--palette-primary-700));
+}
+
+:global(.dark) .editMenuButton {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--color-gray-300);
+}
+
+.segmentTextEditor {
+  width: 100%;
+  min-height: 3rem;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-dark-800);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 0.4rem 0.5rem;
+}
+
+:global(.dark) .segmentTextEditor {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--color-gray-200);
+}
+
+.segmentEditRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  padding-left: 36px;
+}
+
+.segmentEditButton {
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--color-dark-700);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+  transition: all 0.15s ease;
+}
+
+.segmentEditButton:hover:not(:disabled) {
+  border-color: rgba(var(--palette-primary-500), 0.4);
+  color: rgb(var(--palette-primary-700));
+}
+
+.segmentEditButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+:global(.dark) .segmentEditButton {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--color-gray-300);
+}
+
 /* Floating Nav */
 .floatingNav {
   display: none;
