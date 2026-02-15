@@ -7266,6 +7266,7 @@ export const strings = {
     startLearningSession: 'Iniciar Sesión de Aprendizaje',
     startReviewSession: 'Iniciar Sesión de Repaso',
     errorStartSession: 'No se pudo iniciar la sesión. Por favor, inténtalo de nuevo.',
+    errorReviewSessionEmpty: 'No hay suficientes kanji pendientes de repaso para llenar una sesión. Aprende más kanji o espera a que haya repasos pendientes.',
     howItWorks: 'Cómo Funciona',
     step1Title: 'Configura Tu Sesión',
     step1Description: 'Elige el nivel JLPT y el número de kanji a estudiar',
@@ -7319,6 +7320,7 @@ export const strings = {
       undo: 'Deshacer',
       noResults: 'No se encontraron kanji',
       drawHere: 'Dibuja aquí',
+      completionMessage: '¡Práctica completada! Buen trabajo.',
     },
   },
   qa: {

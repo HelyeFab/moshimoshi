@@ -300,9 +300,14 @@ export async function PUT(request: NextRequest) {
     // Validate preferences structure
     const validatedPreferences = validatePreferences(body)
 
-    // Only update in Firebase for premium users
-    if (decision.shouldWriteToFirebase && adminDb) {
-      const docRef = adminDb.collection('notifications_preferences').doc(userId)
+    // Feature reminders are privacy controls — write for ALL users
+    // (same bypass as POST/DELETE, see file header comment).
+    // Other preferences are only persisted for premium users.
+    const isFeatureReminderOnly = !!(validatedPreferences.feature_reminders && Object.keys(validatedPreferences).length === 1)
+    const shouldWrite = (decision.shouldWriteToFirebase || isFeatureReminderOnly) && adminDb
+
+    if (shouldWrite) {
+      const docRef = adminDb!.collection('notifications_preferences').doc(userId)
 
       await docRef.set({
         ...validatedPreferences,

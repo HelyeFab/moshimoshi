@@ -71,16 +71,45 @@ const MIN_SEGMENT_DURATION_SECONDS = 0.2;
 
 function normalizeSegmentsForPlayback(segments: TranscriptSegment[]): TranscriptSegment[] {
   if (!Array.isArray(segments) || segments.length === 0) return [];
-  const normalized = segments.map((seg) => ({ ...seg }));
+  const ordered = segments
+    .map((seg) => ({
+      ...seg,
+      start: Number.isFinite(seg.start) ? seg.start : 0,
+      end: Number.isFinite(seg.end)
+        ? seg.end
+        : (Number.isFinite(seg.start) ? seg.start + MIN_SEGMENT_DURATION_SECONDS : MIN_SEGMENT_DURATION_SECONDS),
+    }))
+    .sort((a, b) => {
+      if (a.start !== b.start) return a.start - b.start;
+      return a.end - b.end;
+    });
 
-  for (let i = 1; i < normalized.length; i++) {
+  const normalized: TranscriptSegment[] = [];
+  for (let i = 0; i < ordered.length; i++) {
     const prev = normalized[i - 1];
-    const current = normalized[i];
-    const maxPrevEnd = current.start - SEGMENT_EPSILON_SECONDS;
+    const current = ordered[i];
+    const next = ordered[i + 1];
 
-    if (prev.end > maxPrevEnd) {
-      prev.end = Math.max(prev.start + MIN_SEGMENT_DURATION_SECONDS, maxPrevEnd);
+    let start = current.start;
+    let end = current.end;
+
+    if (prev && start < prev.end) {
+      start = prev.end + SEGMENT_EPSILON_SECONDS;
     }
+
+    if (next && end > next.start) {
+      end = next.start - SEGMENT_EPSILON_SECONDS;
+    }
+
+    if (end <= start) {
+      end = start + MIN_SEGMENT_DURATION_SECONDS;
+    }
+
+    normalized.push({
+      ...current,
+      start,
+      end,
+    });
   }
 
   return normalized;
@@ -108,7 +137,11 @@ const PLAYER_STATES = {
 const SYNC_V2 = isFeatureEnabled('SYNC_PRECISION_V2');
 const POLL_INTERVAL_MS = SYNC_V2 ? 100 : 250;
 const REENTRY_DELAY_MS = 50;
-const MIN_TRIGGER_BUFFER_SEC = 0.15;
+const MIN_TRIGGER_BUFFER_SEC = 0.28;
+const SHORT_NEXT_SEGMENT_TRIGGER_BUFFER_SEC = 0.45;
+const LONG_SEGMENT_TRIGGER_BUFFER_SEC = 1.15;
+const LONG_TO_SHORT_TRIGGER_BUFFER_SEC = 1.35;
+const MAX_TRIGGER_BUFFER_RATIO = 0.35;
 
 function YouTubeShadowingContent() {
   const { t } = useI18n();
@@ -304,7 +337,27 @@ function YouTubeShadowingContent() {
       const segmentDuration = segment.end - segment.start;
       const playbackRate = player.getPlaybackRate?.() ?? 1.0;
       const { triggerBuffer } = calculateSegmentBuffers(segmentDuration, playbackRate);
-      const safeTriggerBuffer = Math.max(triggerBuffer, MIN_TRIGGER_BUFFER_SEC);
+      const nextSegment = segmentsRef.current[segmentIndexRef.current + 1];
+      const nextDuration = nextSegment ? (nextSegment.end - nextSegment.start) : null;
+      const nextIsShort = nextDuration != null && nextDuration <= 3.0;
+      const currentIsLong = segmentDuration >= 6.0;
+      let minBuffer = nextIsShort
+        ? SHORT_NEXT_SEGMENT_TRIGGER_BUFFER_SEC
+        : MIN_TRIGGER_BUFFER_SEC;
+      if (currentIsLong) {
+        minBuffer = Math.max(
+          minBuffer,
+          nextIsShort ? LONG_TO_SHORT_TRIGGER_BUFFER_SEC : LONG_SEGMENT_TRIGGER_BUFFER_SEC
+        );
+      }
+      const cappedMaxBuffer = Math.max(
+        MIN_TRIGGER_BUFFER_SEC,
+        segmentDuration * MAX_TRIGGER_BUFFER_RATIO
+      );
+      const safeTriggerBuffer = Math.min(
+        Math.max(triggerBuffer, minBuffer),
+        cappedMaxBuffer
+      );
       segmentEnd = Math.max(segment.end - safeTriggerBuffer, segment.start + 0.05);
     } else {
       segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);

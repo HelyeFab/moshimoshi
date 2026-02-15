@@ -1,0 +1,163 @@
+{
+  "generatedAt": "2026-02-14T15:06:26.309Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "lang": "ja",
+  "forceRefresh": true,
+  "videos": [
+    {
+      "videoId": "Xs0Lxif1u9E",
+      "status": 200,
+      "elapsedMs": 20905,
+      "source": "railway-server",
+      "available": true,
+      "totalSegments": 43,
+      "processing": {
+        "aiProcessed": true,
+        "aiMethod": "deterministic",
+        "aiReason": "openai_fragmentation_reject_tiny_ratio_b0.28_t0.28_e9",
+        "aiPipelineVersion": "2.4.1",
+        "aiQualityBefore": 0.27906976744186046,
+        "aiQualityAfter": 0.27906976744186046,
+        "correctionApplied": false,
+        "ai_attempted": true,
+        "ai_chunks_total": 1,
+        "ai_chunks_failed": 1,
+        "ai_accept_ratio": 0,
+        "ai_latency_ms_total": 10085,
+        "quality_before": 0.27906976744186046,
+        "quality_after": 0.27906976744186046,
+        "reject_reason_histogram": {
+          "openai_fragmentation_reject_tiny_ratio_b0.28_t0.28_e9": 1
+        }
+      },
+      "segmentStats": {
+        "total": 43,
+        "shortTextCount": 13,
+        "shortTextRatio": 0.3023255813953488,
+        "longDurationCount": 0,
+        "overlapCount": 0,
+        "orphanParticleCount": 0,
+        "tinyFragmentCount": 12,
+        "tinyFragmentRatio": 0.27906976744186046,
+        "tinyCharCount": 3,
+        "first10TinyCount": 2,
+        "brokenFragmentCount": 3,
+        "brokenFragmentRatio": 0.06976744186046512,
+        "first10BrokenCount": 2
+      },
+      "verdict": {
+        "pass": true,
+        "failedRules": [],
+        "rules": [
+          {
+            "name": "No overlap timeline",
+            "pass": true,
+            "detail": "overlapCount=0"
+          },
+          {
+            "name": "No >10s segments",
+            "pass": true,
+            "detail": "longDurationCount=0"
+          },
+          {
+            "name": "Low orphan particles",
+            "pass": true,
+            "detail": "orphanParticleCount=0"
+          },
+          {
+            "name": "AI accepted or rare deterministic reason",
+            "pass": true,
+            "detail": "aiMethod=deterministic, aiReason=openai_fragmentation_reject_tiny_ratio_b0.28_t0.28_e9"
+          }
+        ]
+      }
+    },
+    {
+      "videoId": "t9U8QfOxMMw",
+      "status": 200,
+      "elapsedMs": 124257,
+      "source": "railway-server",
+      "available": true,
+      "totalSegments": 563,
+      "processing": {
+        "aiProcessed": true,
+        "aiMethod": "ai",
+        "aiReason": "openai_segmented",
+        "aiPipelineVersion": "2.4.1",
+        "aiQualityBefore": 0.45303550973654066,
+        "aiQualityAfter": 0.4683244523386619,
+        "correctionApplied": false,
+        "ai_attempted": true,
+        "ai_chunks_total": 5,
+        "ai_chunks_failed": 0,
+        "ai_accept_ratio": 1,
+        "ai_latency_ms_total": 113909,
+        "quality_before": 0.45303550973654066,
+        "quality_after": 0.4683244523386619,
+        "reject_reason_histogram": {}
+      },
+      "segmentStats": {
+        "total": 563,
+        "shortTextCount": 277,
+        "shortTextRatio": 0.4920071047957371,
+        "longDurationCount": 0,
+        "overlapCount": 0,
+        "orphanParticleCount": 1,
+        "tinyFragmentCount": 269,
+        "tinyFragmentRatio": 0.477797513321492,
+        "tinyCharCount": 103,
+        "first10TinyCount": 2,
+        "brokenFragmentCount": 1,
+        "brokenFragmentRatio": 0.0017761989342806395,
+        "first10BrokenCount": 0
+      },
+      "verdict": {
+        "pass": true,
+        "failedRules": [],
+        "rules": [
+          {
+            "name": "No overlap timeline",
+            "pass": true,
+            "detail": "overlapCount=0"
+          },
+          {
+            "name": "No >10s segments",
+            "pass": true,
+            "detail": "longDurationCount=0"
+          },
+          {
+            "name": "Low orphan particles",
+            "pass": true,
+            "detail": "orphanParticleCount=1"
+          },
+          {
+            "name": "AI: Broken fragment ratio <= 0.15",
+            "pass": true,
+            "detail": "brokenFragmentRatio=0.002"
+          },
+          {
+            "name": "AI: First 10 segments: max 2 broken fragments",
+            "pass": true,
+            "detail": "first10BrokenCount=0"
+          },
+          {
+            "name": "No global timeout fallback",
+            "pass": true,
+            "detail": "aiReason=openai_segmented"
+          },
+          {
+            "name": "Chunked AI attempted",
+            "pass": true,
+            "detail": "ai_chunks_total=5"
+          },
+          {
+            "name": "Meaningful AI acceptance",
+            "pass": true,
+            "detail": "aiMethod=ai, ai_accept_ratio=1.00"
+          }
+        ]
+      }
+    }
+  ],
+  "overallPass": true
+}

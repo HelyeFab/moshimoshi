@@ -11,6 +11,9 @@ If you change the feature, update this file.
 For the latest full technical handoff, current blockers, and exact next implementation plan toward Miraa-grade quality, read:
 
 - `02-PRODUCTION_DOCS/youtube-shadowing/08-ULTIMATE-HANDOFF-FOR-NEXT-SESSION.md`
+- `02-PRODUCTION_DOCS/youtube-shadowing/09-BENCHMARK-HARNESS.md` (repeatable benchmark runbook)
+- `02-PRODUCTION_DOCS/youtube-shadowing/MVP-Shadowing-Reliability/10-PRODUCTION-DELIVERY-PLAN.md` (business + technical delivery plan)
+- `02-PRODUCTION_DOCS/youtube-shadowing/MVP-Shadowing-Reliability/AI_Actors/README.md` (roles/tasks for Technical Lead + AI agents)
 
 ---
 

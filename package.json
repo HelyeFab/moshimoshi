@@ -33,6 +33,8 @@
     "test:quick": "jest --testPathIgnorePatterns=e2e --passWithNoTests --maxWorkers=100%",
     "test:ci:unit": "jest --ci --coverage --maxWorkers=50% --passWithNoTests --testPathIgnorePatterns=e2e",
     "test:ci:e2e": "playwright test --project=chromium",
+    "benchmark:youtube-shadowing": "node scripts/youtube-shadowing-benchmark.mjs --base-url=http://127.0.0.1:3000",
+    "benchmark:youtube-shadowing:refresh": "node scripts/youtube-shadowing-benchmark.mjs --base-url=http://127.0.0.1:3000 --force-refresh",
     "gen:entitlements": "tsx scripts/gen-entitlements.ts",
     "docs:aggregate": "node scripts/docs-aggregator.js",
     "docs:watch": "node scripts/docs-aggregator.js --watch",

@@ -80,6 +80,28 @@ Do not mark production-ready until the validation checklist below is completed.
   - app URL env used by scheduler/job
 - Confirm Firebase scheduler deployment and run logs.
 
+## Resolved Issues
+
+### Feature Reminder Bell Toggle — Firebase Permission Error (2026-02-15)
+
+**Symptom:** Clicking the per-feature bell toggle on any page produced a `FirebaseError: Missing or insufficient permissions` error. The bell never toggled off visually.
+
+**Root Cause (dual):**
+
+1. **Write path — client auth unavailable:** The `useFeatureReminderToggle` hook's `toggle` function used the Firebase client SDK (`setDoc` with `firebaseAuth.currentUser`) to write directly to Firestore. However, the server session (`useAuth`) resolves before Firebase client auth initializes. The `firebaseAuth.currentUser` was always `null` when the user clicked the bell, so either the write failed with a permission error (Firestore security rules check `request.auth`, which is client-side auth state), or the function bailed silently.
+
+2. **Write path — storage gate for free users:** The `PUT /api/notifications/preferences` route gates Firestore writes on `decision.shouldWriteToFirebase`, which is `false` for free-tier users. The general feature reminders toggle on the settings page worked because it uses the `POST` method, which intentionally bypasses the storage check (as documented in the route's header comment). The per-feature bell toggle was using `PUT`, so free users' writes were silently dropped.
+
+**Fix (two changes):**
+
+1. **`src/hooks/useFeatureReminderToggle.ts` — Route toggle through API:** Replaced the direct Firestore `setDoc` call in the `toggle` function with a `fetch('PUT', '/api/notifications/preferences')` call. This uses the existing API route which authenticates via server session (`requireAuth`) and writes via Firebase Admin SDK (`adminDb`). No client-side Firebase auth is needed. The read path (`onSnapshot` gated by `onAuthStateChanged`) was left untouched.
+
+2. **`src/app/api/notifications/preferences/route.ts` — Bypass storage gate for feature reminders:** Added a check in the `PUT` handler: when the request body contains only `feature_reminders`, the write proceeds for ALL users regardless of `shouldWriteToFirebase`. This matches the existing bypass behavior of `POST` and `DELETE` methods, which the file's header comment documents as an intentional design decision for privacy controls.
+
+**Files changed:**
+- `src/hooks/useFeatureReminderToggle.ts` — toggle uses API route instead of direct Firestore
+- `src/app/api/notifications/preferences/route.ts` — PUT bypasses storage gate for feature_reminders-only updates
+
 ## Known Risks
 - Branch split complexity can leak mixed changes into release branch.
 - Preference storage architecture differs by user tier; migration correctness must be verified with real data.

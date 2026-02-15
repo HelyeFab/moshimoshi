@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { doc, onSnapshot, setDoc } from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useAuth } from '@/hooks/useAuth'
 import { db, auth as firebaseAuth } from '@/lib/firebase/config'
@@ -97,26 +97,25 @@ export function useFeatureReminderToggle(featureKey: FeatureReminderKey | null):
   }, [authLoading, featureKey, user])
 
   const toggle = useCallback(async () => {
-    if (!user || !db || !featureKey || saving || isGlobalDisabled) return
+    if (!user || !featureKey || saving || isGlobalDisabled) return
 
     const nextValue = !enabled
     setEnabled(nextValue)
     setSaving(true)
 
     try {
-      await setDoc(
-        doc(db, 'notifications_preferences', user.uid),
-        {
-          userId: user.uid,
+      const res = await fetch('/api/notifications/preferences', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           feature_reminders: {
             features: {
               [featureKey]: nextValue
             }
-          },
-          updated_at: new Date().toISOString()
-        },
-        { merge: true }
-      )
+          }
+        })
+      })
+      if (!res.ok) throw new Error('Failed to update preference')
     } catch (error) {
       console.error('Failed to update feature reminder preference:', error)
       setEnabled(!nextValue)

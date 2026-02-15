@@ -7272,6 +7272,7 @@ export const strings = {
     startLearningSession: 'Lernsitzung starten',
     startReviewSession: 'Wiederholungssitzung starten',
     errorStartSession: 'Sitzung konnte nicht gestartet werden. Bitte versuche es erneut.',
+    errorReviewSessionEmpty: 'Nicht genug Kanji zur Wiederholung fällig. Lerne mehr Kanji oder warte, bis Wiederholungen fällig werden.',
     howItWorks: 'So funktioniert es',
     step1Title: 'Konfiguriere deine Sitzung',
     step1Description: 'Wähle JLPT-Level und Anzahl der zu lernenden Kanji',
@@ -7325,6 +7326,7 @@ export const strings = {
       undo: 'Rückgängig',
       noResults: 'Kein Kanji gefunden',
       drawHere: 'Hier zeichnen',
+      completionMessage: 'Übung abgeschlossen! Gut gemacht.',
     },
   },
   qa: {

@@ -70,19 +70,33 @@ const TINY_DUPLICATE_MAX_GAP = 0.2
 const ORPHAN_PARTICLE_REGEX = /^(ね|よ|な|か|さ|ぞ|ぜ|わ|よね|ねえ|ねぇ)[。！？!?]?$/
 const TIMELINE_EPSILON_SECONDS = 0.02
 const MIN_SEGMENT_DURATION_SECONDS = 0.2
+const CONTINUATION_MAX_NEXT_DURATION_SECONDS = 4.5
+const CONTINUATION_MIN_PREV_DURATION_SECONDS = 4.0
+const CONTINUATION_MIN_SHIFT_SECONDS = 0.35
 const OPENAI_TIMEOUT_MS = 35_000
-const AI_PIPELINE_VERSION = '2.3.0'
+const AI_PIPELINE_VERSION = '2.4.1'
 const OPENAI_MODEL = 'gpt-4o-mini'
 const AI_CHUNK_STRATEGY_VERSION = '1.0.0'
 const SENTENCE_END_REGEX = /[。！？!?]$/
 const LEADING_PARTICLE_REGEX = /^(は|が|を|に|へ|で|と|の|も|や|か|ね|よ|な|さ|ぞ|ぜ|わ)(?:$|[、。！？!?])/
 const EMERGENCY_DISABLE_AI_SHADOWING = false
-const AI_MIN_QUALITY_DELTA = 0.03
+const AI_MAX_ALLOWED_QUALITY_DROP = 0.01
 const AI_MAX_SEGMENT_DURATION_SECONDS = 10
+const AI_MIN_PREFERRED_SEGMENT_CHARS = 8
+const AI_MAX_SHORT_SEGMENT_RATIO = 0.35
 const AI_CHUNK_MIN_SEGMENTS = 80
 const AI_CHUNK_TARGET_SEGMENTS = 120
 const AI_CHUNK_MAX_SEGMENTS = 180
 const AI_ALIGNMENT_MIN_MATCH_RATIO = 0.9
+const AI_VALIDATION_MAX_GAP_SECONDS = 5
+const AI_RETRY_SPLIT_MIN_SEGMENTS = 24
+const AI_MAX_SPLIT_DEPTH = 2
+const AI_HARD_SHORT_RATIO_LIMIT = 0.35
+const AI_HARD_TINY_RATIO_LIMIT = 0.15
+const AI_EARLY_WINDOW_SIZE = 10
+const AI_EARLY_WINDOW_MAX_TINY = 2
+const AI_TINY_CHAR_THRESHOLD = 4
+const AI_TINY_DURATION_THRESHOLD = 1.0
 
 interface AiPipelineMetrics {
   ai_attempted: boolean
@@ -107,6 +121,7 @@ interface AiPipelineResult {
 
 interface AiChunkWindow {
   segments: TranscriptSegment[]
+  splitDepth: number
 }
 
 function removeTinyAdjacentTextOverlap(segments: TranscriptSegment[]): TranscriptSegment[] {
@@ -182,21 +197,52 @@ function normalizeSegmentsForCache(segments: TranscriptSegment[]): TranscriptSeg
     words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
   })))
 
-  return enforceNonOverlappingTimeline(healed)
+  const rebalanced = rebalanceContinuationBoundaries(healed)
+
+  // Split segments exceeding the safe practice duration limit.
+  // Without this, lyrics/songs with long timing gaps produce >10s segments
+  // that are unsuitable for repeat practice.
+  // Guard: only split if the text is long enough to produce meaningful pieces.
+  // Sparse lyrics (e.g. 10 chars over 30s) stay whole rather than fragmenting
+  // into single-character nonsense.
+  const safeDuration = rebalanced.flatMap(seg => {
+    const duration = seg.end - seg.start
+    if (duration <= AI_MAX_SEGMENT_DURATION_SECONDS) return [seg]
+    const textLen = Array.from((seg.text || '').trim()).length
+    const pieces = Math.max(2, Math.ceil(duration / AI_MAX_SEGMENT_DURATION_SECONDS))
+    if (textLen < pieces * AI_MIN_PREFERRED_SEGMENT_CHARS) return [seg]
+    return toTranscriptSegments(
+      splitLongAiSegmentByText(
+        { text: seg.text, start: seg.start, end: seg.end },
+        AI_MAX_SEGMENT_DURATION_SECONDS
+      )
+    )
+  })
+
+  return enforceNonOverlappingTimeline(safeDuration)
 }
 
 function enforceNonOverlappingTimeline(segments: TranscriptSegment[]): TranscriptSegment[] {
   if (segments.length <= 1) return segments
 
+  const ordered = [...segments].sort((a, b) => {
+    const aStart = Number.isFinite(a.start) ? a.start : 0
+    const bStart = Number.isFinite(b.start) ? b.start : 0
+    if (aStart !== bStart) return aStart - bStart
+    const aEnd = Number.isFinite(a.end) ? a.end : aStart + MIN_SEGMENT_DURATION_SECONDS
+    const bEnd = Number.isFinite(b.end) ? b.end : bStart + MIN_SEGMENT_DURATION_SECONDS
+    return aEnd - bEnd
+  })
+
   const normalized: TranscriptSegment[] = []
 
-  for (let i = 0; i < segments.length; i++) {
-    const current = segments[i]
+  for (let i = 0; i < ordered.length; i++) {
+    const current = ordered[i]
     const prev = normalized[i - 1]
-    const next = segments[i + 1]
+    const next = ordered[i + 1]
 
-    let start = current.start
-    let end = current.end
+    let start = Number.isFinite(current.start) ? current.start : (prev ? prev.end + TIMELINE_EPSILON_SECONDS : 0)
+    let end = Number.isFinite(current.end) ? current.end : start + MIN_SEGMENT_DURATION_SECONDS
 
     // Prevent backward/overlapping starts.
     if (prev && start < prev.end) {
@@ -204,8 +250,9 @@ function enforceNonOverlappingTimeline(segments: TranscriptSegment[]): Transcrip
     }
 
     // Clamp end to before the next segment start to avoid audio bleed across repeats.
-    if (next && end > next.start) {
-      end = next.start - TIMELINE_EPSILON_SECONDS
+    const nextStart = next && Number.isFinite(next.start) ? next.start : null
+    if (nextStart != null && end > nextStart) {
+      end = nextStart - TIMELINE_EPSILON_SECONDS
     }
 
     // Keep segments playable even after clamping.
@@ -224,6 +271,11 @@ function enforceNonOverlappingTimeline(segments: TranscriptSegment[]): Transcrip
   }
 
   return normalized
+}
+
+function finalizeSegmentsForPlayback(segments: TranscriptSegment[]): TranscriptSegment[] {
+  const cleaned = removeTinyAdjacentTextOverlap(segments)
+  return enforceNonOverlappingTimeline(cleaned)
 }
 
 function healBrokenWordBoundaries(segments: TranscriptSegment[]): TranscriptSegment[] {
@@ -268,6 +320,60 @@ function healBrokenWordBoundaries(segments: TranscriptSegment[]): TranscriptSegm
   }
 
   return merged
+}
+
+function rebalanceContinuationBoundaries(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (segments.length < 2) return segments
+
+  const adjusted = segments.map(seg => ({ ...seg }))
+
+  for (let i = 0; i < adjusted.length - 1; i++) {
+    const prev = adjusted[i]
+    const next = adjusted[i + 1]
+
+    const prevText = (prev.text || '').trim()
+    const nextText = (next.text || '').trim()
+    if (!prevText || !nextText) continue
+    if (SENTENCE_END_REGEX.test(prevText)) continue
+
+    const prevDuration = prev.end - prev.start
+    const nextDuration = next.end - next.start
+    if (prevDuration < CONTINUATION_MIN_PREV_DURATION_SECONDS) continue
+    if (nextDuration > CONTINUATION_MAX_NEXT_DURATION_SECONDS) continue
+
+    const prevChars = Math.max(Array.from(prevText).length, 1)
+    const nextChars = Math.max(Array.from(nextText).length, 1)
+    if (prevChars + nextChars < 8) continue
+    const totalDuration = Math.max(next.end - prev.start, MIN_SEGMENT_DURATION_SECONDS * 2)
+    const desiredPrevDuration = (totalDuration * prevChars) / (prevChars + nextChars)
+    const maxPull = Math.min(prevDuration * 0.55, 3.5)
+    const boundedDesiredPrev = Math.max(
+      MIN_SEGMENT_DURATION_SECONDS,
+      prevDuration - maxPull,
+      desiredPrevDuration
+    )
+    const shift = prevDuration - boundedDesiredPrev
+    if (shift < CONTINUATION_MIN_SHIFT_SECONDS) continue
+
+    const nextMinStart = prev.start + boundedDesiredPrev + TIMELINE_EPSILON_SECONDS
+    const nextMinDurationEnd = nextMinStart + MIN_SEGMENT_DURATION_SECONDS
+    if (next.end <= nextMinDurationEnd) continue
+
+    adjusted[i] = {
+      ...prev,
+      end: nextMinStart - TIMELINE_EPSILON_SECONDS,
+      endTime: nextMinStart - TIMELINE_EPSILON_SECONDS,
+      duration: nextMinStart - TIMELINE_EPSILON_SECONDS - prev.start,
+    }
+    adjusted[i + 1] = {
+      ...next,
+      start: nextMinStart,
+      startTime: nextMinStart,
+      duration: next.end - nextMinStart,
+    }
+  }
+
+  return adjusted
 }
 
 function toResegmentedSegments(segments: TranscriptSegment[]): ResegmentedSegment[] {
@@ -322,7 +428,7 @@ function createAiChunkWindows(segments: TranscriptSegment[]): AiChunkWindow[] {
       if (remaining < AI_CHUNK_MIN_SEGMENTS && windows.length > 0) {
         windows[windows.length - 1].segments.push(...segments.slice(cursor))
       } else {
-        windows.push({ segments: segments.slice(cursor) })
+        windows.push({ segments: segments.slice(cursor), splitDepth: 0 })
       }
       break
     }
@@ -352,11 +458,48 @@ function createAiChunkWindows(segments: TranscriptSegment[]): AiChunkWindow[] {
       selectedEnd = Math.min(cursor + AI_CHUNK_TARGET_SEGMENTS, segments.length)
     }
 
-    windows.push({ segments: segments.slice(cursor, selectedEnd) })
+    windows.push({ segments: segments.slice(cursor, selectedEnd), splitDepth: 0 })
     cursor = selectedEnd
   }
 
   return windows
+}
+
+function splitFailedChunkWindow(window: AiChunkWindow): [AiChunkWindow, AiChunkWindow] | null {
+  const source = window.segments
+  if (source.length < AI_RETRY_SPLIT_MIN_SEGMENTS) return null
+
+  const minLeft = Math.max(8, Math.floor(source.length * 0.3))
+  const maxLeft = Math.min(source.length - 8, Math.ceil(source.length * 0.7))
+  if (minLeft >= maxLeft) return null
+
+  const center = Math.floor(source.length / 2)
+  let splitIndex = center
+
+  for (let i = center; i <= maxLeft; i++) {
+    if (SENTENCE_END_REGEX.test((source[i - 1]?.text || '').trim())) {
+      splitIndex = i
+      break
+    }
+  }
+  if (splitIndex === center) {
+    for (let i = center; i >= minLeft; i--) {
+      if (SENTENCE_END_REGEX.test((source[i - 1]?.text || '').trim())) {
+        splitIndex = i
+        break
+      }
+    }
+  }
+  if (splitIndex <= minLeft || splitIndex >= maxLeft) {
+    splitIndex = center
+  }
+
+  if (splitIndex <= 0 || splitIndex >= source.length) return null
+
+  return [
+    { segments: source.slice(0, splitIndex), splitDepth: window.splitDepth + 1 },
+    { segments: source.slice(splitIndex), splitDepth: window.splitDepth + 1 },
+  ]
 }
 
 function buildProcessingInfo(ai: AiPipelineResult): NonNullable<TranscriptResponse['processing']> {
@@ -385,6 +528,20 @@ function buildAiMetadata(ai: AiPipelineResult): Record<string, unknown> {
     aiShadowingChunkStrategyVersion: AI_CHUNK_STRATEGY_VERSION,
     aiShadowingMetrics: ai.metrics,
   }
+}
+
+function categorizeValidationError(error: string): string {
+  const msg = error.toLowerCase()
+  if (msg.includes('overlaps previous segment')) return 'overlap'
+  if (msg.includes('gap') && msg.includes('exceeds')) return 'gap'
+  if (msg.includes('duration') && msg.includes('exceeds')) return 'duration_too_long'
+  if (msg.includes('duration') && msg.includes('below')) return 'duration_too_short'
+  if (msg.includes('start') && msg.includes('>= end')) return 'non_positive_duration'
+  if (msg.includes('negative start') || msg.includes('negative end')) return 'negative_time'
+  if (msg.includes('not monotonic')) return 'non_monotonic'
+  if (msg.includes('empty text')) return 'empty_text'
+  if (msg.includes('coverage ratio')) return 'low_coverage'
+  return 'other'
 }
 
 function ensureAiTiming(
@@ -420,11 +577,221 @@ function ensureAiTiming(
   })
 }
 
+function splitLongAiSegmentByText(
+  segment: ResegmentedSegment,
+  maxDurationSeconds: number
+): ResegmentedSegment[] {
+  const duration = segment.end - segment.start
+  if (duration <= maxDurationSeconds) return [segment]
+
+  const text = (segment.text || '').trim()
+  if (!text) return [segment]
+
+  const pieces = Math.max(2, Math.ceil(duration / maxDurationSeconds))
+  const punctParts = text
+    .split(/(?<=[。！？!?])/)
+    .map(part => part.trim())
+    .filter(Boolean)
+
+  let parts: string[] = []
+  if (punctParts.length >= pieces) {
+    const groupSize = Math.ceil(punctParts.length / pieces)
+    for (let i = 0; i < punctParts.length; i += groupSize) {
+      parts.push(punctParts.slice(i, i + groupSize).join(''))
+    }
+  } else {
+    const chars = Array.from(text)
+    const charChunkSize = Math.max(1, Math.ceil(chars.length / pieces))
+    for (let i = 0; i < chars.length; i += charChunkSize) {
+      parts.push(chars.slice(i, i + charChunkSize).join(''))
+    }
+  }
+
+  parts = parts.map(p => p.trim()).filter(Boolean)
+  if (parts.length <= 1) return [segment]
+
+  const totalChars = parts.reduce((sum, p) => sum + Array.from(p).length, 0)
+  let cursor = segment.start
+  return parts.map((part, idx) => {
+    const chars = Array.from(part).length
+    const ratio = totalChars > 0 ? chars / totalChars : 1 / parts.length
+    const remaining = parts.length - idx - 1
+    const minRemaining = remaining * MIN_SEGMENT_DURATION_SECONDS
+    const desiredEnd = cursor + Math.max(duration * ratio, MIN_SEGMENT_DURATION_SECONDS)
+    const safeEnd =
+      idx === parts.length - 1
+        ? segment.end
+        : Math.min(desiredEnd, segment.end - minRemaining)
+    const end = Math.max(safeEnd, cursor + MIN_SEGMENT_DURATION_SECONDS)
+    const chunk: ResegmentedSegment = { text: part, start: cursor, end }
+    cursor = end
+    return chunk
+  })
+}
+
+function splitLongAiSegments(
+  segments: ResegmentedSegment[],
+  maxDurationSeconds: number
+): ResegmentedSegment[] {
+  if (segments.length === 0) return segments
+  const result: ResegmentedSegment[] = []
+  for (const seg of segments) {
+    result.push(...splitLongAiSegmentByText(seg, maxDurationSeconds))
+  }
+  return result
+}
+
+function repairLargeAiGaps(
+  segments: ResegmentedSegment[],
+  maxGapSeconds: number
+): ResegmentedSegment[] {
+  if (segments.length <= 1) return segments
+
+  const repaired: ResegmentedSegment[] = []
+  for (let i = 0; i < segments.length; i++) {
+    const current = segments[i]
+    const prev = repaired[i - 1]
+    if (!prev) {
+      repaired.push({ ...current })
+      continue
+    }
+
+    let start = current.start
+    let end = current.end
+    const gap = start - prev.end
+    if (gap > maxGapSeconds) {
+      const shift = gap - maxGapSeconds
+      start = Math.max(prev.end + TIMELINE_EPSILON_SECONDS, start - shift)
+      end = Math.max(start + MIN_SEGMENT_DURATION_SECONDS, end - shift)
+    }
+    if (start < prev.end) {
+      start = prev.end + TIMELINE_EPSILON_SECONDS
+    }
+    if (end <= start) {
+      end = start + MIN_SEGMENT_DURATION_SECONDS
+    }
+
+    repaired.push({ ...current, start, end })
+  }
+
+  return repaired
+}
+
+function computeShortSegmentRatio(
+  segments: TranscriptSegment[],
+  minChars: number = AI_MIN_PREFERRED_SEGMENT_CHARS
+): number {
+  if (segments.length === 0) return 0
+  const shortCount = segments.filter(seg => (seg.text || '').trim().length < minChars).length
+  return shortCount / segments.length
+}
+
+interface FragmentCheckResult {
+  pass: boolean
+  reason: string
+  brokenRatio: number
+  tinyRatio: number
+  earlyWindowBrokenCount: number
+}
+
+/**
+ * A "broken fragment" is a very short segment (< 4 chars) that does NOT end
+ * with sentence-terminal punctuation. This distinguishes truly broken AI output
+ * (single particles like の, あ, と) from natural short utterances (うん。, はい。).
+ */
+function isBrokenFragment(text: string): boolean {
+  const trimmed = (text || '').trim()
+  if (trimmed.length === 0) return true
+  if (trimmed.length >= AI_TINY_CHAR_THRESHOLD) return false
+  if (SENTENCE_END_REGEX.test(trimmed)) return false
+  return true
+}
+
+function checkAntiFragmentGates(segments: TranscriptSegment[]): FragmentCheckResult {
+  if (segments.length === 0) return { pass: true, reason: '', brokenRatio: 0, tinyRatio: 0, earlyWindowBrokenCount: 0 }
+
+  const total = segments.length
+
+  // brokenRatio: truly broken fragments (< 4 chars, no sentence punct)
+  const brokenCount = segments.filter(seg => isBrokenFragment(seg.text)).length
+  const brokenRatio = brokenCount / total
+
+  // tinyRatio: broken fragments OR sub-second segments with no sentence punct.
+  // Natural short utterances (うん。, はい。) are NOT counted because they end
+  // with sentence punctuation. This prevents rejecting conversational content
+  // while still catching degenerate timing artifacts.
+  const tinyCount = segments.filter(seg => {
+    if (isBrokenFragment(seg.text)) return true
+    const text = (seg.text || '').trim()
+    const duration = seg.end - seg.start
+    return duration < AI_TINY_DURATION_THRESHOLD && !SENTENCE_END_REGEX.test(text)
+  }).length
+  const tinyRatio = tinyCount / total
+
+  // Early window: first 10 segments, count broken fragments
+  const earlyWindow = segments.slice(0, AI_EARLY_WINDOW_SIZE)
+  const earlyWindowBrokenCount = earlyWindow.filter(seg => isBrokenFragment(seg.text)).length
+
+  if (brokenRatio > AI_HARD_SHORT_RATIO_LIMIT) {
+    return { pass: false, reason: 'openai_fragmentation_reject_short_ratio', brokenRatio, tinyRatio, earlyWindowBrokenCount }
+  }
+  if (tinyRatio > AI_HARD_TINY_RATIO_LIMIT) {
+    return { pass: false, reason: 'openai_fragmentation_reject_tiny_ratio', brokenRatio, tinyRatio, earlyWindowBrokenCount }
+  }
+  if (earlyWindowBrokenCount > AI_EARLY_WINDOW_MAX_TINY) {
+    return { pass: false, reason: 'openai_fragmentation_reject_early_window', brokenRatio, tinyRatio, earlyWindowBrokenCount }
+  }
+
+  return { pass: true, reason: '', brokenRatio, tinyRatio, earlyWindowBrokenCount }
+}
+
+function mergeTinyAiFragments(segments: TranscriptSegment[]): TranscriptSegment[] {
+  if (segments.length <= 1) return segments
+
+  const merged: TranscriptSegment[] = []
+  for (const current of segments) {
+    const prev = merged[merged.length - 1]
+    const currentText = (current.text || '').trim()
+    const currentDuration = current.end - current.start
+    const isTiny =
+      currentText.length > 0 &&
+      currentText.length < AI_MIN_PREFERRED_SEGMENT_CHARS &&
+      currentDuration <= 2.2
+
+    if (!prev || !isTiny) {
+      merged.push(current)
+      continue
+    }
+
+    const prevText = (prev.text || '').trim()
+    const prevEndsSentence = SENTENCE_END_REGEX.test(prevText)
+    const currentLooksStandalone = SENTENCE_END_REGEX.test(currentText)
+    if (prevEndsSentence && currentLooksStandalone) {
+      merged.push(current)
+      continue
+    }
+
+    const mergedText = `${prev.text}${current.text}`
+    const mergedEnd = Math.max(prev.end, current.end)
+    merged[merged.length - 1] = {
+      ...prev,
+      text: mergedText,
+      end: mergedEnd,
+      endTime: mergedEnd,
+      duration: mergedEnd - prev.start,
+      words: mergedText.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
+    }
+  }
+
+  return merged
+}
+
 async function runAiShadowingPipeline(
   videoId: string,
   videoTitle: string,
   segments: TranscriptSegment[]
 ): Promise<AiPipelineResult> {
+  const deterministicBaseline = finalizeSegmentsForPlayback(segments)
   const baseline = normalizeSegmentsForCache(segments)
   const qualityBefore = computeSegmentQuality(
     baseline.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
@@ -435,7 +802,7 @@ async function runAiShadowingPipeline(
   // Keep deterministic normalization active while we redesign AI timing alignment.
   if (EMERGENCY_DISABLE_AI_SHADOWING) {
     return {
-      segments: baseline,
+      segments: deterministicBaseline,
       method: 'deterministic',
       reason: 'ai_emergency_disabled',
       qualityBefore,
@@ -448,7 +815,7 @@ async function runAiShadowingPipeline(
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) {
     return {
-      segments: baseline,
+      segments: deterministicBaseline,
       method: 'deterministic',
       reason: 'openai_unconfigured',
       qualityBefore,
@@ -462,7 +829,7 @@ async function runAiShadowingPipeline(
     const chunkWindows = createAiChunkWindows(baseline)
     if (chunkWindows.length === 0) {
       return {
-        segments: baseline,
+        segments: deterministicBaseline,
         method: 'deterministic',
         reason: 'openai_empty_baseline',
         qualityBefore,
@@ -474,26 +841,30 @@ async function runAiShadowingPipeline(
 
     const correctionApplied = false
     metrics.ai_attempted = true
-    metrics.ai_chunks_total = chunkWindows.length
 
     const merged: TranscriptSegment[] = []
     let acceptedChunks = 0
 
-    for (const window of chunkWindows) {
+    const chunkQueue: AiChunkWindow[] = [...chunkWindows]
+    while (chunkQueue.length > 0) {
+      const window = chunkQueue.shift()!
       const chunkSource = window.segments
       const chunkSourceQuality = computeSegmentQuality(
         chunkSource.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
       ).score
 
+      metrics.ai_chunks_total += 1
       const sourceText = chunkSource.map(seg => seg.text).join('')
       const chunkStartTime = Date.now()
       let fallbackReason = 'openai_unsuccessful_response'
+      let fallbackReasonDetail = fallbackReason
       let acceptedChunk: TranscriptSegment[] | null = null
 
       try {
         const aiMapped = await requestOpenAiShadowingSegmentation(videoTitle, sourceText)
         if (!aiMapped || aiMapped.length === 0) {
           fallbackReason = 'openai_unsuccessful_response'
+          fallbackReasonDetail = fallbackReason
         } else {
           const anchored = alignAiTextsToSourceTimeline(
             aiMapped.map(seg => seg.text),
@@ -503,21 +874,65 @@ async function runAiShadowingPipeline(
 
           if (!anchored) {
             fallbackReason = 'openai_alignment_failed'
+            fallbackReasonDetail = fallbackReason
           } else {
-            const aiValidation = validateResegmentedOutput(anchored.segments)
+            const repairedAnchoredSegments = repairLargeAiGaps(
+              splitLongAiSegments(anchored.segments, AI_MAX_SEGMENT_DURATION_SECONDS),
+              AI_VALIDATION_MAX_GAP_SECONDS
+            )
+            const aiValidation = validateResegmentedOutput(repairedAnchoredSegments, {
+              maxGap: AI_VALIDATION_MAX_GAP_SECONDS + 0.5,
+            })
             if (!aiValidation.valid) {
               fallbackReason = 'ai_validation_failed'
+              const category = categorizeValidationError(aiValidation.errors[0] || '')
+              fallbackReasonDetail = `${fallbackReason}_${category}`
+              console.warn(
+                `[TRANSCRIPT-API] AI validation failed for ${videoId} chunk(size=${chunkSource.length}, depth=${window.splitDepth}): ${category}; sample=${aiValidation.errors.slice(0, 2).join(' | ')}`
+              )
             } else {
-              const aiNormalized = normalizeSegmentsForCache(toTranscriptSegments(anchored.segments))
+              const aiPracticeNormalized = normalizeSegmentsForCache(
+                toTranscriptSegments(repairedAnchoredSegments)
+              )
+              const aiNormalizedBase = enforceNonOverlappingTimeline(
+                toTranscriptSegments(
+                  splitLongAiSegments(
+                    toResegmentedSegments(aiPracticeNormalized),
+                    AI_MAX_SEGMENT_DURATION_SECONDS
+                  )
+                )
+              )
+              const aiNormalized = enforceNonOverlappingTimeline(
+                mergeTinyAiFragments(aiNormalizedBase)
+              )
               const chunkQualityAfter = computeSegmentQuality(
                 aiNormalized.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
               ).score
               const chunkQualityDelta = chunkQualityAfter - chunkSourceQuality
+              const baselineShortRatio = computeShortSegmentRatio(chunkSource)
+              const aiShortRatio = computeShortSegmentRatio(aiNormalized)
+              const shortRatioThreshold = Math.max(
+                AI_MAX_SHORT_SEGMENT_RATIO,
+                baselineShortRatio + 0.15
+              )
+
+              // Hard anti-fragment gates — reject before any other quality check
+              const fragmentCheck = checkAntiFragmentGates(aiNormalized)
 
               if (hasUnsafeSegmentDurations(aiNormalized)) {
                 fallbackReason = 'openai_duration_safety_reject'
-              } else if (chunkQualityDelta < AI_MIN_QUALITY_DELTA) {
+                fallbackReasonDetail = fallbackReason
+              } else if (!fragmentCheck.pass) {
+                fallbackReason = fragmentCheck.reason
+                fallbackReasonDetail = `${fragmentCheck.reason}_b${fragmentCheck.brokenRatio.toFixed(2)}_t${fragmentCheck.tinyRatio.toFixed(2)}_e${fragmentCheck.earlyWindowBrokenCount}`
+              } else if (aiShortRatio > shortRatioThreshold) {
+                fallbackReason = 'openai_fragmentation_reject'
+                const ratioLabel = `${aiShortRatio.toFixed(2)}>${shortRatioThreshold.toFixed(2)}`
+                fallbackReasonDetail = `${fallbackReason}_${ratioLabel}`
+              } else if (chunkQualityDelta < -AI_MAX_ALLOWED_QUALITY_DROP) {
                 fallbackReason = 'openai_quality_regression'
+                const deltaBucket = Math.round(chunkQualityDelta * 100) / 100
+                fallbackReasonDetail = `${fallbackReason}_${deltaBucket}`
               } else {
                 acceptedChunk = aiNormalized
               }
@@ -527,6 +942,7 @@ async function runAiShadowingPipeline(
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error)
         fallbackReason = message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error'
+        fallbackReasonDetail = fallbackReason
       }
 
       metrics.ai_latency_ms_total += Date.now() - chunkStartTime
@@ -534,8 +950,25 @@ async function runAiShadowingPipeline(
         acceptedChunks += 1
         merged.push(...acceptedChunk)
       } else {
+        const canRetryWithSplit =
+          window.splitDepth < AI_MAX_SPLIT_DEPTH &&
+          window.segments.length >= AI_RETRY_SPLIT_MIN_SEGMENTS &&
+          (fallbackReason === 'openai_unsuccessful_response' ||
+            fallbackReason === 'openai_alignment_failed' ||
+            fallbackReason === 'ai_validation_failed')
+
+        if (canRetryWithSplit) {
+          const split = splitFailedChunkWindow(window)
+          if (split) {
+            incrementRejectReason(metrics, `${fallbackReasonDetail}_retry_split`)
+            chunkQueue.unshift(split[1])
+            chunkQueue.unshift(split[0])
+            continue
+          }
+        }
+
         metrics.ai_chunks_failed += 1
-        incrementRejectReason(metrics, fallbackReason)
+        incrementRejectReason(metrics, fallbackReasonDetail)
         merged.push(...chunkSource)
       }
     }
@@ -549,7 +982,7 @@ async function runAiShadowingPipeline(
         .sort((a, b) => b[1] - a[1])[0]?.[0] || 'openai_all_chunks_failed'
       metrics.quality_after = qualityBefore
       return {
-        segments: baseline,
+        segments: deterministicBaseline,
         method: 'deterministic',
         reason: topReason,
         qualityBefore,
@@ -559,7 +992,14 @@ async function runAiShadowingPipeline(
       }
     }
 
-    const aiNormalized = enforceNonOverlappingTimeline(removeTinyAdjacentTextOverlap(merged))
+    // Cap any remaining >10s segments (from deterministic fallback chunks with
+    // sparse text that could not be split without creating broken fragments).
+    const durationCapped = removeTinyAdjacentTextOverlap(merged).map(seg => {
+      const duration = seg.end - seg.start
+      if (duration <= AI_MAX_SEGMENT_DURATION_SECONDS) return seg
+      return { ...seg, end: seg.start + AI_MAX_SEGMENT_DURATION_SECONDS, endTime: seg.start + AI_MAX_SEGMENT_DURATION_SECONDS, duration: AI_MAX_SEGMENT_DURATION_SECONDS }
+    })
+    const aiNormalized = enforceNonOverlappingTimeline(durationCapped)
     const qualityAfter = computeSegmentQuality(
       aiNormalized.map(seg => ({ text: seg.text, start: seg.start, end: seg.end }))
     ).score
@@ -584,7 +1024,7 @@ async function runAiShadowingPipeline(
     console.warn(`[TRANSCRIPT-API] OpenAI shadowing pipeline failed for ${videoId}:`, message)
     incrementRejectReason(metrics, message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error')
     return {
-      segments: baseline,
+      segments: deterministicBaseline,
       method: 'deterministic',
       reason: message === 'OPENAI_TIMEOUT' ? 'openai_timeout' : 'openai_error',
       qualityBefore,
@@ -608,10 +1048,11 @@ async function requestOpenAiShadowingSegmentation(
     'You are a Japanese shadowing segmentation engine.',
     'Split transcript text into natural short units for repetition.',
     'Rules:',
-    '1) Keep each segment <= 20 Japanese characters when possible.',
-    '2) Never split inside a word/morpheme (e.g. 結ばれる must stay together).',
-    '3) Prefer clause boundaries and punctuation boundaries.',
-    '4) Keep semantic coherence; avoid orphan particles like ね。 by themselves.',
+    '1) Prefer practice-sized chunks: usually 12-45 Japanese characters.',
+    '2) Avoid tiny fragments under 8 characters unless it is a meaningful standalone interjection.',
+    '3) Never split inside a word/morpheme (e.g. 結ばれる must stay together).',
+    '4) Prefer clause boundaries and punctuation boundaries.',
+    '5) Keep semantic coherence; avoid orphan particles like ね。 by themselves.',
     'Return strict JSON object: {"segments":["...","..."]}',
   ].join('\n')
 
@@ -1108,6 +1549,7 @@ export async function GET(
       let mergedSegments = hasTranslations
         ? enforceNonOverlappingTimeline(cleanedSegments)
         : normalizeSegmentsForCache(cleanedSegments)
+      mergedSegments = finalizeSegmentsForPlayback(mergedSegments)
       let processingInfo: NonNullable<TranscriptResponse['processing']> = {
         aiProcessed: true,
         aiMethod: (cached as any)?.metadata?.aiShadowingMethod,
@@ -1142,7 +1584,7 @@ export async function GET(
           cached.videoTitle || 'Cached Video',
           mergedSegments
         )
-        mergedSegments = aiProcessed.segments
+        mergedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
         processingInfo = buildProcessingInfo(aiProcessed)
         transcriptCache
           .updateTranscriptWithMetadata({
@@ -1214,7 +1656,7 @@ export async function GET(
         railwayResult.title || 'Unknown title',
         railwayResult.segments
       )
-      const normalizedSegments = aiProcessed.segments
+      const normalizedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
@@ -1257,7 +1699,7 @@ export async function GET(
         sheldonResult.title || 'Unknown title',
         sheldonResult.segments
       )
-      const normalizedSegments = aiProcessed.segments
+      const normalizedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
       // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
@@ -1300,7 +1742,7 @@ export async function GET(
         enhancedResult.title || 'Unknown title',
         enhancedResult.segments
       )
-      const normalizedSegments = aiProcessed.segments
+      const normalizedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
       // Store to Firebase cache (async, don't block response) - using Admin SDK
       transcriptCache
         .set({
@@ -1343,7 +1785,7 @@ export async function GET(
         standardResult.title || 'Unknown title',
         standardResult.segments
       )
-      const normalizedSegments = aiProcessed.segments
+      const normalizedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
       // Store to Firebase cache - using Admin SDK
       transcriptCache
         .set({
@@ -1398,7 +1840,7 @@ export async function GET(
           supaResult.title || 'Unknown title',
           segments
         )
-        const normalizedSegments = aiProcessed.segments
+        const normalizedSegments = finalizeSegmentsForPlayback(aiProcessed.segments)
 
         // Store to Firebase cache - using Admin SDK
         transcriptCache

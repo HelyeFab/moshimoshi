@@ -52,6 +52,8 @@ const DETERMINISTIC_MODEL_VERSION = 'none'
 const AI_TIMEOUT_MS = 15_000
 /** Maximum number of input segments we accept */
 const MAX_INPUT_SEGMENTS = 5_000
+const TIMELINE_EPSILON_SECONDS = 0.02
+const MIN_SEGMENT_DURATION_SECONDS = 0.2
 
 type FallbackReason =
   | 'none'
@@ -62,6 +64,49 @@ type FallbackReason =
   | 'ai_unsuccessful_response'
   | 'ai_validation_failed'
   | 'ai_service_import_failed'
+
+function enforceNonOverlappingTimeline(
+  segments: ResegmentedSegment[]
+): ResegmentedSegment[] {
+  if (!Array.isArray(segments) || segments.length <= 1) return segments
+
+  const ordered = [...segments]
+    .map(seg => ({
+      text: seg.text,
+      start: Number.isFinite(seg.start) ? seg.start : 0,
+      end: Number.isFinite(seg.end) ? seg.end : (Number.isFinite(seg.start) ? seg.start + MIN_SEGMENT_DURATION_SECONDS : MIN_SEGMENT_DURATION_SECONDS),
+    }))
+    .sort((a, b) => {
+      if (a.start !== b.start) return a.start - b.start
+      return a.end - b.end
+    })
+
+  const normalized: ResegmentedSegment[] = []
+  for (let i = 0; i < ordered.length; i++) {
+    const current = ordered[i]
+    const prev = normalized[i - 1]
+    const next = ordered[i + 1]
+
+    let start = current.start
+    let end = current.end
+
+    if (prev && start < prev.end) {
+      start = prev.end + TIMELINE_EPSILON_SECONDS
+    }
+
+    if (next && end > next.start) {
+      end = next.start - TIMELINE_EPSILON_SECONDS
+    }
+
+    if (end <= start) {
+      end = start + MIN_SEGMENT_DURATION_SECONDS
+    }
+
+    normalized.push({ text: current.text, start, end })
+  }
+
+  return normalized
+}
 
 // ---------------------------------------------------------------------------
 // Request validation
@@ -357,8 +402,30 @@ export async function POST(request: NextRequest) {
     }
 
     // -----------------------------------------------------------------------
-    // 4. Cache result (fire-and-forget)
+    // 4. Final timing safety pass + cache result (fire-and-forget)
     // -----------------------------------------------------------------------
+    result = {
+      ...result,
+      segments: enforceNonOverlappingTimeline(result.segments),
+    }
+
+    const finalValidation = validateResegmentedOutput(result.segments, { videoDuration })
+    if (!finalValidation.valid) {
+      console.warn(
+        `[Resegment] Final validation failed after normalization for ${videoId}:`,
+        finalValidation.errors
+      )
+      const deterministicFallback = resegmentDeterministic({
+        segments: normalised,
+        videoDurationHint: videoDuration,
+      })
+      result = {
+        ...deterministicFallback,
+        segments: enforceNonOverlappingTimeline(deterministicFallback.segments),
+      }
+      fallbackReason = 'ai_validation_failed'
+    }
+
     resegmentationCache
       .set(cacheKey, result.segments, result.source)
       .catch(err => console.warn('[Resegment] cache write failed:', err))
