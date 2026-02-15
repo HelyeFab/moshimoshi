@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react'
 import DOMPurify from 'isomorphic-dompurify'
+import { Trash2, Undo2 } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface Point {
@@ -325,21 +326,23 @@ export default function SimpleDrawingCanvas({
       </div>
 
       {/* Control buttons */}
-      <div className="flex gap-1.5" role="toolbar" aria-label={t('kanjiMasteryTool.drawingApproach.drawHere')}>
+      <div className="flex gap-2" role="toolbar" aria-label={t('kanjiMasteryTool.drawingApproach.drawHere')}>
         <button
           onClick={clearCanvas}
           aria-label={`${t('kanjiMasteryTool.drawingApproach.clear')} (Esc)`}
-          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
+          title={t('kanjiMasteryTool.drawingApproach.clear')}
+          className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
-          {t('kanjiMasteryTool.drawingApproach.clear')}
+          <Trash2 className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
         </button>
         <button
           onClick={undoLastStroke}
           disabled={strokes.length === 0 || showReadings}
           aria-label={`${t('kanjiMasteryTool.drawingApproach.undo')} (Ctrl+Z)`}
-          className="px-2.5 py-1 text-xs bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
+          title={t('kanjiMasteryTool.drawingApproach.undo')}
+          className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
-          {t('kanjiMasteryTool.drawingApproach.undo')}
+          <Undo2 className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
         </button>
       </div>
     </div>
