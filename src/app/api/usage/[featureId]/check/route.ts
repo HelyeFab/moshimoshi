@@ -18,7 +18,8 @@ const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, string>> = {
   books: 'books_items',
   comics: 'comics_items',
   kanji_connection: 'kanji_connection_items',
-  textbook_vocabulary: 'textbook_vocabulary_items'
+  textbook_vocabulary: 'textbook_vocabulary_items',
+  kanji_drawing_practice: 'kanji_drawing_practice_items'
 };
 
 export async function GET(

@@ -11,16 +11,36 @@ import type { Kanji } from '@/types/kanji'
 interface DrawingPracticeSheetProps {
   kanji: Kanji
   onBack: () => void
+  onAllCellsComplete?: () => void
 }
 
 const TOTAL_CELLS = 12
 
-export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeSheetProps) {
+export default function DrawingPracticeSheet({ kanji, onBack, onAllCellsComplete }: DrawingPracticeSheetProps) {
   const { t } = useI18n()
   const [svgData, setSvgData] = useState<string | null>(null)
+  const [svgStrokeCount, setSvgStrokeCount] = useState<number | null>(null)
   const [loadingSvg, setLoadingSvg] = useState(true)
   const gridRef = useRef<HTMLDivElement>(null)
   const [cellSize, setCellSize] = useState(120)
+  const [completedCells, setCompletedCells] = useState<Set<number>>(new Set())
+  const allCellsFiredRef = useRef(false)
+
+  const handleCellComplete = useCallback((cellIndex: number) => {
+    setCompletedCells(prev => {
+      const next = new Set(prev)
+      next.add(cellIndex)
+      return next
+    })
+  }, [])
+
+  // Fire once when all cells are completed
+  useEffect(() => {
+    if (completedCells.size === TOTAL_CELLS && !allCellsFiredRef.current) {
+      allCellsFiredRef.current = true
+      onAllCellsComplete?.()
+    }
+  }, [completedCells.size, onAllCellsComplete])
 
   const updateCellSize = useCallback(() => {
     if (!gridRef.current) return
@@ -45,6 +65,9 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
     kanjiService.getStrokeOrderSVG(kanji.kanji).then(svg => {
       if (!cancelled) {
         setSvgData(svg)
+        if (svg) {
+          setSvgStrokeCount(kanjiService.getStrokeCount(svg))
+        }
         setLoadingSvg(false)
       }
     }).catch(() => {
@@ -53,6 +76,9 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
 
     return () => { cancelled = true }
   }, [kanji.kanji])
+
+  // Prefer SVG-derived stroke count (accurate) over enrichment map (may fall back to 10)
+  const strokeCount = svgStrokeCount ?? kanji.strokeCount
 
   return (
     <div className="space-y-6" role="main" aria-label={`${t('kanjiMasteryTool.drawingApproach.practiceSheetTitle')} — ${kanji.kanji} (${kanji.meaning})`}>
@@ -99,7 +125,7 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
                 <span className="font-medium text-gray-700 dark:text-gray-300">
                   {t('kanjiMasteryTool.drawingApproach.strokes')}:
                 </span>{' '}
-                {kanji.strokeCount}
+                {strokeCount}
               </p>
             </div>
           </div>
@@ -112,7 +138,7 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
           {t('kanjiMasteryTool.drawingApproach.loadingSvg')}
         </div>
       ) : svgData ? (
-        <StrokeBuildup svgData={svgData} totalStrokes={kanji.strokeCount} />
+        <StrokeBuildup svgData={svgData} totalStrokes={strokeCount} />
       ) : (
         <div className="text-sm text-gray-400 dark:text-gray-500 italic">
           {t('kanjiMasteryTool.drawingApproach.unavailable')}
@@ -121,9 +147,18 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
 
       {/* Practice grid: 12 drawing cells each followed by a reading cell */}
       <section aria-label={`${t('kanjiMasteryTool.drawingApproach.practiceSheetTitle')} — ${TOTAL_CELLS} ${t('kanjiMasteryTool.drawingApproach.drawingCell')}`}>
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-          {t('kanjiMasteryTool.drawingApproach.practiceSheetTitle')} — {TOTAL_CELLS} {t('kanjiMasteryTool.drawingApproach.drawingCell')}
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t('kanjiMasteryTool.drawingApproach.practiceSheetTitle')} — {TOTAL_CELLS} {t('kanjiMasteryTool.drawingApproach.drawingCell')}
+          </h3>
+          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+            completedCells.size === TOTAL_CELLS
+              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+              : 'bg-gray-100 text-gray-600 dark:bg-dark-700 dark:text-gray-400'
+          }`}>
+            {completedCells.size}/{TOTAL_CELLS}
+          </span>
+        </div>
 
         <div ref={gridRef} className="grid grid-cols-3 lg:grid-cols-6 gap-3" role="list">
           {Array.from({ length: TOTAL_CELLS }).map((_, i) => (
@@ -141,8 +176,9 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
                 showGhost={i === 0}
                 onyomi={kanji.onyomi}
                 kunyomi={kanji.kunyomi}
-                expectedStrokes={kanji.strokeCount}
+                expectedStrokes={strokeCount}
                 cellIndex={i}
+                onComplete={() => handleCellComplete(i)}
               />
             </div>
           ))}

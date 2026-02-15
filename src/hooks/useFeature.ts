@@ -64,6 +64,7 @@ const UNIQUE_ITEM_FEATURES = new Set<FeatureId>([
   'comics',
   'kanji_connection',
   'textbook_vocabulary',
+  'kanji_drawing_practice',
 ]);
 
 export function useFeature(featureId: FeatureId): UseFeatureReturn {
@@ -356,6 +357,20 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       setIsLoading(false);
     }
   }, [featureId, getCachedDecision, cacheDecision]);
+
+  // Listen for cross-instance usage updates (e.g. FeatureUsageIndicator refresh)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (!detail?.featureId || detail.featureId === featureId) {
+        decisionCache.delete(getCacheKey());
+        checkOnly({}).catch(() => {});
+      }
+    };
+    window.addEventListener('feature-usage-updated', handler);
+    return () => window.removeEventListener('feature-usage-updated', handler);
+  }, [featureId, getCacheKey, checkOnly]);
 
   // Check and track (with increment)
   const checkAndTrack = useCallback(async (options: CheckOptions = {}): Promise<boolean> => {

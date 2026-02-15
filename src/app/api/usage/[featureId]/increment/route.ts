@@ -20,7 +20,8 @@ const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, string>> = {
   comics: 'comics_items',
   kanji_connection: 'kanji_connection_items',
   textbook_vocabulary: 'textbook_vocabulary_items',
-  story: 'story_items'
+  story: 'story_items',
+  kanji_drawing_practice: 'kanji_drawing_practice_items'
 };
 
 export async function POST(

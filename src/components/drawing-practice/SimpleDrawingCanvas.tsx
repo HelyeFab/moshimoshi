@@ -26,6 +26,7 @@ interface SimpleDrawingCanvasProps {
   kunyomi?: string[]
   expectedStrokes?: number
   cellIndex?: number
+  onComplete?: () => void
 }
 
 export default function SimpleDrawingCanvas({
@@ -40,6 +41,7 @@ export default function SimpleDrawingCanvas({
   kunyomi,
   expectedStrokes,
   cellIndex,
+  onComplete,
 }: SimpleDrawingCanvasProps) {
   const { t } = useI18n()
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -49,6 +51,7 @@ export default function SimpleDrawingCanvas({
   const [strokes, setStrokes] = useState<Stroke[]>([])
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [showReadings, setShowReadings] = useState(false)
+  const completeFiredRef = useRef(false)
 
   const hasReadings = (onyomi && onyomi.length > 0) || (kunyomi && kunyomi.length > 0)
   const allStrokesDrawn = expectedStrokes ? strokes.length >= expectedStrokes : false
@@ -56,11 +59,15 @@ export default function SimpleDrawingCanvas({
   // Show readings once all expected strokes are drawn and user stops
   useEffect(() => {
     if (allStrokesDrawn && !isDrawing && hasReadings) {
+      if (!completeFiredRef.current) {
+        completeFiredRef.current = true
+        onComplete?.()
+      }
       const timer = setTimeout(() => setShowReadings(true), 300)
       return () => clearTimeout(timer)
     }
     setShowReadings(false)
-  }, [allStrokesDrawn, isDrawing, hasReadings])
+  }, [allStrokesDrawn, isDrawing, hasReadings, onComplete])
 
   // Initialize canvas context
   useEffect(() => {
@@ -146,6 +153,7 @@ export default function SimpleDrawingCanvas({
     setStrokes([])
     setCurrentStroke([])
     setShowReadings(false)
+    completeFiredRef.current = false
   }, [context, width, height])
 
   const undoLastStroke = useCallback(() => {
@@ -329,15 +337,16 @@ export default function SimpleDrawingCanvas({
       <div className="flex gap-2" role="toolbar" aria-label={t('kanjiMasteryTool.drawingApproach.drawHere')}>
         <button
           onClick={clearCanvas}
+          disabled={allStrokesDrawn}
           aria-label={`${t('kanjiMasteryTool.drawingApproach.clear')} (Esc)`}
           title={t('kanjiMasteryTool.drawingApproach.clear')}
-          className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
+          className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
         >
           <Eraser className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
         </button>
         <button
           onClick={undoLastStroke}
-          disabled={strokes.length === 0 || showReadings}
+          disabled={strokes.length === 0 || allStrokesDrawn}
           aria-label={`${t('kanjiMasteryTool.drawingApproach.undo')} (Ctrl+Z)`}
           title={t('kanjiMasteryTool.drawingApproach.undo')}
           className="p-1.5 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"

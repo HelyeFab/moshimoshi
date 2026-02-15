@@ -7291,6 +7291,7 @@ export const strings = {
     startLearningSession: '学習セッション開始',
     startReviewSession: '復習セッション開始',
     errorStartSession: 'セッションの開始に失敗しました。もう一度お試しください。',
+    errorReviewSessionEmpty: '復習対象の漢字が足りません。もっと漢字を学習するか、復習時期になるまでお待ちください。',
     howItWorks: '使い方',
     step1Title: 'セッションの設定',
     step1Description: 'JLPTレベルと学習する漢字の数を選択',
@@ -7344,6 +7345,7 @@ export const strings = {
       undo: '元に戻す',
       noResults: '漢字が見つかりません',
       drawHere: 'ここに書く',
+      completionMessage: '練習完了！お疲れ様でした。',
     },
   },
   qa: {

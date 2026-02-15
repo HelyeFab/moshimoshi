@@ -7534,6 +7534,7 @@ export const strings = {
     startLearningSession: 'Start Learning Session',
     startReviewSession: 'Start Review Session',
     errorStartSession: 'Failed to start session. Please try again.',
+    errorReviewSessionEmpty: 'Not enough kanji due for review to fill a session. Learn more kanji or wait for reviews to become due.',
     howItWorks: 'How It Works',
     step1Title: 'Configure Your Session',
     step1Description: 'Choose JLPT level and number of kanji to study',
@@ -7587,6 +7588,7 @@ export const strings = {
       undo: 'Undo',
       noResults: 'No kanji found',
       drawHere: 'Draw here',
+      completionMessage: 'Practice complete! Great work.',
     },
   },
 

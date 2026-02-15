@@ -13,6 +13,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { Search } from 'lucide-react'
 import { kanjiService } from '@/services/kanjiService'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import DrawingPracticeSheet from './DrawingPracticeSheet'
 import type { Kanji, JLPTLevel } from '@/types/kanji'
 
@@ -26,6 +27,7 @@ function DrawingPracticeContent() {
   const { user, loading: authLoading, isGuest } = useAuth()
   const { isPremium } = useSubscription()
   const { checkAndTrack } = useFeature('kanji_drawing_practice')
+  const usageData = useFeatureUsage('kanji_drawing_practice')
 
   const [selectedLevel, setSelectedLevel] = useState<JLPTLevel>('N5')
   const [kanjiList, setKanjiList] = useState<Kanji[]>([])
@@ -78,9 +80,9 @@ function DrawingPracticeContent() {
     }
   }, [])
 
-  // Select a kanji - entitlement check happens here
+  // Select a kanji - gate AND increment (with dedup so re-selecting is free)
   const handleKanjiSelect = async (kanji: Kanji) => {
-    const allowed = await checkAndTrack({ showUI: true })
+    const allowed = await checkAndTrack({ metadata: { itemId: kanji.kanji } })
     if (!allowed) {
       if (!isPremium) {
         showToast(t('entitlements.messages.limitReached'), 'warning', 5000, {
@@ -90,8 +92,17 @@ function DrawingPracticeContent() {
       }
       return
     }
+    window.dispatchEvent(new CustomEvent('feature-usage-updated', {
+      detail: { featureId: 'kanji_drawing_practice' }
+    }))
     setSelectedKanji(kanji)
   }
+
+  // All 12 cells completed - show toast and redirect back
+  const handleAllCellsComplete = useCallback(() => {
+    showToast(t('kanjiMasteryTool.drawingApproach.completionMessage'), 'success')
+    setTimeout(() => setSelectedKanji(null), 2000)
+  }, [showToast, t])
 
   if (authLoading) {
     return (
@@ -122,7 +133,19 @@ function DrawingPracticeContent() {
           description={t('kanjiMasteryTool.drawingApproach.pageDescription')}
           backHref="/tools/kanji-mastery"
           alwaysUseBackHref={true}
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
         />
+
+        <FeatureUsageIndicator featureId="kanji_drawing_practice" />
 
         <div className="container mx-auto px-4 py-6 pb-24 sm:pb-16 max-w-5xl">
           {selectedKanji ? (
@@ -130,6 +153,7 @@ function DrawingPracticeContent() {
             <DrawingPracticeSheet
               kanji={selectedKanji}
               onBack={() => setSelectedKanji(null)}
+              onAllCellsComplete={handleAllCellsComplete}
             />
           ) : (
             /* Selecting view */
