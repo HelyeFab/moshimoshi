@@ -26,6 +26,19 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+// Map of feature IDs to their unique items fields
+// Must match UNIQUE_ITEM_FIELDS in src/app/api/usage/[featureId]/check/route.ts
+const UNIQUE_ITEM_FIELDS = {
+  kanji_mood_board: 'kanji_mood_board_boards',
+  news: 'news_items',
+  story: 'story_items',
+  books: 'books_items',
+  comics: 'comics_items',
+  kanji_connection: 'kanji_connection_items',
+  textbook_vocabulary: 'textbook_vocabulary_items',
+  kanji_drawing_practice: 'kanji_drawing_practice_items',
+};
+
 // Get arguments
 const userId = process.argv[2];
 const featureId = process.argv[3];
@@ -89,17 +102,17 @@ async function resetFeatureUsage(userId, featureId, date) {
       console.log(`✅ Found daily bucket: ${dailyBucketKey}`);
       console.log(`   Current ${featureId} count: ${currentCount}`);
 
-      // Reset the count to 0
+      // Reset the count to 0 and clear any associated items field
       const updateData = {
         [featureId]: 0,
         updatedAt: new Date().toISOString()
       };
 
-      // Special handling for kanji_mood_board - also reset the boards array
-      if (featureId === 'kanji_mood_board' && data.kanji_mood_board_boards) {
-        console.log(`   Found kanji_mood_board_boards: ${data.kanji_mood_board_boards}`);
-        updateData.kanji_mood_board_boards = admin.firestore.FieldValue.delete();
-        console.log(`   ✅ Clearing board history`);
+      const itemsField = UNIQUE_ITEM_FIELDS[featureId];
+      if (itemsField && data[itemsField] !== undefined) {
+        console.log(`   Found ${itemsField}: ${data[itemsField]}`);
+        updateData[itemsField] = admin.firestore.FieldValue.delete();
+        console.log(`   ✅ Clearing items field`);
       }
 
       await dailyRef.update(updateData);
@@ -125,11 +138,20 @@ async function resetFeatureUsage(userId, featureId, date) {
       console.log(`✅ Found monthly bucket: ${monthlyBucketKey}`);
       console.log(`   Current ${featureId} count: ${currentCount}`);
 
-      // Reset the count to 0
-      await monthlyRef.update({
+      // Reset the count to 0 and clear any associated items field
+      const monthlyUpdateData = {
         [featureId]: 0,
         updatedAt: new Date().toISOString()
-      });
+      };
+
+      const monthlyItemsField = UNIQUE_ITEM_FIELDS[featureId];
+      if (monthlyItemsField && data[monthlyItemsField] !== undefined) {
+        console.log(`   Found ${monthlyItemsField}: ${data[monthlyItemsField]}`);
+        monthlyUpdateData[monthlyItemsField] = admin.firestore.FieldValue.delete();
+        console.log(`   ✅ Clearing items field`);
+      }
+
+      await monthlyRef.update(monthlyUpdateData);
 
       console.log(`   ✅ Reset ${featureId} to 0\n`);
     } else {
