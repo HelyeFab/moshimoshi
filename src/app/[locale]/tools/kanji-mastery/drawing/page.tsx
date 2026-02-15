@@ -184,7 +184,7 @@ function DrawingPracticeContent() {
                     <button
                       key={`${kanjiItem.kanji}-${index}`}
                       onClick={() => handleKanjiSelect(kanjiItem)}
-                      className="aspect-square flex items-center justify-center bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg text-xl font-serif text-gray-900 dark:text-gray-100 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
+                      className="aspect-square flex items-center justify-center bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg text-xl font-japanese text-gray-900 dark:text-gray-100 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1"
                       title={kanjiItem.meaning}
                       aria-label={`${kanjiItem.kanji} — ${kanjiItem.meaning}`}
                     >

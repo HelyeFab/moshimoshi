@@ -70,7 +70,7 @@ export default function DrawingPracticeSheet({ kanji, onBack }: DrawingPracticeS
         <div className="flex items-start gap-6">
           {/* Large kanji character */}
           <div className="flex-shrink-0 w-28 h-28 bg-gray-50 dark:bg-dark-700 rounded-xl flex items-center justify-center border border-gray-200 dark:border-dark-600" aria-hidden="true">
-            <span className="text-7xl font-serif text-gray-900 dark:text-gray-100">{kanji.kanji}</span>
+            <span className="text-7xl font-japanese text-gray-900 dark:text-gray-100">{kanji.kanji}</span>
           </div>
 
           {/* Info */}
