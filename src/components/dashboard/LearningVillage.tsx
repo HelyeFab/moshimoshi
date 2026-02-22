@@ -307,7 +307,7 @@ function StallCard({
           {/* Emoji icon and stall image in a single row with space between */}
           <div className="flex items-center justify-between mb-2">
             <span
-              className={`${lowPower ? '' : 'filter drop-shadow-lg group-hover:animate-bounce'} flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}
+              className={`${lowPower ? '' : 'filter drop-shadow-lg group-hover:animate-bounce'} flex-shrink-0 ${isFeatured ? 'text-xl lg:text-4xl' : 'text-lg lg:text-3xl'}`}
             >
               {stall.icon}
             </span>
@@ -316,7 +316,7 @@ function StallCard({
               alt="Stall Image"
               width={isFeatured ? 56 : 48}
               height={isFeatured ? 56 : 48}
-              className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0 w-8 h-8 sm:w-auto sm:h-auto"
+              className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0 w-8 h-8 lg:w-auto lg:h-auto"
             />
           </div>
 
@@ -675,7 +675,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Hiragana"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'bamboo',
@@ -699,7 +699,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Katakana"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'thunder',
@@ -722,7 +722,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Drill"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'school',
@@ -746,7 +746,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Vocabulary"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'library',
@@ -769,7 +769,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="My Lists"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'scroll',
@@ -792,7 +792,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Kanji Browser"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'library',
@@ -815,7 +815,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Kanji Mastery"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'bridge',
@@ -838,7 +838,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Blast Mode"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'bridge',
@@ -862,7 +862,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Kanji Connections"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'map',
@@ -885,7 +885,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Mood Boards"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'restaurant',
@@ -908,7 +908,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Conjugation"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'archery',
@@ -931,7 +931,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Textbook Vocab"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'calligraphy',
@@ -955,7 +955,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Stories"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'stage',
@@ -978,7 +978,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="News"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'scroll',
@@ -1001,7 +1001,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Library"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'scroll',
@@ -1024,7 +1024,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Moshi Comics"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'stage',
@@ -1047,7 +1047,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="MoshiPlayer"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'music',
@@ -1070,7 +1070,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Trending Videos"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'cinema',
@@ -1094,7 +1094,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="YouTube Series"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'cards',
@@ -1117,7 +1117,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="My Videos"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'theater',
@@ -1141,7 +1141,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Flashcards"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'cards',
@@ -1232,7 +1232,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Resources"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'library',
@@ -1256,7 +1256,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Grammar"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'scroll',
@@ -1279,7 +1279,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Blogging"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'scroll',
@@ -1304,7 +1304,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Task Manager"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'utility',
@@ -1329,7 +1329,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             alt="Tea House"
             width={48}
             height={48}
-            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+            className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
           />
         ),
         stallType: 'community',
@@ -2050,8 +2050,8 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                 <Masonry
                   breakpointCols={{
                     default: 5,
-                    1280: 5, // xl
-                    1024: 4, // lg
+                    1280: 4, // xl
+                    1024: 3, // lg
                     768: 3, // md
                     640: 2, // sm
                   }}
