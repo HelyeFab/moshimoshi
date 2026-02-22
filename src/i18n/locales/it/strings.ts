@@ -4455,6 +4455,7 @@ export const strings = {
       guest: 'Accedi per creare mazzi',
       freeLimit: 'Gratuito: {{current}}/{{max}} mazzi',
       dailyLimit: 'Limite giornaliero: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaReached: 'Mazzi creati questo mese: {{current}}/{{limit}}. Si resetta il prossimo mese.',
       unlimited: 'Mazzi illimitati',
     },
 

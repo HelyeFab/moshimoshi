@@ -19,6 +19,7 @@ const KANJI_REGEX =
   /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/u;
 const KANJI_REGEX_GLOBAL =
   /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/gu;
+const FURIGANA_LONG_PRESS_MS = 350;
 
 interface FlashcardViewerProps {
   card: FlashcardContent;
@@ -33,6 +34,8 @@ interface FlashcardViewerProps {
     showOnFront: boolean;
     showOnBack: boolean;
   };
+  furiganaVisible?: boolean;
+  onFuriganaVisibleChange?: (visible: boolean) => void;
   onDelete?: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -55,6 +58,8 @@ export function FlashcardViewer({
   isGraded = false,
   initialIsFlipped = false,
   furiganaSettings,
+  furiganaVisible: controlledFuriganaVisible,
+  onFuriganaVisibleChange,
   onDelete,
   onNext,
   onPrevious,
@@ -105,6 +110,9 @@ export function FlashcardViewer({
   const contentSectionRef = useRef<HTMLDivElement>(null);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const pointerMovedRef = useRef(false);
+  const longPressTimerRef = useRef<number | null>(null);
+  const longPressActivatedRef = useRef(false);
+  const [longPressFuriganaVisible, setLongPressFuriganaVisible] = useState(false);
 
   const animationsEnabled = useAnimationControl();
   const speed = animationsEnabled ? ANIMATION_SPEEDS[animationSpeed] : 0;
@@ -114,10 +122,25 @@ export function FlashcardViewer({
     setIsFlipped(initialIsFlipped);
     setHasGraded(isGraded);
     hasAutoPlayedListen.current = false;
+    longPressActivatedRef.current = false;
+    setLongPressFuriganaVisible(false);
   }, [card.id, initialIsFlipped, isGraded]);
   useEffect(() => {
     setHasGraded(isGraded);
   }, [isGraded]);
+
+  const resolvedFuriganaVisible =
+    typeof controlledFuriganaVisible === 'boolean' ? controlledFuriganaVisible : furiganaVisible;
+  const effectiveFuriganaVisible = resolvedFuriganaVisible || longPressFuriganaVisible;
+
+  const toggleFuriganaVisible = useCallback(() => {
+    const next = !resolvedFuriganaVisible;
+    if (onFuriganaVisibleChange) {
+      onFuriganaVisibleChange(next);
+      return;
+    }
+    setFuriganaVisible(next);
+  }, [onFuriganaVisibleChange, resolvedFuriganaVisible]);
 
   // Contains any Japanese characters (for UI features like furigana toggle)
   const containsJapanese = useCallback((text: string): boolean => {
@@ -131,7 +154,7 @@ export function FlashcardViewer({
 
   const effectiveFurigana = {
     ...(furiganaSettings ?? { enabled: true, showOnFront: true, showOnBack: true }),
-    enabled: furiganaVisible,
+    enabled: effectiveFuriganaVisible,
   };
 
   // Show furigana toggle only when card contains Japanese text (loose check — mixed text still gets furigana)
@@ -336,7 +359,18 @@ export function FlashcardViewer({
     if (target?.closest('button')) return;
     pointerMovedRef.current = false;
     pointerStartRef.current = { x: event.clientX, y: event.clientY };
-  }, []);
+    longPressActivatedRef.current = false;
+    if (longPressTimerRef.current) {
+      window.clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    if (!resolvedFuriganaVisible && showFuriganaToggle) {
+      longPressTimerRef.current = window.setTimeout(() => {
+        longPressActivatedRef.current = true;
+        setLongPressFuriganaVisible(true);
+      }, FURIGANA_LONG_PRESS_MS);
+    }
+  }, [resolvedFuriganaVisible, showFuriganaToggle]);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     if (!pointerStartRef.current) return;
@@ -344,11 +378,24 @@ export function FlashcardViewer({
     const dy = Math.abs(event.clientY - pointerStartRef.current.y);
     if (dx + dy > 6) {
       pointerMovedRef.current = true;
+      if (longPressTimerRef.current) {
+        window.clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
     }
   }, []);
 
   const handlePointerUp = useCallback(() => {
-    if (pointerStartRef.current && !pointerMovedRef.current) {
+    if (longPressTimerRef.current) {
+      window.clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+
+    const longPressWasActive = longPressActivatedRef.current;
+    if (longPressWasActive) {
+      setLongPressFuriganaVisible(false);
+      longPressActivatedRef.current = false;
+    } else if (pointerStartRef.current && !pointerMovedRef.current) {
       handleFlip();
     }
     pointerStartRef.current = null;
@@ -356,8 +403,25 @@ export function FlashcardViewer({
   }, [handleFlip]);
 
   const handlePointerCancel = useCallback(() => {
+    if (longPressTimerRef.current) {
+      window.clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    if (longPressActivatedRef.current) {
+      setLongPressFuriganaVisible(false);
+      longPressActivatedRef.current = false;
+    }
     pointerStartRef.current = null;
     pointerMovedRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        window.clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
+    };
   }, []);
 
   const handleGrade = useCallback((correct: boolean, difficulty: 'again' | 'hard' | 'good' | 'easy') => {
@@ -527,6 +591,40 @@ export function FlashcardViewer({
         {isFlipped ? t('flashcards.showingBackSide') : t('flashcards.showingFrontSide')}
       </div>
 
+      {showFuriganaToggle && (
+        <div className="flex justify-end mb-3">
+          <button
+            onClick={toggleFuriganaVisible}
+            className={cn(
+              'inline-flex items-center gap-2 px-2 py-1.5 rounded-full backdrop-blur-sm transition-all shadow-sm border',
+              resolvedFuriganaVisible
+                ? 'bg-soft-white/90 dark:bg-dark-800/90 border-gray-200 dark:border-gray-700 text-primary-600 dark:text-primary-400'
+                : 'bg-white/90 dark:bg-dark-800/90 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-700'
+            )}
+            aria-label={t('flashcards.toggleFurigana')}
+            aria-checked={resolvedFuriganaVisible}
+            role="switch"
+            type="button"
+          >
+            <Languages className="w-4 h-4" />
+            <span
+              className={cn(
+                'relative inline-flex h-5 w-9 items-center rounded-full transition-colors bg-current/20'
+              )}
+              aria-hidden="true"
+            >
+              <span
+                className={cn(
+                  'inline-block h-4 w-4 transform rounded-full bg-current shadow transition-transform',
+                  resolvedFuriganaVisible ? 'translate-x-4' : 'translate-x-0.5'
+                )}
+              />
+            </span>
+            <span className="sr-only">{t('flashcards.toggleFurigana')}</span>
+          </button>
+        </div>
+      )}
+
       <div className="relative min-h-[270px] md:min-h-[400px] perspective-1000">
         <motion.div
           className="absolute inset-0 w-full h-full preserve-3d"
@@ -570,30 +668,6 @@ export function FlashcardViewer({
                 </button>
               )}
             </div>
-
-            {/* Furigana toggle - Bottom Left */}
-            {showFuriganaToggle && (
-              <div className="absolute bottom-4 left-4 z-20">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setFuriganaVisible(v => !v); }}
-                  className={cn(
-                    "p-2 rounded-full backdrop-blur-sm transition-all shadow-lg",
-                    furiganaVisible
-                      ? "bg-primary-100/90 dark:bg-primary-900/50 hover:bg-primary-200 dark:hover:bg-primary-800/60"
-                      : "bg-white/90 dark:bg-dark-800/90 hover:bg-white dark:hover:bg-dark-700"
-                  )}
-                  aria-label={t('flashcards.toggleFurigana')}
-                  aria-pressed={furiganaVisible}
-                >
-                  <Languages className={cn(
-                    "w-4 h-4",
-                    furiganaVisible
-                      ? "text-primary-600 dark:text-primary-400"
-                      : "text-gray-400 dark:text-gray-500"
-                  )} />
-                </button>
-              </div>
-            )}
 
             {/* Hero Section - Top Half */}
             <div
@@ -693,30 +767,6 @@ export function FlashcardViewer({
                 <RotateCw className="w-4 h-4" style={{ transform: 'scaleX(-1)' }} />
               </button>
             </div>
-
-            {/* Furigana toggle - Bottom Left (visually bottom-right due to rotate-y-180) */}
-            {showFuriganaToggle && (
-              <div className="absolute bottom-4 left-4 z-20">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setFuriganaVisible(v => !v); }}
-                  className={cn(
-                    "p-2 rounded-full backdrop-blur-sm transition-all shadow-lg",
-                    furiganaVisible
-                      ? "bg-primary-100/90 dark:bg-primary-900/50 hover:bg-primary-200 dark:hover:bg-primary-800/60"
-                      : "bg-white/90 dark:bg-dark-800/90 hover:bg-white dark:hover:bg-dark-700"
-                  )}
-                  aria-label={t('flashcards.toggleFurigana')}
-                  aria-pressed={furiganaVisible}
-                >
-                  <Languages className={cn(
-                    "w-4 h-4",
-                    furiganaVisible
-                      ? "text-primary-600 dark:text-primary-400"
-                      : "text-gray-400 dark:text-gray-500"
-                  )} style={{ transform: 'scaleX(-1)' }} />
-                </button>
-              </div>
-            )}
 
             {/* Hero Section - Top Half */}
             <div

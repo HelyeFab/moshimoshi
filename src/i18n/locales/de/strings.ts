@@ -4379,6 +4379,7 @@ export const strings = {
       guest: 'Anmelden zum Erstellen von Stapeln',
       freeLimit: 'Kostenlos: {{current}}/{{max}} Stapel',
       dailyLimit: 'Tageslimit: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaReached: 'Deck-Erstellungen in diesem Monat: {{current}}/{{limit}}. Setzt nächsten Monat zurück.',
       unlimited: 'Unbegrenzte Stapel',
     },
 

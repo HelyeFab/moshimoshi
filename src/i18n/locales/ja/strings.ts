@@ -4739,6 +4739,7 @@ export const strings = {
       guest: 'フラッシュカードを作成するにはサインインしてください',
       freeLimit: '無料版: {{current}}/{{max}}デッキ',
       dailyLimit: '1日の上限: {{current}}/{{max}}復習',
+      deckCreationsMonthlyQuotaReached: '今月のデッキ作成数: {{current}}/{{limit}}。来月リセットされます。',
       unlimited: '無制限のデッキ',
     },
 

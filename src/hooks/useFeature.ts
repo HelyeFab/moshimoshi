@@ -22,6 +22,7 @@ export interface Decision {
   resetAtUtc?: string;
   limit?: number;
   usageBefore?: number;
+  currentUsage?: number;
   incremented?: boolean;
 }
 

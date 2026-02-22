@@ -4951,6 +4951,7 @@ export const strings = {
       guest: 'Sign in to create flashcard decks',
       freeLimit: 'Free: {{current}}/{{max}} decks',
       dailyLimit: 'Daily limit: {{current}}/{{max}} reviews',
+      deckCreationsMonthlyQuotaReached: 'Deck creations this month: {{current}}/{{limit}}. Resets next month.',
       unlimited: 'Unlimited decks',
     },
 

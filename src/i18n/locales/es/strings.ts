@@ -4377,6 +4377,7 @@ export const strings = {
       guest: 'Inicia sesión para crear mazos',
       freeLimit: 'Gratis: {{current}}/{{max}} mazos',
       dailyLimit: 'Límite diario: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaReached: 'Creación de mazos este mes: {{current}}/{{limit}}. Se reinicia el próximo mes.',
       unlimited: 'Mazos ilimitados',
     },
 

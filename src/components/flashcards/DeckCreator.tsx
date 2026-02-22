@@ -441,11 +441,25 @@ export function DeckCreator({
       if (isNewDeck) {
         const decision = await checkDeckLimit({ failOpen: false })
         if (!decision.allow) {
+          const currentUsage =
+            typeof decision.currentUsage === 'number'
+              ? decision.currentUsage
+              : typeof decision.usageBefore === 'number'
+                ? decision.usageBefore
+                : null
+          const limit = typeof decision.limit === 'number' ? decision.limit : null
+          const quotaMessage =
+            limit !== null && limit > 0 && currentUsage !== null
+              ? t('flashcards.limits.deckCreationsMonthlyQuotaReached', {
+                  current: Math.min(currentUsage, limit),
+                  limit,
+                })
+              : t('entitlements.messages.limitReached')
           const action = !isPremium ? {
             label: t('subscription.actions.upgrade'),
             onClick: () => router.push('/pricing')
           } : undefined
-          showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
+          showToast(quotaMessage, 'warning', 5000, action)
           return
         }
         if (importSource === 'csv') {

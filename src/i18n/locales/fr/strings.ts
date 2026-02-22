@@ -4334,6 +4334,7 @@ export const strings = {
       guest: 'Connectez-vous pour créer des paquets',
       freeLimit: 'Gratuit: {{current}}/{{max}} paquets',
       dailyLimit: 'Limite quotidienne: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaReached: 'Créations de paquets ce mois-ci : {{current}}/{{limit}}. Réinitialisation le mois prochain.',
       unlimited: 'Paquets illimités',
     },
 

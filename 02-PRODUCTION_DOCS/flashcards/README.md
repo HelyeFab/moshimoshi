@@ -21,6 +21,7 @@ Flashcards is a local-first SRS feature with two deck types: user-created decks 
 
 ## Documentation
 - [FLASHCARDS_ONBOARDING.md](./FLASHCARDS_ONBOARDING.md) - Condensed resident owner guide
+- [DECK_CREATION_QUOTA_UX_AND_POLICY_NOTE_2026-02-22.md](./DECK_CREATION_QUOTA_UX_AND_POLICY_NOTE_2026-02-22.md) - Incident summary, UX copy fix, and future policy options for deck creation quotas
 
 ## Key Files
 - `src/app/[locale]/flashcards/FlashcardsContent.tsx` - Main flashcards page

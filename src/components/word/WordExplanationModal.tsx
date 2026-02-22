@@ -1088,7 +1088,8 @@ export default function WordExplanationModal({
             <div className="space-y-4">
               {explanation.examples.map((example, idx) => (
                 <div key={idx} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                  <div className="flex items-start gap-3 mb-2">
+                  {/* Desktop: inline speaker | text | bookmark */}
+                  <div className="hidden sm:flex items-start gap-3 mb-2">
                     <button
                       onClick={() => handlePlayExample(example.japanese)}
                       disabled={playing && currentText === example.japanese}
@@ -1116,6 +1117,38 @@ export default function WordExplanationModal({
                       }}
                       size="small"
                     />
+                  </div>
+                  {/* Mobile: icons row first, then text full-width */}
+                  <div className="sm:hidden mb-2">
+                    <div className="flex items-center gap-2 mb-2">
+                      <button
+                        onClick={() => handlePlayExample(example.japanese)}
+                        disabled={playing && currentText === example.japanese}
+                        className="py-2 pr-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                        title="Play audio"
+                      >
+                        <SpeakerWaveIcon
+                          className={`w-5 h-5 ${
+                            playing && currentText === example.japanese
+                              ? 'text-indigo-600 dark:text-indigo-400 animate-pulse'
+                              : 'text-indigo-600 dark:text-indigo-400'
+                          }`}
+                        />
+                      </button>
+                      <AddToListButton
+                        content={example.japanese}
+                        type="sentence"
+                        metadata={{
+                          reading: example.furigana,
+                          meaning: example.translation,
+                          notes: example.notes,
+                        }}
+                        size="small"
+                      />
+                    </div>
+                    <div className="text-lg text-gray-900 dark:text-white font-medium">
+                      {example.furigana}
+                    </div>
                   </div>
                   <div className="text-base text-gray-700 dark:text-gray-300 mb-2">
                     {example.translation}
@@ -1153,7 +1186,8 @@ export default function WordExplanationModal({
               <div className="space-y-4">
                 {tatoebaExamples.map((example, idx) => (
                   <div key={example.id || idx} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                    <div className="flex items-start gap-3 mb-2">
+                    {/* Desktop: inline speaker | text | bookmark */}
+                    <div className="hidden sm:flex items-start gap-3 mb-2">
                       <button
                         onClick={() => handlePlayExample(example.japanese)}
                         disabled={playing && currentText === example.japanese}
@@ -1180,8 +1214,38 @@ export default function WordExplanationModal({
                         size="small"
                       />
                     </div>
+                    {/* Mobile: icons row above, then text full-width */}
+                    <div className="sm:hidden mb-2">
+                      <div className="flex items-center gap-2 mb-2">
+                        <button
+                          onClick={() => handlePlayExample(example.japanese)}
+                          disabled={playing && currentText === example.japanese}
+                          className="py-2 pr-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                          title="Play audio"
+                        >
+                          <SpeakerWaveIcon
+                            className={`w-5 h-5 ${
+                              playing && currentText === example.japanese
+                                ? 'text-teal-600 dark:text-teal-400 animate-pulse'
+                                : 'text-teal-600 dark:text-teal-400'
+                            }`}
+                          />
+                        </button>
+                        <AddToListButton
+                          content={example.japanese}
+                          type="sentence"
+                          metadata={{
+                            meaning: example.english || undefined,
+                          }}
+                          size="small"
+                        />
+                      </div>
+                      <div className="text-lg text-gray-900 dark:text-white font-medium">
+                        {example.japanese}
+                      </div>
+                    </div>
                     {example.english && (
-                      <div className="text-base text-gray-700 dark:text-gray-300 ml-11">
+                      <div className="text-base text-gray-700 dark:text-gray-300 sm:ml-11">
                         {example.english}
                       </div>
                     )}

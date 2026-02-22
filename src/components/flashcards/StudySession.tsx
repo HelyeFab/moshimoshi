@@ -70,6 +70,7 @@ export function StudySession({
   const [cardStartTime, setCardStartTime] = useState(Date.now());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [sessionFuriganaVisible, setSessionFuriganaVisible] = useState(false);
   const cardFlipMapRef = useRef<Map<string, boolean>>(new Map());
   const persistTimerRef = useRef<number | null>(null);
   const remotePersistTimerRef = useRef<number | null>(null);
@@ -93,6 +94,10 @@ export function StudySession({
     if (!sessionKey || typeof window === 'undefined') return;
     localStorage.removeItem(sessionKey);
   }, [sessionKey]);
+
+  useEffect(() => {
+    setSessionFuriganaVisible(false);
+  }, [deck.id]);
 
   const clearRemoteSession = useCallback(async () => {
     if (!isPremium || !deck.id) return;
@@ -927,6 +932,8 @@ export function StudySession({
               isGraded={responses.has(currentCard.id)}
               initialIsFlipped={getInitialFlipForCard(currentCard.id)}
               furiganaSettings={deck.settings.furigana}
+              furiganaVisible={sessionFuriganaVisible}
+              onFuriganaVisibleChange={setSessionFuriganaVisible}
               onDelete={() => setShowDeleteDialog(true)}
               onNext={currentIndex < sessionCards.length - 1 ? handleNext : undefined}
               onPrevious={currentIndex > 0 ? handlePrevious : undefined}
