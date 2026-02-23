@@ -9,15 +9,44 @@
 ### Create New Admin Page
 
 ```bash
-# 1. Create page file
+# 1. Create constants file (all UI copy)
+touch src/app/[locale]/admin/my-feature/constants.ts
+
+# 2. Create page file
 touch src/app/[locale]/admin/my-feature/page.tsx
 
-# 2. Create API route
+# 3. Create API route
 touch src/app/api/admin/my-feature/route.ts
 
-# 3. Add to sidebar (src/app/[locale]/admin/AdminLayoutClient.tsx)
-# 4. Test at /admin/my-feature
+# 4. Add to sidebar (src/app/[locale]/admin/AdminLayoutClient.tsx)
+# 5. Test at /admin/my-feature
 ```
+
+### UI Copy Constants Pattern
+
+Do not hardcode strings in page components. Extract all UI text to a constants file:
+
+```typescript
+// src/app/[locale]/admin/my-feature/constants.ts
+export const MY_FEATURE_COPY = {
+  page: {
+    title: 'My Feature',
+    subtitle: 'Manage my feature',
+  },
+  table: { ... },
+  actions: { ... },
+  modals: { ... },
+  status: { ... },
+  errors: { ... },
+  success: { ... },
+} as const;
+
+// In page.tsx
+import { MY_FEATURE_COPY as COPY } from './constants'
+<h1>{COPY.page.title}</h1>
+```
+
+Reference implementation: `src/app/[locale]/admin/youtube-transcripts/constants.ts`
 
 ---
 

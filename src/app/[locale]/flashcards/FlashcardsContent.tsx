@@ -61,6 +61,7 @@ import { FlashcardMasteryWidget } from '@/components/flashcards/FlashcardMastery
 import { MomentumCoach } from '@/components/flashcards/MomentumCoach'
 import { HeatFocusWidget } from '@/components/flashcards/HeatFocusWidget'
 import { isFeatureEnabled } from '@/lib/features/featureFlags'
+import { useFeature, type Decision as FeatureDecision } from '@/hooks/useFeature'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -152,6 +153,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [pendingRemoteSession, setPendingRemoteSession] = useState<PersistedStudySession | null>(null)
   const [showRemoteSessionDialog, setShowRemoteSessionDialog] = useState(false)
   const [multiDeckQueue, setMultiDeckQueue] = useState<Array<{ deck: FlashcardDeck; cards: FlashcardContent[] }>>([])
+  const [createDeckQuotaDecision, setCreateDeckQuotaDecision] = useState<FeatureDecision | null>(null)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -166,6 +168,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const limits = FlashcardManager.getDeckLimits(userTier)
   const effectiveUserId = initialData.userId || user?.uid || (userTier === 'guest' ? 'guest' : null)
   const showFlashcardsTestButton = process.env.NODE_ENV !== 'production'
+  const { checkOnly: checkCreateDeckQuota, refresh: refreshCreateDeckQuota } = useFeature('flashcard_decks')
   const refreshFlashcardsUsage = useCallback(async () => {
     const deckBytes = decks.reduce(
       (total, deck) => total + storageManager.calculateDeckSize(deck),
@@ -187,6 +190,24 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       cancelled = true
     }
   }, [refreshFlashcardsUsage])
+
+  const refreshCreateDeckQuotaDecision = useCallback(async () => {
+    if (!initialData.userId || !isPremium) {
+      setCreateDeckQuotaDecision(null)
+      return
+    }
+
+    try {
+      const decision = await checkCreateDeckQuota({ failOpen: true })
+      setCreateDeckQuotaDecision(decision)
+    } catch {
+      setCreateDeckQuotaDecision(null)
+    }
+  }, [checkCreateDeckQuota, initialData.userId, isPremium])
+
+  useEffect(() => {
+    refreshCreateDeckQuotaDecision().catch(() => {})
+  }, [refreshCreateDeckQuotaDecision])
 
   useEffect(() => {
     if (!effectiveUserId || effectiveUserId === 'guest') return
@@ -1580,6 +1601,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         setShowCreator(false)
         setEditingDeck(null)
         await loadData(true)
+        await refreshCreateDeckQuota()
+        await refreshCreateDeckQuotaDecision()
         showToast(t('flashcards.success.deckCreated'), 'success')
       }
     } catch (error: any) {
@@ -1676,6 +1699,32 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
     if (!isPremium) {
       redirectToPricing(t('flashcards.upgradeToCreate'))
+      return
+    }
+
+    if (createDeckQuotaDecision?.allow === false && createDeckQuotaDecision.reason === 'limit_reached') {
+      const currentUsage =
+        typeof createDeckQuotaDecision.currentUsage === 'number'
+          ? createDeckQuotaDecision.currentUsage
+          : typeof createDeckQuotaDecision.usageBefore === 'number'
+            ? createDeckQuotaDecision.usageBefore
+            : null
+      const limit =
+        typeof createDeckQuotaDecision.limit === 'number' && createDeckQuotaDecision.limit > 0
+          ? createDeckQuotaDecision.limit
+          : null
+
+      if (currentUsage !== null && limit !== null) {
+        showToast(
+          t('flashcards.limits.deckCreationsMonthlyQuotaReached', {
+            current: Math.min(currentUsage, limit),
+            limit,
+          }),
+          'warning'
+        )
+      } else {
+        showToast(t('entitlements.messages.limitReached'), 'warning')
+      }
       return
     }
 
@@ -2289,6 +2338,27 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     decks.length > 0
       ? decks.reduce((sum, deck) => sum + deck.stats.averageAccuracy, 0) / decks.length
       : 0
+  const createDeckQuotaCurrent =
+    typeof createDeckQuotaDecision?.currentUsage === 'number'
+      ? createDeckQuotaDecision.currentUsage
+      : typeof createDeckQuotaDecision?.usageBefore === 'number'
+        ? createDeckQuotaDecision.usageBefore
+        : null
+  const createDeckQuotaLimit =
+    typeof createDeckQuotaDecision?.limit === 'number' && createDeckQuotaDecision.limit > 0
+      ? createDeckQuotaDecision.limit
+      : null
+  const isCreateDeckQuotaBlocked =
+    isPremium &&
+    createDeckQuotaDecision?.allow === false &&
+    createDeckQuotaDecision.reason === 'limit_reached'
+  const createDeckQuotaMenuDescription =
+    isCreateDeckQuotaBlocked && createDeckQuotaCurrent !== null && createDeckQuotaLimit !== null
+      ? `${t('flashcards.limits.deckCreationsMonthlyQuotaProgress', {
+          current: Math.min(createDeckQuotaCurrent, createDeckQuotaLimit),
+          limit: createDeckQuotaLimit,
+        })}. ${t('entitlements.limits.resetsNextMonth')}`
+      : undefined
 
   if (authLoading || loading) {
     return <LoadingOverlay message={t('common.loading')} />
@@ -2356,6 +2426,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 label: t('flashcards.createDeck'),
                 icon: <Plus className="w-4 h-4" />,
                 onClick: handleOpenDeckCreator,
+                disabled: isCreateDeckQuotaBlocked,
+                description: createDeckQuotaMenuDescription,
                 hidden: !isPremium,
               },
               {

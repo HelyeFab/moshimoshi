@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MoreVertical } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export interface ActionMenuItem {
   label: string
@@ -10,6 +11,8 @@ export interface ActionMenuItem {
   onClick: () => void
   variant?: 'default' | 'danger'
   hidden?: boolean
+  disabled?: boolean
+  description?: string
 }
 
 interface ActionMenuProps {
@@ -115,18 +118,26 @@ export default function ActionMenu({
                 key={index}
                 onClick={(e) => {
                   e.stopPropagation()
+                  if (item.disabled) return
                   handleItemClick(item.onClick)
                 }}
+                disabled={item.disabled}
+                aria-disabled={item.disabled}
                 className={`
                   w-full px-3 py-2 text-sm text-left
                   transition-colors
+                  disabled:cursor-not-allowed disabled:opacity-60
                   ${layout === 'stacked'
                     ? 'flex flex-col items-start gap-1 py-3'
                     : 'flex items-center gap-2'
                   }
                   ${item.variant === 'danger'
-                    ? 'text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700'
+                    ? item.disabled
+                      ? 'text-red-700 dark:text-red-300'
+                      : 'text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
+                    : item.disabled
+                      ? 'text-gray-500 dark:text-gray-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700'
                   }
                 `}
                 role="menuitem"
@@ -136,7 +147,14 @@ export default function ActionMenu({
                     {item.icon}
                   </span>
                 )}
-                <span className={layout === 'stacked' ? 'text-xs' : ''}>{item.label}</span>
+                <span className={cn('min-w-0', layout === 'stacked' ? 'text-xs' : '')}>
+                  <span className="block">{item.label}</span>
+                  {item.description && (
+                    <span className="mt-0.5 block text-[11px] leading-relaxed opacity-80 whitespace-normal">
+                      {item.description}
+                    </span>
+                  )}
+                </span>
               </button>
             ))}
           </motion.div>

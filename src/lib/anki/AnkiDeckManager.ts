@@ -476,30 +476,22 @@ export class AnkiDeckManager {
             debugLogger.error('R2 delete API failed!', errorText)
           } else {
             const result = await deleteResponse.json()
-            debugLogger.success('R2 files deleted!', {
+            const cleanupStatus = result?.status || 'complete'
+            debugLogger.success('Remote Anki backup cleanup completed!', {
+              status: cleanupStatus,
               deletedCount: result.deletedCount,
+              metadataDeleted: result.metadataDeleted,
+              tombstoneWritten: result.tombstoneWritten,
               deckId
             })
-          }
-
-          // Delete metadata from Firestore
-          debugLogger.step(3, 'Deleting Firestore metadata...')
-
-          const metadataResponse = await fetch(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deckId)}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ deckId }),
-          })
-
-          if (!metadataResponse.ok) {
-            const errorText = await metadataResponse.text()
-            debugLogger.error('Metadata delete failed!', {
-              status: metadataResponse.status,
-              error: errorText
-            })
-          } else {
-            debugLogger.success('Metadata deleted from Firestore!', { deckId })
+            if (cleanupStatus === 'partial' || Array.isArray(result.errors) && result.errors.length > 0) {
+              debugLogger.error('R2 delete completed with partial errors', {
+                deckId,
+                status: cleanupStatus,
+                r2Error: result.r2Error,
+                errors: result.errors,
+              })
+            }
           }
         } else {
           debugLogger.queueStatus('Skipping remote delete (tombstone-driven cleanup)', { deckId })
@@ -615,21 +607,25 @@ export class AnkiDeckManager {
         const errorText = await deleteResponse.text()
         debugLogger.error('R2 delete API failed!', errorText)
       }
-
-      const metadataResponse = await fetch(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deckId)}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      })
-
-      if (!metadataResponse.ok) {
-        const errorText = await metadataResponse.text()
-        debugLogger.error('Metadata delete failed!', {
-          status: metadataResponse.status,
-          error: errorText
-        })
+      let deleteResult: any = null
+      if (deleteResponse.ok) {
+        deleteResult = await deleteResponse.json().catch(() => null)
+        if (deleteResult?.status === 'partial' || deleteResult?.errors?.length) {
+          debugLogger.error('R2 delete completed with partial errors', {
+            deckId,
+            status: deleteResult?.status,
+            r2Error: deleteResult?.r2Error,
+            errors: deleteResult.errors,
+          })
+        }
       }
-      return deleteResponse.ok && metadataResponse.ok
+      return (
+        deleteResponse.ok &&
+        deleteResult?.status === 'complete' &&
+        deleteResult?.metadataDeleted === true &&
+        deleteResult?.tombstoneWritten === true &&
+        !(Array.isArray(deleteResult?.errors) && deleteResult.errors.length > 0)
+      )
     } catch (error) {
       debugLogger.error('R2 cleanup error!', error)
       return false

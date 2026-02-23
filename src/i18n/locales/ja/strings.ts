@@ -4739,7 +4739,10 @@ export const strings = {
       guest: 'フラッシュカードを作成するにはサインインしてください',
       freeLimit: '無料版: {{current}}/{{max}}デッキ',
       dailyLimit: '1日の上限: {{current}}/{{max}}復習',
+      deckCreationsMonthlyQuotaProgress: '今月のデッキ作成数: {{current}}/{{limit}}',
       deckCreationsMonthlyQuotaReached: '今月のデッキ作成数: {{current}}/{{limit}}。来月リセットされます。',
+      deckCreationsMonthlyQuotaHelpToggle: '上限の仕組み',
+      deckCreationsMonthlyQuotaHelpText: 'これは現在持っているデッキ数ではなく、今月作成したデッキ数を数えます。デッキを削除しても、来月になるまで作成枠は戻りません。',
       unlimited: '無制限のデッキ',
     },
 

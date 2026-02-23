@@ -4379,7 +4379,10 @@ export const strings = {
       guest: 'Anmelden zum Erstellen von Stapeln',
       freeLimit: 'Kostenlos: {{current}}/{{max}} Stapel',
       dailyLimit: 'Tageslimit: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaProgress: 'Deck-Erstellungen in diesem Monat: {{current}}/{{limit}}',
       deckCreationsMonthlyQuotaReached: 'Deck-Erstellungen in diesem Monat: {{current}}/{{limit}}. Setzt nächsten Monat zurück.',
+      deckCreationsMonthlyQuotaHelpToggle: 'So funktionieren die Limits',
+      deckCreationsMonthlyQuotaHelpText: 'Dies zählt die in diesem Monat erstellten Decks, nicht wie viele Decks du aktuell hast. Das Löschen eines Decks stellt keinen Erstellungsplatz wieder her, bis der nächste Monat beginnt.',
       unlimited: 'Unbegrenzte Stapel',
     },
 

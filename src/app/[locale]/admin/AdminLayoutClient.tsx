@@ -129,6 +129,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
     { href: '/admin/integrity-monitor', label: 'Integrity Monitor', icon: '🛡️' },
     { href: '/admin/youtube-series', label: 'YouTube Series', icon: '📹' },
+    { href: '/admin/youtube-transcripts', label: 'YT Transcripts', icon: '📝' },
     { href: '/admin/feature-flags', label: 'Feature Flags', icon: '🚩' },
   ]
 

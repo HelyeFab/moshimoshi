@@ -4334,7 +4334,10 @@ export const strings = {
       guest: 'Connectez-vous pour créer des paquets',
       freeLimit: 'Gratuit: {{current}}/{{max}} paquets',
       dailyLimit: 'Limite quotidienne: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaProgress: 'Créations de paquets ce mois-ci : {{current}}/{{limit}}',
       deckCreationsMonthlyQuotaReached: 'Créations de paquets ce mois-ci : {{current}}/{{limit}}. Réinitialisation le mois prochain.',
+      deckCreationsMonthlyQuotaHelpToggle: 'Comment fonctionnent les limites',
+      deckCreationsMonthlyQuotaHelpText: 'Cela compte les paquets créés ce mois-ci, pas le nombre de paquets que vous avez actuellement. Supprimer un paquet ne restaure pas un slot de création avant le mois prochain.',
       unlimited: 'Paquets illimités',
     },
 

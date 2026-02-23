@@ -30,11 +30,26 @@ describe('/api/anki/r2/metadata POST', () => {
 
   it('stores metadata including deckmarket origin', async () => {
     const set = jest.fn().mockResolvedValue(undefined)
+    const deleteTombstone = jest.fn().mockResolvedValue(undefined)
     mockedRequireR2Entitlement.mockResolvedValue({ allowed: true })
     mockedAdminDb.collection.mockImplementation((name: string) => {
       if (name === 'anki_r2_backups') {
         return {
           doc: jest.fn(() => ({ set })),
+        }
+      }
+      if (name === 'users') {
+        return {
+          doc: jest.fn(() => ({
+            collection: jest.fn((subName: string) => {
+              if (subName === 'deletedAnkiDecks') {
+                return {
+                  doc: jest.fn(() => ({ delete: deleteTombstone })),
+                }
+              }
+              return null
+            }),
+          })),
         }
       }
       return null
@@ -69,6 +84,64 @@ describe('/api/anki/r2/metadata POST', () => {
         userId: 'user-1',
       })
     )
+    expect(deleteTombstone).toHaveBeenCalled()
+  })
+
+  it('clears deletedAnkiDecks tombstone for the same deck on re-import metadata write', async () => {
+    const set = jest.fn().mockResolvedValue(undefined)
+    const deleteTombstone = jest.fn().mockResolvedValue(undefined)
+
+    mockedRequireR2Entitlement.mockResolvedValue({ allowed: true })
+    mockedAdminDb.collection.mockImplementation((name: string) => {
+      if (name === 'anki_r2_backups') {
+        return {
+          doc: jest.fn((deckId: string) => ({
+            set,
+          })),
+        }
+      }
+
+      if (name === 'users') {
+        return {
+          doc: jest.fn((uid: string) => ({
+            collection: jest.fn((subName: string) => {
+              if (subName !== 'deletedAnkiDecks') return null
+              return {
+                doc: jest.fn((deckId: string) => ({
+                  delete: deleteTombstone,
+                })),
+              }
+            }),
+          })),
+        }
+      }
+
+      return null
+    })
+
+    const request = new NextRequest('http://localhost/api/anki/r2/metadata', {
+      method: 'POST',
+      body: JSON.stringify({
+        deckId: '1673815693129',
+        name: 'Minna no Nihongo',
+        cardCount: 100,
+        hasMedia: true,
+        totalBytes: 123456,
+        r2: {
+          packageKey: 'users/user-1/decks/1673815693129/package.apkg',
+          manifestKey: 'users/user-1/decks/1673815693129/manifest.json',
+          mediaPrefix: 'users/user-1/decks/1673815693129/media/',
+        },
+      }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data.success).toBe(true)
+    expect(set).toHaveBeenCalledTimes(1)
+    expect(deleteTombstone).toHaveBeenCalledTimes(1)
   })
 
   it('returns 403 when premium is required', async () => {

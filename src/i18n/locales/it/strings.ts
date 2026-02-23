@@ -4455,7 +4455,10 @@ export const strings = {
       guest: 'Accedi per creare mazzi',
       freeLimit: 'Gratuito: {{current}}/{{max}} mazzi',
       dailyLimit: 'Limite giornaliero: {{current}}/{{max}}',
+      deckCreationsMonthlyQuotaProgress: 'Mazzi creati questo mese: {{current}}/{{limit}}',
       deckCreationsMonthlyQuotaReached: 'Mazzi creati questo mese: {{current}}/{{limit}}. Si resetta il prossimo mese.',
+      deckCreationsMonthlyQuotaHelpToggle: 'Come funzionano i limiti',
+      deckCreationsMonthlyQuotaHelpText: 'Questo conteggio considera i mazzi creati questo mese, non quanti mazzi hai attualmente. Eliminare un mazzo non ripristina uno slot di creazione fino al prossimo mese.',
       unlimited: 'Mazzi illimitati',
     },
 

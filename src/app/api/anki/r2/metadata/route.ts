@@ -97,6 +97,15 @@ export async function POST(request: NextRequest) {
     const db = getDb()
     await db.collection('anki_r2_backups').doc(data.deckId).set(metadataDoc)
 
+    // Clear any deletion tombstone so re-imported decks show up in backup listings
+    await db
+      .collection('users')
+      .doc(session.uid)
+      .collection('deletedAnkiDecks')
+      .doc(data.deckId)
+      .delete()
+      .catch(() => {}) // Ignore if tombstone doesn't exist
+
     return NextResponse.json({ success: true, deckId: data.deckId })
   } catch (error: any) {
     const message = error?.message || 'Failed to write metadata'

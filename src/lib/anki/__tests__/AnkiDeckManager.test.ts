@@ -50,6 +50,13 @@ describe('AnkiDeckManager.setR2BackupEnabled', () => {
 
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
+      json: jest.fn().mockResolvedValue({
+        success: true,
+        status: 'complete',
+        deletedCount: 1,
+        metadataDeleted: true,
+        tombstoneWritten: true,
+      }),
       text: jest.fn().mockResolvedValue(''),
     }) as any
   })
@@ -75,7 +82,7 @@ describe('AnkiDeckManager.setR2BackupEnabled', () => {
 
     const calls = (global.fetch as jest.Mock).mock.calls.map(call => call[0])
     expect(calls).toContain('/api/anki/r2/delete')
-    expect(calls).toContain(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deck.id)}`)
+    expect(calls).not.toContain(`/api/anki/r2/metadata?deckId=${encodeURIComponent(deck.id)}`)
   })
 
   it('returns reimport_required when enabling backup without package', async () => {
@@ -102,5 +109,27 @@ describe('AnkiDeckManager.setR2BackupEnabled', () => {
   it('returns not_found for missing deck', async () => {
     const result = await ankiDeckManager.setR2BackupEnabled('missing', userId, true, false)
     expect(result).toBe('not_found')
+  })
+
+  it('returns cleanup_failed when synchronous delete API reports partial cleanup', async () => {
+    const deck = buildDeck('deck-3')
+    await ankiDeckManager.saveDeck(deck, userId, true, 'deck-3.apkg', true)
+
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        success: true,
+        status: 'partial',
+        deletedCount: 1,
+        metadataDeleted: true,
+        tombstoneWritten: true,
+        errors: [{ Key: 'users/user-1/decks/deck-3/media/1', Code: 'InternalError' }],
+      }),
+      text: jest.fn().mockResolvedValue(''),
+    })
+
+    const result = await ankiDeckManager.setR2BackupEnabled(deck.id, userId, true, false)
+
+    expect(result).toBe('cleanup_failed')
   })
 })

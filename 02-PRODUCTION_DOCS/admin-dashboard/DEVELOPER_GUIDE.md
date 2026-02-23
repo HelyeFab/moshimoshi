@@ -1,6 +1,6 @@
 # Admin Dashboard Developer Guide
 
-**Last Updated**: 2026-01-28
+**Last Updated**: 2026-02-23
 **Maintained By**: Moshimoshi Development Team
 
 ---
@@ -269,6 +269,41 @@ export async function GET(request: NextRequest) {
 ---
 
 ## Creating New Admin Pages
+
+### Step 0: Create Constants File
+
+Create `src/app/[locale]/admin/[feature-name]/constants.ts` to hold all UI copy. Do not hardcode strings in the page component.
+
+```typescript
+export const MY_FEATURE_COPY = {
+  page: {
+    title: 'My Feature',
+    subtitle: 'Description of the feature',
+  },
+  table: {
+    noResults: 'No items found.',
+    searchPlaceholder: 'Search...',
+  },
+  actions: {
+    delete: 'Delete',
+    refresh: 'Refresh',
+  },
+  modals: {
+    deleteTitle: 'Delete Item',
+    deleteMessage: 'Are you sure? This cannot be undone.',
+    confirm: 'Delete',
+    cancel: 'Cancel',
+  },
+  errors: {
+    fetchFailed: 'Failed to load data',
+  },
+  success: {
+    deleted: 'Item deleted successfully',
+  },
+} as const;
+```
+
+Reference: `src/app/[locale]/admin/youtube-transcripts/constants.ts`
 
 ### Step 1: Create the Page File
 
@@ -1033,7 +1068,7 @@ const [data, setData] = useState<MyType[]>([])
 
 ## Getting Help
 
-1. **Check existing pages**: Look at `announcements/page.tsx` or `email-campaigns/page.tsx` as examples
+1. **Check existing pages**: Look at `youtube-transcripts/` (constants pattern, theme usage), `announcements/page.tsx`, or `email-campaigns/page.tsx` as examples
 2. **Read error messages**: TypeScript/ESLint errors often tell you exactly what's wrong
 3. **Use browser DevTools**: Network tab shows API calls, Console shows errors
 4. **Ask team**: Don't hesitate to ask for clarification

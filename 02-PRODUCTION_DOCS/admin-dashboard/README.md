@@ -1,7 +1,7 @@
 # Admin Dashboard
 
 **Status:** ACTIVE
-**Last Updated:** 2026-01-28
+**Last Updated:** 2026-02-23
 
 ## Overview
 
@@ -14,23 +14,29 @@ The Admin Dashboard provides secure, cookie-authenticated administrative interfa
 3. **Create new admin pages**: Follow patterns in `DEVELOPER_GUIDE.md`
 4. **Reference patterns**: Check `QUICK_REFERENCE.md` for common code snippets
 
-## Recent Updates (2026-01-28)
+## Recent Updates (2026-02-23)
 
-### View Tracking System ✅
+### YouTube Transcripts Admin Page ✅
+- New admin page at `/admin/youtube-transcripts` for managing cached YouTube transcripts
+- Overview dashboard: total transcripts, segments, word explanation status, items needing attention
+- Searchable/sortable transcript table with AI processing and word status indicators
+- Detail modal with full segment listing, metadata, and word explanation progress
+- Single and bulk delete (removes transcript cache, word explanations, and GCS storage files)
+- Reset stuck/failed word generation precomputation
+- All UI copy extracted to constants file (no hardcoded strings)
+- Uses app theme system (palette-aware, dark mode)
+
+### Previous Updates (2026-01-28)
+
+#### View Tracking System ✅
 - Unified `/api/track-view` endpoint for all content types
 - Atomic increments with per-user deduplication
 - PWA-compatible (works with offline caching)
 - Prevents React Strict Mode double-counting
 
-### Monthly Revenue Calculation ✅
+#### Monthly Revenue Calculation ✅
 - Fixed MRR calculation to use correct field (`subscription.plan`)
 - Accurately tracks premium_monthly and premium_yearly subscriptions
-- Current MRR: £35.30 (3 monthly + 1 yearly)
-
-### Documentation Updates ✅
-- Added "Data Patterns & Metrics" section to Developer Guide
-- Updated metrics explanation with accurate implementation details
-- Documented subscription data structure and location
 
 ## Documentation
 
@@ -61,6 +67,10 @@ The Admin Dashboard provides secure, cookie-authenticated administrative interfa
 - `src/hooks/useAdmin.ts:12` - Client-side admin status check
 - `src/app/[locale]/admin/page-visits/page.tsx:1` - Page Visits analytics UI
 - `src/app/api/admin/analytics/page-visit-content/route.ts:1` - Content-only analytics API
+- `src/app/[locale]/admin/youtube-transcripts/page.tsx:1` - YouTube Transcripts management UI
+- `src/app/[locale]/admin/youtube-transcripts/constants.ts:1` - UI copy constants (no hardcoded strings)
+- `src/app/api/admin/youtube-transcripts/route.ts:1` - Transcript list/delete API
+- `src/app/api/admin/youtube-transcripts/[videoId]/route.ts:1` - Transcript detail/reset API
 
 ## Architecture
 

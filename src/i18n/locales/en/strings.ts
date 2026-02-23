@@ -4951,7 +4951,10 @@ export const strings = {
       guest: 'Sign in to create flashcard decks',
       freeLimit: 'Free: {{current}}/{{max}} decks',
       dailyLimit: 'Daily limit: {{current}}/{{max}} reviews',
+      deckCreationsMonthlyQuotaProgress: 'Deck creations this month: {{current}}/{{limit}}',
       deckCreationsMonthlyQuotaReached: 'Deck creations this month: {{current}}/{{limit}}. Resets next month.',
+      deckCreationsMonthlyQuotaHelpToggle: 'How limits work',
+      deckCreationsMonthlyQuotaHelpText: 'This counts decks created this month, not how many decks you currently have. Deleting a deck does not restore a creation slot until next month.',
       unlimited: 'Unlimited decks',
     },
 

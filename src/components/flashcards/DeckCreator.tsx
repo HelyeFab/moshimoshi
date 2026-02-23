@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X,
@@ -24,6 +24,7 @@ import { AnkiImportModal } from '@/components/anki/AnkiImportModal'
 import { ankiDeckManager } from '@/lib/anki/AnkiDeckManager'
 import { VirtualCardList } from './VirtualCardList'
 import { ImageUpload } from './ImageUpload'
+import { DeckCreationQuotaBanner } from './DeckCreationQuotaBanner'
 import { listManager } from '@/lib/lists/ListManager'
 import { useRouter } from 'next/navigation'
 import { Loader2, ChevronDown, Check } from 'lucide-react'
@@ -34,7 +35,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
 import { debugLogger } from '@/lib/debug-logger'
 import { storageManager } from '@/lib/flashcards/StorageManager'
-import { useFeature } from '@/hooks/useFeature'
+import { useFeature, type Decision as FeatureDecision } from '@/hooks/useFeature'
 
 interface DeckCreatorProps {
   isOpen: boolean
@@ -126,6 +127,7 @@ export function DeckCreator({
   const [fetchedLists, setFetchedLists] = useState<UserList[]>([])
   const [loadingLists, setLoadingLists] = useState(false)
   const [showListPicker, setShowListPicker] = useState(false)
+  const [deckQuotaDecision, setDeckQuotaDecision] = useState<FeatureDecision | null>(null)
 
   // State for limit error modal
   const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
@@ -190,6 +192,33 @@ export function DeckCreator({
     }
     loadLists()
   }, [importSource, isOpen, userId, isPremium])
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadDeckQuota = async () => {
+      if (!isOpen || !!editDeck) {
+        if (!cancelled) setDeckQuotaDecision(null)
+        return
+      }
+
+      try {
+        const decision = await checkDeckLimit({ failOpen: true })
+        if (!cancelled) {
+          setDeckQuotaDecision(decision)
+        }
+      } catch {
+        if (!cancelled) {
+          setDeckQuotaDecision(null)
+        }
+      }
+    }
+
+    loadDeckQuota()
+    return () => {
+      cancelled = true
+    }
+  }, [isOpen, editDeck, checkDeckLimit])
 
   // Use fetched lists if available, otherwise fall back to prop
   const availableLists = fetchedLists.length > 0 ? fetchedLists : userLists
@@ -546,7 +575,23 @@ export function DeckCreator({
     setLoadingLists(false)
     setShowListPicker(false)
     setIsSaving(false) // Reset saving state
+    setDeckQuotaDecision(null)
   }
+
+  const deckQuotaCurrent =
+    typeof deckQuotaDecision?.currentUsage === 'number'
+      ? deckQuotaDecision.currentUsage
+      : typeof deckQuotaDecision?.usageBefore === 'number'
+        ? deckQuotaDecision.usageBefore
+        : null
+  const deckQuotaLimit =
+    typeof deckQuotaDecision?.limit === 'number' && deckQuotaDecision.limit > 0
+      ? deckQuotaDecision.limit
+      : null
+  const canShowDeckQuotaIndicator =
+    !editDeck && deckQuotaCurrent !== null && deckQuotaLimit !== null
+  const showDeckQuotaInDetails = canShowDeckQuotaIndicator && step === 'details'
+  const showDeckQuotaInFooter = canShowDeckQuotaIndicator && step === 'cards'
 
   if (!isOpen) return null
 
@@ -735,6 +780,14 @@ export function DeckCreator({
 
                 {step === 'details' && (
                   <div className="space-y-6">
+                    {showDeckQuotaInDetails && (
+                      <DeckCreationQuotaBanner
+                        current={deckQuotaCurrent}
+                        limit={deckQuotaLimit}
+                        allow={deckQuotaDecision?.allow}
+                      />
+                    )}
+
                     {/* Deck Name */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -1085,61 +1138,72 @@ export function DeckCreator({
               </div>
 
               {/* Footer */}
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center flex-shrink-0">
-                <button
-                  onClick={() => {
-                    if (step === 'details') setStep('source')
-                    else if (step === 'cards') setStep('details')
-                  }}
-                  className={cn(
-                    'px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors',
-                    step === 'source' && 'invisible'
-                  )}
-                >
-                  {t('common.back')}
-                </button>
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+                {showDeckQuotaInFooter && (
+                  <DeckCreationQuotaBanner
+                    current={deckQuotaCurrent}
+                    limit={deckQuotaLimit}
+                    allow={deckQuotaDecision?.allow}
+                    className="mb-3"
+                  />
+                )}
 
-                <div className="flex gap-2 sm:gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <button
-                    onClick={onClose}
-                    className="px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
+                    onClick={() => {
+                      if (step === 'details') setStep('source')
+                      else if (step === 'cards') setStep('details')
+                    }}
+                    className={cn(
+                      'px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors self-start',
+                      step === 'source' && 'invisible'
+                    )}
                   >
-                    {t('common.cancel')}
+                    {t('common.back')}
                   </button>
 
-                  {step === 'details' && (
+                  <div className="flex flex-wrap justify-end gap-2 sm:gap-3">
                     <button
-                      onClick={() => {
-                        if (importSource === 'list' && selectedListId) {
-                          handleListImport()
-                        } else {
-                          setStep('cards')
-                        }
-                      }}
-                      disabled={!deckName}
-                      data-testid="flashcards-next"
-                      className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
+                      onClick={onClose}
+                      className="px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
                     >
-                      {t('common.next')}
-                      <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4" />
+                      {t('common.cancel')}
                     </button>
-                  )}
 
-                  {step === 'cards' && (
-                    <button
-                      onClick={handleSave}
-                      disabled={!deckName || (!editDeck && importSource === 'scratch' && cards.length === 0) || isSaving}
-                      data-testid="flashcards-save"
-                      className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
-                    >
-                      {isSaving ? (
-                        <Loader2 className="w-3 sm:w-4 h-3 sm:h-4 animate-spin" />
-                      ) : (
-                        <Save className="w-3 sm:w-4 h-3 sm:h-4" />
-                      )}
-                      {isSaving ? t('common.saving') || 'Saving...' : t('common.save')}
-                    </button>
-                  )}
+                    {step === 'details' && (
+                      <button
+                        onClick={() => {
+                          if (importSource === 'list' && selectedListId) {
+                            handleListImport()
+                          } else {
+                            setStep('cards')
+                          }
+                        }}
+                        disabled={!deckName}
+                        data-testid="flashcards-next"
+                        className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
+                      >
+                        {t('common.next')}
+                        <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4" />
+                      </button>
+                    )}
+
+                    {step === 'cards' && (
+                      <button
+                        onClick={handleSave}
+                        disabled={!deckName || (!editDeck && importSource === 'scratch' && cards.length === 0) || isSaving}
+                        data-testid="flashcards-save"
+                        className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
+                      >
+                        {isSaving ? (
+                          <Loader2 className="w-3 sm:w-4 h-3 sm:h-4 animate-spin" />
+                        ) : (
+                          <Save className="w-3 sm:w-4 h-3 sm:h-4" />
+                        )}
+                        {isSaving ? t('common.saving') || 'Saving...' : t('common.save')}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 

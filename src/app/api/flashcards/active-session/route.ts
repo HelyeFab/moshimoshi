@@ -2,15 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
-
-const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
-
-async function ensurePremium(uid: string): Promise<boolean> {
-  const db = getAdminDb()
-  const userDoc = await db.collection('users').doc(uid).get()
-  const plan = userDoc.data()?.subscription?.plan
-  return !!plan && PREMIUM_PLANS.has(plan)
-}
+import { isFlashcardsPremiumUser } from '@/app/api/flashcards/_lib/entitlements'
 
 const PersistedSessionSchema = z.object({
   version: z.number().int(),
@@ -49,7 +41,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
+    if (!(await isFlashcardsPremiumUser(session.uid))) {
       return NextResponse.json({ error: 'Premium required for sync' }, { status: 403 })
     }
 
@@ -97,7 +89,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
+    if (!(await isFlashcardsPremiumUser(session.uid))) {
       return NextResponse.json({ error: 'Premium required for sync' }, { status: 403 })
     }
 
@@ -143,7 +135,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
+    if (!(await isFlashcardsPremiumUser(session.uid))) {
       return NextResponse.json({ error: 'Premium required for sync' }, { status: 403 })
     }
 
