@@ -3,7 +3,7 @@
 # Content Generation System
 
 **Status:** ACTIVE
-**Last Updated:** 2026-01-28
+**Last Updated:** 2026-02-27
 
 ## Overview
 
@@ -15,6 +15,20 @@ The Content Generation system creates AI-powered learning materials including st
 2. **JLPT levels**: Content generated for all levels (N5-N1)
 3. **Story templates**: Configurable themes and difficulty
 4. **Comic generation**: Panel-based manga-style stories with images
+5. **Automation controls**: Use Admin Feature Flags to pause/resume schedulers per content type
+
+## Automation Switches (Admin Feature Flags)
+
+Automation is controlled in Firestore at `config/featureFlags` via the Admin page `/admin/feature-flags`.
+
+- `STORY_AUTOMATION`: Controls scheduled story generation and daily story retry scheduler
+- `NEWS_AUTOMATION`: Controls scheduled news scraper and scheduled article audio generator
+- `COMICS_AUTOMATION`: Controls scheduled comic generation
+
+Behavior:
+
+- These switches affect scheduled jobs only.
+- Manual admin generation flows remain available.
 
 ## Documentation
 
@@ -24,6 +38,8 @@ The Content Generation system creates AI-powered learning materials including st
 | [story-comics.md](./story-comics.md) | Comic/manga story feature documentation |
 | [STORY_GENERATION_DEEPDIVE.md](./STORY_GENERATION_DEEPDIVE.md) | End-to-end story generation deepdive (scheduler, admin, word precompute) |
 | [BOOK_GENERATION_DEEPDIVE.md](./BOOK_GENERATION_DEEPDIVE.md) | End-to-end book generation deepdive (admin flow, publish, word precompute) |
+| [DRILL_WORD_RESOLVER_AI_FALLBACK_PLAN.md](./DRILL_WORD_RESOLVER_AI_FALLBACK_PLAN.md) | Implementation plan + status for AI fallback word resolution + Firebase cache for Conjugation Drill focus mode |
+| [DRILL_AI_FALLBACK_RUNBOOK.md](../conjugation-drill/DRILL_AI_FALLBACK_RUNBOOK.md) | QA checklist, cache schema reference, and troubleshooting for the drill AI fallback system |
 
 ## Key Topics
 
@@ -33,6 +49,7 @@ The Content Generation system creates AI-powered learning materials including st
 - **Quality validation** - Automated checks for appropriateness
 - **Comic panels** - Visual storytelling with generated images
 - **Content templates** - Reusable story structures
+- **Shared AI processor patterns** - Reusing processor/hybrid/cache patterns for non-content runtime fallbacks (e.g. drill word resolution)
 
 ## Architecture
 
@@ -84,6 +101,8 @@ Stories are generated on a schedule:
 - **3x weekly**: N3 content
 - **Weekly**: N2 and N1 content
 - **Manual**: Special events and themes
+
+Use the automation switches above to pause/resume scheduled runs without changing code or cron definitions.
 
 ---
 

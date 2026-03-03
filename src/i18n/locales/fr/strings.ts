@@ -4046,6 +4046,13 @@ export const strings = {
     description: 'Pratiquez vos Cartes Flash',
     pageTitle: 'Paquets de Cartes Flash',
     pageDescription: 'Créez et étudiez des paquets de cartes flash personnalisés',
+
+    // Page menu
+    menu: {
+      title: 'Menu',
+      subtitle: 'Gérer vos cartes flash',
+    },
+
     noDecksYet: 'Aucun paquet pour le moment',
     noDecksDescription: 'Commencez par créer votre premier paquet de cartes flash pour débuter votre parcours d\'apprentissage',
     createFirstDeck: 'Créer Votre Premier Paquet',
@@ -4074,6 +4081,14 @@ export const strings = {
     write: 'Écriture',
     voice: 'Voix',
     modes: {
+      preview: {
+        name: 'Aperçu',
+        description: 'Parcourez les cartes librement avant de vous tester',
+      },
+      study: {
+        name: 'Étude',
+        description: 'Pratique guidée avec auto-évaluation légère sans mise à jour SRS',
+      },
       due: {
         name: 'Cartes à réviser',
         description: 'Révisez les cartes programmées pour aujourd\'hui',
@@ -4117,6 +4132,7 @@ export const strings = {
     startStudying: 'Commencer l\'Étude',
     resumeStudying: 'Reprendre l\'Étude',
     reviewWeakCards: 'Revoir les cartes difficiles',
+    recommendedForNewDeck: 'Recommandé pour les nouveaux paquets',
     flipCard: 'Retourner la Carte',
     showAnswer: 'Afficher la Réponse',
     nextCard: 'Carte Suivante',
@@ -4141,6 +4157,27 @@ export const strings = {
       message: 'Nous avons trouvé une session de cartes plus récente sur un autre appareil. Voulez-vous la reprendre ici ?',
       confirm: 'Reprendre',
       cancel: 'Garder local',
+    },
+    previewComplete: {
+      title: 'Aperçu terminé',
+      message: 'Vous avez terminé l\'aperçu de {{deckName}}. Voulez-vous lancer une session de révision maintenant ?',
+      startReview: 'Commencer la révision',
+      backToDecks: 'Retour aux paquets',
+    },
+    audioWarmup: {
+      title: 'Préparation audio',
+      message: 'Doshi pré-génère l\'audio japonais sur cet appareil pour une lecture plus fluide.',
+      progress: 'Préparation audio {{current}}/{{total}}',
+    },
+    shuffleStatus: {
+      title: 'Mélange des cartes restantes',
+      message: 'Réorganisation des cartes restantes de cette session.',
+      doneTitle: 'Cartes mélangées',
+      doneMessage: 'Les cartes restantes ont été mélangées avec succès.',
+    },
+    studyFollowUp: {
+      title: 'Tour d\'entraînement {{round}}',
+      cardsLeft: '{{count}} cartes restantes à valider',
     },
     progress: 'Progrès',
     cardsStudied: 'Cartes étudiées',
@@ -5412,6 +5449,33 @@ export const strings = {
     loadingQuestions: 'Chargement des questions...',
     of: 'de',
     unlimited: 'Exercices illimités disponibles',
+
+    // Settings drawer
+    settingsDescription: 'Personnalisez votre session de pratique',
+    questionsLabel: 'questions',
+    questionsRange: '{{min}}–{{max}} disponibles',
+    questionsShort: '{{count}} Q.',
+    verbsAndAdjectives: 'Verbes & Adjectifs',
+    actionWords: 'Mots d\'action',
+    descriptiveWords: 'Mots descriptifs',
+    jlptLevel: 'Niveau JLPT',
+    selectOneOrMore: 'Sélectionnez un ou plusieurs',
+    conjugationForms: 'Formes de Conjugaison',
+    allFormsEnabled: 'Toutes les formes activées',
+    formsSelected: '{{count}} forme(s) sélectionnée(s)',
+    allForms: 'Toutes les Formes',
+    formsCount: '{{count}} formes',
+    autoAdvanceDescription: 'Passer automatiquement à la question suivante',
+    manualAdvance: 'Manuel',
+    done: 'Terminé',
+    formPresets: {
+      basic: 'Basique',
+      polite: 'Poli',
+      teForm: 'Forme Te',
+      potential: 'Potentiel',
+      passive: 'Passif',
+      causative: 'Causatif',
+    },
   },
   pwa: {
     install: {
@@ -7618,6 +7682,11 @@ export const strings = {
       addDuplicateName: 'Un deck avec ce nom existe déjà.',
       addLimitReached: 'Les utilisateurs gratuits peuvent avoir un deck DeckMarket. Supprimez votre deck actuel ou passez à Premium.',
       goToFlashcards: 'Aller aux Flashcards',
+      share: 'Partager',
+      linkCopied: 'Lien copié',
+      audioIncludedBadge: 'Audio JP natif',
+      audioIncludedDescription: 'Inclut l’audio japonais natif (mot + phrase)',
+      audioIncludedDownload: 'Le deck Anki inclut l’audio japonais natif pour les mots et les phrases d’exemple.',
     },
     preview: {
       title: 'Aperçu des cartes',

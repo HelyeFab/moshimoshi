@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-22T15:19:04.945Z
+ * Generated at: 2026-02-26T11:13:48.287Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -28,6 +28,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "drawing_practice": 0,
           "kanji_drawing_practice": 0,
           "conjugation_drill": 0,
+          "drill_focus_mode": 5,
           "grammar_explanations": 0,
           "youtube_shadowing": 0,
           "media_upload": 0,
@@ -77,6 +78,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "drawing_practice": 3,
           "kanji_drawing_practice": 2,
           "conjugation_drill": 3,
+          "drill_focus_mode": 5,
           "grammar_explanations": 3,
           "youtube_shadowing": 1,
           "media_upload": 2,
@@ -126,6 +128,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "drawing_practice": -1,
           "kanji_drawing_practice": -1,
           "conjugation_drill": -1,
+          "drill_focus_mode": -1,
           "grammar_explanations": -1,
           "youtube_shadowing": 20,
           "media_upload": -1,
@@ -175,6 +178,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "drawing_practice": -1,
           "kanji_drawing_practice": -1,
           "conjugation_drill": -1,
+          "drill_focus_mode": -1,
           "grammar_explanations": -1,
           "youtube_shadowing": 20,
           "media_upload": -1,

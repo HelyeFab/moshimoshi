@@ -64,6 +64,7 @@ const https_1 = require("firebase-functions/v2/https");
 const firestore_1 = require("firebase-functions/v2/firestore");
 const params_1 = require("firebase-functions/params");
 const comicWordExplanationPreGenerator_1 = require("../utils/comicWordExplanationPreGenerator");
+const automationFlags_1 = require("../utils/automationFlags");
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
@@ -665,6 +666,13 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
+    const automationEnabled = await (0, automationFlags_1.isAutomationEnabled)('COMICS_AUTOMATION', true);
+    if (!automationEnabled) {
+        logger.info('[ComicScheduler] COMICS_AUTOMATION is disabled - skipping scheduled run', {
+            scheduleTime: event.scheduleTime,
+        });
+        return;
+    }
     // Use same fallback pattern as story scheduler for autonomous operation
     const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025';
     const result = await generateComicEpisode(adminKey);

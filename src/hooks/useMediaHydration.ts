@@ -5,6 +5,40 @@ import { AnkiMediaStore } from '@/lib/anki/mediaStore'
 import { hydrateAnkiMedia } from '@/lib/anki/mediaHydrator'
 import type { FlashcardContent } from '@/types/flashcards'
 
+const deriveSideAudioFilenames = (card: FlashcardContent): {
+  frontAudioFilename?: string
+  backAudioFilename?: string
+} => {
+  const metadata = card.metadata || {}
+  const existingFront = (metadata as { frontAudioFilename?: string }).frontAudioFilename
+  const existingBack = (metadata as { backAudioFilename?: string }).backAudioFilename
+  if (existingFront || existingBack) {
+    return {
+      frontAudioFilename: existingFront,
+      backAudioFilename: existingBack,
+    }
+  }
+
+  const mediaKeys = Array.isArray((card as { media?: string[] }).media)
+    ? ((card as { media?: string[] }).media as string[])
+    : []
+  const audioKeys = mediaKeys.filter(key => /\.(mp3|m4a|wav|ogg)$/i.test(key))
+  if (audioKeys.length === 0) return {}
+
+  const front = audioKeys.find(key => /(^|::)word[_-]\d+\.(mp3|m4a|wav|ogg)$/i.test(key))
+  const back = audioKeys.find(key => /(^|::)sentence[_-]\d+\.(mp3|m4a|wav|ogg)$/i.test(key))
+
+  if (front || back) {
+    return { frontAudioFilename: front, backAudioFilename: back }
+  }
+
+  // Fallback for unknown naming: use first for front, second for back.
+  return {
+    frontAudioFilename: audioKeys[0],
+    backAudioFilename: audioKeys[1] || audioKeys[0],
+  }
+}
+
 /**
  * Hook for lazy media hydration of flashcard content.
  * Hydrates media URLs on-demand when the card is displayed, and cleans up blob URLs on unmount.
@@ -34,6 +68,7 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
 
       const audioFilename =
         card.metadata?.audioFilename ?? (card as { audioFilename?: string }).audioFilename
+      const { frontAudioFilename, backAudioFilename } = deriveSideAudioFilenames(card)
       const imageFilename =
         card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
 
@@ -52,7 +87,14 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       })
 
       // If no media at all, return original card
-      if (!audioFilename && !imageFilename && !frontHasMedia && !backHasMedia) {
+      if (
+        !audioFilename &&
+        !frontAudioFilename &&
+        !backAudioFilename &&
+        !imageFilename &&
+        !frontHasMedia &&
+        !backHasMedia
+      ) {
         console.log('[useMediaHydration] No media found, skipping hydration')
         return
       }
@@ -62,6 +104,8 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       const filenames: string[] = []
 
       if (audioFilename) filenames.push(audioFilename)
+      if (frontAudioFilename) filenames.push(frontAudioFilename)
+      if (backAudioFilename) filenames.push(backAudioFilename)
       if (imageFilename) filenames.push(imageFilename)
 
       // Batch fetch media URLs (single DB transaction)
@@ -70,10 +114,14 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       if (cancelled) return
 
       const audioUrl = audioFilename ? mediaUrls.get(audioFilename) : undefined
+      const frontAudioUrl = frontAudioFilename ? mediaUrls.get(frontAudioFilename) : undefined
+      const backAudioUrl = backAudioFilename ? mediaUrls.get(backAudioFilename) : undefined
       const imageUrl = imageFilename ? mediaUrls.get(imageFilename) : undefined
 
       // Track blob URLs for cleanup
       if (audioUrl) blobUrlsRef.current.push(audioUrl)
+      if (frontAudioUrl) blobUrlsRef.current.push(frontAudioUrl)
+      if (backAudioUrl) blobUrlsRef.current.push(backAudioUrl)
       if (imageUrl) blobUrlsRef.current.push(imageUrl)
 
       // Hydrate inline HTML images (images embedded in front/back text)
@@ -121,10 +169,14 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
                 : card.back.media
             },
         metadata: {
-          ...card.metadata,
-          audioUrl,
-          imageUrl
-        }
+            ...card.metadata,
+            audioUrl,
+            frontAudioUrl,
+            backAudioUrl,
+            frontAudioFilename,
+            backAudioFilename,
+            imageUrl
+          }
       })
 
       console.log('[useMediaHydration] ========== END CARD HYDRATION ==========')
@@ -173,6 +225,8 @@ export function useBatchMediaHydration(
       const filenames: string[] = []
       const cardMediaMap = new Map<string, {
         audioFilename?: string
+        frontAudioFilename?: string
+        backAudioFilename?: string
         imageFilename?: string
         frontHasMedia?: boolean
         backHasMedia?: boolean
@@ -181,6 +235,7 @@ export function useBatchMediaHydration(
       for (const card of cardsToHydrate) {
         const audioFilename =
           card.metadata?.audioFilename ?? (card as { audioFilename?: string }).audioFilename
+        const { frontAudioFilename, backAudioFilename } = deriveSideAudioFilenames(card)
         const imageFilename =
           card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
         const frontText = typeof card.front === 'string' ? card.front : card.front.text
@@ -188,15 +243,19 @@ export function useBatchMediaHydration(
         const frontHasMedia = frontText?.includes('data-anki-media')
         const backHasMedia = backText?.includes('data-anki-media')
 
-        if (audioFilename || imageFilename || frontHasMedia || backHasMedia) {
+        if (audioFilename || frontAudioFilename || backAudioFilename || imageFilename || frontHasMedia || backHasMedia) {
           cardMediaMap.set(card.id, {
             audioFilename,
+            frontAudioFilename,
+            backAudioFilename,
             imageFilename,
             frontHasMedia,
             backHasMedia
           })
 
           if (audioFilename) filenames.push(audioFilename)
+          if (frontAudioFilename) filenames.push(frontAudioFilename)
+          if (backAudioFilename) filenames.push(backAudioFilename)
           if (imageFilename) filenames.push(imageFilename)
         }
       }
@@ -234,6 +293,12 @@ export function useBatchMediaHydration(
 
         const audioUrl = cardMedia.audioFilename
           ? mediaUrls.get(cardMedia.audioFilename)
+          : undefined
+        const frontAudioUrl = cardMedia.frontAudioFilename
+          ? mediaUrls.get(cardMedia.frontAudioFilename)
+          : undefined
+        const backAudioUrl = cardMedia.backAudioFilename
+          ? mediaUrls.get(cardMedia.backAudioFilename)
           : undefined
         const imageUrl = cardMedia.imageFilename
           ? mediaUrls.get(cardMedia.imageFilename)
@@ -278,6 +343,10 @@ export function useBatchMediaHydration(
           metadata: {
             ...card.metadata,
             audioUrl,
+            frontAudioUrl,
+            backAudioUrl,
+            frontAudioFilename: cardMedia.frontAudioFilename,
+            backAudioFilename: cardMedia.backAudioFilename,
             imageUrl
           }
         })

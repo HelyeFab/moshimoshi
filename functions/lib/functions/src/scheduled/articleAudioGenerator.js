@@ -52,6 +52,7 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const newsAudioGenerator_1 = require("../utils/newsAudioGenerator");
+const automationFlags_1 = require("../utils/automationFlags");
 // Define secrets
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
 // Initialize Firestore (assumes admin is already initialized)
@@ -240,6 +241,13 @@ exports.scheduledArticleAudioGenerator = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
+    const automationEnabled = await (0, automationFlags_1.isAutomationEnabled)('NEWS_AUTOMATION', true);
+    if (!automationEnabled) {
+        logger.info('[ArticleAudioGenerator] NEWS_AUTOMATION is disabled - skipping scheduled run', {
+            scheduleTime: event.scheduleTime,
+        });
+        return;
+    }
     const result = await generateMissingAudio();
     if (!result.success && result.articlesWithErrors > 0) {
         // Log warning but don't throw - we don't want to retry the whole batch

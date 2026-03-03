@@ -9,17 +9,121 @@ import { useTTS } from '@/hooks/useTTS';
 import { cn } from '@/lib/utils';
 import { useMediaHydration } from '@/hooks/useMediaHydration';
 import { stripFurigana } from '@/lib/flashcards/furiganaUtils';
+import { normalizeTextForTTS } from '@/lib/flashcards/ttsText';
 import { useAnimationControl } from '@/components/ui/AnimationControl';
 
-/** Strip HTML tags and entities from text before sending to TTS */
-const stripHtmlForTTS = (text: string): string =>
-  text.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+/** Normalize raw multiline card content so line breaks render consistently in HTML previews. */
+const normalizeLineBreaks = (html: string): string =>
+  html.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n/g, '<br>');
 
 const KANJI_REGEX =
   /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/u;
 const KANJI_REGEX_GLOBAL =
   /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{2F800}-\u{2FA1F}\u{30000}-\u{3134F}]/gu;
 const FURIGANA_LONG_PRESS_MS = 350;
+const POS_PREFIX_PATTERN =
+  /^\s*(verb_irregular|verb_v1|verb_v2|na-adj|i-adj|counter|conj|adv|exp|int|pref|prt|suf|qw|pn|n|noun|verb|adjective|adverb|expression|particle|pronoun)\s*([—–\-:|•])\s*/i;
+const POS_LABELS: Record<string, string> = {
+  'verb_irregular': 'Irregular Verb',
+  'verb_v1': 'Godan Verb',
+  'verb_v2': 'Ichidan Verb',
+  'na-adj': 'na-adj',
+  'i-adj': 'i-adj',
+  counter: 'Counter',
+  conj: 'Conjunction',
+  adv: 'Adverb',
+  exp: 'Expression',
+  int: 'Interjection',
+  pref: 'Prefix',
+  prt: 'Particle',
+  suf: 'Suffix',
+  qw: 'Question Word',
+  pn: 'Pronoun',
+  n: 'Noun',
+  noun: 'Noun',
+  verb: 'Verb',
+  adjective: 'Adjective',
+  adverb: 'Adverb',
+  expression: 'Expression',
+  particle: 'Particle',
+  pronoun: 'Pronoun',
+};
+
+const stripBackArtifacts = (html: string): string => {
+  if (!html) return html;
+
+  let cleaned = html;
+
+  // Remove technical row IDs often stored in notes column.
+  cleaned = cleaned.replace(/(?:<br\s*\/?>|\n)?\s*jp\d+_\d+\s*(?=(?:<br\s*\/?>|\n|$))/gi, '');
+
+  // Remove leftover helper labels that should not be shown on card face.
+  cleaned = cleaned.replace(/(?:<br\s*\/?>|\n)?\s*Word:\s*Sentence:\s*(?=(?:<br\s*\/?>|\n|$))/gi, '');
+
+  // Collapse accidental excessive breaks after cleanup.
+  cleaned = cleaned.replace(/(<br\s*\/?>\s*){3,}/gi, '<br><br>');
+
+  // If a ruby sentence line is immediately followed by an equivalent kana-only line,
+  // keep only the ruby line (the reading is already visible via <rt>).
+  const lines = cleaned
+    .split(/<br\s*\/?>/i)
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  const normalizeCompare = (value: string) =>
+    value.replace(/\s+/g, '').replace(/　/g, '').trim();
+
+  const readingFromRuby = (value: string) => {
+    // Convert <ruby>漢字<rt>かな</rt></ruby> to かな while preserving surrounding text.
+    const withReadings = value.replace(
+      /<ruby>\s*[\s\S]*?<rt>\s*([\s\S]*?)\s*<\/rt>\s*<\/ruby>/gi,
+      '$1'
+    );
+    return withReadings.replace(/<[^>]+>/g, '');
+  };
+
+  const isKanaLike = (value: string) =>
+    /^[\u3040-\u309F\u30A0-\u30FFー・、。！？「」『』（）()\[\]【】〈〉《》…\.\,!?;:・〜～\s]+$/.test(value);
+  const hasJapanese = (value: string) => /[\u3040-\u30FF\u4E00-\u9FFF]/.test(value);
+  const hasLatin = (value: string) => /[A-Za-z]/.test(value);
+
+  const deduped: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const current = lines[i];
+    const next = lines[i + 1];
+    const nextNext = lines[i + 2];
+
+    deduped.push(current);
+
+    if (!next) continue;
+    if (!/<ruby>/i.test(current)) continue;
+    if (/<[^>]+>/.test(next)) continue;
+    if (!isKanaLike(next)) continue;
+
+    const currentReading = normalizeCompare(readingFromRuby(current));
+    const nextNormalized = normalizeCompare(next);
+
+    if (currentReading && currentReading === nextNormalized) {
+      i += 1; // Skip duplicated kana-only line.
+      continue;
+    }
+
+    // Heuristic for CSV cards without ruby in display:
+    // [JP sentence][kana reading][EN translation] -> drop kana reading line.
+    if (
+      hasJapanese(current) &&
+      isKanaLike(next) &&
+      nextNext &&
+      hasLatin(nextNext)
+    ) {
+      i += 1;
+    }
+  }
+
+  cleaned = deduped.join('<br>');
+
+  return cleaned.trim();
+};
 
 interface FlashcardViewerProps {
   card: FlashcardContent;
@@ -100,6 +204,14 @@ export function FlashcardViewer({
   const resolvedAudioUrl =
     hydratedCard.metadata?.audioUrl ||
     (hydratedCard as { audioUrl?: string }).audioUrl;
+  const resolvedFrontAudioUrl =
+    hydratedCard.metadata?.frontAudioUrl ||
+    (hydratedCard as { frontAudioUrl?: string }).frontAudioUrl ||
+    resolvedAudioUrl;
+  const resolvedBackAudioUrl =
+    hydratedCard.metadata?.backAudioUrl ||
+    (hydratedCard as { backAudioUrl?: string }).backAudioUrl ||
+    resolvedAudioUrl;
 
   const [isFlipped, setIsFlipped] = useState(initialIsFlipped);
   const [hasGraded, setHasGraded] = useState(false);
@@ -238,31 +350,89 @@ export function FlashcardViewer({
     return updated
   }, [])
 
+  const enhancePosLabels = useCallback((html: string): string => {
+    if (!html) return html
+    if (typeof window === 'undefined' || typeof DOMParser === 'undefined') {
+      return html
+    }
+
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html')
+    const container = doc.body.firstElementChild
+    if (!container) return html
+
+    const walker = doc.createTreeWalker(container, NodeFilter.SHOW_TEXT)
+    const nodes: Text[] = []
+    while (walker.nextNode()) {
+      nodes.push(walker.currentNode as Text)
+    }
+
+    nodes.forEach(node => {
+      const text = node.nodeValue
+      if (!text) return
+
+      const match = text.match(POS_PREFIX_PATTERN)
+      if (!match || match.index !== 0) return
+
+      const rawToken = match[1]
+      const separator = match[2]
+      const prefix = match[0]
+      const remainder = text.slice(prefix.length).trim()
+      const normalized = rawToken.toLowerCase()
+      const displayLabel = POS_LABELS[normalized] || rawToken.toUpperCase()
+
+      const fragment = doc.createDocumentFragment()
+      const header = doc.createElement('div')
+      header.className = 'anki-pos-header'
+      const pill = doc.createElement('span')
+      pill.className = 'anki-pos-pill'
+      pill.textContent = displayLabel
+      header.append(pill)
+      fragment.append(header)
+      if (remainder) {
+        const meaning = doc.createElement('div')
+        meaning.className = 'anki-pos-meaning'
+        meaning.textContent = `${separator} ${remainder}`
+        fragment.append(meaning)
+      }
+      node.replaceWith(fragment)
+    })
+
+    return container.innerHTML
+  }, [])
+
   const isAnkiCard = hydratedCard?.metadata?.source === 'anki';
 
   // When furigana data exists, strip ruby from the already-normalized furigana HTML
   // (which has formatting tags already cleaned by extractFurigana) instead of from the
   // raw original. This prevents font size jumps when toggling — both paths share the
   // same tag structure, only differing in whether <ruby> annotations are present.
-  const resolvedFrontHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnFront
+  // Fallback: if resolvedFrontText itself contains ruby tags (e.g. CSV import before
+  // migration), strip them directly so the toggle still works.
+  const resolvedFrontHtmlRawBase = effectiveFurigana.enabled && effectiveFurigana.showOnFront
     ? (resolvedFuriganaFront || resolvedFrontText)
     : resolvedFuriganaFront
       ? stripFurigana(resolvedFuriganaFront)
-      : resolvedFrontText;
+      : stripFurigana(resolvedFrontText);
 
-  const resolvedBackHtmlRaw = effectiveFurigana.enabled && effectiveFurigana.showOnBack
+  const resolvedBackHtmlRawBase = effectiveFurigana.enabled && effectiveFurigana.showOnBack
     ? (resolvedFuriganaBack || resolvedBackText)
     : resolvedFuriganaBack
       ? stripFurigana(resolvedFuriganaBack)
-      : resolvedBackText;
+      : stripFurigana(resolvedBackText);
+
+  const resolvedFrontHtmlRaw = normalizeLineBreaks(resolvedFrontHtmlRawBase);
+  const resolvedBackHtmlRaw = normalizeLineBreaks(resolvedBackHtmlRawBase);
 
   const resolvedFrontHtml = isAnkiCard
     ? enhanceAnkiHtml(applyAnkiCloze(resolvedFrontHtmlRaw, 'front'))
     : resolvedFrontHtmlRaw;
 
-  const resolvedBackHtml = isAnkiCard
+  const resolvedBackHtmlBaseRaw = isAnkiCard
     ? enhanceAnkiHtml(applyAnkiCloze(resolvedBackHtmlRaw, 'back'))
     : resolvedBackHtmlRaw;
+  const resolvedBackHtmlBase = stripBackArtifacts(resolvedBackHtmlBaseRaw);
+  const resolvedBackHtml = enhancePosLabels(resolvedBackHtmlBase);
 
   // Auto-play audio only on front cards that say "Listen" (or "Listen.")
   useEffect(() => {
@@ -279,7 +449,7 @@ export function FlashcardViewer({
       !hasAutoPlayedListen.current;
 
     if (shouldAutoPlay) {
-      if (!resolvedAudioUrl && hasAnkiAudioFilename) {
+      if (!resolvedFrontAudioUrl && hasAnkiAudioFilename) {
         return;
       }
       hasAutoPlayedListen.current = true;
@@ -287,8 +457,8 @@ export function FlashcardViewer({
         return;
       }
       autoPlayTimeoutRef.current = window.setTimeout(() => {
-        if (resolvedAudioUrl) {
-          const audio = new Audio(resolvedAudioUrl);
+        if (resolvedFrontAudioUrl) {
+          const audio = new Audio(resolvedFrontAudioUrl);
           audio.play().catch(() => {});
         } else {
           void play('Listen.', {
@@ -301,7 +471,7 @@ export function FlashcardViewer({
         autoPlayTimeoutRef.current = null;
       }, 150);
     }
-  }, [card.id, hydratedCard, isFlipped, play, resolvedAudioUrl, resolvedFrontText]);
+  }, [card.id, hydratedCard, isFlipped, play, resolvedFrontAudioUrl, resolvedFrontText]);
 
   useEffect(() => {
     return () => {
@@ -318,8 +488,8 @@ export function FlashcardViewer({
       try {
         const texts = [];
 
-        const cleanFront = stripHtmlForTTS(resolvedFrontText);
-        const cleanBack = stripHtmlForTTS(resolvedBackText);
+        const cleanFront = normalizeTextForTTS(resolvedFrontText);
+        const cleanBack = normalizeTextForTTS(resolvedBackText);
 
         if (cleanFront) {
           texts.push(cleanFront);
@@ -481,8 +651,8 @@ export function FlashcardViewer({
 
     // Determine what text to play based on which side is showing
     const rawText = isFlipped ? resolvedBackText : resolvedFrontText;
-    const textToPlay = stripHtmlForTTS(rawText);
-    const audioUrl = resolvedAudioUrl;
+    const textToPlay = normalizeTextForTTS(rawText);
+    const audioUrl = isFlipped ? resolvedBackAudioUrl : resolvedFrontAudioUrl;
 
     if (!textToPlay && !audioUrl) return;
 
@@ -658,7 +828,7 @@ export function FlashcardViewer({
             {/* Audio button - Top Right */}
             <div className="absolute top-4 right-4 z-20">
               {(resolvedAudioUrl || resolvedFrontText) &&
-               (resolvedAudioUrl || isJapaneseForTTS(stripHtmlForTTS(resolvedFrontText))) && (
+               (resolvedFrontAudioUrl || isJapaneseForTTS(normalizeTextForTTS(resolvedFrontText))) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
@@ -746,7 +916,7 @@ export function FlashcardViewer({
             {/* Audio button - Top Right (visually, but left-4 due to rotate-y-180) */}
             <div className="absolute top-4 left-4 z-20">
               {(resolvedAudioUrl || resolvedBackText) &&
-               (resolvedAudioUrl || isJapaneseForTTS(stripHtmlForTTS(resolvedBackText))) && (
+               (resolvedBackAudioUrl || isJapaneseForTTS(normalizeTextForTTS(resolvedBackText))) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm hover:bg-white dark:hover:bg-dark-700 transition-all shadow-lg"
@@ -1002,6 +1172,37 @@ export function FlashcardViewer({
           font-size: 0.95rem !important;
           font-weight: 400 !important;
           color: #c7d2fe;
+        }
+
+        .anki-card-content .anki-pos-pill {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.2rem 0.55rem;
+          margin-right: 0.45rem;
+          border-radius: 9999px;
+          border: 1px solid rgba(56, 189, 248, 0.55);
+          background: rgba(14, 116, 144, 0.35);
+          color: #e0f2fe;
+          font-size: 0.67rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          line-height: 1.2 !important;
+          font-family: "Trebuchet MS", "Avenir Next", "Segoe UI", sans-serif;
+          vertical-align: middle;
+          white-space: nowrap;
+        }
+
+        .anki-card-content .anki-pos-header {
+          display: block;
+          margin-bottom: 0.22rem;
+        }
+
+        .anki-card-content .anki-pos-meaning {
+          display: block;
+          color: #e5e7eb;
+          font-weight: 600 !important;
+          letter-spacing: 0.01em;
         }
       `}</style>
     </div>

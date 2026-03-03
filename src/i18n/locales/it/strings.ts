@@ -4167,6 +4167,13 @@ export const strings = {
     description: 'Pratica le tue Flashcard',
     pageTitle: 'Mazzi di Flashcard',
     pageDescription: 'Crea e studia mazzi di flashcard personalizzati',
+
+    // Page menu
+    menu: {
+      title: 'Menu',
+      subtitle: 'Gestisci le tue flashcard',
+    },
+
     noDecksYet: 'Nessun mazzo ancora',
     noDecksDescription: 'Inizia creando il tuo primo mazzo di flashcard per iniziare il tuo percorso di apprendimento',
     createFirstDeck: 'Crea il Tuo Primo Mazzo',
@@ -4195,6 +4202,14 @@ export const strings = {
     write: 'Scrittura',
     voice: 'Voce',
     modes: {
+      preview: {
+        name: 'Anteprima',
+        description: 'Sfoglia liberamente le carte prima di iniziare a metterti alla prova',
+      },
+      study: {
+        name: 'Studio',
+        description: 'Pratica guidata con autovalutazione leggera e senza aggiornare l\'SRS',
+      },
       due: {
         name: 'Carte in scadenza',
         description: 'Ripassa le carte programmate per oggi',
@@ -4238,6 +4253,7 @@ export const strings = {
     startStudying: 'Inizia Studio',
     resumeStudying: 'Riprendi Studio',
     reviewWeakCards: 'Rivedi carte difficili',
+    recommendedForNewDeck: 'Consigliato per mazzi nuovi',
     flipCard: 'Gira Carta',
     showAnswer: 'Mostra Risposta',
     nextCard: 'Carta Successiva',
@@ -4262,6 +4278,27 @@ export const strings = {
       message: 'Abbiamo trovato una sessione di flashcard più recente su un altro dispositivo. Vuoi riprenderla qui?',
       confirm: 'Riprendi',
       cancel: 'Mantieni locale',
+    },
+    previewComplete: {
+      title: 'Anteprima completata',
+      message: 'Hai finito l\'anteprima di {{deckName}}. Vuoi iniziare ora una sessione di ripasso?',
+      startReview: 'Inizia ripasso',
+      backToDecks: 'Torna ai mazzi',
+    },
+    audioWarmup: {
+      title: 'Preparazione audio',
+      message: 'Doshi sta pre-generando audio giapponese su questo dispositivo per una riproduzione più fluida.',
+      progress: 'Preparazione audio {{current}}/{{total}}',
+    },
+    shuffleStatus: {
+      title: 'Mescolamento delle carte rimanenti',
+      message: 'Riordinamento delle carte rimanenti in questa sessione.',
+      doneTitle: 'Carte mescolate',
+      doneMessage: 'Le carte rimanenti sono state mescolate correttamente.',
+    },
+    studyFollowUp: {
+      title: 'Round di esercizio {{round}}',
+      cardsLeft: '{{count}} carte rimanenti da completare',
     },
     progress: 'Progresso',
     cardsStudied: 'Carte studiate',
@@ -5533,6 +5570,33 @@ export const strings = {
     loadingQuestions: 'Caricamento domande...',
     of: 'di',
     unlimited: 'Esercizi illimitati disponibili',
+
+    // Settings drawer
+    settingsDescription: 'Personalizza la tua sessione di pratica',
+    questionsLabel: 'domande',
+    questionsRange: '{{min}}–{{max}} disponibili',
+    questionsShort: '{{count}} Dom.',
+    verbsAndAdjectives: 'Verbi e Aggettivi',
+    actionWords: 'Parole d\'azione',
+    descriptiveWords: 'Parole descrittive',
+    jlptLevel: 'Livello JLPT',
+    selectOneOrMore: 'Seleziona uno o più',
+    conjugationForms: 'Forme di Coniugazione',
+    allFormsEnabled: 'Tutte le forme attivate',
+    formsSelected: '{{count}} forma/e selezionata/e',
+    allForms: 'Tutte le Forme',
+    formsCount: '{{count}} forme',
+    autoAdvanceDescription: 'Passa automaticamente alla prossima domanda',
+    manualAdvance: 'Manuale',
+    done: 'Fatto',
+    formPresets: {
+      basic: 'Base',
+      polite: 'Formale',
+      teForm: 'Forma Te',
+      potential: 'Potenziale',
+      passive: 'Passivo',
+      causative: 'Causativo',
+    },
   },
   pwa: {
     install: {
@@ -7842,6 +7906,11 @@ export const strings = {
       addDuplicateName: 'Esiste già un deck con questo nome.',
       addLimitReached: 'Gli utenti gratuiti possono avere un deck DeckMarket. Rimuovi il tuo deck attuale o passa a Premium.',
       goToFlashcards: 'Vai alle Flashcard',
+      share: 'Condividi',
+      linkCopied: 'Link copiato',
+      audioIncludedBadge: 'Audio JP nativo',
+      audioIncludedDescription: 'Include audio giapponese nativo (parola + frase)',
+      audioIncludedDownload: 'Il deck Anki include audio giapponese nativo per parole e frasi di esempio.',
     },
     preview: {
       title: 'Anteprima carte',

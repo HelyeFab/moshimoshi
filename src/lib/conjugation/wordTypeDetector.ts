@@ -136,8 +136,11 @@ export function detectWordType(
 ): ExtendedWordType {
   // First check parts of speech if available
   if (partsOfSpeech && partsOfSpeech.length > 0) {
-    const posResult = detectFromPartsOfSpeech(partsOfSpeech, word)
-    if (posResult.confidence === 'high') {
+    const posResult = detectFromPartsOfSpeech(partsOfSpeech, word, reading)
+    if (
+      posResult.confidence === 'high' ||
+      (posResult.confidence === 'medium' && posResult.isConjugatable && !!posResult.conjugationType)
+    ) {
       return posResult
     }
     // If medium/low confidence, continue to pattern matching
@@ -152,7 +155,8 @@ export function detectWordType(
  */
 function detectFromPartsOfSpeech(
   partsOfSpeech: string[],
-  word?: string
+  word?: string,
+  reading?: string
 ): ExtendedWordType {
   const posStr = partsOfSpeech.join(' ').toLowerCase()
 
@@ -225,21 +229,22 @@ function detectFromPartsOfSpeech(
   }
 
   // Text-based verb type detection
-  if (posStr.includes('ichidan') || posStr.includes('ru verb') ||
-      posStr.includes('る verb') || posStr.includes('v1')) {
-    return {
-      baseType: 'Ichidan',
-      conjugationType: 'Ichidan',
-      isConjugatable: true,
-      confidence: 'medium'
-    }
-  }
-
   if (posStr.includes('godan') || posStr.includes('u verb') ||
       posStr.includes('う verb') || posStr.includes('v5')) {
     return {
       baseType: 'Godan',
       conjugationType: 'Godan',
+      isConjugatable: true,
+      confidence: 'medium'
+    }
+  }
+
+  if (posStr.includes('ichidan') ||
+      ((posStr.includes('ru verb') || posStr.includes('る verb')) && !posStr.includes('godan')) ||
+      posStr.includes('v1')) {
+    return {
+      baseType: 'Ichidan',
+      conjugationType: 'Ichidan',
       isConjugatable: true,
       confidence: 'medium'
     }
@@ -267,20 +272,6 @@ function detectFromPartsOfSpeech(
     }
   }
 
-  // Check for generic verb
-  if (posStr.includes('verb') || posStr.includes('v')) {
-    // Try to determine specific type from word pattern
-    if (word) {
-      return detectFromPattern(word)
-    }
-    // Return 'other' for unclassified verbs since WordType doesn't include generic 'verb'
-    return {
-      baseType: 'other',
-      isConjugatable: false, // Can't conjugate without knowing specific type
-      confidence: 'low'
-    }
-  }
-
   // Non-conjugatable types
   if (posStr.includes('noun') || posStr.includes('n')) {
     return {
@@ -303,6 +294,19 @@ function detectFromPartsOfSpeech(
       baseType: 'particle',
       isConjugatable: false,
       confidence: 'high'
+    }
+  }
+
+  // Generic verb fallback (must come after specific godan/ichidan checks and after adverb/noun checks)
+  // Use a word-boundary match so "adverb" does not get treated as "verb".
+  if (/\bverb\b/.test(posStr)) {
+    if (word) {
+      return detectFromPattern(word, reading)
+    }
+    return {
+      baseType: 'other',
+      isConjugatable: false,
+      confidence: 'low'
     }
   }
 

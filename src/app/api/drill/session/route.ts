@@ -8,7 +8,8 @@ import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { evaluateFeatureAccess } from '@/lib/entitlements/server'
-import type { DrillSession, DrillQuestion, JapaneseWord } from '@/types/drill'
+import type { DrillSession, DrillQuestion, JapaneseWord, FocusWordSelection } from '@/types/drill'
+import type { FeatureId } from '@/types/FeatureId'
 import { WordUtils } from '@/lib/drill/word-utils'
 import { QuestionGenerator } from '@/lib/drill/question-generator'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
@@ -16,10 +17,19 @@ import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-hel
 import { recordDrillCompletion } from '@/lib/gamification/services/gamification-coordinator'
 import { Accuracy } from '@/lib/statistics/accuracy'
 import { DrillSessionCompleteRequestSchema } from '@/lib/schemas/drill.schema'
-import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch'
+import { getConjugatableWordsPractice, searchJMdictWords } from '@/utils/jmdictLocalSearch'
+import { detectWordType } from '@/lib/conjugation/wordTypeDetector'
 // Server-safe SRS utilities (no IndexedDB dependency)
 // DrillProgressManager cannot be used here as it imports 'idb' which is browser-only
 import { calculateSM2, calculateNextReviewDate } from '@/lib/review-engine/srs/drill-srs-utils'
+import * as resolutionCache from '@/lib/drill/server/drill-word-resolution-cache'
+import type { DrillWordResolutionResult, ResolutionSource } from '@/lib/drill/server/drill-word-resolution-cache'
+import { DrillWordResolverProcessorHybrid } from '@/lib/ai/processors/DrillWordResolverProcessorHybrid'
+import type { DrillWordResolverResult } from '@/lib/ai/schemas/drill-word-resolver.schema'
+
+const DRILL_FOCUS_AI_TIMEOUT_MS = parseEnvInt(process.env.DRILL_FOCUS_AI_TIMEOUT_MS, 4500)
+const DRILL_FOCUS_CACHE_WRITE_TIMEOUT_MS = parseEnvInt(process.env.DRILL_FOCUS_CACHE_WRITE_TIMEOUT_MS, 250)
+const DRILL_FOCUS_CACHE_WRITE_RETRIES = parseEnvInt(process.env.DRILL_FOCUS_CACHE_WRITE_RETRIES, 1)
 
 /**
  * GET /api/drill/session
@@ -104,18 +114,28 @@ export async function POST(request: NextRequest) {
     const session = await requireAuth()
 
     const body = await request.json()
-    const { mode, wordTypeFilter, selectedLists, questionsCount, jlptLevels, conjugationForms } =
+    const {
+      mode,
+      wordTypeFilter,
+      selectedLists,
+      questionsCount,
+      jlptLevels,
+      conjugationForms,
+      focusWord,
+      focusWordSelection,
+    } =
       body
 
     // Get fresh user data for entitlements
     const userDoc = await adminDb!.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'
+    const entitlementFeatureId = getDrillModeFeatureId(mode)
 
     // Check entitlement
     const nowUtc = new Date().toISOString()
     const conjugationAccess = await evaluateFeatureAccess({
-      featureId: 'conjugation_drill',
+      featureId: entitlementFeatureId,
       userId: session.uid,
       plan: plan as any,
       nowUtcISO: nowUtc
@@ -342,6 +362,184 @@ export async function POST(request: NextRequest) {
           { status: 500 }
         )
       }
+    } else if (mode === 'focus') {
+      // Focus mode: Practice a single user-specified word
+      if (!focusWord || typeof focusWord !== 'string' || focusWord.trim().length === 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: {
+              code: 'MISSING_WORD',
+              message: 'Please enter a word to practice',
+            },
+          },
+          { status: 400 }
+        )
+      }
+
+      const trimmedWord = focusWord.trim()
+      console.log('[Drill API] Focus mode - searching for:', trimmedWord)
+
+      let targetWord: JapaneseWord | null = null
+      let resolutionSource: string | null = null
+
+      // Step 1: Use pre-selected focusWordSelection from client
+      const selectedFocusWordCandidate = toFocusJapaneseWord(focusWordSelection)
+      if (selectedFocusWordCandidate && WordUtils.isConjugable(selectedFocusWordCandidate)) {
+        targetWord = selectedFocusWordCandidate
+        resolutionSource = 'selected_jmdict'
+      }
+
+      if (!targetWord) {
+        // Search JMDict for the word
+	        const jmdictSearchStart = Date.now()
+	        const matches = await searchJMdictWords(trimmedWord, 5)
+	        console.log('[Drill API] Focus JMdict search complete:', {
+	          query: trimmedWord,
+	          count: matches.length,
+	          durationMs: Date.now() - jmdictSearchStart,
+	        })
+
+        // Find the best conjugatable match
+        for (const match of matches) {
+          const detected = detectWordType(
+            match.kanji || match.kana,
+            match.kana,
+            (match as any).partsOfSpeech
+          )
+          if (detected.isConjugatable && detected.conjugationType && detected.confidence !== 'low') {
+            targetWord = {
+              id: (match as any).id,
+              kanji: (match as any).kanji || '',
+              kana: (match as any).kana,
+              meaning: (match as any).meaning || '',
+              type: detected.conjugationType as JapaneseWord['type'],
+              jlpt: (match as any).jlpt,
+              partsOfSpeech: (match as any).partsOfSpeech,
+            }
+            resolutionSource = 'searched_jmdict'
+            break
+          }
+        }
+      }
+
+      // Step 3: Firebase cache lookup (previously resolved by AI)
+      if (!targetWord) {
+        try {
+	          const cacheLookupStart = Date.now()
+	          const cached = await resolutionCache.get(trimmedWord)
+	          console.log('[Drill API] Focus cache lookup complete:', {
+	            query: trimmedWord,
+	            hit: !!cached,
+	            status: cached?.status ?? 'miss',
+	            durationMs: Date.now() - cacheLookupStart,
+	          })
+	          if (cached && cached.status === 'unresolved') {
+            // Previously determined to be unresolvable — block immediately
+            console.log('[Drill API] Cached unresolved word:', trimmedWord)
+            return NextResponse.json(
+              {
+                success: false,
+                error: {
+                  code: 'NOT_CONJUGATABLE',
+                  message: 'This word cannot be conjugated. Please enter a verb or adjective.',
+                },
+              },
+              { status: 400 }
+            )
+          }
+          if (cached && cached.status === 'resolved' && cached.result) {
+            const cr = cached.result
+            const CONJUGATABLE_POS = new Set(['verb', 'i-adjective', 'na-adjective'])
+            if (CONJUGATABLE_POS.has(cr.partOfSpeech) && cr.conjugationType && cr.confidence !== 'low') {
+              targetWord = {
+                id: `cache-${cached.key.substring(0, 8)}`,
+                kanji: cr.surface || cr.lemma,
+                kana: cr.reading,
+                meaning: cr.meaning || '',
+                type: cr.conjugationType as JapaneseWord['type'],
+              }
+              resolutionSource = 'firebase_ai_cache'
+              // Bump hit count (fire-and-forget)
+	              fireAndForgetCacheWrite(
+	                `touchHit:${resolutionSource}`,
+	                trimmedWord,
+	                () => resolutionCache.touchHit(trimmedWord)
+	              )
+	            }
+	          }
+        } catch (cacheError) {
+          console.warn('[Drill API] Cache lookup failed:', cacheError)
+        }
+      }
+
+      // Step 4: Live AI resolution via DrillWordResolverProcessorHybrid
+      if (!targetWord) {
+        const aiOutcome = await resolveWordViaAI(trimmedWord)
+
+        if (aiOutcome.ok) {
+          const { data: aiData, source } = aiOutcome
+          const CONJUGATABLE_POS = new Set(['verb', 'i-adjective', 'na-adjective'])
+
+          if (aiData.confidence === 'low') {
+            // Low confidence — don't cache, don't use
+            console.warn('[Drill API] AI returned low confidence for:', trimmedWord)
+          } else if (CONJUGATABLE_POS.has(aiData.partOfSpeech) && aiData.conjugationType) {
+            // Conjugatable word resolved successfully
+            targetWord = {
+              id: `ai-${Date.now()}`,
+              kanji: aiData.lemma,
+              kana: aiData.reading,
+              meaning: aiData.meaning || '',
+              type: aiData.conjugationType as JapaneseWord['type'],
+            }
+            resolutionSource = 'ai_live'
+            // Cache the resolved result (fire-and-forget)
+	            fireAndForgetCacheWrite(
+	              `setResolved:${source}`,
+	              trimmedWord,
+	              () => resolutionCache.setResolved(
+	                trimmedWord,
+	                mapAIResultToCacheFormat(aiData),
+	                source
+	              )
+	            )
+	          } else {
+	            // AI identified as non-conjugatable — cache as unresolved
+	            console.log('[Drill API] AI resolved as non-conjugatable:', aiData.partOfSpeech)
+	            fireAndForgetCacheWrite(
+	              `setUnresolved:${source}`,
+	              trimmedWord,
+	              () => resolutionCache.setUnresolved(trimmedWord, source)
+	            )
+	          }
+	        } else {
+          console.warn('[Drill API] AI resolution failed:', aiOutcome.reason)
+        }
+      }
+
+      // Step 5: Block if still unresolved
+      if (!targetWord) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: {
+              code: 'NOT_CONJUGATABLE',
+              message: 'This word cannot be conjugated. Please enter a verb or adjective.',
+            },
+          },
+          { status: 400 }
+        )
+      }
+
+      console.log('[Drill API] Focus word found:', targetWord.kanji, targetWord.type, `(source: ${resolutionSource})`)
+
+      const questionsPerSession = questionsCount || getQuestionsPerSession(plan)
+      questions = await QuestionGenerator.generateQuestionsForWord(
+        targetWord,
+        questionsPerSession,
+        conjugationForms
+      )
     }
 
     if (questions.length === 0) {
@@ -389,7 +587,7 @@ export async function POST(request: NextRequest) {
 
     // Store drill session for all users (minimal cloud footprint for XP + completion)
     console.log('[Drill API] Saving drill session to Firebase:', session.uid)
-    await adminDb!.collection('drill_sessions').doc(sessionId).set(drillSession)
+    await adminDb!.collection('drill_sessions').doc(sessionId).set(sanitizeForFirestore(drillSession))
 
     const usageRef = adminDb!
       .collection('users')
@@ -403,7 +601,7 @@ export async function POST(request: NextRequest) {
 
     await usageRef.set(
       {
-        conjugation_drill: FieldValue.increment(1),
+        [entitlementFeatureId]: FieldValue.increment(1),
         lastUpdated: nowUtc,
       },
       { merge: true }
@@ -424,6 +622,167 @@ export async function POST(request: NextRequest) {
     console.error('Error in POST /api/drill/session:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
+}
+
+function getDrillModeFeatureId(mode: unknown): FeatureId {
+  return mode === 'focus' ? 'drill_focus_mode' : 'conjugation_drill'
+}
+
+const FOCUS_WORD_TYPES = new Set<JapaneseWord['type']>([
+  'Ichidan',
+  'Godan',
+  'Irregular',
+  'i-adjective',
+  'na-adjective',
+])
+
+function toFocusJapaneseWord(input: unknown): JapaneseWord | null {
+  if (!input || typeof input !== 'object') return null
+
+  const candidate = input as Partial<FocusWordSelection>
+  if (typeof candidate.id !== 'string' || candidate.id.trim() === '') return null
+  if (typeof candidate.kana !== 'string' || candidate.kana.trim() === '') return null
+  if (typeof candidate.meaning !== 'string') return null
+  if (typeof candidate.type !== 'string' || !FOCUS_WORD_TYPES.has(candidate.type as JapaneseWord['type'])) {
+    return null
+  }
+  if (candidate.kanji !== undefined && typeof candidate.kanji !== 'string') return null
+  if (candidate.jlpt !== undefined && typeof candidate.jlpt !== 'string') return null
+  if (
+    candidate.partsOfSpeech !== undefined &&
+    (!Array.isArray(candidate.partsOfSpeech) ||
+      candidate.partsOfSpeech.some(pos => typeof pos !== 'string'))
+  ) {
+    return null
+  }
+
+  return {
+    id: candidate.id.trim(),
+    kanji: (candidate.kanji ?? '').trim(),
+    kana: candidate.kana.trim(),
+    meaning: candidate.meaning,
+    type: candidate.type as JapaneseWord['type'],
+    jlpt: candidate.jlpt as JapaneseWord['jlpt'],
+    partsOfSpeech: candidate.partsOfSpeech,
+  }
+}
+
+/**
+ * Call the AI processor to resolve a word.
+ * Returns a discriminated union: success with data + source, or failure with reason.
+ */
+async function resolveWordViaAI(
+  word: string
+): Promise<
+  | { ok: true; data: DrillWordResolverResult; source: ResolutionSource }
+  | { ok: false; reason: string }
+> {
+  const startedAt = Date.now()
+  try {
+    const processor = new DrillWordResolverProcessorHybrid({
+      model: 'gpt-4o-mini',
+      config: { temperature: 0.3, maxTokens: 500 },
+    })
+    const result = await withTimeout(
+      processor.process({ word }),
+      DRILL_FOCUS_AI_TIMEOUT_MS,
+      `AI resolver timeout after ${DRILL_FOCUS_AI_TIMEOUT_MS}ms`
+    )
+    const source: ResolutionSource = result.metadata?.provider === 'ollama' ? 'ollama' : 'openai'
+    console.log('[Drill API] AI word resolution success:', {
+      query: word,
+      provider: source,
+      confidence: result.data.confidence,
+      partOfSpeech: result.data.partOfSpeech,
+      conjugationType: result.data.conjugationType,
+      durationMs: Date.now() - startedAt,
+    })
+    return { ok: true, data: result.data, source }
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : 'AI resolution failed'
+    console.error('[Drill API] AI word resolution failed:', {
+      query: word,
+      reason,
+      durationMs: Date.now() - startedAt,
+    })
+    return { ok: false, reason }
+  }
+}
+
+/**
+ * Map an AI DrillWordResolverResult to the Firebase cache format.
+ * Only call when conjugationType is non-null (conjugatable words).
+ */
+function mapAIResultToCacheFormat(result: DrillWordResolverResult): DrillWordResolutionResult {
+  return {
+    surface: result.surface,
+    lemma: result.lemma,
+    reading: result.reading,
+    meaning: result.meaning ?? undefined,
+    partOfSpeech: result.partOfSpeech as DrillWordResolutionResult['partOfSpeech'],
+    conjugationType: result.conjugationType as NonNullable<DrillWordResolutionResult['conjugationType']>,
+    confidence: result.confidence as DrillWordResolutionResult['confidence'],
+    alternatives: result.alternatives?.map(a => `${a.lemma} (${a.meaning ?? a.reading})`) ?? undefined,
+    notes: result.notes ?? undefined,
+  }
+}
+
+function parseEnvInt(value: string | undefined, fallback: number): number {
+  if (!value) return fallback
+  const parsed = Number.parseInt(value, 10)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  let timeoutId: NodeJS.Timeout | null = null
+  try {
+    const timeoutPromise = new Promise<T>((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs)
+    })
+    return await Promise.race([promise, timeoutPromise])
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+  }
+}
+
+function fireAndForgetCacheWrite(
+  op: string,
+  query: string,
+  write: () => Promise<void>
+): void {
+  void (async () => {
+    const maxAttempts = Math.max(1, DRILL_FOCUS_CACHE_WRITE_RETRIES + 1)
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      const startedAt = Date.now()
+      try {
+        await withTimeout(
+          write(),
+          DRILL_FOCUS_CACHE_WRITE_TIMEOUT_MS,
+          `Cache write timeout after ${DRILL_FOCUS_CACHE_WRITE_TIMEOUT_MS}ms`
+        )
+        if (attempt > 1) {
+          console.log('[Drill API] Cache write recovered after retry:', {
+            op,
+            query,
+            attempt,
+            durationMs: Date.now() - startedAt,
+          })
+        }
+        return
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : 'cache write failed'
+        console.warn('[Drill API] Cache write attempt failed:', {
+          op,
+          query,
+          attempt,
+          maxAttempts,
+          reason,
+          durationMs: Date.now() - startedAt,
+        })
+        if (attempt >= maxAttempts) return
+      }
+    }
+  })()
 }
 
 /**

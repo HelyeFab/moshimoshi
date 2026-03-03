@@ -17,6 +17,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { generateBatchAudio, BatchAudioResult } from '../utils/newsAudioGenerator'
+import { isAutomationEnabled } from '../utils/automationFlags'
 
 // Define secrets
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
@@ -285,6 +286,14 @@ export const scheduledArticleAudioGenerator = onSchedule(
       scheduleTime: event.scheduleTime,
       jobName: event.jobName,
     })
+
+    const automationEnabled = await isAutomationEnabled('NEWS_AUTOMATION', true)
+    if (!automationEnabled) {
+      logger.info('[ArticleAudioGenerator] NEWS_AUTOMATION is disabled - skipping scheduled run', {
+        scheduleTime: event.scheduleTime,
+      })
+      return
+    }
 
     const result = await generateMissingAudio()
 

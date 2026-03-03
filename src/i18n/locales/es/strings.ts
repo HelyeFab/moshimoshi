@@ -4089,6 +4089,13 @@ export const strings = {
     description: 'Practica tus Tarjetas de Memoria',
     pageTitle: 'Mazos de Tarjetas',
     pageDescription: 'Crea y estudia mazos de tarjetas personalizados',
+
+    // Page menu
+    menu: {
+      title: 'Menú',
+      subtitle: 'Gestiona tus tarjetas',
+    },
+
     noDecksYet: 'Aún no hay mazos',
     noDecksDescription: 'Comienza tu viaje de aprendizaje creando tu primer mazo de tarjetas',
     createFirstDeck: 'Crear Tu Primer Mazo',
@@ -4117,6 +4124,14 @@ export const strings = {
     write: 'Escritura',
     voice: 'Voz',
     modes: {
+      preview: {
+        name: 'Vista previa',
+        description: 'Recorre las tarjetas libremente antes de empezar a ponerte a prueba',
+      },
+      study: {
+        name: 'Estudio',
+        description: 'Práctica guiada con autoevaluación suave y sin actualizar el SRS',
+      },
       due: {
         name: 'Tarjetas pendientes',
         description: 'Revisa las tarjetas programadas para hoy',
@@ -4160,6 +4175,7 @@ export const strings = {
     startStudying: 'Comenzar Estudio',
     resumeStudying: 'Reanudar Estudio',
     reviewWeakCards: 'Repasar tarjetas débiles',
+    recommendedForNewDeck: 'Recomendado para mazos nuevos',
     flipCard: 'Voltear Tarjeta',
     showAnswer: 'Mostrar Respuesta',
     nextCard: 'Siguiente Tarjeta',
@@ -4184,6 +4200,27 @@ export const strings = {
       message: 'Encontramos una sesión de flashcards más reciente en otro dispositivo. ¿Quieres reanudarla aquí?',
       confirm: 'Reanudar',
       cancel: 'Mantener local',
+    },
+    previewComplete: {
+      title: 'Vista previa completada',
+      message: 'Has terminado de previsualizar {{deckName}}. ¿Quieres iniciar una sesión de repaso ahora?',
+      startReview: 'Iniciar repaso',
+      backToDecks: 'Volver a los mazos',
+    },
+    audioWarmup: {
+      title: 'Preparando audio',
+      message: 'Doshi está pregenerando audio en japonés en este dispositivo para una reproducción más fluida.',
+      progress: 'Preparación de audio {{current}}/{{total}}',
+    },
+    shuffleStatus: {
+      title: 'Barajando las tarjetas restantes',
+      message: 'Reordenando las tarjetas que quedan en esta sesión.',
+      doneTitle: 'Tarjetas barajadas',
+      doneMessage: 'Las tarjetas restantes se barajaron correctamente.',
+    },
+    studyFollowUp: {
+      title: 'Ronda de práctica {{round}}',
+      cardsLeft: '{{count}} tarjetas restantes para completar',
     },
     progress: 'Progreso',
     cardsStudied: 'Tarjetas estudiadas',
@@ -5506,6 +5543,42 @@ export const strings = {
     loadingQuestions: 'Cargando preguntas...',
     of: 'de',
     unlimited: 'Ejercicios ilimitados disponibles',
+
+    // Focus mode
+    focusMode: 'Palabra Enfocada',
+    focusDescription: 'Ingresa un verbo o adjetivo para practicar todas sus formas de conjugación',
+    focusPlaceholder: 'ej. 食べる, 高い, drink...',
+    focusEnterWord: 'Por favor ingresa una palabra para practicar',
+    focusNoResults: 'No se encontraron palabras conjugables. Prueba con otro verbo o adjetivo.',
+    focusTip: 'Busca en japonés o inglés. Selecciona una palabra de los resultados para comenzar.',
+    focusNotConjugatable: 'Esta palabra no se puede conjugar. Por favor ingresa un verbo o adjetivo.',
+
+    // Settings drawer
+    settingsDescription: 'Personaliza tu sesión de práctica',
+    questionsLabel: 'preguntas',
+    questionsRange: '{{min}}–{{max}} disponibles',
+    questionsShort: '{{count}} Preg.',
+    verbsAndAdjectives: 'Verbos y Adjetivos',
+    actionWords: 'Palabras de acción',
+    descriptiveWords: 'Palabras descriptivas',
+    jlptLevel: 'Nivel JLPT',
+    selectOneOrMore: 'Selecciona uno o más',
+    conjugationForms: 'Formas de Conjugación',
+    allFormsEnabled: 'Todas las formas activadas',
+    formsSelected: '{{count}} forma(s) seleccionada(s)',
+    allForms: 'Todas las Formas',
+    formsCount: '{{count}} formas',
+    autoAdvanceDescription: 'Avanzar automáticamente a la siguiente pregunta',
+    manualAdvance: 'Manual',
+    done: 'Listo',
+    formPresets: {
+      basic: 'Básico',
+      polite: 'Formal',
+      teForm: 'Forma Te',
+      potential: 'Potencial',
+      passive: 'Pasivo',
+      causative: 'Causativo',
+    },
   },
   pwa: {
     install: {
@@ -7807,6 +7880,11 @@ export const strings = {
       addDuplicateName: 'Ya existe un deck con este nombre.',
       addLimitReached: 'Los usuarios gratuitos pueden tener un deck de DeckMarket. Elimina tu deck actual o actualiza a Premium.',
       goToFlashcards: 'Ir a Tarjetas',
+      share: 'Compartir',
+      linkCopied: 'Enlace copiado',
+      audioIncludedBadge: 'Audio JP nativo',
+      audioIncludedDescription: 'Incluye audio japonés nativo (palabra + frase)',
+      audioIncludedDownload: 'El deck Anki incluye audio japonés nativo para palabras y frases de ejemplo.',
     },
     preview: {
       title: 'Vista previa',

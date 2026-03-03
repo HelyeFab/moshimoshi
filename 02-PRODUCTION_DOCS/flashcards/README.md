@@ -1,7 +1,7 @@
 # Flashcards
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-02-04
+**Last Updated:** 2026-02-27
 
 ## Overview
 Flashcards is a local-first SRS feature with two deck types: user-created decks and Anki imports. User decks use FSRS, Anki decks use SM-2, and media is hydrated at render time from IndexedDB. Premium users can sync user decks via Firebase and back up both deck types to R2. Premium users also get cross-device resume for active study sessions.
@@ -48,8 +48,25 @@ Flashcards is a local-first SRS feature with two deck types: user-created decks 
 - Vercel cron calls `/api/anki/r2/cleanup-retry` every **4 hours** (`0 */4 * * *`) using the existing `CRON_SECRET`.
 
 ## Documentation
+- [CHANGELOG.md](./CHANGELOG.md) - Chronological summary of production changes
 - [FLASHCARDS_ONBOARDING.md](./FLASHCARDS_ONBOARDING.md) - Condensed resident owner guide
+- [FLASHCARDS_IMPLEMENTATION_NOTE_2026-02-25_PREVIEW_STUDY_AUDIO_WARMUP.md](./FLASHCARDS_IMPLEMENTATION_NOTE_2026-02-25_PREVIEW_STUDY_AUDIO_WARMUP.md) - Full implementation note for Preview/Study modes, local audio warmup, quota UX, and related reliability changes
 - [DECK_CREATION_QUOTA_UX_AND_POLICY_NOTE_2026-02-22.md](./DECK_CREATION_QUOTA_UX_AND_POLICY_NOTE_2026-02-22.md) - Incident summary, UX copy fix, and future policy options for deck creation quotas
+- [DECKMARKET_SEO.md](./DECKMARKET_SEO.md) - DeckMarket SEO setup, architecture decisions, and checklist for creating new decks
+
+### 2026-02-27 Addendum (Preview/Study Reliability + Mastery Loop)
+- Study mode now persists learner signals for follow-up practice:
+  - `I didn't know` -> weak cards + mistake replay + follow-up drill queue
+  - `Hard` -> weak cards + follow-up drill queue
+  - `I knew it` -> no follow-up queue
+- Preview mode remains non-persistent (no SRS, no weak/mistake writes).
+- Study mode now auto-chains follow-up drill rounds until queued weak cards are cleared.
+- Large all-new decks in Study mode now rotate across sessions (not always the same first 20 cards).
+- Fixed >100% accuracy display in Study mode by making responses idempotent per card position.
+- Added localized follow-up drill banner (`flashcards.studyFollowUp.*`) in all 6 locales.
+- Session completion handling is scoped:
+  - Study mode uses follow-up-safe completion path.
+  - Other modes keep normal completion behavior.
 
 ## Key Files
 - `src/app/[locale]/flashcards/FlashcardsContent.tsx` - Main flashcards page

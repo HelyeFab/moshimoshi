@@ -220,6 +220,12 @@ export const DELETE = withAdminAuth(async (_request: NextRequest, context: Admin
         }
         r2Keys.push(data.apkgR2Key)
       }
+      if (data?.csvR2Key) {
+        if (!isValidDeckKey(data.csvR2Key, prefix)) {
+          throw new Error('Invalid R2 key')
+        }
+        r2Keys.push(data.csvR2Key)
+      }
     })
 
     const coverR2Key = deckDoc.data()?.coverR2Key

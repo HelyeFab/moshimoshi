@@ -36,6 +36,8 @@ export interface ProcessedCard {
   // Rich content fields extracted from Anki
   reading?: string;
   audioFilename?: string;
+  frontAudioFilename?: string;
+  backAudioFilename?: string;
   imageFilename?: string;
   expression?: string;
   meaning?: string;
@@ -193,12 +195,6 @@ export class AnkiParser {
           });
         }
 
-        // Extract media from rendered template + fields
-        const mediaSource = `${allFieldsRaw} ${rawFront} ${rawBack}`;
-        const media = this.extractMediaReferences(mediaSource);
-        const audioFilename = this.extractAudioFilename(mediaSource);
-        const imageFilename = this.extractImageFilename(mediaSource);
-
         // Strip {{FrontSide}} from back if present (content before <hr id=answer>)
         let processedBack = rawBack;
         const answerSeparator = /<hr\s+id=answer>/i;
@@ -209,6 +205,14 @@ export class AnkiParser {
             processedBack = parts.slice(1).join('<hr id=answer>');
           }
         }
+
+        // Extract media references and side-specific audio.
+        const mediaSource = `${allFieldsRaw} ${rawFront} ${processedBack}`;
+        const media = this.extractMediaReferences(mediaSource);
+        const frontAudioFilename = this.extractAudioFilename(rawFront);
+        const backAudioFilename = this.extractAudioFilename(processedBack);
+        const audioFilename = frontAudioFilename || backAudioFilename || this.extractAudioFilename(mediaSource);
+        const imageFilename = this.extractImageFilename(mediaSource);
 
         // Convert bracket notation furigana to ruby tags BEFORE extraction
         // This allows Anki decks using kanji[reading] format to display properly
@@ -244,6 +248,8 @@ export class AnkiParser {
             cleanedFrontPreview: cleanedFront.substring(0, 150),
             cleanedBackPreview: cleanedBack.substring(0, 300),
             audioFilename,
+            frontAudioFilename,
+            backAudioFilename,
             imageFilename,
           });
         }
@@ -262,6 +268,8 @@ export class AnkiParser {
           // Rich content
           reading: extracted.reading ? this.cleanHtml(extracted.reading) : undefined,
           audioFilename,
+          frontAudioFilename,
+          backAudioFilename,
           imageFilename,
           expression: extracted.expression ? this.cleanHtml(extracted.expression) : undefined,
           meaning: extracted.meaning ? this.cleanHtml(extracted.meaning) : undefined,
@@ -677,7 +685,7 @@ export class AnkiParser {
   }
 
   private static async initSQL() {
-    // @ts-ignore - sql.js doesn't have type declarations
+    // @ts-expect-error - sql.js doesn't expose complete runtime types for default export in this env
     const initSqlJs = (await import('sql.js')).default;
     return await initSqlJs({
       locateFile: (file: string) => {

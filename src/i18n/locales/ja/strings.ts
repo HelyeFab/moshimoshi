@@ -2034,6 +2034,42 @@ export const strings = {
     loadingQuestions: '問題を読み込み中...',
     of: 'の',
     unlimited: '無制限のドリルが利用可能',
+
+    // Focus mode
+    focusMode: '単語フォーカス',
+    focusDescription: '動詞や形容詞を入力して、すべての活用形を練習',
+    focusPlaceholder: '例: 食べる、高い、drink...',
+    focusEnterWord: '練習する単語を入力してください',
+    focusNoResults: '活用可能な単語が見つかりません。別の動詞や形容詞をお試しください。',
+    focusTip: '日本語または英語で検索できます。結果から単語を選択してください。',
+    focusNotConjugatable: 'この単語は活用できません。動詞または形容詞を入力してください。',
+
+    // Settings drawer
+    settingsDescription: '練習セッションをカスタマイズ',
+    questionsLabel: '問題',
+    questionsRange: '{{min}}〜{{max}} 利用可能',
+    questionsShort: '{{count}} 問',
+    verbsAndAdjectives: '動詞＆形容詞',
+    actionWords: '動作を表す言葉',
+    descriptiveWords: '様子を表す言葉',
+    jlptLevel: 'JLPTレベル',
+    selectOneOrMore: '1つ以上選択',
+    conjugationForms: '活用形',
+    allFormsEnabled: '全ての活用形',
+    formsSelected: '{{count}}つの活用形を選択中',
+    allForms: '全ての活用形',
+    formsCount: '{{count}}つの活用形',
+    autoAdvanceDescription: '自動的に次の問題へ進む',
+    manualAdvance: '手動',
+    done: '完了',
+    formPresets: {
+      basic: '基本形',
+      polite: '丁寧形',
+      teForm: 'て形',
+      potential: '可能形',
+      passive: '受身形',
+      causative: '使役形',
+    },
   },
   news: {
     title: '日本語ニュース',
@@ -4380,6 +4416,13 @@ export const strings = {
     description: 'フラッシュカードを練習する',
     pageTitle: 'フラッシュカードデッキ',
     pageDescription: 'カスタムフラッシュカードデッキを作成して学習',
+
+    // Page menu
+    menu: {
+      title: 'メニュー',
+      subtitle: 'フラッシュカードを管理',
+    },
+
     noDecksYet: 'まだデッキがありません',
     noDecksDescription: '最初のフラッシュカードデッキを作成して学習の旅を始めましょう',
     createFirstDeck: '最初のデッキを作成',
@@ -4408,6 +4451,14 @@ export const strings = {
     write: '書き取り練習',
     voice: '音声練習',
     modes: {
+      preview: {
+        name: 'プレビュー',
+        description: '自分をテストする前にカードを自由に確認します',
+      },
+      study: {
+        name: '学習',
+        description: 'SRSを更新せずにやさしく自己確認できるガイド付き練習',
+      },
       due: {
         name: '復習予定のカード',
         description: '今日予定されているカードを復習',
@@ -4451,6 +4502,7 @@ export const strings = {
     startStudying: '学習を開始',
     resumeStudying: '学習を再開',
     reviewWeakCards: '苦手カードを復習',
+    recommendedForNewDeck: '新しいデッキにおすすめ',
     flipCard: 'カードを裏返す',
     showAnswer: '答えを表示',
     nextCard: '次のカード',
@@ -4475,6 +4527,27 @@ export const strings = {
       message: '別のデバイスでより新しいフラッシュカードセッションが見つかりました。ここで再開しますか？',
       confirm: '再開',
       cancel: 'ローカルを維持',
+    },
+    previewComplete: {
+      title: 'プレビュー完了',
+      message: '{{deckName}} のプレビューが完了しました。次に復習セッションを始めますか？',
+      startReview: '復習を開始',
+      backToDecks: 'デッキ一覧へ戻る',
+    },
+    audioWarmup: {
+      title: '音声を準備中',
+      message: 'Doshi がこの端末で日本語音声を事前生成して、再生をスムーズにしています。',
+      progress: '音声準備 {{current}}/{{total}}',
+    },
+    shuffleStatus: {
+      title: '残りカードをシャッフル中',
+      message: 'このセッションの残りカードの順番を並べ替えています。',
+      doneTitle: 'カードをシャッフルしました',
+      doneMessage: '残りカードの順番をシャッフルしました。',
+    },
+    studyFollowUp: {
+      title: 'ドリルラウンド {{round}}',
+      cardsLeft: 'クリアまで残り {{count}} 枚',
     },
     progress: '進捗',
     cardsStudied: '学習済みカード',
@@ -7776,6 +7849,11 @@ export const strings = {
       addDuplicateName: 'この名前のデッキはすでに存在します。',
       addLimitReached: '無料ユーザーはDeckMarketのデッキを1つまで追加できます。現在のデッキを削除するか、プレミアムにアップグレードしてください。',
       goToFlashcards: 'フラッシュカードへ',
+      share: '共有',
+      linkCopied: 'リンクをコピーしました',
+      audioIncludedBadge: 'ネイティブ音声付き',
+      audioIncludedDescription: '単語と例文のネイティブ日本語音声を収録',
+      audioIncludedDownload: 'Ankiデッキには単語と例文のネイティブ日本語音声が含まれています。',
     },
     preview: {
       title: 'カードプレビュー',

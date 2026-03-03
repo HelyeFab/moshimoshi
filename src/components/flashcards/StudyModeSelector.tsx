@@ -15,7 +15,18 @@ import Dropdown from '@/components/ui/Dropdown';
 import { mistakeReplayStore } from '@/lib/flashcards/mistakeReplay';
 import Checkbox from '@/components/ui/Checkbox';
 
-export type StudyModeType = 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom' | 'mistake_replay' | 'audio';
+export type StudyModeType = 'preview' | 'study' | 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom' | 'mistake_replay' | 'audio';
+
+type StudyRotationState = {
+  deckId: string;
+  userId: string;
+  updatedAt: number;
+  cardCount: number;
+  cardIds: string[];
+  cursor: number;
+};
+
+const STUDY_ROTATION_KEY_PREFIX = 'flashcards_study_rotation_v1';
 
 const shuffleArray = <T,>(items: T[]): T[] => {
   const copy = [...items];
@@ -54,6 +65,101 @@ const seededShuffle = <T,>(items: T[], seed: number): T[] => {
   return copy;
 };
 
+const getStudyRotationKey = (userId: string, deckId: string): string =>
+  `${STUDY_ROTATION_KEY_PREFIX}:${userId}:${deckId}`;
+
+const loadStudyRotationState = (userId: string, deckId: string): StudyRotationState | null => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = localStorage.getItem(getStudyRotationKey(userId, deckId));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StudyRotationState;
+    if (!parsed || typeof parsed !== 'object') return null;
+    if (parsed.deckId !== deckId || parsed.userId !== userId) return null;
+    if (!Array.isArray(parsed.cardIds)) return null;
+    if (typeof parsed.cursor !== 'number') return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const saveStudyRotationState = (state: StudyRotationState) => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(getStudyRotationKey(state.userId, state.deckId), JSON.stringify(state));
+  } catch {
+    // no-op: localStorage can fail in private modes/quota edge cases
+  }
+};
+
+const getRotatingStudyNewCards = (
+  userId: string,
+  deck: FlashcardDeck,
+  allNewCards: FlashcardContent[],
+  sessionSize: number
+): FlashcardContent[] => {
+  const cappedSessionSize = Math.max(0, Math.min(sessionSize, allNewCards.length));
+  if (cappedSessionSize === 0) return [];
+
+  const allIds = allNewCards.map(card => card.id);
+  const validIdSet = new Set(allIds);
+  const cardMap = new Map(allNewCards.map(card => [card.id, card]));
+  let state = loadStudyRotationState(userId, deck.id);
+
+  const needsReset =
+    !state ||
+    state.updatedAt !== deck.updatedAt ||
+    state.cardCount !== allNewCards.length ||
+    state.cardIds.length !== allNewCards.length ||
+    state.cardIds.some(id => !validIdSet.has(id));
+
+  if (needsReset) {
+    state = {
+      deckId: deck.id,
+      userId,
+      updatedAt: deck.updatedAt,
+      cardCount: allNewCards.length,
+      cardIds: shuffleArray(allIds),
+      cursor: 0,
+    };
+  }
+
+  const selectedIds: string[] = [];
+  const selectedSet = new Set<string>();
+  // state is guaranteed non-null here: needsReset is true when state is null,
+  // and the if-block above always reassigns it in that case.
+  let cursor = state!.cursor;
+  let order = state!.cardIds;
+
+  while (selectedIds.length < cappedSessionSize) {
+    if (cursor >= order.length) {
+      order = shuffleArray([...allIds]);
+      cursor = 0;
+    }
+
+    const nextId = order[cursor];
+    cursor += 1;
+    if (!nextId || selectedSet.has(nextId)) continue;
+    selectedSet.add(nextId);
+    selectedIds.push(nextId);
+  }
+
+  saveStudyRotationState({
+    deckId: deck.id,
+    userId,
+    updatedAt: deck.updatedAt,
+    cardCount: allNewCards.length,
+    cardIds: order,
+    cursor,
+  });
+
+  return selectedIds
+    .map(id => cardMap.get(id))
+    .filter(Boolean) as FlashcardContent[];
+};
+
 interface StudyMode {
   id: StudyModeType;
   name: string;
@@ -73,7 +179,8 @@ interface StudyModeSelectorProps {
 
 export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: StudyModeSelectorProps) {
   const { t } = useI18n();
-  const [selectedMode, setSelectedMode] = useState<StudyModeType | null>(null);
+  const isNewDeck = (deck.stats?.totalStudied ?? 0) === 0;
+  const [selectedMode, setSelectedMode] = useState<StudyModeType | null>(isNewDeck ? 'preview' : null);
   const maxCards = deck.cards.length;
   const sessionSeedRef = useRef<number>(hashString(`${deck.id}-${Date.now()}`));
   const [selectedMistakeSessionId, setSelectedMistakeSessionId] = useState<string | 'all'>('all');
@@ -85,6 +192,12 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
     sortBy: 'priority' as 'priority' | 'random' | 'oldest'
   });
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    if (isNewDeck) {
+      setSelectedMode(prev => prev ?? 'preview');
+    }
+  }, [isNewDeck, deck.id]);
 
   // Modes that require sub-configuration before starting
   const modesWithConfig: StudyModeType[] = ['custom', 'mistake_replay'];
@@ -177,6 +290,24 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
 
   const modes: StudyMode[] = [
     {
+      id: 'preview',
+      name: t('flashcards.modes.preview.name'),
+      description: t('flashcards.modes.preview.description'),
+      icon: <BookOpen className="w-4 h-4" />,
+      color: 'from-slate-500 to-slate-700',
+      cardCount: deck.cards.length,
+      estimatedTime: Math.ceil((deck.cards.length * 2) / 60)
+    },
+    {
+      id: 'study',
+      name: t('flashcards.modes.study.name'),
+      description: t('flashcards.modes.study.description'),
+      icon: <Brain className="w-4 h-4" />,
+      color: 'from-teal-500 to-cyan-600',
+      cardCount: Math.max(mixedDueCards.length, newCards.length, Math.min(deck.cards.length, 20)),
+      estimatedTime: Math.ceil((Math.max(mixedDueCards.length, newCards.length, Math.min(deck.cards.length, 20)) * 3) / 60)
+    },
+    {
       id: 'due',
       name: t('flashcards.modes.due.name'),
       description: t('flashcards.modes.due.description'),
@@ -264,6 +395,17 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
     const sessionSeed = sessionSeedRef.current;
 
     switch (mode) {
+      case 'preview':
+        cards = [...deck.cards];
+        break;
+      case 'study':
+        // For large all-new decks, rotate cards across sessions without replacement.
+        if (allReviewCards.length === 0 && allNewCards.length > newCards.length && newCards.length > 0) {
+          cards = getRotatingStudyNewCards(userId, deck, allNewCards, newCards.length);
+        } else {
+          cards = mixedDueCards.length > 0 ? [...mixedDueCards] : [...deck.cards];
+        }
+        break;
       case 'due':
         // Mixed due cards = review + new (already limited by daily settings)
         cards = [...mixedDueCards];
@@ -455,6 +597,11 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
                     <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100">
                       {mode.name}
                     </h3>
+                    {isNewDeck && mode.id === 'preview' && (
+                      <span className="inline-flex items-center rounded-full bg-primary-100 dark:bg-primary-900/30 px-2 py-0.5 text-[10px] font-semibold text-primary-700 dark:text-primary-300">
+                        {t('flashcards.recommendedForNewDeck')}
+                      </span>
+                    )}
                   </div>
 
                   {/* Row 2: Description */}

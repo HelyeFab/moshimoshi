@@ -1,7 +1,7 @@
 # Scheduled Story Generation - Technical Onboarding Guide
 
-> **Document Version:** 1.3.0
-> **Last Updated:** 2026-01-25
+> **Document Version:** 1.4.0
+> **Last Updated:** 2026-02-27
 > **Author:** Technical Lead
 > **Status:** Production System (Verified)
 
@@ -24,6 +24,10 @@
 6. [Firestore Collections](#6-firestore-collections)
 7. [Modal Services](#7-modal-services)
 8. [Scheduler Configuration](#8-scheduler-configuration)
+   - 8.1 Schedule
+   - 8.2 Resource Allocation
+   - 8.3 Theme Selection
+   - 8.4 Automation Control (Feature Flag)
 9. [Error Handling & Recovery](#9-error-handling--recovery)
 10. [Known Issues & Fixes](#10-known-issues--fixes)
     - 10.1 Audio Endpoint Overwrites Pages (FIXED & VERIFIED 2026-01-25)
@@ -31,6 +35,11 @@
     - 10.3 Impact Analysis: Word Prefetch System
 11. [Debugging Guide](#11-debugging-guide)
 12. [Common Operations](#12-common-operations)
+   - 12.1 Manually Trigger Story Generation
+   - 12.2 Repair a Failed Draft
+   - 12.3 Force Retry Pending Drafts
+   - 12.4 Delete a Failed Draft
+   - 12.5 Pause/Resume Scheduled Story Automation
 13. [Related Systems](#13-related-systems)
     - 13.1 Word Prefetch Integration
     - 13.2 EnhancedArticleReaderFinal
@@ -579,7 +588,25 @@ function getCurrentSeason() {
 
 Themes are tracked via `story_generation_logs` collection. The system queries the last 20 generations to avoid repetition, ensuring users see fresh content each week.
 
-### 8.4 JLPT Level Distribution
+### 8.4 Automation Control (Feature Flag)
+
+Scheduled story automation is controlled by:
+
+- Firestore doc: `config/featureFlags`
+- Flag: `STORY_AUTOMATION`
+
+Enforcement points:
+
+- `scheduledStoryGeneratorFunction` checks the flag before starting.
+- `dailyStoryRetryScheduler` checks the flag before starting.
+- `manualStoryGeneratorFunction` is not blocked by this flag.
+
+Implementation files:
+
+- `functions/src/utils/automationFlags.ts`
+- `functions/src/scheduled/storyScheduler.ts`
+
+### 8.5 JLPT Level Distribution
 
 ```typescript
 const JLPT_LEVELS = ['N5', 'N5', 'N5', 'N4', 'N4', 'N3', 'N2', 'N1']
@@ -947,6 +974,24 @@ await storage.bucket().deleteFiles({
   prefix: `ai-stories/${draftId}/`,
 });
 ```
+
+### 12.5 Pause/Resume Scheduled Story Automation
+
+```javascript
+// Pause scheduled story automation (weekly generation + daily retry)
+await db.collection('config').doc('featureFlags').set(
+  { STORY_AUTOMATION: false },
+  { merge: true }
+);
+
+// Resume scheduled story automation
+await db.collection('config').doc('featureFlags').set(
+  { STORY_AUTOMATION: true },
+  { merge: true }
+);
+```
+
+You can also toggle this in Admin Dashboard at `/admin/feature-flags`.
 
 ---
 

@@ -212,6 +212,21 @@ Daily snapshots are stored in IndexedDB and optionally synced (premium):
 - **Random:** seeded shuffle, stable **within the modal**, reshuffled when “Start Studying” is pressed.
 - **Oldest First:** falls back to `createdAt` → `modifiedAt` → `lastReviewed`; unknown timestamps go last.
 
+### Study Mode Mastery Loop (Updated 2026-02-27)
+- Study mode remains **non-SRS** (no schedule mutation), but now persists practice signals:
+  - `again` -> weak cards + mistake replay + follow-up queue
+  - `hard` -> weak cards + follow-up queue
+  - `good` -> no follow-up queue
+- After Study completion, app auto-starts chained Study rounds when follow-up queue is non-empty.
+- Follow-up rounds are surfaced with localized banner keys:
+  - `flashcards.studyFollowUp.title`
+  - `flashcards.studyFollowUp.cardsLeft`
+- Large all-new decks now rotate Study card sets across sessions using local rotation state:
+  - key prefix: `flashcards_study_rotation_v1:`
+- Session-completion handling is intentionally scoped:
+  - Study mode uses follow-up-safe completion path
+  - Other modes use normal completion flow
+
 
 ### Sync & Restore (Premium)
 - **User decks**:

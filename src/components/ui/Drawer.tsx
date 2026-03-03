@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import DoshiMascot from './DoshiMascot';
 
@@ -30,6 +30,30 @@ export default function Drawer({
   const startX = useRef(0);
   const currentY = useRef(0);
   const currentX = useRef(0);
+
+  // Animation state: keep mounted during close animation
+  const [shouldRender, setShouldRender] = useState(isOpen);
+  const [animateIn, setAnimateIn] = useState(false);
+
+  // Mount/unmount lifecycle
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+    } else {
+      setAnimateIn(false);
+      const timer = setTimeout(() => setShouldRender(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  // Trigger slide-in after mount — separate effect ensures the browser
+  // has painted the off-screen position before we transition
+  useEffect(() => {
+    if (shouldRender && isOpen) {
+      const timer = setTimeout(() => setAnimateIn(true), 20);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldRender, isOpen]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -126,28 +150,30 @@ export default function Drawer({
   const getPositionClasses = () => {
     const positions = {
       left: `left-0 top-0 h-full ${getSizeClasses()} ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
+        animateIn ? 'translate-x-0' : '-translate-x-full'
       }`,
       right: `right-0 top-0 h-full ${getSizeClasses()} ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+        animateIn ? 'translate-x-0' : 'translate-x-full'
       }`,
       top: `top-0 left-0 w-full ${getSizeClasses()} ${
-        isOpen ? 'translate-y-0' : '-translate-y-full'
+        animateIn ? 'translate-y-0' : '-translate-y-full'
       }`,
       bottom: `bottom-0 left-0 w-full ${getSizeClasses()} ${
-        isOpen ? 'translate-y-0' : 'translate-y-full'
+        animateIn ? 'translate-y-0' : 'translate-y-full'
       }`,
     };
     return positions[position];
   };
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   const drawerContent = (
     <div className="fixed inset-0 z-50 pointer-events-auto">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-100"
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-1000 ${
+          animateIn ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -160,7 +186,7 @@ export default function Drawer({
         aria-labelledby={title ? 'drawer-title' : undefined}
         className={`
           fixed bg-white dark:bg-gray-800 shadow-xl
-          transition-transform duration-300 ease-in-out
+          transition-transform duration-1000 ease-in-out
           ${getPositionClasses()}
           ${position === 'bottom' || position === 'top' ? 'flex flex-col' : ''}
           ${className}

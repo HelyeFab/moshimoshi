@@ -188,6 +188,24 @@
       }
     },
     {
+      "id": "drill_focus_mode",
+      "name": "Drill Focus Mode",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": true,
+      "description": "Practice conjugations for a single user-selected focus word",
+      "metadata": {
+        "contentType": "grammar",
+        "difficulty": "intermediate",
+        "estimatedDuration": "5-10 minutes",
+        "producesReviewable": true,
+        "countsForStreak": true,
+        "givesXp": true
+      }
+    },
+    {
       "id": "grammar_explanations",
       "name": "Grammar Explanations",
       "category": "learning",
@@ -622,6 +640,7 @@
         "drawing_practice": 0,
         "kanji_drawing_practice": 0,
         "conjugation_drill": 0,
+        "drill_focus_mode": 5,
         "grammar_explanations": 0,
         "youtube_shadowing": 0,
         "media_upload": 0,
@@ -671,6 +690,7 @@
         "drawing_practice": 3,
         "kanji_drawing_practice": 2,
         "conjugation_drill": 3,
+        "drill_focus_mode": 5,
         "grammar_explanations": 3,
         "youtube_shadowing": 1,
         "media_upload": 2,
@@ -720,6 +740,7 @@
         "drawing_practice": -1,
         "kanji_drawing_practice": -1,
         "conjugation_drill": -1,
+        "drill_focus_mode": -1,
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,
@@ -769,6 +790,7 @@
         "drawing_practice": -1,
         "kanji_drawing_practice": -1,
         "conjugation_drill": -1,
+        "drill_focus_mode": -1,
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,

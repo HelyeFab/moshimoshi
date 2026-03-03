@@ -120,7 +120,7 @@ export interface DrillSession extends Versioned {
   updatedAt: ISODateTimeString; // From Versioned
 }
 
-export type DrillMode = 'random' | 'lists' | 'srs';  // 'review' → 'srs' for clarity
+export type DrillMode = 'random' | 'lists' | 'srs' | 'focus';  // 'review' → 'srs' for clarity
 export type WordTypeFilter = 'all' | 'verbs' | 'adjectives';
 
 // Drill Results
@@ -142,6 +142,16 @@ export interface DrillSettings {
   selectedLists?: string[];
   jlptLevels?: JLPTLevel[]; // NEW: Filter by JLPT levels (N5, N4, N3, N2, N1)
   conjugationForms?: string[]; // NEW: Filter specific conjugation forms
+}
+
+export interface FocusWordSelection {
+  id: string;
+  kanji?: string;
+  kana: string;
+  meaning: string;
+  type: Extract<WordType, 'Ichidan' | 'Godan' | 'Irregular' | 'i-adjective' | 'na-adjective'>;
+  jlpt?: JLPTLevel;
+  partsOfSpeech?: string[];
 }
 
 // Word List for drill selection

@@ -48,6 +48,7 @@ const translationPreGenerator_1 = require("../utils/translationPreGenerator");
 const wordExplanationPreGenerator_1 = require("../utils/wordExplanationPreGenerator");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
 const alertNotifier_1 = require("../utils/alertNotifier");
+const automationFlags_1 = require("../utils/automationFlags");
 // Define secrets needed for TTS audio generation, AI processing, and NHK API
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY'); // For VOICEVOX TTS and NHK API
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -892,6 +893,13 @@ exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
+    const automationEnabled = await (0, automationFlags_1.isAutomationEnabled)('NEWS_AUTOMATION', true);
+    if (!automationEnabled) {
+        logger.info('[NewsScheduler] NEWS_AUTOMATION is disabled - skipping scheduled run', {
+            scheduleTime: event.scheduleTime,
+        });
+        return;
+    }
     await scheduledNewsScraper();
 });
 exports.manualNewsScraperFunction = (0, https_1.onCall)({

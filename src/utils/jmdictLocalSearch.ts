@@ -393,6 +393,7 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     ...(entry.kanji?.flatMap(k => k.tags || []) || []),
     ...(entry.kana?.flatMap(k => k.tags || []) || [])
   ]
+  const partsOfSpeech = entry.sense?.flatMap(s => s.partOfSpeech || []) || []
 
   return {
     id: `jmdict-${entry.id}`,
@@ -402,7 +403,8 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     meaning: meanings.join(', '),
     type: wordType,
     jlpt: 'N5' as JLPTLevel, // Would need separate mapping
-    tags: tags
+    tags: tags,
+    partsOfSpeech
   }
 }
 

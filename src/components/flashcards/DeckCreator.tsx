@@ -409,27 +409,81 @@ export function DeckCreator({
     const reader = new FileReader()
     reader.onload = e => {
       const text = e.target?.result as string
-      const lines = text.split('\n')
-      const importedCards: typeof cards = []
+      const parseCsvRows = (csvText: string): string[][] => {
+        const rows: string[][] = []
+        let row: string[] = []
+        let field = ''
+        let inQuotes = false
 
-      // Skip header if present
-      const startIndex = lines[0].toLowerCase().includes('front') ? 1 : 0
+        for (let i = 0; i < csvText.length; i++) {
+          const char = csvText[i]
+          const next = csvText[i + 1]
 
-      for (let i = startIndex; i < lines.length; i++) {
-        if (!lines[i].trim()) continue
+          if (inQuotes) {
+            if (char === '"' && next === '"') {
+              field += '"'
+              i += 1
+            } else if (char === '"') {
+              inQuotes = false
+            } else {
+              field += char
+            }
+            continue
+          }
 
-        const values = lines[i].match(/(".*?"|[^,]+)/g) || []
-        const cleanValues = values.map(value =>
-          value.replace(/^"|"$/g, '').replace(/""/g, '"').trim()
-        )
+          if (char === '"') {
+            inQuotes = true
+            continue
+          }
 
-        if (cleanValues.length >= 2) {
-          importedCards.push({
-            front: cleanValues[0],
-            back: cleanValues[1],
-            notes: cleanValues[2] || '',
-          })
+          if (char === ',') {
+            row.push(field)
+            field = ''
+            continue
+          }
+
+          if (char === '\n') {
+            row.push(field)
+            rows.push(row)
+            row = []
+            field = ''
+            continue
+          }
+
+          if (char === '\r') continue
+          field += char
         }
+
+        row.push(field)
+        if (row.some(value => value.trim().length > 0)) {
+          rows.push(row)
+        }
+
+        return rows
+      }
+
+      const rows = parseCsvRows(text)
+      const importedCards: typeof cards = []
+      if (rows.length === 0) return
+
+      const header = rows[0].map(value => value.trim().toLowerCase())
+      const hasHeader = header.includes('front') && header.includes('back')
+      const frontIndex = hasHeader ? header.indexOf('front') : 0
+      const backIndex = hasHeader ? header.indexOf('back') : 1
+      const notesIndex = hasHeader ? header.indexOf('notes') : 2
+      const startIndex = hasHeader ? 1 : 0
+
+      for (let i = startIndex; i < rows.length; i++) {
+        const row = rows[i] || []
+        const front = (row[frontIndex] || '').trim()
+        const back = (row[backIndex] || '').trim()
+        if (!front && !back) continue
+
+        importedCards.push({
+          front,
+          back,
+          notes: notesIndex >= 0 ? row[notesIndex] || '' : '',
+        })
       }
 
       setCards(importedCards)

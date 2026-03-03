@@ -1917,6 +1917,42 @@ export const strings = {
     unlimited: 'Unlimited drills available',
     loadingQuestions: 'Loading questions...',
     of: 'of',
+
+    // Focus mode
+    focusMode: 'Focus Word',
+    focusDescription: 'Enter a verb or adjective to practice all its conjugation forms',
+    focusPlaceholder: 'e.g. 食べる, 高い, drink...',
+    focusEnterWord: 'Please enter a word to practice',
+    focusNoResults: 'No conjugatable words found. Try a different verb or adjective.',
+    focusTip: 'Search in Japanese or English. Select a word from the results to begin.',
+    focusNotConjugatable: 'This word cannot be conjugated. Please enter a verb or adjective.',
+
+    // Settings drawer
+    settingsDescription: 'Customize your practice session',
+    questionsLabel: 'questions',
+    questionsRange: '{{min}}–{{max}} available',
+    questionsShort: '{{count}} Qs',
+    verbsAndAdjectives: 'Verbs & Adjectives',
+    actionWords: 'Action words',
+    descriptiveWords: 'Descriptive words',
+    jlptLevel: 'JLPT Level',
+    selectOneOrMore: 'Select one or more',
+    conjugationForms: 'Conjugation Forms',
+    allFormsEnabled: 'All forms enabled',
+    formsSelected: '{{count}} form(s) selected',
+    allForms: 'All Forms',
+    formsCount: '{{count}} forms',
+    autoAdvanceDescription: 'Automatically move to next question',
+    manualAdvance: 'Manual',
+    done: 'Done',
+    formPresets: {
+      basic: 'Basic',
+      polite: 'Polite',
+      teForm: 'Te-Form',
+      potential: 'Potential',
+      passive: 'Passive',
+      causative: 'Causative',
+    },
   },
 
   // News Feature
@@ -4616,6 +4652,12 @@ export const strings = {
     pageTitle: 'Flashcard Decks',
     pageDescription: 'Create and study custom flashcard decks',
 
+    // Page menu
+    menu: {
+      title: 'Menu',
+      subtitle: 'Manage your flashcards',
+    },
+
     // Empty state
     noDecksYet: 'No decks yet',
     noDecksDescription:
@@ -4666,6 +4708,14 @@ export const strings = {
 
     // Study mode details
     modes: {
+      preview: {
+        name: 'Preview',
+        description: 'Browse cards freely before you start testing yourself',
+      },
+      study: {
+        name: 'Study',
+        description: 'Guided practice with gentle self-checks and no SRS updates',
+      },
       due: {
         name: 'Due Cards',
         description: 'Review cards that are scheduled for today',
@@ -4711,6 +4761,7 @@ export const strings = {
     startStudying: 'Start Studying',
     resumeStudying: 'Resume Study',
     reviewWeakCards: 'Review Weak Cards',
+    recommendedForNewDeck: 'Recommended for new decks',
     flipCard: 'Flip Card',
     showingFrontSide: 'Showing front side of card',
     showingBackSide: 'Showing back side of card',
@@ -4739,6 +4790,27 @@ export const strings = {
       message: 'We found a newer flashcard session from another device. Do you want to resume it here?',
       confirm: 'Resume',
       cancel: 'Keep local',
+    },
+    previewComplete: {
+      title: 'Preview complete',
+      message: 'You finished previewing {{deckName}}. Start a review session next?',
+      startReview: 'Start Review',
+      backToDecks: 'Back to Decks',
+    },
+    audioWarmup: {
+      title: 'Preparing audio',
+      message: 'Doshi is pre-generating Japanese audio on this device for smoother playback.',
+      progress: 'Audio warmup {{current}}/{{total}}',
+    },
+    shuffleStatus: {
+      title: 'Shuffling remaining cards',
+      message: 'Reordering the remaining cards in this session.',
+      doneTitle: 'Cards shuffled',
+      doneMessage: 'The remaining cards were shuffled successfully.',
+    },
+    studyFollowUp: {
+      title: 'Drill round {{round}}',
+      cardsLeft: '{{count}} cards left to clear',
     },
 
     // Progress
@@ -8045,6 +8117,11 @@ export const strings = {
       addDuplicateName: 'A deck with this name already exists.',
       addLimitReached: 'Free users can have one DeckMarket deck. Remove your current deck first, or upgrade to Premium.',
       goToFlashcards: 'Go to Flashcards',
+      share: 'Share',
+      linkCopied: 'Link Copied',
+      audioIncludedBadge: 'Native JP Audio',
+      audioIncludedDescription: 'Includes native Japanese audio (word + sentence)',
+      audioIncludedDownload: 'Anki deck includes native Japanese audio for words and example sentences.',
     },
     preview: {
       title: 'Card Preview',

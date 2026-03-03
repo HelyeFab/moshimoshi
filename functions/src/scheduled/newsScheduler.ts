@@ -11,6 +11,7 @@ import { generateBatchTranslations } from '../utils/translationPreGenerator'
 import { generateBatchWordExplanations } from '../utils/wordExplanationPreGenerator'
 import { preGenerateArticleSentences } from '../utils/sentencePreGenerator'
 import { sendScraperFailureAlert } from '../utils/alertNotifier'
+import { isAutomationEnabled } from '../utils/automationFlags'
 
 // Define secrets needed for TTS audio generation, AI processing, and NHK API
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY') // For VOICEVOX TTS and NHK API
@@ -1046,6 +1047,15 @@ export const scheduledNewsScraperFunction = onSchedule(
       scheduleTime: event.scheduleTime,
       jobName: event.jobName,
     })
+
+    const automationEnabled = await isAutomationEnabled('NEWS_AUTOMATION', true)
+    if (!automationEnabled) {
+      logger.info('[NewsScheduler] NEWS_AUTOMATION is disabled - skipping scheduled run', {
+        scheduleTime: event.scheduleTime,
+      })
+      return
+    }
+
     await scheduledNewsScraper()
   }
 )

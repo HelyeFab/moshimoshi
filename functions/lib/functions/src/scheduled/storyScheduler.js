@@ -62,6 +62,7 @@ const firestore_1 = require("firebase-functions/v2/firestore");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
 const alertNotifier_1 = require("../utils/alertNotifier");
+const automationFlags_1 = require("../utils/automationFlags");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
@@ -1054,6 +1055,13 @@ exports.scheduledStoryGeneratorFunction = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
+    const automationEnabled = await (0, automationFlags_1.isAutomationEnabled)('STORY_AUTOMATION', true);
+    if (!automationEnabled) {
+        logger.info('[StoryScheduler] STORY_AUTOMATION is disabled - skipping scheduled run', {
+            scheduleTime: event.scheduleTime,
+        });
+        return;
+    }
     const adminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025';
     // FIRST: Check for incomplete drafts that need to be resumed
     const incompleteDraft = await findIncompleteDraft();
@@ -1196,6 +1204,13 @@ exports.dailyStoryRetryScheduler = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
+    const automationEnabled = await (0, automationFlags_1.isAutomationEnabled)('STORY_AUTOMATION', true);
+    if (!automationEnabled) {
+        logger.info('[DailyRetry] STORY_AUTOMATION is disabled - skipping retry run', {
+            scheduleTime: event.scheduleTime,
+        });
+        return;
+    }
     const adminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025';
     // Find incomplete drafts
     const incompleteDraft = await findIncompleteDraft();

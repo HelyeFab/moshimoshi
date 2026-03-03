@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle, Pause, Play, Timer } from 'lucide-react';
-import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats, PersistedStudySession } from '@/types/flashcards';
+import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle, Pause, Play, Timer, BookOpen, Shuffle, Loader2 } from 'lucide-react';
+import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats, PersistedStudySession, StudyMode } from '@/types/flashcards';
 import { FlashcardViewer } from './FlashcardViewer';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
@@ -15,14 +15,18 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useBatchMediaHydration } from '@/hooks/useMediaHydration';
 import Dialog from '@/components/ui/Dialog';
+import Alert from '@/components/ui/Alert';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId';
 import { weakCardsStore } from '@/lib/flashcards/weakCards';
 import { mistakeReplayStore } from '@/lib/flashcards/mistakeReplay';
+import { startLocalFlashcardsAudioWarmup } from '@/lib/flashcards/audioWarmup';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
   cards: FlashcardContent[];
-  mode?: 'classic' | 'speed' | 'match';
+  mode?: StudyMode;
+  followUpRound?: number;
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
   onCardUpdated?: (card: FlashcardContent) => void;
@@ -34,12 +38,14 @@ export function StudySession({
   deck,
   cards,
   mode = 'classic',
+  followUpRound = 0,
   onComplete,
   onExit,
   onCardUpdated,
   onDeckUpdated,
   initialState
 }: StudySessionProps) {
+  const SHUFFLE_ICON_MIN_MS = 450;
   const { t } = useI18n();
   const { user } = useAuth();
   const { isPremium } = useSubscription();
@@ -58,6 +64,17 @@ export function StudySession({
   const [responses, setResponses] = useState<Map<string, { correct: boolean; difficulty?: string; responseTime: number }>>(
     () => new Map(initialState?.responses ?? [])
   );
+  const [answeredCardIndexes, setAnsweredCardIndexes] = useState<Set<number>>(() => {
+    const initial = new Set<number>();
+    const resumedResponses = initialState?.responses ?? [];
+    const answeredIds = new Set(resumedResponses.map(([cardId]) => cardId));
+    cards.forEach((card, index) => {
+      if (answeredIds.has(card.id)) {
+        initial.add(index);
+      }
+    });
+    return initial;
+  });
   const [startTime] = useState(() => Date.now() - initialElapsedTime - initialPausedTime);
   const [elapsedTime, setElapsedTime] = useState(initialElapsedTime);
   const [isPaused, setIsPaused] = useState(initialState?.isPaused ?? false);
@@ -71,9 +88,52 @@ export function StudySession({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [sessionFuriganaVisible, setSessionFuriganaVisible] = useState(false);
+  const [showModeHint, setShowModeHint] = useState(true);
+  const [isShuffling, setIsShuffling] = useState(false);
+  const [showShuffleComplete, setShowShuffleComplete] = useState(false);
+  const [audioWarmupProgress, setAudioWarmupProgress] = useState<{
+    phase: 'idle' | 'warming' | 'complete'
+    completed: number
+    total: number
+  }>({ phase: 'idle', completed: 0, total: 0 });
   const cardFlipMapRef = useRef<Map<string, boolean>>(new Map());
+  const shuffleCompleteTimerRef = useRef<number | null>(null);
   const persistTimerRef = useRef<number | null>(null);
   const remotePersistTimerRef = useRef<number | null>(null);
+  const isPreviewMode = mode === 'preview';
+  const isStudyMode = mode === 'study';
+  const isNonSrsMode = isPreviewMode || isStudyMode;
+  const hasNativeDeckAudio = useMemo(
+    () =>
+      sessionCards.some(card => {
+        const metadata = card.metadata || {}
+        const hasMetadataAudio =
+          Boolean(metadata.audioUrl) ||
+          Boolean(metadata.audioFilename) ||
+          Boolean((metadata as { frontAudioUrl?: string }).frontAudioUrl) ||
+          Boolean((metadata as { backAudioUrl?: string }).backAudioUrl) ||
+          Boolean((metadata as { frontAudioFilename?: string }).frontAudioFilename) ||
+          Boolean((metadata as { backAudioFilename?: string }).backAudioFilename)
+
+        if (hasMetadataAudio) return true
+
+        const hasFrontAudio =
+          typeof card.front !== 'string' && card.front?.media?.type === 'audio'
+        const hasBackAudio =
+          typeof card.back !== 'string' && card.back?.media?.type === 'audio'
+        if (hasFrontAudio || hasBackAudio) return true
+
+        const mediaKeys = (card as { media?: string[] }).media
+        if (Array.isArray(mediaKeys) && mediaKeys.some(key => /\.(mp3|m4a|wav|ogg)$/i.test(key))) {
+          return true
+        }
+
+        const frontText = typeof card.front === 'string' ? card.front : card.front?.text || ''
+        const backText = typeof card.back === 'string' ? card.back : card.back?.text || ''
+        return /\[sound:[^\]]+\]/i.test(frontText) || /\[sound:[^\]]+\]/i.test(backText)
+      }),
+    [sessionCards]
+  )
 
   // Track card types
   const [newCardsStudied, setNewCardsStudied] = useState(initialState?.newCardsStudied ?? 0);
@@ -81,9 +141,10 @@ export function StudySession({
   const [reviewCardsStudied, setReviewCardsStudied] = useState(initialState?.reviewCardsStudied ?? 0);
 
   // Cleanup refs for timers
-  const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
-  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRefs = useRef<Set<number | NodeJS.Timeout>>(new Set());
+  const timerIntervalRef = useRef<number | NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
+  const sessionCompletedRef = useRef(false);
   const sessionKey = useMemo(() => {
     if (typeof window === 'undefined') return null;
     const ownerId = deck.userId || user?.uid || 'guest';
@@ -95,9 +156,105 @@ export function StudySession({
     localStorage.removeItem(sessionKey);
   }, [sessionKey]);
 
+  const shuffleRemainingCards = useCallback(() => {
+    if (isShuffling || currentIndex >= sessionCards.length - 1) return;
+
+    const beforeOrder = sessionCards.map((card, index) => ({
+      index,
+      id: card.id,
+      front: typeof card.front === 'string' ? card.front.slice(0, 40) : card.front?.text?.slice(0, 40),
+    }));
+    console.log(
+      '%c[StudySession] Current deck order (before shuffle)',
+      'color: #facc15; font-weight: 700;',
+      beforeOrder
+    );
+
+    const shuffleStartedAt = performance.now();
+    setIsShuffling(true);
+
+    const timeout = window.setTimeout(() => {
+      try {
+        if (isUnmounted.current) return;
+
+        const head = sessionCards.slice(0, currentIndex + 1);
+        const tail = [...sessionCards.slice(currentIndex + 1)];
+        for (let i = tail.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [tail[i], tail[j]] = [tail[j], tail[i]];
+        }
+
+        const nextCards = [...head, ...tail];
+        setSessionCards(nextCards);
+
+        const answeredIds = new Set(responses.keys());
+        const remappedAnsweredIndexes = new Set<number>();
+        nextCards.forEach((card, index) => {
+          if (answeredIds.has(card.id)) {
+            remappedAnsweredIndexes.add(index);
+          }
+        });
+        setAnsweredCardIndexes(remappedAnsweredIndexes);
+
+        const afterOrder = nextCards.map((card, index) => ({
+          index,
+          id: card.id,
+          front: typeof card.front === 'string' ? card.front.slice(0, 40) : card.front?.text?.slice(0, 40),
+        }));
+        console.log(
+          '%c[StudySession] Shuffled deck order (after shuffle)',
+          'color: #60a5fa; font-weight: 700;',
+          afterOrder
+        );
+        if (shuffleCompleteTimerRef.current) {
+          window.clearTimeout(shuffleCompleteTimerRef.current);
+        }
+        setShowShuffleComplete(true);
+        shuffleCompleteTimerRef.current = window.setTimeout(() => {
+          if (!isUnmounted.current) {
+            setShowShuffleComplete(false);
+          }
+          shuffleCompleteTimerRef.current = null;
+        }, 1400);
+      } catch (error) {
+        console.error('[StudySession] Shuffle failed:', error);
+      } finally {
+        const elapsed = performance.now() - shuffleStartedAt;
+        const remaining = Math.max(0, SHUFFLE_ICON_MIN_MS - elapsed);
+        const resetTimeout = window.setTimeout(() => {
+          if (!isUnmounted.current) {
+            setIsShuffling(false);
+          }
+        }, remaining);
+        timeoutRefs.current.add(resetTimeout);
+      }
+    }, 80);
+    timeoutRefs.current.add(timeout);
+  }, [currentIndex, sessionCards, responses, isShuffling, SHUFFLE_ICON_MIN_MS]);
+
   useEffect(() => {
     setSessionFuriganaVisible(false);
   }, [deck.id]);
+
+  useEffect(() => {
+    if (!isNonSrsMode || sessionCards.length === 0) return;
+
+    const cancelWarmup = startLocalFlashcardsAudioWarmup({
+      deckId: deck.id,
+      deckUpdatedAt: deck.updatedAt,
+      cards: sessionCards,
+      enabled: !hasNativeDeckAudio,
+      onProgress: setAudioWarmupProgress,
+    });
+
+    return cancelWarmup;
+  }, [deck.id, deck.updatedAt, sessionCards, isNonSrsMode, hasNativeDeckAudio]);
+
+  useEffect(() => {
+    if (!isNonSrsMode) {
+      setAudioWarmupProgress({ phase: 'idle', completed: 0, total: 0 });
+    }
+  }, [isNonSrsMode]);
 
   const clearRemoteSession = useCallback(async () => {
     if (!isPremium || !deck.id) return;
@@ -150,7 +307,17 @@ export function StudySession({
   }, []);
 
   const handleResponse = useCallback(async (correct: boolean, difficulty?: 'again' | 'hard' | 'good' | 'easy') => {
+    // Prevent duplicate taps from recording multiple answers for the same card.
+    if (answeredCardIndexes.has(currentIndex)) {
+      return;
+    }
+
     const responseTime = Date.now() - cardStartTime;
+    setAnsweredCardIndexes(prev => {
+      const next = new Set(prev);
+      next.add(currentIndex);
+      return next;
+    });
 
     // Track response metrics
     setTotalResponseTime(prev => prev + responseTime);
@@ -197,8 +364,8 @@ export function StudySession({
       setStreakCount(0);
     }
 
-    // Update card with SRS algorithm if user is logged in
-    if (user && difficulty) {
+    // Preview/study modes are exposure/guided practice and should not mutate SRS scheduling.
+    if (!isNonSrsMode && user && difficulty) {
       try {
         const updatedCard = await flashcardManager.updateCardAfterReview(
           deck.id,
@@ -228,13 +395,22 @@ export function StudySession({
           setCurrentIndex(prev => prev + 1);
           setCardStartTime(Date.now());
         }
-      }, 500);
+      }, isNonSrsMode ? 250 : 500);
       timeoutRefs.current.add(timeout);
     } else {
-      // Session complete
-      completeSession();
+      if (isStudyMode) {
+        // Let state updates flush before computing follow-up drill data in Study mode.
+        const timeout = setTimeout(() => {
+          if (!isUnmounted.current) {
+            completeSession();
+          }
+        }, 0);
+        timeoutRefs.current.add(timeout);
+      } else {
+        completeSession();
+      }
     }
-  }, [currentCard, currentIndex, sessionCards.length, cardStartTime, deck.id, user, isPremium, celebrate, onCardUpdated]);
+  }, [answeredCardIndexes, responses, currentCard, currentIndex, sessionCards.length, cardStartTime, deck.id, user, isPremium, celebrate, onCardUpdated, isNonSrsMode, isStudyMode]);
 
   // Timer effect
   useEffect(() => {
@@ -257,23 +433,24 @@ export function StudySession({
 
   // Cleanup on unmount
   useEffect(() => {
+    // In React Strict Mode (dev), cleanup can run during mount simulation.
+    // Always reset this flag on effect init so runtime checks stay accurate.
+    isUnmounted.current = false;
+
     return () => {
       isUnmounted.current = true;
       // Clear all timers
       timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
       timeoutRefs.current.clear();
+      if (shuffleCompleteTimerRef.current) {
+        window.clearTimeout(shuffleCompleteTimerRef.current);
+        shuffleCompleteTimerRef.current = null;
+      }
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
       }
     };
   }, []);
-
-  const handleNext = useCallback(() => {
-    if (currentIndex < sessionCards.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setCardStartTime(Date.now());
-    }
-  }, [currentIndex, sessionCards.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
@@ -355,8 +532,15 @@ export function StudySession({
   }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, handleExit, onDeckUpdated]);
 
   const completeSession = useCallback(async () => {
+    if (sessionCompletedRef.current) {
+      return;
+    }
+    sessionCompletedRef.current = true;
+
     const sessionTime = Date.now() - startTime - pausedTime;
-    const cardsActuallyStudied = responses.size;
+    const cardsActuallyStudied = isNonSrsMode
+      ? Math.max(0, Math.min(sessionCards.length, Math.max(responses.size, currentIndex + 1)))
+      : responses.size;
 
     // Calculate accurate counts from responses Map to prevent sync issues
     const actualCorrectCount = Array.from(responses.values()).filter(r => r.correct).length;
@@ -367,20 +551,40 @@ export function StudySession({
       : 0;
 
     // Big celebration for good performance
-    if (accuracy >= 0.8) {
+    if (!isNonSrsMode && accuracy >= 0.8) {
       celebrate();
     }
 
     // Calculate XP using centralized config
-    const { xpConfigService } = await import('@/lib/services/XPConfigService');
-    const fastCards = Array.from(responses.values()).filter(r => r.responseTime < 3000).length;
-    const xpCalculation = xpConfigService.calculateFlashcardsXP(
-      actualCorrectCount,
-      bestStreak,
-      accuracy === 1,
-      fastCards
-    );
-    const totalXP = xpCalculation.cappedXP;
+    const fastCards = isNonSrsMode
+      ? 0
+      : Array.from(responses.values()).filter(r => r.responseTime < 3000).length;
+    const totalXP = isNonSrsMode
+      ? 0
+      : (await import('@/lib/services/XPConfigService'))
+          .xpConfigService
+          .calculateFlashcardsXP(
+            actualCorrectCount,
+            bestStreak,
+            accuracy === 1,
+            fastCards
+          ).cappedXP;
+
+    const againCardIds = sessionCards
+      .map(card => {
+        const response = responses.get(card.id);
+        return response?.difficulty === 'again' ? card.id : null;
+      })
+      .filter(Boolean) as string[];
+    const hardCardIds = sessionCards
+      .map(card => {
+        const response = responses.get(card.id);
+        return response?.difficulty === 'hard' ? card.id : null;
+      })
+      .filter(Boolean) as string[];
+    const studyFollowUpCardIds = isStudyMode
+      ? Array.from(new Set([...againCardIds, ...hardCardIds]))
+      : [];
 
     const summary: SessionSummary = {
       sessionId: `session-${Date.now()}`,
@@ -396,48 +600,54 @@ export function StudySession({
       // Include for server-side XP calculation (must match client formula)
       bestStreak,
       fastCards,
+      studyFollowUpCardIds,
     };
 
-    const ownerId = deck.userId || user?.uid || 'guest';
-    const weakCardEntries = sessionCards
-      .map(card => {
-        const response = responses.get(card.id);
-        if (response?.difficulty === 'again' || response?.difficulty === 'hard') {
-          return { cardId: card.id, difficulty: response.difficulty };
-        }
-        return null;
-      })
-      .filter(Boolean) as Array<{ cardId: string; difficulty: 'again' | 'hard' }>;
-    const cappedEntries = weakCardEntries.slice(0, 200);
-    weakCardsStore.save(ownerId, deck.id, cappedEntries);
+    const shouldPersistPracticeSignals = !isPreviewMode;
+    if (shouldPersistPracticeSignals) {
+      const ownerId = deck.userId || user?.uid || 'guest';
+      const weakCardEntries = sessionCards
+        .map(card => {
+          const response = responses.get(card.id);
+          if (response?.difficulty === 'again' || response?.difficulty === 'hard') {
+            return { cardId: card.id, difficulty: response.difficulty };
+          }
+          return null;
+        })
+        .filter(Boolean) as Array<{ cardId: string; difficulty: 'again' | 'hard' }>;
+      const cappedEntries = weakCardEntries.slice(0, 200);
+      weakCardsStore.save(ownerId, deck.id, cappedEntries);
 
-    const mistakeCardIds = sessionCards
-      .map(card => {
-        const response = responses.get(card.id);
-        if (!response) return null;
-        if (!response.correct || response.difficulty === 'again' || response.difficulty === 'hard') {
-          return card.id;
-        }
-        return null;
-      })
-      .filter(Boolean) as string[];
-    if (mistakeCardIds.length > 0) {
-      mistakeReplayStore.addSession(ownerId, deck.id, mistakeCardIds);
-    }
-    if (user && isPremium) {
-      fetch('/api/flashcards/weak-cards', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          deckId: deck.id,
-          entries: cappedEntries,
-        }),
-      }).catch(() => {});
+      const mistakeCardIds = isStudyMode
+        ? againCardIds
+        : (sessionCards
+            .map(card => {
+              const response = responses.get(card.id);
+              if (!response) return null;
+              if (!response.correct || response.difficulty === 'again' || response.difficulty === 'hard') {
+                return card.id;
+              }
+              return null;
+            })
+            .filter(Boolean) as string[]);
+      if (mistakeCardIds.length > 0) {
+        mistakeReplayStore.addSession(ownerId, deck.id, mistakeCardIds);
+      }
+      if (user && isPremium) {
+        fetch('/api/flashcards/weak-cards', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            deckId: deck.id,
+            entries: cappedEntries,
+          }),
+        }).catch(() => {});
+      }
     }
 
     // Create detailed session stats for persistence
-    if (user) {
+    if (user && !isNonSrsMode) {
       const sessionStats: SessionStats = {
         id: summary.sessionId,
         userId: user.uid,
@@ -493,7 +703,26 @@ export function StudySession({
   }, [deck, sessionCards, responses, correctCount, incorrectCount, skippedCount,
       newCardsStudied, learningCardsStudied, reviewCardsStudied,
       streakCount, bestStreak, totalResponseTime, fastestResponseTime, slowestResponseTime,
-      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete, clearPersistedSession, clearRemoteSession]);
+      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete, clearPersistedSession, clearRemoteSession, isNonSrsMode, isPreviewMode, isStudyMode, currentIndex]);
+
+  useEffect(() => {
+    if (!isStudyMode) return;
+    const isLastCard = currentIndex === sessionCards.length - 1;
+    if (!isLastCard) return;
+    if (!answeredCardIndexes.has(currentIndex)) return;
+    void completeSession();
+  }, [currentIndex, sessionCards.length, answeredCardIndexes, completeSession, isStudyMode]);
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < sessionCards.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setCardStartTime(Date.now());
+      return;
+    }
+    if (isNonSrsMode) {
+      completeSession();
+    }
+  }, [currentIndex, sessionCards.length, completeSession, isNonSrsMode]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -689,9 +918,40 @@ export function StudySession({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const modeBadgeLabel = isPreviewMode
+    ? t('flashcards.modes.preview.name')
+    : isStudyMode
+      ? t('flashcards.modes.study.name')
+      : null;
+  const modeHintText = isPreviewMode
+    ? t('flashcards.modes.preview.description')
+    : isStudyMode
+      ? t('flashcards.modes.study.description')
+      : null;
+
+  useEffect(() => {
+    if (!modeHintText) {
+      setShowModeHint(false);
+      return;
+    }
+
+    setShowModeHint(true);
+    const timeout = window.setTimeout(() => {
+      setShowModeHint(false);
+    }, 4500);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [deck.id, mode, modeHintText]);
+
   if (!currentCard) {
     return null;
   }
+
+  const answeredCount = correctCount + incorrectCount;
+  const answeredCorrectCount = correctCount;
+  const accuracyPercent = answeredCount > 0 ? Math.round((answeredCorrectCount / answeredCount) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
@@ -709,6 +969,11 @@ export function StudySession({
                   <p className="text-xs text-gray-600 dark:text-gray-400">
                     {currentIndex + 1} / {sessionCards.length}
                   </p>
+                  {modeBadgeLabel && (
+                    <p className="text-[11px] text-primary-600 dark:text-primary-400">
+                      {modeBadgeLabel}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -742,14 +1007,34 @@ export function StudySession({
                 >
                   {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
                 </button>
+                <button
+                  onClick={shuffleRemainingCards}
+                  disabled={isShuffling || currentIndex >= sessionCards.length - 1}
+                  className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  aria-label={t('common.shuffle')}
+                  title={t('common.shuffle')}
+                >
+                  {isShuffling ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shuffle className="w-4 h-4" />}
+                </button>
               </div>
 
               {/* Accuracy */}
               <div className="flex items-center gap-2">
-                <Target className="w-4 h-4 text-green-500" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {sessionCards.length > 0 ? Math.round((correctCount / (currentIndex + 1)) * 100) : 0}%
-                </span>
+                {isPreviewMode ? (
+                  <>
+                    <BookOpen className="w-4 h-4 text-green-500" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {t('flashcards.modes.preview.name')}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Target className="w-4 h-4 text-green-500" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {accuracyPercent}%
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -764,11 +1049,16 @@ export function StudySession({
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {t('flashcards.cardsStudied')}: {currentIndex + 1} / {sessionCards.length}
                 </p>
+                {modeBadgeLabel && (
+                  <p className="text-xs text-primary-600 dark:text-primary-400">
+                    {modeBadgeLabel}
+                  </p>
+                )}
               </div>
             </div>
 
             {/* Stats */}
-            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="flex items-center gap-4 flex-shrink-0">
               {/* Timer */}
               <div className="flex items-center gap-2">
                 <Timer className="w-5 h-5 text-blue-500" />
@@ -787,10 +1077,19 @@ export function StudySession({
                 >
                   {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
                 </button>
+                <button
+                  onClick={shuffleRemainingCards}
+                  disabled={isShuffling || currentIndex >= sessionCards.length - 1}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  aria-label={t('common.shuffle')}
+                  title={t('common.shuffle')}
+                >
+                  {isShuffling ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shuffle className="w-4 h-4" />}
+                </button>
               </div>
 
               {/* Streak */}
-              {streakCount > 0 && (
+              {!isNonSrsMode && streakCount > 0 && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -805,10 +1104,21 @@ export function StudySession({
 
               {/* Accuracy */}
               <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-green-500" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {sessionCards.length > 0 ? Math.round((correctCount / (currentIndex + 1)) * 100) : 0}%
-                </span>
+                {isPreviewMode ? (
+                  <>
+                    <BookOpen className="w-5 h-5 text-green-500" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {t('flashcards.modes.preview.name')}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Target className="w-5 h-5 text-green-500" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {accuracyPercent}%
+                    </span>
+                  </>
+                )}
               </div>
 
               {/* Keyboard Shortcuts Badge - Desktop Only */}
@@ -864,6 +1174,7 @@ export function StudySession({
                       </div>
 
                       {/* Grading */}
+                      {!isNonSrsMode && (
                       <div>
                         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Grading</p>
                         <div className="space-y-1.5">
@@ -885,6 +1196,7 @@ export function StudySession({
                           </div>
                         </div>
                       </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
@@ -929,18 +1241,118 @@ export function StudySession({
               animationSpeed={deck.settings.animationSpeed}
               showHints={deck.settings.showHints}
               autoPlayAudio={deck.settings.autoPlay}
-              isGraded={responses.has(currentCard.id)}
+              isGraded={answeredCardIndexes.has(currentIndex)}
               initialIsFlipped={getInitialFlipForCard(currentCard.id)}
               furiganaSettings={deck.settings.furigana}
               furiganaVisible={sessionFuriganaVisible}
               onFuriganaVisibleChange={setSessionFuriganaVisible}
               onDelete={() => setShowDeleteDialog(true)}
-              onNext={currentIndex < sessionCards.length - 1 ? handleNext : undefined}
+              onNext={currentIndex < sessionCards.length - 1 || isNonSrsMode ? handleNext : undefined}
               onPrevious={currentIndex > 0 ? handlePrevious : undefined}
-              onResponse={handleResponse}
+              onResponse={!isNonSrsMode ? handleResponse : undefined}
             />
           </motion.div>
         </AnimatePresence>
+
+        {isNonSrsMode && audioWarmupProgress.phase === 'warming' && audioWarmupProgress.total > 0 && (
+          <div className="mt-6 max-w-sm mx-auto">
+            <Alert
+              type="info"
+              showDoshi
+              doshiMood="thinking"
+              title={t('flashcards.audioWarmup.title')}
+              message={t('flashcards.audioWarmup.message')}
+              className="mb-2"
+            />
+            <ProgressBar
+              value={Math.min(audioWarmupProgress.completed, audioWarmupProgress.total)}
+              max={audioWarmupProgress.total}
+              color="blue"
+              animated
+              striped
+              showValue
+              label={t('flashcards.audioWarmup.progress', {
+                current: Math.min(audioWarmupProgress.completed, audioWarmupProgress.total),
+                total: audioWarmupProgress.total,
+              })}
+            />
+          </div>
+        )}
+
+        {isShuffling && (
+          <div className="mt-6 max-w-sm mx-auto rounded-xl border border-blue-300 dark:border-blue-700 bg-blue-50/90 dark:bg-blue-950/40 px-4 py-3">
+            <div className="flex items-start gap-3">
+              <Loader2 className="h-5 w-5 animate-spin text-blue-600 dark:text-blue-300 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                  {t('flashcards.shuffleStatus.title')}
+                </p>
+                <p className="text-sm text-blue-800 dark:text-blue-200/90">
+                  {t('flashcards.shuffleStatus.message')}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showShuffleComplete && !isShuffling && (
+          <div className="mt-6 max-w-sm mx-auto rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50/90 dark:bg-emerald-950/40 px-4 py-3">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-300 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+                  {t('flashcards.shuffleStatus.doneTitle')}
+                </p>
+                <p className="text-sm text-emerald-800 dark:text-emerald-200/90">
+                  {t('flashcards.shuffleStatus.doneMessage')}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {modeHintText && showModeHint && (
+          <div className="mt-6 max-w-sm mx-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-dark-800/80 px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+            {modeHintText}
+          </div>
+        )}
+
+        {isStudyMode && followUpRound > 0 && (
+          <div className="mt-3 max-w-sm mx-auto rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-900/10 px-4 py-3 text-sm">
+            <p className="font-semibold text-amber-900 dark:text-amber-200">
+              {t('flashcards.studyFollowUp.title', { round: followUpRound })}
+            </p>
+            <p className="mt-1 text-amber-800 dark:text-amber-300">
+              {t('flashcards.studyFollowUp.cardsLeft', { count: sessionCards.length })}
+            </p>
+          </div>
+        )}
+
+        {isStudyMode && (
+          <div className="mt-6 max-w-sm mx-auto flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={() => handleResponse(false, 'again')}
+              disabled={answeredCardIndexes.has(currentIndex)}
+              className="px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800/50 transition-colors font-medium text-sm"
+            >
+              {t('flashcards.markIncorrect')}
+            </button>
+            <button
+              onClick={() => handleResponse(false, 'hard')}
+              disabled={answeredCardIndexes.has(currentIndex)}
+              className="px-4 py-2 rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition-colors font-medium text-sm"
+            >
+              {t('flashcards.difficulty.hard')}
+            </button>
+            <button
+              onClick={() => handleResponse(true, 'good')}
+              disabled={answeredCardIndexes.has(currentIndex)}
+              className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors font-medium text-sm"
+            >
+              {t('flashcards.markCorrect')}
+            </button>
+          </div>
+        )}
 
         <Dialog
           isOpen={showDeleteDialog}
@@ -955,7 +1367,7 @@ export function StudySession({
 
         {/* Response Feedback */}
         <AnimatePresence>
-          {responses.has(currentCard.id) && (
+          {answeredCardIndexes.has(currentIndex) && !isPreviewMode && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}

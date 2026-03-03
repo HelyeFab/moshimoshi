@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-22T15:19:04.945Z
+ * Generated at: 2026-02-26T11:13:48.288Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -108,6 +108,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: true,
     description: 'Practice Japanese verb and adjective conjugations with interactive drills',
+  },
+  drill_focus_mode: {
+    id: 'drill_focus_mode',
+    name: 'Drill Focus Mode',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: true,
+    description: 'Practice conjugations for a single user-selected focus word',
   },
   grammar_explanations: {
     id: 'grammar_explanations',

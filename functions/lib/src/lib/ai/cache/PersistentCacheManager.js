@@ -81,19 +81,19 @@ class PersistentCacheManager extends CacheManager_1.CacheManager {
         // Persist to Firestore if enabled
         if (this.persistenceEnabled && admin_1.adminFirestore) {
             try {
+                const cleanData = this.sanitizeForFirestore(data);
+                const cleanMetadata = this.sanitizeForFirestore(metadata !== null && metadata !== void 0 ? metadata : {});
                 // Check data size (Firestore has 1MB limit per document)
-                const dataSize = JSON.stringify(data).length;
+                const dataSize = JSON.stringify(cleanData).length;
                 if (dataSize > this.MAX_FIRESTORE_SIZE) {
                     console.warn(`⚠️ Data too large for Firestore (${dataSize} bytes), skipping persistence`);
                     return;
                 }
                 const docId = this.generateDocId(key);
                 const expiresAt = new Date(Date.now() + durationSeconds * 1000);
-                // Filter out undefined values from metadata to avoid Firestore errors
-                const cleanMetadata = metadata ? Object.fromEntries(Object.entries(metadata).filter(([_, value]) => value !== undefined)) : {};
                 await admin_1.adminFirestore.collection(this.COLLECTION_NAME).doc(docId).set({
                     key,
-                    data,
+                    data: cleanData,
                     metadata: cleanMetadata,
                     timestamp: admin_1.Timestamp.now(),
                     expiresAt: admin_1.Timestamp.fromDate(expiresAt),
@@ -107,6 +107,27 @@ class PersistentCacheManager extends CacheManager_1.CacheManager {
                 // Don't throw - memory cache is still valid
             }
         }
+    }
+    /**
+     * Recursively sanitize payloads for Firestore:
+     * - Remove undefined object properties
+     * - Replace undefined array items with null
+     */
+    sanitizeForFirestore(value) {
+        if (value === undefined)
+            return null;
+        if (value === null)
+            return value;
+        if (Array.isArray(value)) {
+            return value.map((item) => item === undefined ? null : this.sanitizeForFirestore(item));
+        }
+        if (typeof value === 'object') {
+            const entries = Object.entries(value)
+                .filter(([, v]) => v !== undefined)
+                .map(([k, v]) => [k, this.sanitizeForFirestore(v)]);
+            return Object.fromEntries(entries);
+        }
+        return value;
     }
     /**
      * Delete cache entry from both memory and Firestore

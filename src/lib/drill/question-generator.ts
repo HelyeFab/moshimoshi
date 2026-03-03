@@ -8,6 +8,7 @@ import type { ExtendedConjugationForms } from '@/types/conjugation';
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine';
 import { detectWordType } from '@/lib/conjugation/wordTypeDetector';
 import type { EnhancedJapaneseWord } from '@/utils/enhancedWordTypeDetection';
+import type { ExtendedWordType } from '@/lib/conjugation/wordTypeDetector';
 
 // Form groups for easy selection
 export const CONJUGATION_FORM_GROUPS = {
@@ -70,6 +71,31 @@ const NA_ADJECTIVE_COMPATIBLE_FORMS: (keyof ExtendedConjugationForms)[] = [
 ];
 
 export class QuestionGenerator {
+  private static readonly RESOLVED_CONJUGATION_TYPES = new Set([
+    'Ichidan',
+    'Godan',
+    'Irregular',
+    'i-adjective',
+    'na-adjective',
+  ] as const);
+
+  /**
+   * Prefer an already-resolved drill word type (e.g. Focus Word AI/JMdict resolution)
+   * over re-detecting and potentially downgrading an ambiguous word like 灯る.
+   */
+  private static resolveDrillWordType(word: JapaneseWord): ExtendedWordType {
+    if (this.RESOLVED_CONJUGATION_TYPES.has(word.type as any)) {
+      return {
+        baseType: word.type,
+        conjugationType: word.type as ExtendedWordType['conjugationType'],
+        isConjugatable: true,
+        confidence: 'high',
+      };
+    }
+
+    return detectWordType(word.kanji || word.kana, word.kana, word.partsOfSpeech);
+  }
+
   private static normalizeOption(option: string): string {
     return option.trim();
   }
@@ -131,7 +157,7 @@ export class QuestionGenerator {
       const word = words[i % words.length];
 
       // Detect word type
-      const wordType = detectWordType(word.kanji || word.kana, word.kana, word.partsOfSpeech);
+      const wordType = this.resolveDrillWordType(word);
 
       if (!wordType.isConjugatable || !wordType.conjugationType) {
         console.warn(`[QuestionGenerator] Skipping non-conjugatable word: ${word.kanji || word.kana}`);
@@ -523,7 +549,7 @@ export class QuestionGenerator {
     const questions: DrillQuestion[] = [];
 
     // Detect word type
-    const wordType = detectWordType(word.kanji || word.kana, word.kana, word.partsOfSpeech);
+    const wordType = this.resolveDrillWordType(word);
 
     if (!wordType.isConjugatable || !wordType.conjugationType) {
       return [];

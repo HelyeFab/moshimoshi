@@ -17,6 +17,8 @@ export interface AnkiCard extends ReviewableContent {
   audioUrl?: string         // Blob URL for audio
   imageUrl?: string         // Blob URL for image
   audioFilename?: string    // Original audio filename
+  frontAudioFilename?: string // Side-specific front audio filename
+  backAudioFilename?: string // Side-specific back audio filename
   imageFilename?: string    // Original image filename
   // Additional metadata
   expression?: string       // Original Japanese expression
@@ -240,6 +242,12 @@ export class AnkiImporter {
     }
 
     const audioKey = card.audioFilename ? buildAnkiMediaKey(deckId, card.audioFilename) : undefined
+    const frontAudioKey = card.frontAudioFilename
+      ? buildAnkiMediaKey(deckId, card.frontAudioFilename)
+      : undefined
+    const backAudioKey = card.backAudioFilename
+      ? buildAnkiMediaKey(deckId, card.backAudioFilename)
+      : undefined
     const imageKey = card.imageFilename ? buildAnkiMediaKey(deckId, card.imageFilename) : undefined
     const mediaKeys = card.media?.map(filename => buildAnkiMediaKey(deckId, filename))
 
@@ -262,6 +270,8 @@ export class AnkiImporter {
       audioUrl,
       imageUrl,
       audioFilename: audioKey,
+      frontAudioFilename: frontAudioKey,
+      backAudioFilename: backAudioKey,
       imageFilename: imageKey,
       expression: card.expression,
       meaning: card.meaning,
@@ -282,6 +292,10 @@ export class AnkiImporter {
         noTTSGeneration: true,  // Never generate TTS for Anki cards
         noFuriganaGeneration: true,  // Never generate furigana for Anki cards
         preserveOriginalContent: true,  // Keep original formatting
+        audioFilename: audioKey,
+        frontAudioFilename: frontAudioKey,
+        backAudioFilename: backAudioKey,
+        imageFilename: imageKey,
       },
     } as AnkiCard
   }

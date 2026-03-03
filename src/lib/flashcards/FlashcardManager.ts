@@ -19,6 +19,7 @@ import { AnkiMediaStore } from '@/lib/anki/mediaStore'
 import { openDB, IDBPDatabase } from 'idb'
 import { v4 as uuidv4 } from 'uuid'
 import { storageManager } from './StorageManager'
+import { hasExistingFurigana, stripFurigana } from './furiganaUtils'
 import { FlashcardSRSHelper } from './SRSHelper'
 import featuresConfig from '../../../config/features.v1.json'
 import type { PlanType } from '@/lib/access/permissionMap'
@@ -749,30 +750,98 @@ export class FlashcardManager {
   }
 
   // Parse CSV data
+  private parseCSVRows(data: string): string[][] {
+    const rows: string[][] = []
+    let row: string[] = []
+    let field = ''
+    let inQuotes = false
+
+    for (let i = 0; i < data.length; i++) {
+      const char = data[i]
+      const next = data[i + 1]
+
+      if (inQuotes) {
+        if (char === '"' && next === '"') {
+          field += '"'
+          i += 1
+        } else if (char === '"') {
+          inQuotes = false
+        } else {
+          field += char
+        }
+        continue
+      }
+
+      if (char === '"') {
+        inQuotes = true
+        continue
+      }
+
+      if (char === ',') {
+        row.push(field)
+        field = ''
+        continue
+      }
+
+      if (char === '\n') {
+        row.push(field)
+        rows.push(row)
+        row = []
+        field = ''
+        continue
+      }
+
+      if (char === '\r') {
+        continue
+      }
+
+      field += char
+    }
+
+    row.push(field)
+    if (row.some(value => value.trim().length > 0)) {
+      rows.push(row)
+    }
+
+    return rows
+  }
+
   private parseCSV(data: string): FlashcardContent[] {
-    const lines = data.split('\n')
+    const rows = this.parseCSVRows(data)
     const cards: FlashcardContent[] = []
 
-    // Skip header if present
-    const startIndex = lines[0].toLowerCase().includes('front') ? 1 : 0
+    if (rows.length === 0) return cards
 
-    for (let i = startIndex; i < lines.length; i++) {
-      if (!lines[i].trim()) continue
+    const header = rows[0].map(value => value.trim().toLowerCase())
+    const hasHeader = header.includes('front') && header.includes('back')
+    const frontIndex = hasHeader ? header.indexOf('front') : 0
+    const backIndex = hasHeader ? header.indexOf('back') : 1
+    const notesIndex = hasHeader ? header.indexOf('notes') : 2
+    const tagsIndex = hasHeader ? header.indexOf('tags') : 3
+    const startIndex = hasHeader ? 1 : 0
 
-      const values = lines[i].match(/(".*?"|[^,]+)/g) || []
-      const cleanValues = values.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'))
+    for (let i = startIndex; i < rows.length; i++) {
+      const cleanValues = rows[i] || []
+      if (cleanValues.length < 2) continue
 
-      if (cleanValues.length >= 2) {
+      const frontText = (cleanValues[frontIndex] || '').trim()
+      const backText = (cleanValues[backIndex] || '').trim()
+      if (!frontText && !backText) continue
+
+        const frontHasFurigana = hasExistingFurigana(frontText)
+        const backHasFurigana = hasExistingFurigana(backText)
+
         cards.push({
           id: uuidv4(),
-          front: { text: cleanValues[0] },
-          back: { text: cleanValues[1] },
+          front: { text: frontHasFurigana ? stripFurigana(frontText) : frontText },
+          back: { text: backHasFurigana ? stripFurigana(backText) : backText },
           metadata: {
-            notes: cleanValues[2],
-            tags: cleanValues[3]?.split(';').filter(Boolean),
+            notes: notesIndex >= 0 ? cleanValues[notesIndex] : undefined,
+            tags: tagsIndex >= 0 ? cleanValues[tagsIndex]?.split(';').filter(Boolean) : undefined,
+            ...(frontHasFurigana && { furiganaFront: frontText }),
+            ...(backHasFurigana && { furiganaBack: backText }),
           },
         })
-      }
     }
 
     return cards

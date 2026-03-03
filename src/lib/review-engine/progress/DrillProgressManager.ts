@@ -153,9 +153,13 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     const userId = user.uid
     await this.initDB()
 
-    // 🔥 FIX: Call the API to properly complete the drill session for all users
-    // This updates Firebase drill_sessions collection and triggers gamification (XP + streak)
-    // Also sends questionResults for SRS tracking (server will ignore for non-premium)
+    // Call the API to complete the drill session for all users.
+    // This updates Firebase drill_sessions and records gamification (XP + streak).
+    // Then continue with local + progress tracking updates below.
+    let apiDebug: any | null = null
+    let apiGamification: any | null = null
+    let apiError: string | undefined
+
     try {
       const response = await fetch('/api/drill/session', {
         method: 'PUT',
@@ -171,6 +175,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
       if (response.ok) {
         const result = await response.json()
+        apiDebug = result.data?.debug ?? null
+        apiGamification = result.data?.gamification ?? null
 
         // Log gamification results if present (streak/XP only)
         if (result.data?.gamification) {
@@ -199,27 +205,14 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
             // Don't fail the whole operation if store update fails
           }
         }
-
-        return {
-          debug: result.data?.debug ?? null,
-          gamification: result.data?.gamification ?? null,
-        }
       } else {
         console.error('[DrillProgressManager] Failed to complete drill via API:', await response.text())
-        return {
-          debug: null,
-          gamification: null,
-          error: 'Failed to complete drill via API',
-        }
+        apiError = 'Failed to complete drill via API'
       }
     } catch (error) {
       console.error('[DrillProgressManager] Error calling drill completion API:', error)
-      // Continue with local tracking even if API fails
-      return {
-        debug: null,
-        gamification: null,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      }
+      // Continue with local tracking even if API fails.
+      apiError = error instanceof Error ? error.message : 'Unknown error'
     }
 
     // Get current progress
@@ -367,6 +360,12 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       accuracy: session.accuracy,
       totalDrills: drillData.totalDrills,
     })
+
+    return {
+      debug: apiDebug,
+      gamification: apiGamification,
+      ...(apiError ? { error: apiError } : {}),
+    }
   }
 
   /**

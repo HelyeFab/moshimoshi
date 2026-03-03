@@ -45,6 +45,7 @@ export default function AdminDeckMarketEditPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [file, setFile] = useState<File | null>(null);
+  const [importSource, setImportSource] = useState<'apkg' | 'csv'>('apkg');
   const [versionLabel, setVersionLabel] = useState('');
   const [changelog, setChangelog] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -135,6 +136,11 @@ export default function AdminDeckMarketEditPage() {
   };
 
   const validateFile = (selected: File): string | null => {
+    if (importSource === 'csv') {
+      if (!selected.name.toLowerCase().endsWith('.csv')) return strings.deckmarket.admin.invalidCsv;
+      return null;
+    }
+
     const lower = selected.name.toLowerCase();
     const allowed = (ALLOWED_EXTENSIONS as readonly string[]).some((ext) => lower.endsWith(ext));
     if (!allowed) return strings.deckmarket.admin.invalidFile;
@@ -157,6 +163,29 @@ export default function AdminDeckMarketEditPage() {
     setUploadMessage(null);
 
     try {
+      if (importSource === 'csv') {
+        const formData = new FormData();
+        formData.append('file', file);
+        if (versionLabel) formData.append('versionLabel', versionLabel);
+        if (changelog) formData.append('changelog', changelog);
+
+        const uploadRes = await fetch(`/api/admin/deckmarket/decks/${deckId}/import-csv`, {
+          method: 'POST',
+          credentials: 'include',
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (!uploadRes.ok) throw new Error(uploadData.error || strings.deckmarket.admin.uploadFailed);
+
+        setUploadMessage(strings.deckmarket.admin.versionUploaded);
+        setFile(null);
+        setVersionLabel('');
+        setChangelog('');
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        await loadDeck();
+        return;
+      }
+
       const metaRes = await fetch(`/api/admin/deckmarket/decks/${deckId}/upload`, {
         method: 'POST',
         credentials: 'include',
@@ -397,6 +426,33 @@ export default function AdminDeckMarketEditPage() {
               </h3>
             </div>
 
+            <div className="flex flex-wrap gap-2">
+              {([
+                { value: 'apkg', label: strings.deckmarket.admin.importApkg },
+                { value: 'csv', label: strings.deckmarket.admin.importCsv },
+              ] as const).map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => {
+                    setImportSource(option.value);
+                    setUploadError(null);
+                    setUploadMessage(null);
+                    setUploadProgress(0);
+                    setFile(null);
+                    if (fileInputRef.current) fileInputRef.current.value = '';
+                  }}
+                  className={`px-3 py-2 rounded-xl text-sm font-medium border transition-all ${
+                    importSource === option.value
+                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white border-primary-500 shadow-sm'
+                      : 'bg-white dark:bg-dark-850 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-dark-700 hover:border-primary-400 dark:hover:border-primary-500'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+
             {uploadError && (
               <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-3 rounded-xl">
                 {uploadError}
@@ -411,7 +467,9 @@ export default function AdminDeckMarketEditPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-                {strings.deckmarket.admin.selectFile}
+                {importSource === 'csv'
+                  ? strings.deckmarket.admin.selectCsvFile
+                  : strings.deckmarket.admin.selectFile}
               </label>
               <label className="block border-2 border-dashed border-gray-300 dark:border-dark-600 rounded-xl p-6 text-center hover:border-primary-400 dark:hover:border-primary-500 transition-colors cursor-pointer">
                 <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400 dark:text-gray-500" />
@@ -426,7 +484,7 @@ export default function AdminDeckMarketEditPage() {
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept={ALLOWED_EXTENSIONS.join(',')}
+                  accept={importSource === 'csv' ? '.csv' : ALLOWED_EXTENSIONS.join(',')}
                   onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
                   className="hidden"
                 />
@@ -458,7 +516,7 @@ export default function AdminDeckMarketEditPage() {
               </div>
             </div>
 
-            {uploading && (
+            {uploading && importSource === 'apkg' && (
               <div className="space-y-2">
                 <div className="w-full h-2.5 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
                   <div

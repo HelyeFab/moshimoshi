@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -11,7 +11,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast'
 import CenteredAlert, { useCenteredAlert } from '@/components/ui/CenteredAlert'
-import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill'
+import type { DrillSession, DrillQuestion, DrillSettings, FocusWordSelection } from '@/types/drill'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import type {
   DrillSessionData,
@@ -24,13 +24,16 @@ import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
 import Modal from '@/components/ui/Modal'
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
+import { getConjugationUsageNote } from '@/lib/conjugation/usage/getConjugationUsageNote'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
 import { useTTS } from '@/hooks/useTTS'
 import { Volume2, Loader2 } from 'lucide-react'
+import DrillSettingsDrawer, { DrillSettingsSummary } from '@/components/drill/DrillSettingsDrawer'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import type { FeatureId } from '@/types/FeatureId'
 
 export default function DrillPage() {
   const { t, strings } = useI18n()
@@ -38,8 +41,10 @@ export default function DrillPage() {
   const searchParams = useSearchParams()
   const { user } = useAuth()
   const { subscription, isPremium } = useSubscription()
-  const { checkOnly } = useFeature('conjugation_drill')
-  const usageData = useFeatureUsage('conjugation_drill')
+  const { checkOnly: checkConjugationDrillOnly } = useFeature('conjugation_drill')
+  const { checkOnly: checkFocusModeOnly } = useFeature('drill_focus_mode')
+  const drillUsageData = useFeatureUsage('conjugation_drill')
+  const focusUsageData = useFeatureUsage('drill_focus_mode')
   const { showToast } = useToast()
   const { alert, showAlert, closeAlert } = useCenteredAlert()
   const { showMultipleHelps } = useConjugationHelp()
@@ -74,6 +79,7 @@ export default function DrillPage() {
   const [isHydrated, setIsHydrated] = useState(false)
   const [lastCompletionDebug, setLastCompletionDebug] = useState<any>(null)
   const [showRulesModal, setShowRulesModal] = useState(false)
+  const [showSettingsDrawer, setShowSettingsDrawer] = useState(false)
   const [ruleExamples, setRuleExamples] = useState<{
     wordExamples: Array<{ word: string; kana: string; meaning: string; conjugated: string }>
     sentences: ExampleSentence[]
@@ -120,6 +126,13 @@ export default function DrillPage() {
   const [questionResults, setQuestionResults] = useState<QuestionAnswerResult[]>([])
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now())
 
+  // Focus word state
+  const [focusWordInput, setFocusWordInput] = useState('')
+  const [focusWordResults, setFocusWordResults] = useState<FocusWordSelection[]>([])
+  const [focusWordLoading, setFocusWordLoading] = useState(false)
+  const [selectedFocusWord, setSelectedFocusWord] = useState<FocusWordSelection | null>(null)
+  const [showFocusResults, setShowFocusResults] = useState(false)
+
   // Helper: Check if a list is potentially drillable
   const isListDrillable = (
     list: any
@@ -146,6 +159,52 @@ export default function DrillPage() {
     return { drillable: true }
   }
 
+  // Focus word search
+  const searchFocusWord = useCallback(async (term: string) => {
+    if (term.trim().length === 0) {
+      setFocusWordResults([])
+      setShowFocusResults(false)
+      return
+    }
+
+    setFocusWordLoading(true)
+    setShowFocusResults(true)
+    try {
+      const { searchJMdictWords } = await import('@/utils/jmdictLocalSearch')
+      const { detectWordType } = await import('@/lib/conjugation/wordTypeDetector')
+      const results = await searchJMdictWords(term.trim(), 8)
+      const conjugatable: FocusWordSelection[] = results.flatMap((w) => {
+        const detected = detectWordType(w.kanji || w.kana, w.kana, w.partsOfSpeech)
+        if (!detected.isConjugatable || !detected.conjugationType) return []
+
+        return [{
+          id: w.id,
+          kanji: w.kanji,
+          kana: w.kana,
+          meaning: w.meaning,
+          type: detected.conjugationType,
+          jlpt: w.jlpt as FocusWordSelection['jlpt'],
+          partsOfSpeech: w.partsOfSpeech,
+        }]
+      })
+      setFocusWordResults(conjugatable)
+    } catch (error) {
+      console.error('Focus word search failed:', error)
+      setFocusWordResults([])
+    } finally {
+      setFocusWordLoading(false)
+    }
+  }, [])
+
+  // Debounce focus word search
+  useEffect(() => {
+    if (settings.drillMode !== 'focus') return
+    const timer = setTimeout(() => {
+      searchFocusWord(focusWordInput)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [focusWordInput, settings.drillMode, searchFocusWord])
+
   // Question count limits based on user plan
   const getQuestionLimits = () => {
     if (!user) return { min: 5, max: 10, default: 5 } // Guest
@@ -164,6 +223,9 @@ export default function DrillPage() {
   }
 
   const questionLimits = getQuestionLimits()
+  const activeEntitlementFeatureId: FeatureId =
+    settings.drillMode === 'focus' ? 'drill_focus_mode' : 'conjugation_drill'
+  const activeUsageData = settings.drillMode === 'focus' ? focusUsageData : drillUsageData
 
   // Initialize settings with plan defaults
   useEffect(() => {
@@ -263,6 +325,18 @@ export default function DrillPage() {
       }
     }
 
+    // Validate focus mode requirements
+    if (settings.drillMode === 'focus') {
+      if (!selectedFocusWord && focusWordInput.trim().length === 0) {
+        showAlert(
+          t('drill.focusEnterWord') || 'Please enter a word to practice',
+          'error',
+          t('drill.focusMode') || 'Focus Word'
+        )
+        return
+      }
+    }
+
     // Validate list selection for 'lists' mode
     if (
       settings.drillMode === 'lists' &&
@@ -304,13 +378,20 @@ export default function DrillPage() {
     }
 
     // Check entitlement
-    const decision = await checkOnly({ failOpen: false })
+    const decision = await (
+      settings.drillMode === 'focus' ? checkFocusModeOnly : checkConjugationDrillOnly
+    )({ failOpen: false })
     if (!decision.allow) {
-      const action = !isPremium ? {
-        label: t('subscription.actions.upgrade'),
-        onClick: () => router.push('/pricing')
-      } : undefined
-      showAlert(t('entitlements.messages.limitReached'), 'error', 'Limit reached', action)
+      const action = !isPremium
+        ? {
+            label: t('subscription.actions.upgrade'),
+            onClick: () => router.push('/pricing')
+          }
+        : undefined
+      const message = decision.reason === 'no_permission'
+        ? (t('entitlements.messages.upgradeRequired') || 'Upgrade required')
+        : (t('entitlements.messages.limitReached') || 'Limit reached')
+      showToast(message, decision.reason === 'no_permission' ? 'error' : 'warning', 5000, action)
       return
     }
 
@@ -330,6 +411,21 @@ export default function DrillPage() {
           jlptLevels: settings.jlptLevels,
           conjugationForms:
             (settings.conjugationForms?.length ?? 0) > 0 ? settings.conjugationForms : undefined,
+          focusWord: settings.drillMode === 'focus'
+            ? (selectedFocusWord?.kanji || selectedFocusWord?.kana || focusWordInput.trim())
+            : undefined,
+          focusWordSelection:
+            settings.drillMode === 'focus' && selectedFocusWord
+              ? {
+                  id: selectedFocusWord.id,
+                  kanji: selectedFocusWord.kanji,
+                  kana: selectedFocusWord.kana,
+                  meaning: selectedFocusWord.meaning,
+                  type: selectedFocusWord.type,
+                  jlpt: selectedFocusWord.jlpt,
+                  partsOfSpeech: selectedFocusWord.partsOfSpeech,
+                }
+              : undefined,
         }),
       })
 
@@ -361,7 +457,9 @@ export default function DrillPage() {
       // Reset SRS tracking for new session
       setQuestionResults([])
       setQuestionStartTime(Date.now())
-      await checkOnly({ failOpen: false })
+      await (settings.drillMode === 'focus' ? checkFocusModeOnly : checkConjugationDrillOnly)({
+        failOpen: false,
+      })
     } catch (error) {
       console.error('Error starting drill:', error)
       showAlert(
@@ -451,11 +549,27 @@ export default function DrillPage() {
       const conjugationTypes: string[] = []
 
       session.questions.forEach(question => {
-        // Extract word type and conjugation
-        const wordType = question.word.type as string
-        if (wordType === 'verb') {
+        // Extract word type and conjugation.
+        // Focus mode and enhanced detection paths often provide specific types
+        // (Godan/Ichidan/Irregular/i-adjective/na-adjective), so don't rely on
+        // legacy generic verb/adjective labels only.
+        const normalizedTypes = new Set<string>([
+          String(question.word.type || ''),
+          String((question as any).conjugationType || ''),
+        ])
+
+        if (
+          normalizedTypes.has('verb') ||
+          normalizedTypes.has('Godan') ||
+          normalizedTypes.has('Ichidan') ||
+          normalizedTypes.has('Irregular')
+        ) {
           verbsPracticed.push(question.word.kanji || question.word.kana)
-        } else if (wordType === 'adjective') {
+        } else if (
+          normalizedTypes.has('adjective') ||
+          normalizedTypes.has('i-adjective') ||
+          normalizedTypes.has('na-adjective')
+        ) {
           adjectivesPracticed.push(question.word.kanji || question.word.kana)
         }
         conjugationTypes.push(question.targetForm)
@@ -527,39 +641,12 @@ export default function DrillPage() {
     setShowResult(false)
     setScore(0)
     setIsComplete(false)
+    setSelectedFocusWord(null)
+    setFocusWordInput('')
+    setFocusWordResults([])
   }
 
-  const FORM_PRESETS: Record<string, string[]> = {
-    basic: ['present', 'past', 'negative', 'pastNegative'],
-    polite: ['polite', 'politePast', 'politeNegative', 'politePastNegative'],
-    teForm: ['teForm', 'negativeTeForm', 'naiDeForm'],
-    potential: ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative'],
-    passive: ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative'],
-    causative: ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative'],
-  }
 
-  const isPresetSelected = (presetKey: keyof typeof FORM_PRESETS) => {
-    const current = settings.conjugationForms || []
-    const preset = FORM_PRESETS[presetKey]
-    return preset.every(form => current.includes(form))
-  }
-
-  const togglePreset = (presetKey: keyof typeof FORM_PRESETS) => {
-    setSettings(prev => {
-      const current = new Set(prev.conjugationForms || [])
-      const preset = FORM_PRESETS[presetKey]
-      const hasAll = preset.every(form => current.has(form))
-
-      if (hasAll) {
-        preset.forEach(form => current.delete(form))
-      } else {
-        preset.forEach(form => current.add(form))
-      }
-
-      const next = Array.from(current)
-      return { ...prev, conjugationForms: next.length > 0 ? next : [] }
-    })
-  }
 
   const currentQuestion = session?.questions[currentQuestionIndex]
 
@@ -671,28 +758,24 @@ export default function DrillPage() {
         showDoshi
         doshiMood="studying"
         actions={
-          usageData.hasData ? (
+          activeUsageData.hasData ? (
             <DesktopCircularIndicator
-              remaining={usageData.remaining}
-              limitCount={usageData.limitCount}
-              usedCount={usageData.usedCount}
-              color={usageData.color}
+              remaining={activeUsageData.remaining}
+              limitCount={activeUsageData.limitCount}
+              usedCount={activeUsageData.usedCount}
+              color={activeUsageData.color}
             />
           ) : null
         }
       />
 
-      <FeatureUsageIndicator featureId="conjugation_drill" />
+      <FeatureUsageIndicator featureId={activeEntitlementFeatureId} />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {!session ? (
             // Setup screen
             <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
-              <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
-                {t('drill.settings')}
-              </h2>
-
               {/* Drill Stats Display */}
               {drillStats && drillStats.totalDrills > 0 && (
                 <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
@@ -738,257 +821,13 @@ export default function DrillPage() {
                 </div>
               )}
 
-              {/* Question Count Selector */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
-                  {t('drill.questionsPerSession')}
-                </label>
-
-                {isHydrated && (
-                  <>
-                    {/* Quick select buttons */}
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3">
-                      {(() => {
-                        const presets = [5, 10, 15, 20, questionLimits.max];
-                        const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
-                        return uniquePresets.map((preset) => (
-                          <button
-                            key={preset}
-                            onClick={() => setSettings(prev => ({
-                              ...prev,
-                              questionsPerSession: preset
-                            }))}
-                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                              settings.questionsPerSession === preset
-                                ? 'bg-primary-500 text-white'
-                                : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                            }`}
-                          >
-                            {preset}
-                          </button>
-                        ));
-                      })()}
-                    </div>
-
-                    {/* Stepper controls */}
-                    <div className="flex items-center justify-center gap-4 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
-                      <button
-                        onClick={() => setSettings(prev => ({
-                          ...prev,
-                          questionsPerSession: Math.max(questionLimits.min, prev.questionsPerSession - 1)
-                        }))}
-                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={settings.questionsPerSession <= questionLimits.min}
-                      >
-                        <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
-                      </button>
-
-                      <div className="flex flex-col items-center gap-1">
-                        <input
-                          type="number"
-                          min={questionLimits.min}
-                          max={questionLimits.max}
-                          value={settings.questionsPerSession}
-                          onChange={(e) => {
-                            const value = Math.max(questionLimits.min, Math.min(questionLimits.max, Number(e.target.value)));
-                            setSettings(prev => ({
-                              ...prev,
-                              questionsPerSession: value
-                            }));
-                          }}
-                          className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                        />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          of {questionLimits.max}
-                        </span>
-                      </div>
-
-                      <button
-                        onClick={() => setSettings(prev => ({
-                          ...prev,
-                          questionsPerSession: Math.min(questionLimits.max, prev.questionsPerSession + 1)
-                        }))}
-                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={settings.questionsPerSession >= questionLimits.max}
-                      >
-                        <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
-                      </button>
-                    </div>
-
-                    {subscription?.plan === 'free' && (
-                      <p className="text-xs text-muted-foreground mt-2">{t('drill.upgradeForMore')}</p>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {/* Word Type Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
-                  {t('drill.wordTypeFilter')}
-                </label>
-                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
-                  <button
-                    onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'all' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
-                      settings.wordTypeFilter === 'all'
-                        ? 'border-primary-500 bg-primary-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                    }`}
-                  >
-                    {t('drill.allTypes')}
-                  </button>
-                  <button
-                    onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'verbs' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
-                      settings.wordTypeFilter === 'verbs'
-                        ? 'border-primary-500 bg-primary-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                    }`}
-                  >
-                    {t('drill.verbs')}
-                  </button>
-                  <button
-                    onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'adjectives' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
-                      settings.wordTypeFilter === 'adjectives'
-                        ? 'border-primary-500 bg-primary-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                    }`}
-                  >
-                    {t('drill.adjectives')}
-                  </button>
-                </div>
-              </div>
-
-              {/* JLPT Level Selector */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
-                  JLPT Levels{' '}
-                  <span className="text-xs text-muted-foreground">(Select one or more)</span>
-                </label>
-                <div className="flex gap-1.5 sm:gap-2 flex-wrap">
-                  {(['N5', 'N4', 'N3', 'N2', 'N1'] as const).map(level => (
-                    <button
-                      key={level}
-                      onClick={() => {
-                        setSettings(prev => {
-                          const current = prev.jlptLevels || []
-                          const isSelected = current.includes(level)
-                          if (isSelected) {
-                            // Deselect - but keep at least one selected
-                            const newLevels = current.filter(l => l !== level)
-                            return {
-                              ...prev,
-                              jlptLevels: newLevels.length > 0 ? newLevels : [level],
-                            }
-                          } else {
-                            // Select
-                            return { ...prev, jlptLevels: [...current, level] }
-                          }
-                        })
-                      }}
-                      className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
-                        settings.jlptLevels?.includes(level)
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      {level}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Conjugation Forms Selector */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
-                  Conjugation Forms{' '}
-                  <span className="text-xs text-muted-foreground">
-                    (Select multiple or leave empty for all forms)
-                  </span>
-                </label>
-                <div className="space-y-2">
-                  {/* Quick presets */}
-                  <div className="flex gap-1.5 sm:gap-2 flex-wrap">
-                    <button
-                      onClick={() => setSettings(prev => ({ ...prev, conjugationForms: [] }))}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors font-medium ${
-                        settings.conjugationForms?.length === 0
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      All Forms
-                    </button>
-                    <button
-                      onClick={() => togglePreset('basic')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('basic')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Basic Only
-                    </button>
-                    <button
-                      onClick={() => togglePreset('polite')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('polite')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Polite Only
-                    </button>
-                    <button
-                      onClick={() => togglePreset('teForm')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('teForm')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Te-Forms
-                    </button>
-                    <button
-                      onClick={() => togglePreset('potential')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('potential')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Potential
-                    </button>
-                    <button
-                      onClick={() => togglePreset('passive')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('passive')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Passive
-                    </button>
-                    <button
-                      onClick={() => togglePreset('causative')}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        isPresetSelected('causative')
-                          ? 'border-primary-500 bg-primary-500 text-white'
-                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
-                      }`}
-                    >
-                      Causative
-                    </button>
-                  </div>
-                  {settings.conjugationForms && settings.conjugationForms.length > 0 && (
-                    <div className="text-xs text-primary-600 dark:text-primary-400">
-                      Selected: {settings.conjugationForms.length} form
-                      {settings.conjugationForms.length !== 1 ? 's' : ''}
-                    </div>
-                  )}
-                </div>
+              {/* Settings Summary + Drawer Trigger */}
+              <div className="mb-4 sm:mb-6">
+                <DrillSettingsSummary
+                  settings={settings}
+                  onOpenDrawer={() => setShowSettingsDrawer(true)}
+                  t={t}
+                />
               </div>
 
               {/* Practice Mode */}
@@ -996,7 +835,7 @@ export default function DrillPage() {
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   {t('drill.practiceMode')}
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'random' }))}
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
@@ -1069,6 +908,21 @@ export default function DrillPage() {
                         </span>
                       )}
                     </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSettings(prev => ({ ...prev, drillMode: 'focus' }))
+                      setSelectedFocusWord(null)
+                      setFocusWordInput('')
+                      setFocusWordResults([])
+                    }}
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
+                      settings.drillMode === 'focus'
+                        ? 'border-orange-500 bg-orange-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
+                    }`}
+                  >
+                    🎯 {t('drill.focusMode') || 'Focus Word'}
                   </button>
                 </div>
 
@@ -1223,23 +1077,124 @@ export default function DrillPage() {
                     )}
                   </div>
                 )}
-              </div>
 
-              {/* Auto-advance toggle */}
-              <div className="mb-6 sm:mb-8">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={settings.autoAdvance}
-                    onChange={e =>
-                      setSettings(prev => ({ ...prev, autoAdvance: e.target.checked }))
-                    }
-                    className="mr-2 w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                  />
-                  <span className="text-sm text-foreground dark:text-dark-foreground">
-                    {t('drill.autoAdvance')}
-                  </span>
-                </label>
+                {/* Focus Word Input - shown when 'focus' mode is selected */}
+                {settings.drillMode === 'focus' && (
+                  <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">🎯</span>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-orange-900 dark:text-orange-100">
+                          {t('drill.focusMode')}
+                        </h3>
+                        <p className="text-xs text-orange-700 dark:text-orange-300 mt-0.5">
+                          {t('drill.focusDescription')}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Search Input */}
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={focusWordInput}
+                        onChange={(e) => {
+                          setFocusWordInput(e.target.value)
+                          setSelectedFocusWord(null)
+                        }}
+                        placeholder={t('drill.focusPlaceholder')}
+                        className="w-full px-4 py-2.5 rounded-lg border border-orange-300 dark:border-orange-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base"
+                        autoComplete="off"
+                      />
+                      {focusWordLoading && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <div className="animate-spin h-4 w-4 border-2 border-orange-500 border-t-transparent rounded-full" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Search Results Dropdown */}
+                    {showFocusResults && focusWordResults.length > 0 && !selectedFocusWord && (
+                      <div className="mt-2 bg-white dark:bg-dark-800 border border-orange-200 dark:border-orange-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                        {focusWordResults.map((word, idx) => (
+                          <button
+                            key={word.id || idx}
+                            onClick={() => {
+                              setSelectedFocusWord(word)
+                              setFocusWordInput(word.kanji || word.kana)
+                              setShowFocusResults(false)
+                            }}
+                            className="w-full px-4 py-2.5 text-left hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors border-b border-gray-100 dark:border-dark-700 last:border-b-0"
+                          >
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-base font-medium text-gray-900 dark:text-gray-100">
+                                {word.kanji || word.kana}
+                              </span>
+                              {word.kanji && (
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                  {word.kana}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="text-xs px-1.5 py-0.5 rounded bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">
+                                {word.type}
+                              </span>
+                              <span className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                {word.meaning}
+                              </span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Selected word confirmation */}
+                    {selectedFocusWord && (
+                      <div className="mt-3 p-3 bg-white dark:bg-dark-800 border border-orange-300 dark:border-orange-700 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                {selectedFocusWord.kanji || selectedFocusWord.kana}
+                              </span>
+                              {selectedFocusWord.kanji && (
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                  ({selectedFocusWord.kana})
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs px-1.5 py-0.5 rounded bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 font-medium">
+                                {selectedFocusWord.type}
+                              </span>
+                              <span className="text-sm text-gray-600 dark:text-gray-400">
+                                {selectedFocusWord.meaning}
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSelectedFocusWord(null)
+                              setFocusWordInput('')
+                              setFocusWordResults([])
+                            }}
+                            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-gray-500 dark:text-gray-400"
+                            aria-label="Clear selection"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="mt-3 text-xs text-orange-600 dark:text-orange-400">
+                      {t('drill.focusTip')}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Start Button - More prominent with spacing */}
@@ -1463,6 +1418,10 @@ export default function DrillPage() {
           currentQuestion.conjugationType ||
           enhancedWord.conjugationType ||
           currentQuestion.word.type
+        const usageNote = getConjugationUsageNote(
+          currentQuestion.targetForm as any,
+          conjugationType as any
+        )
 
         return (
           <Modal
@@ -1492,6 +1451,32 @@ export default function DrillPage() {
                   </p>
                 </div>
               </div>
+
+              {/* Usage / meaning (pedagogical guidance) */}
+              {usageNote && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    🧠 When it&apos;s used
+                  </h3>
+                  <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
+                    <p className="text-sm text-gray-800 dark:text-gray-100 font-medium">
+                      {usageNote.summary}
+                    </p>
+                    <ul className="mt-2 space-y-1">
+                      {usageNote.useCases.map((item, idx) => (
+                        <li key={`${usageNote.key}-${idx}`} className="text-sm text-gray-700 dark:text-gray-300">
+                          • {item}
+                        </li>
+                      ))}
+                    </ul>
+                    {usageNote.nuance && (
+                      <p className="mt-2 text-xs text-amber-800 dark:text-amber-200">
+                        {usageNote.nuance}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Your word - no answer given */}
               <div>
@@ -1605,6 +1590,19 @@ export default function DrillPage() {
           </Modal>
         )
       })()}
+
+      {/* Settings Drawer */}
+      <DrillSettingsDrawer
+        isOpen={showSettingsDrawer}
+        onClose={() => setShowSettingsDrawer(false)}
+        settings={settings}
+        onSettingsChange={setSettings}
+        questionLimits={questionLimits}
+        isHydrated={isHydrated}
+        isPremium={isPremium ?? false}
+        t={t}
+        strings={strings}
+      />
 
       {/* Centered error alert */}
       <CenteredAlert

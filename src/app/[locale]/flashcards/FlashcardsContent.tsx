@@ -45,15 +45,16 @@ import type {
   PersistedStudySession,
   FlashcardContent,
   FlashcardStreakSnapshot,
+  StudyMode as FlashcardsSessionMode,
 } from '@/types/flashcards'
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
 import type { FlashcardsInitialData } from '@/lib/flashcards/server'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, ChevronRight, Trash2, CheckSquare, Square, Download, Store } from 'lucide-react'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, ChevronRight, Trash2, CheckSquare, Square, Download, Store, MoreVertical } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
-import ActionMenu from '@/components/ui/ActionMenu'
+import FlashcardsMenuDrawer from '@/components/flashcards/FlashcardsMenuDrawer'
 import { getFlashcardsDeviceId } from '@/lib/flashcards/deviceId'
 import { weakCardsStore, type WeakCardEntry } from '@/lib/flashcards/weakCards'
 import { buildStreakSnapshot, getLastNDates } from '@/lib/flashcards/streakSnapshots'
@@ -152,8 +153,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [selectAllMode, setSelectAllMode] = useState(false)
   const [pendingRemoteSession, setPendingRemoteSession] = useState<PersistedStudySession | null>(null)
   const [showRemoteSessionDialog, setShowRemoteSessionDialog] = useState(false)
+  const [showPreviewCompleteDialog, setShowPreviewCompleteDialog] = useState(false)
+  const [previewCompletedDeck, setPreviewCompletedDeck] = useState<FlashcardDeck | null>(null)
   const [multiDeckQueue, setMultiDeckQueue] = useState<Array<{ deck: FlashcardDeck; cards: FlashcardContent[] }>>([])
   const [createDeckQuotaDecision, setCreateDeckQuotaDecision] = useState<FeatureDecision | null>(null)
+  const [showMenuDrawer, setShowMenuDrawer] = useState(false)
+  const [activeStudySessionMode, setActiveStudySessionMode] = useState<FlashcardsSessionMode>('classic')
+  const [studyFollowUpRound, setStudyFollowUpRound] = useState(0)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -424,6 +430,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         : { ...stored!, currentIndex: nextIndex }
 
       setResumeSessionState(resumeState)
+      setActiveStudySessionMode((resumeState.mode as FlashcardsSessionMode) || 'classic')
+      setStudyFollowUpRound(0)
       setStudyingDeck({
         ...deck,
         cards: sessionCards,
@@ -2053,6 +2061,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
 
     setResumeSessionState(null)
+    setActiveStudySessionMode('classic')
+    setStudyFollowUpRound(0)
     setStudyingDeck({
       ...deck,
       cards,
@@ -2106,10 +2116,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
   }, [visibleWeakCards, weakCardIndex])
 
-  const handleStartSession = (selectedCards: any[], mode: string) => {
+  const handleStartSession = (selectedCards: FlashcardContent[], mode: string) => {
     if (!deckToStudy || selectedCards.length === 0) return
 
+    const sessionMode: FlashcardsSessionMode =
+      mode === 'preview' || mode === 'study'
+        ? mode
+        : mode === 'speed'
+          ? 'speed'
+          : 'classic'
+
     setResumeSessionState(null)
+    setActiveStudySessionMode(sessionMode)
+    setStudyFollowUpRound(0)
     setStudyingDeck({
       ...deckToStudy,
       cards: selectedCards,
@@ -2129,6 +2148,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     try {
       setResumeSessionState(null)
+      setStudyFollowUpRound(0)
       // Update deck with new settings
       const updatedDeck = await flashcardManager.updateDeck(
         deckToStudy.id,
@@ -2167,6 +2187,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         sessionCards = sessionCards.slice(0, sessionLength)
 
         // Start the study session
+        setActiveStudySessionMode('classic')
+        setStudyFollowUpRound(0)
         setStudyingDeck({
           ...updatedDeck,
           cards: sessionCards,
@@ -2219,6 +2241,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       : { ...pendingRemoteSession, currentIndex: nextIndex }
 
     setResumeSessionState(resumeState)
+    setActiveStudySessionMode((resumeState.mode as FlashcardsSessionMode) || 'classic')
+    setStudyFollowUpRound(0)
     setStudyingDeck({
       ...deck,
       cards: sessionCards,
@@ -2237,12 +2261,54 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setPendingRemoteSession(null)
   }, [])
 
+  const handleStartReviewAfterPreview = useCallback(() => {
+    if (!previewCompletedDeck) {
+      setShowPreviewCompleteDialog(false)
+      return
+    }
+
+    const deckFromState = decks.find(d => d.id === previewCompletedDeck.id) || previewCompletedDeck
+    setShowPreviewCompleteDialog(false)
+    setPreviewCompletedDeck(null)
+    setDeckToStudy(deckFromState)
+    setShowModeSelector(true)
+  }, [decks, previewCompletedDeck])
+
   const handleSessionComplete = async (summary: SessionSummary) => {
     // Capture deck name before clearing state
     const deckName = studyingDeck?.name || 'Flashcard Deck'
+    const completedDeck = studyingDeck
+    const completedMode = activeStudySessionMode
 
     setResumeSessionState(null)
+    setActiveStudySessionMode('classic')
+    setStudyFollowUpRound(0)
     setStudyingDeck(null)
+
+    if (completedMode === 'study' && completedDeck) {
+      const followUpIds = Array.isArray(summary.studyFollowUpCardIds) ? summary.studyFollowUpCardIds : []
+      if (followUpIds.length > 0) {
+        const cardMap = new Map(completedDeck.cards.map(card => [card.id, card]))
+        const followUpCards = followUpIds
+          .map(cardId => cardMap.get(cardId))
+          .filter(Boolean) as FlashcardContent[]
+
+        if (followUpCards.length > 0) {
+          setActiveStudySessionMode('study')
+          setStudyFollowUpRound(prev => (prev > 0 ? prev + 1 : 1))
+          setStudyingDeck({
+            ...completedDeck,
+            cards: followUpCards,
+            settings: {
+              ...completedDeck.settings,
+              reviewMode: 'sequential',
+              sessionLength: followUpCards.length,
+            },
+          })
+          return
+        }
+      }
+    }
 
     // Emit SESSION_COMPLETED event via Event Hub for gamification
     // This uses the same pattern as Kana, Kanji, Lists, etc.
@@ -2291,9 +2357,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     await loadData(false, multiDeckQueue.length === 0)
 
+    if (completedMode === 'preview' && completedDeck) {
+      setPreviewCompletedDeck(completedDeck)
+      setShowPreviewCompleteDialog(true)
+      return
+    }
+
     if (multiDeckQueue.length > 0) {
       const [next, ...rest] = multiDeckQueue
       setMultiDeckQueue(rest)
+      setActiveStudySessionMode('classic')
+      setStudyFollowUpRound(0)
       setStudyingDeck({
         ...next.deck,
         cards: next.cards,
@@ -2370,9 +2444,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         key={resumeSessionState?.savedAt ? `resume-${resumeSessionState.savedAt}` : 'new-session'}
         deck={studyingDeck}
         cards={studyingDeck.cards}
+        mode={activeStudySessionMode}
+        followUpRound={studyFollowUpRound}
         onComplete={handleSessionComplete}
         onExit={() => {
           setResumeSessionState(null)
+          setActiveStudySessionMode('classic')
+          setStudyFollowUpRound(0)
           setStudyingDeck(null)
         }}
         onDeckUpdated={async (deckId) => {
@@ -2402,67 +2480,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         description={t('flashcards.description')}
         backHref="/dashboard"
         actions={
-          <ActionMenu
-            items={[
-              {
-                label: t('flashcards.insights'),
-                icon: <PieChart className="w-4 h-4" />,
-                onClick: handleToggleInsights,
-                hidden: !initialData.userId || decks.length === 0,
-              },
-              {
-                label: isAllSelected
-                  ? t('flashcards.selectAll')?.replace('Select', 'Deselect') || 'Deselect all'
-                  : t('flashcards.selectAll') || 'Select all',
-                icon: isAllSelected ? (
-                  <CheckSquare className="w-4 h-4" />
-                ) : (
-                  <Square className="w-4 h-4" />
-                ),
-                onClick: handleToggleSelectAll,
-                hidden: decks.length === 0 || !isPremium,
-              },
-              {
-                label: t('flashcards.createDeck'),
-                icon: <Plus className="w-4 h-4" />,
-                onClick: handleOpenDeckCreator,
-                disabled: isCreateDeckQuotaBlocked,
-                description: createDeckQuotaMenuDescription,
-                hidden: !isPremium,
-              },
-              {
-                label: t('flashcards.actions.syncAll'),
-                icon: isSyncingMedia ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                ) : (
-                  <RefreshCw className="w-4 h-4" />
-                ),
-                onClick: () => {
-                  if (!isSyncingMedia) {
-                    handleBulkSync()
-                  }
-                },
-                hidden: !isPremium,
-              },
-              {
-                label: t('flashcards.actions.exportAll'),
-                icon: <Download className="w-4 h-4" />,
-                onClick: handleExportAll,
-                hidden: !isPremium || !hasExportableDecks,
-              },
-              {
-                label: 'Run Flashcards Tests',
-                icon: <AlertTriangle className="w-4 h-4" />,
-                onClick: handleOpenFlashcardsTests,
-                hidden: !showFlashcardsTestButton || !user,
-              },
-            ]}
-            size="md"
-          />
+          <button
+            onClick={() => setShowMenuDrawer(true)}
+            className="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Open menu"
+          >
+            <MoreVertical className="w-5 h-5" />
+          </button>
         }
       />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-24">
         {initialData.userId && <FlashcardsStoragePermissionModal />}
 
         {/* Migration Banner for New Premium Users */}
@@ -3017,6 +3045,82 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           }
           confirmText={t('flashcards.resumeRemote.confirm') || 'Resume'}
           cancelText={t('flashcards.resumeRemote.cancel') || 'Keep local'}
+        />
+        <Dialog
+          isOpen={showPreviewCompleteDialog}
+          onClose={() => {
+            setShowPreviewCompleteDialog(false)
+            setPreviewCompletedDeck(null)
+          }}
+          onConfirm={handleStartReviewAfterPreview}
+          title={t('flashcards.previewComplete.title') || 'Preview complete'}
+          message={
+            t('flashcards.previewComplete.message', { deckName: previewCompletedDeck?.name || '' }) ||
+            'You finished previewing this deck. Start a review session next?'
+          }
+          confirmText={t('flashcards.previewComplete.startReview') || 'Start Review'}
+          cancelText={t('flashcards.previewComplete.backToDecks') || 'Back to Decks'}
+        />
+
+        {/* Page Menu Drawer */}
+        <FlashcardsMenuDrawer
+          isOpen={showMenuDrawer}
+          onClose={() => setShowMenuDrawer(false)}
+          t={t}
+          items={[
+            {
+              label: t('flashcards.insights'),
+              icon: <PieChart className="w-5 h-5" />,
+              onClick: handleToggleInsights,
+              hidden: !initialData.userId || decks.length === 0,
+            },
+            {
+              label: isAllSelected
+                ? t('flashcards.selectAll')?.replace('Select', 'Deselect') || 'Deselect all'
+                : t('flashcards.selectAll') || 'Select all',
+              icon: isAllSelected ? (
+                <CheckSquare className="w-5 h-5" />
+              ) : (
+                <Square className="w-5 h-5" />
+              ),
+              onClick: handleToggleSelectAll,
+              hidden: decks.length === 0 || !isPremium,
+            },
+            {
+              label: t('flashcards.createDeck'),
+              icon: <Plus className="w-5 h-5" />,
+              onClick: handleOpenDeckCreator,
+              disabled: isCreateDeckQuotaBlocked,
+              description: createDeckQuotaMenuDescription,
+              hidden: !isPremium,
+            },
+            {
+              label: t('flashcards.actions.syncAll'),
+              icon: isSyncingMedia ? (
+                <RefreshCw className="w-5 h-5 animate-spin" />
+              ) : (
+                <RefreshCw className="w-5 h-5" />
+              ),
+              onClick: () => {
+                if (!isSyncingMedia) {
+                  handleBulkSync()
+                }
+              },
+              hidden: !isPremium,
+            },
+            {
+              label: t('flashcards.actions.exportAll'),
+              icon: <Download className="w-5 h-5" />,
+              onClick: handleExportAll,
+              hidden: !isPremium || !hasExportableDecks,
+            },
+            {
+              label: 'Run Flashcards Tests',
+              icon: <AlertTriangle className="w-5 h-5" />,
+              onClick: handleOpenFlashcardsTests,
+              hidden: !showFlashcardsTestButton || !user,
+            },
+          ]}
         />
 
         {/* Study Mode Selector Modal */}

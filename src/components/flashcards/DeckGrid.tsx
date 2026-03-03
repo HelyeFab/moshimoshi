@@ -55,6 +55,7 @@ export function DeckGrid({
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [menuDropUp, setMenuDropUp] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuActionInProgressRef = useRef(false);
   const selectionEnabled = Boolean(selectedDeckIds && onToggleSelect);
@@ -186,7 +187,7 @@ export function DeckGrid({
           transition={{ duration: 0.15 }}
           className={cn(
             "rounded-lg bg-white dark:bg-dark-800 shadow-xl border border-gray-200 dark:border-dark-700 py-2 z-50",
-            isMobile ? "w-full max-w-[240px] relative" : "absolute top-12 right-1.5 w-56"
+            isMobile ? "w-full max-w-[240px] relative" : cn("absolute right-1.5 w-56", menuDropUp ? "bottom-12" : "top-12")
           )}
           onClick={(e) => e.stopPropagation()}
         >
@@ -755,6 +756,11 @@ export function DeckGrid({
                           willOpen: openMenuId !== deck.id
                         });
                         if (isRestoring) return;
+                        // Check if menu would overflow below viewport
+                        const btn = e.currentTarget;
+                        const rect = btn.getBoundingClientRect();
+                        const spaceBelow = window.innerHeight - rect.bottom;
+                        setMenuDropUp(spaceBelow < 400);
                         setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                       }}
                       disabled={isRestoring}

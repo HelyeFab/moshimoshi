@@ -20,3 +20,20 @@ How to Use
 
 
   After generation, set values back to null to resume random selection.  
+
+
+Automation Switches (Admin Feature Flags)
+
+- `STORY_AUTOMATION`: Pauses/resumes scheduled story automation.
+- `NEWS_AUTOMATION`: Pauses/resumes scheduled news scraping and scheduled news audio generation.
+- `COMICS_AUTOMATION`: Pauses/resumes scheduled comic automation.
+
+Where to change:
+
+- Admin Dashboard: `/admin/feature-flags`
+- Firestore: `config/featureFlags`
+
+Note:
+
+- These switches affect scheduled jobs only.
+- Manual admin generation flows remain available.

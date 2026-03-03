@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import DOMPurify from 'isomorphic-dompurify'
 import {
   Download,
   FileText,
@@ -18,6 +19,9 @@ import {
   CheckCircle2,
   ArrowRight,
   Loader2,
+  Share2,
+  Check,
+  Volume2,
 } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -134,16 +138,13 @@ const stripHtmlTags = (value: string) => value.replace(/<[^>]*>/g, '')
 const normalizePreviewText = (value: string) =>
   stripHtmlTags(value).replace(/\s+/g, ' ').trim()
 
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-
-const formatPlainTextHtml = (value: string) =>
-  escapeHtml(value).replace(/\r?\n/g, '<br>')
+const formatCsvRichHtml = (value: string) => {
+  const withBreaks = value.replace(/\r?\n/g, '<br>')
+  return DOMPurify.sanitize(withBreaks, {
+    ALLOWED_TAGS: ['ruby', 'rt', 'rp', 'br'],
+    ALLOWED_ATTR: [],
+  })
+}
 
 const applyMediaToHtml = (html: string, mediaMap: Map<string, string>) => {
   if (!html) return ''
@@ -184,27 +185,89 @@ const isAudioFilename = (value: string) => {
   )
 }
 
+const parseCsvRows = (text: string): string[][] => {
+  const rows: string[][] = []
+  let row: string[] = []
+  let field = ''
+  let inQuotes = false
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i]
+    const next = text[i + 1]
+
+    if (inQuotes) {
+      if (char === '"' && next === '"') {
+        field += '"'
+        i += 1
+      } else if (char === '"') {
+        inQuotes = false
+      } else {
+        field += char
+      }
+      continue
+    }
+
+    if (char === '"') {
+      inQuotes = true
+      continue
+    }
+
+    if (char === ',') {
+      row.push(field)
+      field = ''
+      continue
+    }
+
+    if (char === '\n') {
+      row.push(field)
+      field = ''
+      rows.push(row)
+      row = []
+      continue
+    }
+
+    if (char === '\r') {
+      continue
+    }
+
+    field += char
+  }
+
+  row.push(field)
+  const hasMeaningfulData = row.some((value) => value.trim().length > 0)
+  if (hasMeaningfulData) {
+    rows.push(row)
+  }
+
+  return rows
+}
+
 const parseCsvPreview = (text: string): PreviewCard[] => {
-  const lines = text.split(/\r?\n/)
-  const header = (lines[0] || '').toLowerCase()
-  const startIndex = header.includes('front') && header.includes('back') ? 1 : 0
+  const rows = parseCsvRows(text)
+  if (rows.length === 0) return []
+
+  const firstRow = rows[0].map((value) => value.trim().toLowerCase())
+  const frontIndex = firstRow.indexOf('front')
+  const backIndex = firstRow.indexOf('back')
+  const hasHeader = frontIndex !== -1 && backIndex !== -1
+  const startIndex = hasHeader ? 1 : 0
+  const resolvedFrontIndex = hasHeader ? frontIndex : 0
+  const resolvedBackIndex = hasHeader ? backIndex : 1
   const cards: PreviewCard[] = []
 
-  for (let i = startIndex; i < lines.length; i++) {
+  for (let i = startIndex; i < rows.length; i++) {
     if (cards.length >= PREVIEW_LIMIT) break
-    if (!lines[i].trim()) continue
+    const row = rows[i]
+    if (!row) continue
 
-    const values = lines[i].match(/(\".*?\"|[^,]+)/g) || []
-    const cleanValues = values.map((value) =>
-      value.replace(/^\"|\"$/g, '').replace(/\"\"/g, '\"').trim()
-    )
+    const front = (row[resolvedFrontIndex] || '').trim()
+    const back = (row[resolvedBackIndex] || '').trim()
+    if (!front && !back) continue
 
-    if (cleanValues.length >= 2) {
-      cards.push({
-        frontHtml: formatPlainTextHtml(cleanValues[0] || ''),
-        backHtml: formatPlainTextHtml(cleanValues[1] || ''),
-      })
-    }
+    cards.push({
+      frontHtml: formatCsvRichHtml(front),
+      backHtml: formatCsvRichHtml(back),
+    })
   }
 
   return cards
@@ -241,6 +304,7 @@ export default function DeckMarketDetailPage() {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewError, setPreviewError] = useState<string | null>(null)
+  const [showFullDescription, setShowFullDescription] = useState(false)
   const previewUrlsRef = useRef<string[]>([])
 
   // "Add to Flashcards" state
@@ -251,6 +315,28 @@ export default function DeckMarketDetailPage() {
   const [freeSlotDeckId, setFreeSlotDeckId] = useState<string | null>(null)
 
   const isFreeSlotTaken = !isPremium && freeSlotDeckId !== null && freeSlotDeckId !== deckId
+
+  // Share state
+  const [shareCopied, setShareCopied] = useState(false)
+  const handleShare = async () => {
+    const shareUrl = `https://moshimoshi.app/${locale}/deckmarket/${deckId}`
+    const shareData = {
+      title: deck?.title ?? 'DeckMarket',
+      text: deck?.description ?? '',
+      url: shareUrl,
+    }
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share(shareData)
+      } catch {
+        // User cancelled or share failed — ignore
+      }
+    } else {
+      await navigator.clipboard.writeText(shareUrl)
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 2000)
+    }
+  }
 
   useEffect(() => {
     if (!deckId) return
@@ -530,31 +616,87 @@ export default function DeckMarketDetailPage() {
   }, [latestVersion, strings.deckmarket.deck.version])
 
   const gradient = deck ? deckGradient(deck.jlpt, deck.id) : ''
+  const normalizedDeckDescription = useMemo(() => {
+    const raw = deck?.description || ''
+    return raw.replace(/\s+/g, ' ').trim()
+  }, [deck?.description])
+
+  const shortHeroDescription = useMemo(() => {
+    const normalized = normalizedDeckDescription
+    if (!normalized) return ''
+
+    const sentenceParts = normalized.split(/(?<=[.!?])\s+/).filter(Boolean)
+    if (sentenceParts.length >= 2) {
+      return `${sentenceParts[0]} ${sentenceParts[1]}`
+    }
+    if (normalized.length > 240) {
+      return `${normalized.slice(0, 237).trimEnd()}…`
+    }
+    return normalized
+  }, [normalizedDeckDescription])
+
+  const shouldCollapseDescription =
+    normalizedDeckDescription.length > 0 && normalizedDeckDescription !== shortHeroDescription
+  const heroDescription = showFullDescription ? normalizedDeckDescription : shortHeroDescription
+
+  useEffect(() => {
+    setShowFullDescription(false)
+  }, [deck?.id])
 
   return (
     <>
       {deck && (
-        <StructuredData
-          data={{
-            '@context': 'https://schema.org',
-            '@type': 'LearningResource',
-            name: deck.title,
-            description: deck.description,
-            url: `https://moshimoshi.app/${locale}/deckmarket/${deck.id}`,
-            educationalLevel: deck.jlpt
-              ? [`JLPT ${deck.jlpt}`]
-              : ['Beginner', 'Intermediate', 'Advanced'],
-            teaches: ['Japanese Language'],
-            inLanguage: [deck.language, 'en'],
-            learningResourceType: 'Flashcard Deck',
-            isAccessibleForFree: true,
-            provider: {
-              '@type': 'Organization',
-              name: 'Moshimoshi',
-              url: 'https://moshimoshi.app',
-            },
-          }}
-        />
+        <>
+          <StructuredData
+            data={{
+              '@context': 'https://schema.org',
+              '@type': 'LearningResource',
+              name: deck.title,
+              description: deck.description,
+              url: `https://moshimoshi.app/${locale}/deckmarket/${deck.id}`,
+              educationalLevel: deck.jlpt
+                ? [`JLPT ${deck.jlpt}`]
+                : ['Beginner', 'Intermediate', 'Advanced'],
+              teaches: ['Japanese Language'],
+              inLanguage: [deck.language, 'en'],
+              learningResourceType: 'Flashcard Deck',
+              isAccessibleForFree: true,
+              datePublished: deck.createdAt,
+              dateModified: deck.updatedAt,
+              provider: {
+                '@type': 'Organization',
+                name: 'Moshimoshi',
+                url: 'https://moshimoshi.app',
+              },
+            }}
+          />
+          <StructuredData
+            data={{
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Moshimoshi',
+                  item: 'https://moshimoshi.app',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'DeckMarket',
+                  item: `https://moshimoshi.app/${locale}/deckmarket`,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  name: deck.title,
+                  item: `https://moshimoshi.app/${locale}/deckmarket/${deck.id}`,
+                },
+              ],
+            }}
+          />
+        </>
       )}
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
       <div className="hidden sm:block">
@@ -563,7 +705,7 @@ export default function DeckMarketDetailPage() {
 
       <PageHeader
         title={deck?.title || strings.deckmarket.title}
-        description={deck?.description || strings.deckmarket.subtitle}
+        description={strings.deckmarket.subtitle}
         backHref="/deckmarket"
         showFeatureReminderToggle={false}
       />
@@ -620,9 +762,30 @@ export default function DeckMarketDetailPage() {
                   >
                     {deck.title}
                   </h1>
-                  <p className="text-white/80 text-sm sm:text-base max-w-2xl mb-6">
-                    {deck.description}
-                  </p>
+                  {heroDescription && (
+                    <div className="max-w-2xl mb-6">
+                      <p className="text-white/85 text-sm sm:text-base leading-relaxed">
+                        {heroDescription}
+                      </p>
+                      <div className="mt-3">
+                        <div className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm sm:text-sm">
+                          <Volume2 className="h-4 w-4" />
+                          {strings.deckmarket.deck.audioIncludedDescription}
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        {shouldCollapseDescription && (
+                          <button
+                            type="button"
+                            onClick={() => setShowFullDescription((prev) => !prev)}
+                            className="text-sm font-medium text-white underline underline-offset-4 decoration-white/60 hover:decoration-white"
+                          >
+                            {showFullDescription ? 'Show less' : 'Read full description'}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* frosted badges */}
                   <div className="flex flex-wrap gap-2">
@@ -645,6 +808,10 @@ export default function DeckMarketDetailPage() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-black/20 backdrop-blur-sm text-white border border-white/20">
                       <Download className="h-3.5 w-3.5" />
                       {deck.downloadCount} {strings.deckmarket.deck.downloads.toLowerCase()}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/25 backdrop-blur-sm text-white border border-emerald-200/50">
+                      <Volume2 className="h-3.5 w-3.5" />
+                      {strings.deckmarket.deck.audioIncludedBadge}
                     </span>
                   </div>
 
@@ -677,38 +844,44 @@ export default function DeckMarketDetailPage() {
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-                {/* gradient icon circle */}
-                <div
-                  className={cn(
-                    'hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-white shadow-md',
-                    gradient
-                  )}
-                >
-                  <Package className="h-7 w-7" />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {strings.deckmarket.deck.downloadLatest}
-                  </h3>
-                  {latestVersion && (
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="inline-flex items-center gap-1">
-                        <FileText className="h-3.5 w-3.5" />
-                        {latestLabel}
-                      </span>
-                      {latestVersion.createdAt && (
+              <div className="space-y-5">
+                {/* Info row: icon + text */}
+                <div className="flex items-center gap-4">
+                  <div
+                    className={cn(
+                      'hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-white shadow-md',
+                      gradient
+                    )}
+                  >
+                    <Package className="h-7 w-7" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {strings.deckmarket.deck.downloadLatest}
+                    </h3>
+                    {latestVersion && (
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm text-gray-500 dark:text-gray-400">
                         <span className="inline-flex items-center gap-1">
-                          <Calendar className="h-3.5 w-3.5" />
-                          {formatDate(latestVersion.createdAt)}
+                          <FileText className="h-3.5 w-3.5" />
+                          {latestLabel}
                         </span>
-                      )}
-                    </div>
-                  )}
+                        {latestVersion.createdAt && (
+                          <span className="inline-flex items-center gap-1">
+                            <Calendar className="h-3.5 w-3.5" />
+                            {formatDate(latestVersion.createdAt)}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                      <Volume2 className="h-3.5 w-3.5" />
+                      {strings.deckmarket.deck.audioIncludedDownload}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 shrink-0">
+                {/* Action buttons */}
+                <div className="flex flex-wrap gap-3">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
@@ -782,6 +955,18 @@ export default function DeckMarketDetailPage() {
                       {addState === 'already-added' && strings.deckmarket.deck.alreadyAdded}
                     </motion.button>
                   )}
+
+                  {/* Share button */}
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleShare}
+                    aria-label={strings.deckmarket.deck.share}
+                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-colors border bg-white/80 dark:bg-dark-800/80 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-dark-700 hover:border-primary-400 dark:hover:border-primary-500"
+                  >
+                    {shareCopied ? <Check className="h-4 w-4 text-green-500" /> : <Share2 className="h-4 w-4" />}
+                    <span className="w-[5.5rem] text-left">{shareCopied ? strings.deckmarket.deck.linkCopied : strings.deckmarket.deck.share}</span>
+                  </motion.button>
                 </div>
               </div>
 

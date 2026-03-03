@@ -25,6 +25,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { defineSecret } from 'firebase-functions/params'
 import { generateComicWordExplanations } from '../utils/comicWordExplanationPreGenerator'
+import { isAutomationEnabled } from '../utils/automationFlags'
 
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
@@ -795,6 +796,14 @@ export const scheduledComicGeneratorFunction = onSchedule(
       scheduleTime: event.scheduleTime,
       jobName: event.jobName,
     })
+
+    const automationEnabled = await isAutomationEnabled('COMICS_AUTOMATION', true)
+    if (!automationEnabled) {
+      logger.info('[ComicScheduler] COMICS_AUTOMATION is disabled - skipping scheduled run', {
+        scheduleTime: event.scheduleTime,
+      })
+      return
+    }
 
     // Use same fallback pattern as story scheduler for autonomous operation
     const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025'

@@ -6,9 +6,115 @@ import { unlockAudioOnUserGesture } from '@/utils/audioUnlock'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useTranslation } from '@/hooks/useTranslation'
 
+const DEFAULT_RATE_LIMIT_COOLDOWN_MS = 6000
+let rateLimitCooldownUntil = 0
+const inFlightSynthesizeRequests = new Map<string, Promise<TTSResult>>()
+
 /** Returns true if text is Japanese-only (contains Japanese characters and no Latin letters) */
 const isJapaneseOnly = (text: string): boolean =>
   /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) && !/[a-zA-Z]/.test(text)
+
+const createRateLimitError = (retryAfterMs: number): Error => {
+  const seconds = Math.max(1, Math.ceil(retryAfterMs / 1000))
+  const error = new Error(`Too many requests (retry in ~${seconds}s)`)
+  ;(error as Error & { code?: string }).code = 'RATE_LIMITED'
+  return error
+}
+
+const parseRetryAfterMs = (response: Response): number => {
+  const retryAfter = response.headers.get('Retry-After')
+  if (!retryAfter) return DEFAULT_RATE_LIMIT_COOLDOWN_MS
+
+  const asNumber = Number(retryAfter)
+  if (Number.isFinite(asNumber) && asNumber > 0) {
+    return asNumber * 1000
+  }
+
+  const asDate = Date.parse(retryAfter)
+  if (!Number.isNaN(asDate)) {
+    return Math.max(DEFAULT_RATE_LIMIT_COOLDOWN_MS, asDate - Date.now())
+  }
+
+  return DEFAULT_RATE_LIMIT_COOLDOWN_MS
+}
+
+const synthesizeRequestKey = (params: {
+  text: string
+  language: string
+  voice?: string
+  speed: number
+  pitch?: number
+}): string => {
+  const { text, language, voice, speed, pitch } = params
+  return `${language}|${voice || 'default'}|${speed}|${pitch ?? ''}|${text}`
+}
+
+const synthesizeFromApi = async (params: {
+  text: string
+  language: string
+  voice?: string
+  speed: number
+  pitch?: number
+}): Promise<TTSResult> => {
+  const now = Date.now()
+  if (now < rateLimitCooldownUntil) {
+    throw createRateLimitError(rateLimitCooldownUntil - now)
+  }
+
+  const key = synthesizeRequestKey(params)
+  const existingRequest = inFlightSynthesizeRequests.get(key)
+  if (existingRequest) return existingRequest
+
+  const request = (async () => {
+    const response = await fetch('/api/tts/synthesize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: params.text,
+        language: params.language,
+        voice: params.voice,
+        speed: params.speed,
+        pitch: params.pitch,
+      }),
+    })
+
+    if (!response.ok) {
+      let errorMessage = 'TTS synthesis failed'
+      let errorDetails = null
+      try {
+        const errorData = await response.json()
+        errorMessage = errorData.error?.message || errorData.message || errorMessage
+        errorDetails = errorData
+      } catch {
+        errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`
+      }
+
+      if (response.status === 429) {
+        const retryAfterMs = parseRetryAfterMs(response)
+        rateLimitCooldownUntil = Date.now() + retryAfterMs
+        console.warn('[useTTS] Rate limited by TTS API', { retryAfterMs, errorDetails })
+        throw createRateLimitError(retryAfterMs)
+      }
+
+      console.error('TTS API Error:', {
+        status: response.status,
+        errorDetails,
+        requestBody: { text: params.text.substring(0, 50) + '...' },
+      })
+      throw new Error(errorMessage)
+    }
+
+    const data = await response.json()
+    return data.data as TTSResult
+  })()
+
+  inFlightSynthesizeRequests.set(key, request)
+  try {
+    return await request
+  } finally {
+    inFlightSynthesizeRequests.delete(key)
+  }
+}
 
 interface UseTTSOptions {
   autoPlay?: boolean
@@ -280,39 +386,13 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             setIsFetchingFromAPI(true)
             ttsLoadingState.setFetching(true)
 
-            const response = await fetch('/api/tts/synthesize', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                text,
-                language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
-                voice: ttsOptions?.voice,
-                speed: speed,
-                pitch,
-              }),
+            result = await synthesizeFromApi({
+              text,
+              language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
+              voice: ttsOptions?.voice,
+              speed,
+              pitch,
             })
-
-            if (!response.ok) {
-              let errorMessage = 'TTS synthesis failed'
-              let errorDetails = null
-              try {
-                const errorData = await response.json()
-                errorMessage = errorData.error?.message || errorData.message || errorMessage
-                errorDetails = errorData
-              } catch (e) {
-                // If parsing fails, use response status
-                errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`
-              }
-              console.error('TTS API Error:', {
-                status: response.status,
-                errorDetails,
-                requestBody: { text: text.substring(0, 50) + '...' },
-              })
-              throw new Error(errorMessage)
-            }
-
-            const data = await response.json()
-            result = data.data
 
             // DON'T dismiss modal yet - wait until audio is ready to play
             // setIsFetchingFromAPI(false)
@@ -348,39 +428,13 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           // Cache disabled, always call API
           setIsFetchingFromAPI(true)
           ttsLoadingState.setFetching(true)
-          const response = await fetch('/api/tts/synthesize', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text,
-              language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
-              voice: ttsOptions?.voice,
-              speed: speed,
-              pitch: ttsOptions?.pitch || 0,
-            }),
+          result = await synthesizeFromApi({
+            text,
+            language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
+            voice: ttsOptions?.voice,
+            speed,
+            pitch: ttsOptions?.pitch || 0,
           })
-
-          if (!response.ok) {
-            let errorMessage = 'TTS synthesis failed'
-            let errorDetails = null
-            try {
-              const errorData = await response.json()
-              errorMessage = errorData.error?.message || errorData.message || errorMessage
-              errorDetails = errorData
-            } catch (e) {
-              // If parsing fails, use response status
-              errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`
-            }
-            console.error('TTS API Error:', {
-              status: response.status,
-              errorDetails,
-              requestBody: { text: text.substring(0, 50) + '...' },
-            })
-            throw new Error(errorMessage)
-          }
-
-          const data = await response.json()
-          result = data.data
 
           // DON'T dismiss modal yet - wait until audio is ready to play
           // setIsFetchingFromAPI(false)
@@ -668,6 +722,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         }
       } catch (err: any) {
         const error = err instanceof Error ? err : new Error(String(err))
+        const errorCode = (error as Error & { code?: string }).code
 
         // Ignore aborted loads (happens when switching audio quickly)
         if (error.message === 'Audio load aborted') {
@@ -678,7 +733,11 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           return
         }
 
-        console.error('[useTTS] Server TTS failed:', error.message)
+        if (errorCode === 'RATE_LIMITED') {
+          console.warn('[useTTS] Server TTS rate-limited:', error.message)
+        } else {
+          console.error('[useTTS] Server TTS failed:', error.message)
+        }
 
         // Try Web Speech API fallback if enabled
         if (enableFallback && isWebSpeechSupported()) {

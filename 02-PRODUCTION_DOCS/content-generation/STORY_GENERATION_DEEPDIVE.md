@@ -1,7 +1,7 @@
 # Story Generation Deepdive (Scheduler, Admin, Word Precompute)
 
 **Status:** ACTIVE  
-**Last Updated:** 2026-02-01  
+**Last Updated:** 2026-02-27  
 **Audience:** Senior/Owner-level engineering  
 **Scope:** Story generation across Cloud Functions + Next.js API, admin UI, and post-generation word precompute.
 
@@ -100,6 +100,24 @@ Scheduler uses an admin key:
 
 - `STORY_SCHEDULER_ADMIN_KEY`  
 - Default fallback: `story-scheduler-2025`
+
+### Automation Switch (Scheduled Jobs Only)
+
+Story scheduled automation can be paused/resumed via Admin Feature Flags:
+
+- Firestore doc: `config/featureFlags`
+- Flag: `STORY_AUTOMATION`
+
+Behavior:
+
+- `scheduledStoryGeneratorFunction` checks `STORY_AUTOMATION` before running.
+- `dailyStoryRetryScheduler` checks `STORY_AUTOMATION` before running.
+- `manualStoryGeneratorFunction` is not blocked by this flag.
+
+Related implementation:
+
+- `functions/src/utils/automationFlags.ts`
+- `functions/src/scheduled/storyScheduler.ts`
 
 ---
 

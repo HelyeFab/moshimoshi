@@ -55,6 +55,12 @@ describe('Word Type Detector', () => {
       expect(naAdj.conjugationType).toBe('na-adjective')
       expect(naAdj.confidence).toBe('high')
     })
+
+    test('uses reading when POS is generic/descriptive verb text', () => {
+      const result = detectWordType('灯る', 'ともる', ['Godan verb with ru ending'])
+      expect(result.conjugationType).toBe('Godan')
+      expect(result.isConjugatable).toBe(true)
+    })
   })
 
   describe('Pattern-based detection', () => {

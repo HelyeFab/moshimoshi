@@ -377,7 +377,10 @@ describe('/api/admin/deckmarket/decks/[deckId] DELETE', () => {
 
     const versionDocs = [
       {
-        data: () => ({ apkgR2Key: 'deckmarket/genki-1/v-1/genki.apkg' }),
+        data: () => ({
+          apkgR2Key: 'deckmarket/genki-1/v-1/genki.apkg',
+          csvR2Key: 'deckmarket/genki-1/v-1/genki.csv',
+        }),
         ref: { id: 'v-1' },
       },
       {
@@ -425,6 +428,10 @@ describe('/api/admin/deckmarket/decks/[deckId] DELETE', () => {
     expect(sendMock).toHaveBeenCalledWith({
       Bucket: 'test-bucket',
       Key: 'deckmarket/genki-1/v-2/genki.apkg',
+    })
+    expect(sendMock).toHaveBeenCalledWith({
+      Bucket: 'test-bucket',
+      Key: 'deckmarket/genki-1/v-1/genki.csv',
     })
     expect(sendMock).toHaveBeenCalledWith({
       Bucket: 'test-bucket',

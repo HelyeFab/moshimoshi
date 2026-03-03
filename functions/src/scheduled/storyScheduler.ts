@@ -26,6 +26,7 @@ import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
 } from '../utils/alertNotifier'
+import { isAutomationEnabled } from '../utils/automationFlags'
 
 // Define secrets needed for story generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
@@ -1289,6 +1290,14 @@ export const scheduledStoryGeneratorFunction = onSchedule(
       jobName: event.jobName,
     })
 
+    const automationEnabled = await isAutomationEnabled('STORY_AUTOMATION', true)
+    if (!automationEnabled) {
+      logger.info('[StoryScheduler] STORY_AUTOMATION is disabled - skipping scheduled run', {
+        scheduleTime: event.scheduleTime,
+      })
+      return
+    }
+
     const adminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025'
 
     // FIRST: Check for incomplete drafts that need to be resumed
@@ -1469,6 +1478,14 @@ export const dailyStoryRetryScheduler = onSchedule(
       scheduleTime: event.scheduleTime,
       jobName: event.jobName,
     })
+
+    const automationEnabled = await isAutomationEnabled('STORY_AUTOMATION', true)
+    if (!automationEnabled) {
+      logger.info('[DailyRetry] STORY_AUTOMATION is disabled - skipping retry run', {
+        scheduleTime: event.scheduleTime,
+      })
+      return
+    }
 
     const adminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025'
 

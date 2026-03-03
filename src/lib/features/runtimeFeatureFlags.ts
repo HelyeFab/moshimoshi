@@ -30,6 +30,9 @@ export type FeatureFlag =
   | 'REVIEW_ENGINE'
   | 'FLASHCARDS'
   | 'GAMES'
+  | 'STORY_AUTOMATION'
+  | 'NEWS_AUTOMATION'
+  | 'COMICS_AUTOMATION'
 
 export interface FeatureMetadata {
   name: string
@@ -163,6 +166,24 @@ export const FEATURE_METADATA: Record<FeatureFlag, FeatureMetadata> = {
     name: 'Learning Games',
     description: 'Educational games',
     category: 'Learning',
+    defaultEnabled: true,
+  },
+  STORY_AUTOMATION: {
+    name: 'Story Automation',
+    description: 'Enable scheduled story generation and retry jobs',
+    category: 'Automation',
+    defaultEnabled: true,
+  },
+  NEWS_AUTOMATION: {
+    name: 'News Automation',
+    description: 'Enable scheduled news scraping and article audio generation jobs',
+    category: 'Automation',
+    defaultEnabled: true,
+  },
+  COMICS_AUTOMATION: {
+    name: 'Comics Automation',
+    description: 'Enable scheduled comic generation jobs',
+    category: 'Automation',
     defaultEnabled: true,
   },
 }

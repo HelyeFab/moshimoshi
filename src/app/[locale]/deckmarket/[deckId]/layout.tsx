@@ -89,6 +89,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternateLocale: locales
         .filter((l) => l !== locale)
         .map((l) => ogLocaleMap[l] || l),
+      images: [{
+        url: '/moshimoshi-logo.png',
+        width: 1200,
+        height: 630,
+        alt: deckTitle ? `${deckTitle} - DeckMarket` : 'DeckMarket - Free Japanese Anki Decks',
+      }],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large' as const,
+      'max-snippet': -1,
+      noarchive: true,
     },
     twitter: {
       card: 'summary_large_image',

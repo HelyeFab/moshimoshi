@@ -69,7 +69,7 @@ export type DrillQuestion = z.infer<typeof DrillQuestionSchema>
 /**
  * Drill mode schema
  */
-export const DrillModeSchema = z.enum(['random', 'lists', 'srs'])
+export const DrillModeSchema = z.enum(['random', 'lists', 'srs', 'focus'])
 
 export type DrillMode = z.infer<typeof DrillModeSchema>
 
@@ -106,7 +106,19 @@ export const DrillSessionCreateRequestSchema = z.object({
   mode: DrillModeSchema,
   wordTypeFilter: WordTypeFilterSchema,
   selectedLists: z.array(z.string()).optional(),
-  questionsCount: z.number().int().min(1).max(50).optional()
+  questionsCount: z.number().int().min(1).max(50).optional(),
+  focusWord: z.string().optional(),
+  focusWordSelection: z
+    .object({
+      id: z.string(),
+      kanji: z.string().optional(),
+      kana: z.string(),
+      meaning: z.string(),
+      type: z.enum(['Ichidan', 'Godan', 'Irregular', 'i-adjective', 'na-adjective']),
+      jlpt: JLPTLevelSchema.optional(),
+      partsOfSpeech: z.array(z.string()).optional(),
+    })
+    .optional(),
 })
 
 export type DrillSessionCreateRequest = z.infer<typeof DrillSessionCreateRequestSchema>

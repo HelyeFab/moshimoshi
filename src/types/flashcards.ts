@@ -3,7 +3,7 @@
 export type CardStyle = 'minimal' | 'decorated' | 'themed';
 export type AnimationSpeed = 'slow' | 'normal' | 'fast';
 export type StudyDirection = 'front-to-back' | 'back-to-front' | 'mixed';
-export type StudyMode = 'classic' | 'match' | 'speed' | 'write' | 'voice';
+export type StudyMode = 'classic' | 'match' | 'speed' | 'write' | 'voice' | 'preview' | 'study';
 export type CardStatus = 'new' | 'learning' | 'review' | 'mastered';
 export type DeckOrigin = 'deckmarket';
 
@@ -87,6 +87,8 @@ export interface FlashcardContent {
     hints?: string | string[]; // Custom hints for the card
     audioUrl?: string;
     imageUrl?: string;
+    frontAudioUrl?: string;
+    backAudioUrl?: string;
 
     // Anki-specific fields
     source?: string; // Source of the card (e.g., 'anki')
@@ -96,6 +98,8 @@ export interface FlashcardContent {
     meaning?: string; // English meaning
     audioFilename?: string; // Original audio filename for IndexedDB lookup
     imageFilename?: string; // Original image filename for IndexedDB lookup
+    frontAudioFilename?: string; // Side-specific front audio filename (Anki/native media)
+    backAudioFilename?: string; // Side-specific back audio filename (Anki/native media)
 
     // Furigana support
     furiganaFront?: string; // Pre-generated furigana HTML for front text
@@ -284,6 +288,8 @@ export interface SessionSummary {
   // For server-side XP calculation (must match client formula)
   bestStreak?: number;
   fastCards?: number;
+  // Study-mode drill follow-up (non-SRS): cards marked Again/Hard in this run.
+  studyFollowUpCardIds?: string[];
 }
 
 // Session History for persistence and analytics

@@ -16,6 +16,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── email/                         # Email notifications and delivery systems
 ├── content-generation/            # AI-generated content, stories, comics
 ├── community/                     # Discord, social integrations
+├── conjugation-drill/             # Conjugation Drill feature (modes, focus mode, engine pipeline)
 ├── kanji-drawing-practice/        # Kanji Drawing Practice (muscle-memory writing drill)
 ├── kanji-mastery/                 # Kanji learning tool documentation
 ├── nhk-news/                      # NHK News scraping system (Railway + Firebase + frontend)
@@ -187,6 +188,22 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Bot configuration
 - Community channels
 - Moderation setup
+
+---
+
+### Conjugation Drill (`conjugation-drill/`)
+
+| Document | Description |
+|----------|-------------|
+| [FOCUS_MODE_AND_CONJUGATION_ENGINE.md](./conjugation-drill/FOCUS_MODE_AND_CONJUGATION_ENGINE.md) | Detailed guide to drill modes, Focus Word resolution, word type detection, question generation, and conjugation engine boundaries |
+
+**Key Topics:**
+- Practice mode architecture (`Random`, `My Lists`, `SRS`, `Focus Word`)
+- Focus Word exact selection vs typed-input fallback
+- JMdict search result normalization and POS usage
+- Word type detection pitfalls (especially ambiguous `-る` verbs like `灯る`)
+- Conjugation engine responsibilities vs upstream classification responsibilities
+- Debugging checklist for wrong conjugation output in drill sessions
 
 ---
 
