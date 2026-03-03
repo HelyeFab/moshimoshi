@@ -701,6 +701,104 @@ Unsubscribe: {{unsubscribeUrl}}
 }
 
 /**
+ * Kuchiguse 500 Deck Update Starter
+ * Announce the 5-tier deck rollout, Anki+CSV options, and native audio upgrade
+ */
+export function kuchiguse500DeckUpdateStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.primary}, ${EMAIL_COLORS.secondary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">
+        DECK UPDATE
+      </span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      Introducing Kuchiguse 500 (First Release)
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}; text-align: center; color: ${EMAIL_COLORS.textLight}; font-size: 18px;">
+      Kuchiguse (口癖) means the natural verbal habits and expressions people use in real conversation.
+    </p>
+
+    <hr style="${EMAIL_STYLES.divider}" />
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "{{name}}-san, this is the first release of Kuchiguse 500! We built it around natural spoken Japanese so you can train the expressions real people actually use.",
+    })}
+
+    <h2 style="${EMAIL_STYLES.heading2}">
+      What's new
+    </h2>
+
+    ${featureList([
+      '<strong>First-time release</strong> &mdash; all 5 tiers are now live',
+      '<strong>5 complete tiers</strong> &mdash; 100 expressions per tier, split into 200 study cards each (1,000 total)',
+      '<strong>One deck page, two formats</strong> &mdash; download Anki (.apkg) or CSV',
+      '<strong>Native Japanese audio in Anki</strong> &mdash; both word + sentence cards',
+      '<strong>Cleaner reading flow</strong> &mdash; improved ruby/furigana + grammar labels',
+      '<strong>Smarter study UX</strong> &mdash; better shuffle behavior while studying',
+    ])}
+
+    ${highlightBox({
+      type: 'info',
+      title: 'Card structure update',
+      content: 'Each entry is split into 2 cards: a Word card (meaning + grammar context) and a Sentence card (full-context listening/reading).',
+    })}
+
+    ${ctaButton({
+      text: 'Open DeckMarket',
+      url: 'https://moshimoshi.app/en/deckmarket?utm_source=email&utm_medium=announcement&utm_campaign=kuchiguse500_deck_update',
+    })}
+
+    <p style="${EMAIL_STYLES.smallText}; text-align: center;">
+      Pick your tier, choose Anki or CSV, and start studying.
+    </p>
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+FIRST RELEASE: Introducing Kuchiguse 500
+
+Kuchiguse (口癖) means the natural verbal habits and expressions people use in real conversation.
+
+Hey {{name}},
+
+Moshi says: "{{name}}-san, this is the first release of Kuchiguse 500! We built it around natural spoken Japanese so you can train the expressions real people actually use."
+
+WHAT'S NEW:
+- First-time release - all 5 tiers are now live
+- 5 complete tiers - 100 expressions per tier, split into 200 study cards each (1,000 total)
+- One deck page, two formats - download Anki (.apkg) or CSV
+- Native Japanese audio in Anki - both word + sentence cards
+- Cleaner reading flow - improved ruby/furigana + grammar labels
+- Smarter study UX - better shuffle behavior while studying
+
+CARD STRUCTURE UPDATE:
+Each entry is split into 2 cards:
+- Word card (meaning + grammar context)
+- Sentence card (full-context listening/reading)
+
+Open DeckMarket: https://moshimoshi.app/en/deckmarket?utm_source=email&utm_medium=announcement&utm_campaign=kuchiguse500_deck_update
+
+Pick your tier, choose Anki or CSV, and start studying.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: '{{name}}, introducing Kuchiguse 500 (all 5 tiers live)',
+  }
+}
+
+/**
  * Simple Newsletter Starter
  * Clean template for general announcements
  */
@@ -813,6 +911,11 @@ export function getStarterTemplates() {
       name: 'Flashcards Launch Announcement',
       description: 'Announce the new flashcards feature with study modes, Anki import, and DeckMarket integration',
       ...flashcardsLaunchStarter(),
+    },
+    kuchiguse500DeckUpdate: {
+      name: 'Kuchiguse 500 Deck Update',
+      description: 'Announce the 5-tier Kuchiguse 500 rollout with Anki audio, CSV support, and card-structure upgrades',
+      ...kuchiguse500DeckUpdateStarter(),
     },
   }
 }

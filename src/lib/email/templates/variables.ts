@@ -189,7 +189,7 @@ export function buildVariableContext(
 
   // Add custom variable defaults
   for (const variable of customVariables) {
-    if (variable.defaultValue) {
+    if (variable.defaultValue && !(variable.name in context)) {
       context[variable.name] = variable.defaultValue
     }
   }
@@ -224,7 +224,9 @@ export function buildPreviewContext(
 
   // Add custom variable defaults
   for (const variable of customVariables) {
-    context[variable.name] = variable.defaultValue || `[${variable.label}]`
+    if (!(variable.name in context)) {
+      context[variable.name] = variable.defaultValue || `[${variable.label}]`
+    }
   }
 
   // Apply sample overrides

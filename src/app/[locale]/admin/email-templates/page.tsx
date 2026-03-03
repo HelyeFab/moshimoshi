@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
-import { auth } from '@/lib/firebase/client'
 import { motion } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import { TemplatePreviewModal } from '@/components/admin/email-templates'
@@ -18,6 +17,15 @@ interface StarterTemplate {
   subject: string
   html: string
   text: string
+}
+
+function toKebabCase(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .toLowerCase()
 }
 
 const statusColors: Record<TemplateStatus, string> = {
@@ -67,18 +75,12 @@ export default function EmailTemplatesPage() {
       setLoading(true)
       setError(null)
 
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        setError('Not authenticated')
-        return
-      }
-
       const url = statusFilter === 'all'
         ? '/api/admin/templates'
         : `/api/admin/templates?status=${statusFilter}`
 
       const response = await fetch(url, {
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -104,12 +106,9 @@ export default function EmailTemplatesPage() {
     if (!templateToDelete) return
 
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) throw new Error('Not authenticated')
-
       const response = await fetch(`/api/admin/templates/${templateToDelete.id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -138,15 +137,12 @@ export default function EmailTemplatesPage() {
 
   const handleDuplicate = async (template: EmailTemplateClient) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) throw new Error('Not authenticated')
-
       const response = await fetch('/api/admin/templates', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           name: `${template.name} (Copy)`,
           slug: `${template.slug}-copy-${Date.now()}`,
@@ -175,18 +171,11 @@ export default function EmailTemplatesPage() {
     }
   }
 
-  const getAuthToken = async () => {
-    return auth.currentUser?.getIdToken() || null
-  }
-
   const handleNewTemplateClick = async () => {
     try {
       setLoadingStarters(true)
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) throw new Error('Not authenticated')
-
       const response = await fetch('/api/admin/templates/starters', {
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -208,18 +197,18 @@ export default function EmailTemplatesPage() {
 
   const handleCreateFromStarter = async (starter: StarterTemplate) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) throw new Error('Not authenticated')
+      const baseSlug = toKebabCase(starter.id || starter.name || 'template')
+      const slug = `${baseSlug}-${Date.now()}`
 
       const response = await fetch('/api/admin/templates', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           name: `${starter.name} - New`,
-          slug: `${starter.id}-${Date.now()}`,
+          slug,
           description: starter.description,
           subject: starter.subject,
           htmlContent: starter.html,
@@ -237,7 +226,11 @@ export default function EmailTemplatesPage() {
       }
 
       setStarterModalOpen(false)
-      router.push(`/admin/email-templates/${data.template.id}/edit`)
+      const createdTemplateId = data.templateId || data.template?.id
+      if (!createdTemplateId) {
+        throw new Error('Template created but response did not include templateId')
+      }
+      router.push(`/admin/email-templates/${createdTemplateId}/edit`)
     } catch (err) {
       setStarterModalOpen(false)
       setErrorMessage(err instanceof Error ? err.message : 'Failed to create template')
@@ -433,7 +426,6 @@ export default function EmailTemplatesPage() {
           templateId={templateToPreview.id}
           templateName={templateToPreview.name}
           customVariables={templateToPreview.variables || []}
-          getAuthToken={getAuthToken}
         />
       )}
 

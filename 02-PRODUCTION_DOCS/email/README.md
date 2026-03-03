@@ -107,6 +107,13 @@ The system automatically:
 - Use clear subject lines and preview text
 - Include plain text versions
 
+## Admin Workflow Notes
+
+- **Admin auth mode**: Email Templates admin pages use **session cookies** (`credentials: 'include'`) via `withAdminAuth`, not Firebase client token presence.
+- **Starter creation slug rule**: Slugs must match `^[a-z0-9-]+$`. Convert starter IDs to kebab-case before POST.
+- **Template create response shape**: `POST /api/admin/templates` returns `templateId` (not `template.id`).
+- **Email client-safe layout**: Avoid relying on `display:flex` in email blocks. Use simple stacked/table-like HTML for consistent mobile rendering.
+
 ---
 
 *For template creation guide, see [EMAIL_TEMPLATES.md](./EMAIL_TEMPLATES.md)*

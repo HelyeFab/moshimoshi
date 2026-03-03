@@ -253,7 +253,7 @@ export function emailFooter(options?: {
 
 /**
  * Character Message Component
- * Renders a message from Doshi or Emma with their avatar
+ * Renders a message from Moshi or Emma with their avatar
  */
 export function characterMessage(options: {
   character: 'doshi' | 'emma'
@@ -262,15 +262,15 @@ export function characterMessage(options: {
 }): string {
   const { character, message, name } = options
   const imageSrc = character === 'doshi' ? EMAIL_ASSETS.doshi : EMAIL_ASSETS.doshiEmma
-  const characterName = name || (character === 'doshi' ? 'Doshi' : 'Emma')
+  const characterName = name || (character === 'doshi' ? 'Moshi' : 'Emma')
 
   return `
-    <div style="display: flex; align-items: flex-start; gap: 16px; margin: 24px 0; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
-      <img src="${imageSrc}" alt="${characterName}" style="${EMAIL_STYLES.characterImage}" />
-      <div style="flex: 1;">
-        <p style="margin: 0 0 4px 0; font-weight: 600; color: ${EMAIL_COLORS.text};">${characterName}</p>
-        <p style="margin: 0; color: ${EMAIL_COLORS.textLight};">${message}</p>
+    <div style="margin: 24px 0; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+      <div style="text-align: center; margin-bottom: 12px;">
+        <img src="${imageSrc}" alt="${characterName}" style="${EMAIL_STYLES.characterImage}" />
+        <p style="margin: 8px 0 0 0; font-weight: 600; color: ${EMAIL_COLORS.text};">${characterName}</p>
       </div>
+      <p style="margin: 0; color: ${EMAIL_COLORS.textLight}; text-align: left;">${message}</p>
     </div>
   `
 }

@@ -11,7 +11,6 @@ interface TemplatePreviewModalProps {
   templateId: string
   templateName: string
   customVariables: TemplateVariable[]
-  getAuthToken: () => Promise<string | null>
 }
 
 type ViewMode = 'html' | 'text'
@@ -23,7 +22,6 @@ export function TemplatePreviewModal({
   templateId,
   templateName,
   customVariables,
-  getAuthToken,
 }: TemplatePreviewModalProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('html')
   const [viewportSize, setViewportSize] = useState<ViewportSize>('desktop')
@@ -54,17 +52,12 @@ export function TemplatePreviewModal({
     setError(null)
 
     try {
-      const token = await getAuthToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/templates/${templateId}/preview`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ variables: sampleData }),
       })
 

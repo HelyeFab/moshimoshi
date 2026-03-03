@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-53b98b61828b';
+const CACHE_VERSION = 'moshimoshi-c34d9f6a5ec9';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,6 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/7Q-hU9AeUpDvKx9eRA8tw/_buildManifest.js",
-  "/_next/static/7Q-hU9AeUpDvKx9eRA8tw/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
   "/_next/static/chunks/1084-9e43dba61dfbf31a.js",
@@ -329,9 +327,9 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/deckmarket/[deckId]/page-be2e40e1cde6bb26.js",
   "/_next/static/chunks/app/[locale]/admin/deckmarket/error-6819c135d6a91dab.js",
   "/_next/static/chunks/app/[locale]/admin/deckmarket/loading-6597ef9fa8947df7.js",
-  "/_next/static/chunks/app/[locale]/admin/deckmarket/new/page-b4846cf117b3a62c.js",
+  "/_next/static/chunks/app/[locale]/admin/deckmarket/new/page-0c51527b78fdf105.js",
   "/_next/static/chunks/app/[locale]/admin/deckmarket/notes/[noteId]/page-b1f85ebc99fbe554.js",
-  "/_next/static/chunks/app/[locale]/admin/deckmarket/notes/new/page-9ede58eaea663891.js",
+  "/_next/static/chunks/app/[locale]/admin/deckmarket/notes/new/page-97bef3af2f4fbf4c.js",
   "/_next/static/chunks/app/[locale]/admin/deckmarket/notes/page-28d8a32998bca489.js",
   "/_next/static/chunks/app/[locale]/admin/deckmarket/page-e2ae75bf42bc5803.js",
   "/_next/static/chunks/app/[locale]/admin/email-campaigns/page-ef6d72339472cf62.js",
@@ -377,8 +375,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-cc995fe7e65d67d1.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-833142f96ecdda8d.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-edf3a87b9ec1ef78.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-4c52d10388f2abce.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-3a011f1280374a05.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-ef35bfb7bbda8f6d.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-123214fd01b7a82f.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-63fb6f10f7c0b264.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-2e5be28b2de6f7e9.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-04a00e66d8b3d7fb.js",
@@ -567,7 +565,9 @@ const PRECACHE_URLS = [
   "/_next/static/css/196aec2dddf02260.css",
   "/_next/static/css/47232e22c3e22e5f.css",
   "/_next/static/css/5c8ac3dc5edc2b63.css",
-  "/_next/static/css/af47b6060c4fddcc.css"
+  "/_next/static/css/af47b6060c4fddcc.css",
+  "/_next/static/oXv4jGaRB3FfAjdXvvAib/_buildManifest.js",
+  "/_next/static/oXv4jGaRB3FfAjdXvvAib/_ssgManifest.js"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only

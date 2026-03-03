@@ -22,6 +22,7 @@ The Feature Announcements system provides in-app overlay notifications to inform
 | [ANALYTICS_IMPLEMENTATION.md](./ANALYTICS_IMPLEMENTATION.md) | Technical implementation of analytics tracking system |
 | [_TEMPLATE.md](./_TEMPLATE.md) | Template for documenting new announcement features |
 | [kanji-mastery-progress.md](./kanji-mastery-progress.md) | Example: Kanji Mastery progress announcement |
+| [kuchiguse500-deck-update.md](./kuchiguse500-deck-update.md) | Launch copy for Kuchiguse 500 deck/audio/format updates |
 
 ## Key Topics
 
@@ -66,6 +67,20 @@ Announcements System
 3. Preview before publishing
 4. Publish to show to all users
 5. Monitor analytics to track engagement
+
+## Behavior Notes
+
+- **Single active announcement**: Overlay shows the most recent `published` announcement (`publishedAt desc`, `limit 1`)
+- **Dismissal scope**: Dismissal is tracked per user/visitor (`{visitorValue}_{announcementId}`), so dismissed items do not reappear for that user
+- **Display scope**: Current overlay is shown to authenticated users on non-auth pages
+
+## Scripted Seeding
+
+- New announcement markdown for this release: [kuchiguse500-deck-update.md](./kuchiguse500-deck-update.md)
+- Seed script (draft by default): `scripts/announcements/seed-kuchiguse500-announcement.mjs`
+  - Dry run: `node scripts/announcements/seed-kuchiguse500-announcement.mjs --dry-run`
+  - Draft create: `node scripts/announcements/seed-kuchiguse500-announcement.mjs`
+  - Publish now: `node scripts/announcements/seed-kuchiguse500-announcement.mjs --publish`
 
 ---
 

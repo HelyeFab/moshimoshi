@@ -3,7 +3,6 @@
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
-import { auth } from '@/lib/firebase/client'
 import { motion } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import { TemplateEditor, TemplatePreviewModal } from '@/components/admin/email-templates'
@@ -64,14 +63,8 @@ export default function EditTemplatePage({ params }: PageProps) {
       setLoading(true)
       setError(null)
 
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        setError('Not authenticated')
-        return
-      }
-
       const response = await fetch(`/api/admin/templates/${templateId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -127,8 +120,6 @@ export default function EditTemplatePage({ params }: PageProps) {
 
     try {
       setSaving(true)
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) throw new Error('Not authenticated')
 
       const body = {
         name,
@@ -147,9 +138,9 @@ export default function EditTemplatePage({ params }: PageProps) {
         {
           method: isNew ? 'POST' : 'PUT',
           headers: {
-            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
           body: JSON.stringify(body),
         }
       )
@@ -230,10 +221,6 @@ export default function EditTemplatePage({ params }: PageProps) {
 
   const handleDeleteVariable = (variableName: string) => {
     setVariables(variables.filter((v) => v.name !== variableName))
-  }
-
-  const getAuthToken = async () => {
-    return auth.currentUser?.getIdToken() || null
   }
 
   const handleInsertVariableInSubject = (variableText: string) => {
@@ -679,7 +666,6 @@ export default function EditTemplatePage({ params }: PageProps) {
           templateId={templateId}
           templateName={name}
           customVariables={variables}
-          getAuthToken={getAuthToken}
         />
       )}
     </div>

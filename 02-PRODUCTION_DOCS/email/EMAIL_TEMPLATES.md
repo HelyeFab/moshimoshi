@@ -66,6 +66,12 @@ See [Code-First Template Creation](#code-first-template-creation) for the comple
 
 > Only templates with `status: 'active'` appear in the Email Campaigns template selector. New templates default to `draft` — remember to activate them before using in campaigns.
 
+### API Integration Notes (Important)
+
+- `POST /api/admin/templates` returns `templateId` in the response payload.
+- Do not assume `data.template.id` exists unless your client explicitly maps that shape.
+- Slugs must be lowercase kebab-case (`^[a-z0-9-]+$`).
+
 ---
 
 ## Brand Assets & Colors
@@ -542,6 +548,7 @@ addTemplate()
 | `newsletter` | Newsletter | General announcements |
 | `coJourneyAnnouncement` | Co-Journey Announcement | Moshi's MNN series |
 | `flashcardsLaunch` | Flashcards Launch | Flashcards feature announcement |
+| `kuchiguse500DeckUpdate` | Kuchiguse 500 Deck Update | DeckMarket + flashcards rollout email |
 
 Access via: **Create Template > Choose Starter** or `GET /api/admin/templates/starters`
 
@@ -550,6 +557,10 @@ Access via: **Create Template > Choose Starter** or `GET /api/admin/templates/st
 ## Raw HTML Components (for Seed Scripts)
 
 Seed scripts run outside Next.js and **cannot import base.ts helpers**. Use these raw HTML blocks directly in your `htmlContent` string. All values are pre-resolved from the brand constants above.
+
+### Email Client Compatibility Note
+
+For broad client support (especially mobile Gmail/Outlook), prefer table/stacked structures over `display:flex` in critical content blocks (e.g., character avatars + message text).
 
 ### Header with Logo
 
