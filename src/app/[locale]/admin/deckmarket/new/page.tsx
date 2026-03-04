@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useI18n } from '@/i18n/I18nContext';
@@ -31,6 +31,7 @@ export default function AdminDeckMarketCreatePage() {
   const [tags, setTags] = useState('');
   const [jlpt, setJlpt] = useState<string>('');
   const [language, setLanguage] = useState('ja');
+  const [hasNativeAudio, setHasNativeAudio] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [slugEdited, setSlugEdited] = useState(false);
@@ -103,6 +104,7 @@ export default function AdminDeckMarketCreatePage() {
           id: slug || undefined,
           title,
           description,
+          hasNativeAudio,
           language,
           jlpt: jlpt || null,
           tags: tags
@@ -297,7 +299,7 @@ export default function AdminDeckMarketCreatePage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
               {strings.deckmarket.admin.versionLabel}
@@ -308,7 +310,17 @@ export default function AdminDeckMarketCreatePage() {
               onChange={(e) => setVersionLabel(e.target.value)}
               className="w-full px-3 py-2 border border-gray-200 dark:border-dark-700 rounded-xl bg-white dark:bg-dark-850 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
             />
-          </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <input
+                type="checkbox"
+                checked={hasNativeAudio}
+                onChange={(e) => setHasNativeAudio(e.target.checked)}
+                className="rounded accent-primary-500"
+              />
+              Includes native Japanese audio
+            </label>
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
               {strings.deckmarket.admin.changelog}

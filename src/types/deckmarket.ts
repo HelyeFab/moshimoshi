@@ -41,6 +41,7 @@ export interface DeckMarketDeck {
   id: string; // slug like "genki2-lesson-02"
   title: string;
   description: string;
+  hasNativeAudio: boolean; // whether deck includes native JP audio in package
   language: string; // default "ja"
   jlpt: string | null; // "N5" | "N4" | "N3" | "N2" | "N1" | null
   tags: string[];
@@ -115,6 +116,7 @@ export interface CreateDeckRequest {
   id?: string;
   title: string;
   description: string;
+  hasNativeAudio?: boolean;
   language?: string;
   jlpt?: string | null;
   tags?: string[];
@@ -126,6 +128,7 @@ export interface CreateDeckRequest {
 export interface UpdateDeckRequest {
   title?: string;
   description?: string;
+  hasNativeAudio?: boolean;
   language?: string;
   jlpt?: string | null;
   tags?: string[];

@@ -50,6 +50,7 @@ function createMockDeckDoc(overrides: Record<string, any> = {}) {
     data: () => ({
       title: 'Test Deck',
       description: 'A test deck',
+      hasNativeAudio: true,
       language: 'ja',
       jlpt: 'N5',
       tags: ['vocab'],
@@ -176,6 +177,7 @@ describe('/api/deckmarket/decks/[deckId] GET', () => {
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
     expect(data.data.deck.id).toBe('test-deck')
+    expect(data.data.deck.hasNativeAudio).toBe(true)
     expect(data.data.deck.isPublished).toBe(true)
     expect(data.data.versions).toHaveLength(1)
     expect(data.data.latestVersion.id).toBe('v-1')

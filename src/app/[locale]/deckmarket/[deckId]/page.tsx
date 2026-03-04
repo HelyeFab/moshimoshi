@@ -616,6 +616,16 @@ export default function DeckMarketDetailPage() {
   }, [latestVersion, strings.deckmarket.deck.version])
 
   const gradient = deck ? deckGradient(deck.jlpt, deck.id) : ''
+  const hasGuaranteedNativeAudio = useMemo(() => {
+    if (!deck) return false
+    if (deck.hasNativeAudio === true) return true
+
+    // Backward-compatible fallback for legacy decks until metadata is backfilled.
+    const normalizedId = deck.id.toLowerCase()
+    if (normalizedId.startsWith('kuchiguse500-')) return true
+
+    return deck.tags.some((tag) => tag.toLowerCase() === 'kuchiguse500')
+  }, [deck])
   const normalizedDeckDescription = useMemo(() => {
     const raw = deck?.description || ''
     return raw.replace(/\s+/g, ' ').trim()
@@ -767,12 +777,14 @@ export default function DeckMarketDetailPage() {
                       <p className="text-white/85 text-sm sm:text-base leading-relaxed">
                         {heroDescription}
                       </p>
-                      <div className="mt-3">
-                        <div className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm sm:text-sm">
-                          <Volume2 className="h-4 w-4" />
-                          {strings.deckmarket.deck.audioIncludedDescription}
+                      {hasGuaranteedNativeAudio && (
+                        <div className="mt-3">
+                          <div className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm sm:text-sm">
+                            <Volume2 className="h-4 w-4" />
+                            {strings.deckmarket.deck.audioIncludedDescription}
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <div className="mt-2">
                         {shouldCollapseDescription && (
                           <button
@@ -809,10 +821,12 @@ export default function DeckMarketDetailPage() {
                       <Download className="h-3.5 w-3.5" />
                       {deck.downloadCount} {strings.deckmarket.deck.downloads.toLowerCase()}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/25 backdrop-blur-sm text-white border border-emerald-200/50">
-                      <Volume2 className="h-3.5 w-3.5" />
-                      {strings.deckmarket.deck.audioIncludedBadge}
-                    </span>
+                    {hasGuaranteedNativeAudio && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/25 backdrop-blur-sm text-white border border-emerald-200/50">
+                        <Volume2 className="h-3.5 w-3.5" />
+                        {strings.deckmarket.deck.audioIncludedBadge}
+                      </span>
+                    )}
                   </div>
 
                   {/* tags */}
@@ -873,10 +887,12 @@ export default function DeckMarketDetailPage() {
                         )}
                       </div>
                     )}
-                    <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
-                      <Volume2 className="h-3.5 w-3.5" />
-                      {strings.deckmarket.deck.audioIncludedDownload}
-                    </p>
+                    {hasGuaranteedNativeAudio && (
+                      <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                        <Volume2 className="h-3.5 w-3.5" />
+                        {strings.deckmarket.deck.audioIncludedDownload}
+                      </p>
+                    )}
                   </div>
                 </div>
 

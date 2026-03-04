@@ -210,6 +210,7 @@ async function main() {
       id: tier.id,
       title: tier.title,
       description,
+      hasNativeAudio: true,
       language: 'ja',
       jlpt: tier.jlpt,
       tags: tier.tags,

@@ -30,6 +30,7 @@ interface DeckGridProps {
   onToggleSelect?: (deckId: string) => void;
   onToggleAnkiBackup?: (deck: FlashcardDeck, enabled: boolean) => void;
   weakCardCountsByDeckId?: Record<string, number>;
+  studiedTodayByDeckId?: Record<string, number>;
 }
 
 export function DeckGrid({
@@ -51,7 +52,8 @@ export function DeckGrid({
   selectedDeckIds,
   onToggleSelect,
   onToggleAnkiBackup,
-  weakCardCountsByDeckId
+  weakCardCountsByDeckId,
+  studiedTodayByDeckId
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -110,7 +112,7 @@ export function DeckGrid({
     return colors[color] || colors.primary;
   };
 
-  const getDueCount = (deck: FlashcardDeck) => {
+  const getDueMetrics = (deck: FlashcardDeck) => {
     const now = Date.now();
     const newCardsPerDay = deck.settings?.newCardsPerDay ?? 20;
     const reviewsPerDay = deck.settings?.reviewsPerDay ?? 100;
@@ -125,8 +127,12 @@ export function DeckGrid({
 
     const limitedNew = Math.min(newCards.length, newCardsPerDay);
     const limitedReviews = Math.min(reviewCards.length, reviewsPerDay);
+    const dueTodayCap = limitedNew + limitedReviews;
+    const studiedToday = studiedTodayByDeckId?.[deck.id] || 0;
+    const remainingToday = Math.max(0, dueTodayCap - studiedToday);
+    const backlog = newCards.length + reviewCards.length;
 
-    return limitedNew + limitedReviews;
+    return { remainingToday, backlog };
   };
 
   const containerVariants = {
@@ -431,7 +437,7 @@ export function DeckGrid({
 
         {/* Deck List Items */}
         {decks.map((deck) => {
-          const dueCount = getDueCount(deck);
+          const { remainingToday, backlog } = getDueMetrics(deck);
           const { progress: restoreProgress, isRestoring, isError } = getRestoreState(deck);
           const restorePercent = Math.max(0, Math.min(100, getRestorePercent(restoreProgress)));
           const isSelected = selectionEnabled ? selectedDeckIds!.has(deck.id) : false;
@@ -478,10 +484,17 @@ export function DeckGrid({
               )} />
 
               {/* Due Badge - Bottom Right Corner */}
-              {dueCount > 0 && (
+              {remainingToday > 0 && (
                 <div className="absolute bottom-3 right-3">
                   <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full shadow-sm">
-                    {dueCount} {t('flashcards.due')}
+                    {remainingToday} {t('flashcards.due')}
+                  </span>
+                </div>
+              )}
+              {remainingToday === 0 && backlog > 0 && (
+                <div className="absolute bottom-3 right-3">
+                  <span className="px-2 py-0.5 text-xs font-bold bg-emerald-600 text-white rounded-full shadow-sm">
+                    0 {t('flashcards.due')}
                   </span>
                 </div>
               )}
@@ -552,25 +565,27 @@ export function DeckGrid({
                 {hasWeakCards(deck) && null}
 
                 {/* Row 2: Stats - Card Count */}
-                <div className={cn(
-                  "flex items-center gap-2 flex-wrap",
-                  deck.emoji && "pl-13" // Only add left padding if emoji exists
-                )}>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  <div className="font-medium">
                     {deck.stats.totalCards} {deck.stats.totalCards === 1 ? 'term' : 'terms'}
-                  </span>
+                  </div>
+                  {backlog > 0 && (
+                    <div>
+                      {t('flashcards.backlog.label', { count: backlog })}
+                    </div>
+                  )}
                 </div>
 
                 {/* Row 3: Backup Status Badge (separate line to prevent layout jump) */}
                 {deck.source === 'anki' && isPremium && isR2BackupEnabled(deck) && (
                   <div className={cn(
-                    deck.emoji && "pl-13" // Match alignment with stats above
+                    ""
                   )}>
                     <BackupStatusBadge deckId={deck.id} />
                   </div>
                 )}
                 {deck.source === 'anki' && isPremium && !isR2BackupEnabled(deck) && (
-                  <div className={cn(deck.emoji && "pl-13")}>
+                  <div>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       {t('flashcards.ankiBackup.localOnly')}
                     </span>
@@ -578,7 +593,7 @@ export function DeckGrid({
                 )}
 
                 {restoreProgress && (
-                  <div className={cn(deck.emoji && "pl-13")}>
+                  <div>
                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
                       <span>{isError ? 'Restore failed' : 'Restoring...'}</span>
                       {!isError && (
@@ -690,7 +705,7 @@ export function DeckGrid({
 
         {/* Deck Cards */}
         {decks.map((deck) => {
-          const dueCount = getDueCount(deck);
+          const { remainingToday, backlog } = getDueMetrics(deck);
           const accuracy = deck.stats.totalStudied > 0
             ? Math.round(deck.stats.averageAccuracy * 100)
             : 0;
@@ -778,9 +793,14 @@ export function DeckGrid({
                   {hasWeakCards(deck) && null}
 
                   {/* Due Badge */}
-                  {dueCount > 0 && (
+                  {remainingToday > 0 && (
                     <div className="absolute -bottom-2.5 left-3 px-2.5 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-sm">
-                      {dueCount} {t('flashcards.due')}
+                      {remainingToday} {t('flashcards.due')}
+                    </div>
+                  )}
+                  {remainingToday === 0 && backlog > 0 && (
+                    <div className="absolute -bottom-2.5 left-3 px-2.5 py-0.5 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-sm">
+                      0 {t('flashcards.due')}
                     </div>
                   )}
                 </div>
@@ -853,6 +873,11 @@ export function DeckGrid({
                         </span>
                       )}
                     </div>
+                    {backlog > 0 && (
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {t('flashcards.backlog.label', { count: backlog })}
+                      </div>
+                    )}
 
                     {/* Stats */}
                     {showStats && deck.stats.totalStudied > 0 && (

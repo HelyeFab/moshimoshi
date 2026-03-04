@@ -16,6 +16,7 @@ function serializeDeck(deckId: string, data: any): DeckMarketDeck {
     id: deckId,
     title: data.title || '',
     description: data.description || '',
+    hasNativeAudio: data.hasNativeAudio === true,
     language: data.language || 'ja',
     jlpt: data.jlpt ?? null,
     tags: data.tags || [],
@@ -158,6 +159,10 @@ export const PATCH = withAdminAuth(async (request: NextRequest, context: AdminCo
       }
     }
 
+    if (typeof body.hasNativeAudio !== 'undefined' && typeof body.hasNativeAudio !== 'boolean') {
+      return NextResponse.json({ error: 'hasNativeAudio must be a boolean' }, { status: 400 })
+    }
+
     const updateData: Record<string, any> = {}
 
     if (typeof body.title === 'string') updateData.title = body.title
@@ -165,6 +170,7 @@ export const PATCH = withAdminAuth(async (request: NextRequest, context: AdminCo
     if (typeof body.language === 'string') updateData.language = body.language
     if (typeof body.jlpt !== 'undefined') updateData.jlpt = body.jlpt
     if (Array.isArray(body.tags)) updateData.tags = body.tags
+    if (typeof body.hasNativeAudio === 'boolean') updateData.hasNativeAudio = body.hasNativeAudio
     if (typeof body.isPublished === 'boolean') updateData.isPublished = body.isPublished
 
     if (Object.keys(updateData).length === 0) {

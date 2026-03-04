@@ -74,6 +74,7 @@ export async function GET(
       id: deckSnap.id,
       title: (deckData.title as string) || '',
       description: (deckData.description as string) || '',
+      hasNativeAudio: deckData.hasNativeAudio === true,
       language: (deckData.language as string) || 'ja',
       jlpt: (deckData.jlpt as string | null) ?? null,
       tags: (deckData.tags as string[]) || [],

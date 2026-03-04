@@ -39,6 +39,7 @@ export default function AdminDeckMarketEditPage() {
   const [tags, setTags] = useState('');
   const [jlpt, setJlpt] = useState<string>('');
   const [language, setLanguage] = useState('ja');
+  const [hasNativeAudio, setHasNativeAudio] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
@@ -87,6 +88,7 @@ export default function AdminDeckMarketEditPage() {
       setTags((deckData.tags || []).join(', '));
       setJlpt(deckData.jlpt || '');
       setLanguage(deckData.language || 'ja');
+      setHasNativeAudio(deckData.hasNativeAudio === true);
       setIsPublished(!!deckData.isPublished);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load deck');
@@ -107,6 +109,7 @@ export default function AdminDeckMarketEditPage() {
         body: JSON.stringify({
           title,
           description,
+          hasNativeAudio,
           tags: tags
             .split(',')
             .map((tag) => tag.trim())
@@ -395,6 +398,16 @@ export default function AdminDeckMarketEditPage() {
                 />
               </div>
             </div>
+
+            <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <input
+                type="checkbox"
+                checked={hasNativeAudio}
+                onChange={(e) => setHasNativeAudio(e.target.checked)}
+                className="rounded accent-primary-500"
+              />
+              Includes native Japanese audio
+            </label>
 
             <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
               <input

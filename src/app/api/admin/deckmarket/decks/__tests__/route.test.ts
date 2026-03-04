@@ -341,6 +341,7 @@ describe('/api/admin/deckmarket/decks POST', () => {
         title: 'Test Deck',
         id: 'test-deck',
         description: 'A test deck',
+        hasNativeAudio: true,
         language: 'ja',
         jlpt: 'N5',
         tags: ['test'],
@@ -357,6 +358,7 @@ describe('/api/admin/deckmarket/decks POST', () => {
       expect.objectContaining({
         id: 'test-deck',
         title: 'Test Deck',
+        hasNativeAudio: true,
         isPublished: false,
         downloadCount: 0,
       })
@@ -390,5 +392,33 @@ describe('/api/admin/deckmarket/decks POST', () => {
     const response = await POST(request, { params: Promise.resolve({}) })
     expect(response.status).toBe(200)
     expect(docSpy).toHaveBeenCalledWith('my-new-deck')
+  })
+
+  it('defaults hasNativeAudio to false when omitted', async () => {
+    mockAdminAuth()
+
+    const mockSet = jest.fn().mockResolvedValue(undefined)
+    const mockGet = jest.fn().mockResolvedValue({ exists: false })
+
+    setMockFirestore({
+      collection: jest.fn(() => ({
+        doc: jest.fn(() => ({
+          get: mockGet,
+          set: mockSet,
+        })),
+      })),
+    })
+
+    const request = new NextRequest('http://localhost/api/admin/deckmarket/decks', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: 'Audio Unknown Deck',
+        id: 'audio-unknown-deck',
+      }),
+    })
+
+    const response = await POST(request, { params: Promise.resolve({}) })
+    expect(response.status).toBe(200)
+    expect(mockSet).toHaveBeenCalledWith(expect.objectContaining({ hasNativeAudio: false }))
   })
 })

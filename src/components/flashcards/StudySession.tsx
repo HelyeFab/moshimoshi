@@ -145,6 +145,7 @@ export function StudySession({
   const timerIntervalRef = useRef<number | NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
   const sessionCompletedRef = useRef(false);
+  const exitInProgressRef = useRef(false);
   const sessionKey = useMemo(() => {
     if (typeof window === 'undefined') return null;
     const ownerId = deck.userId || user?.uid || 'guest';
@@ -268,11 +269,81 @@ export function StudySession({
     }
   }, [deck.id, isPremium]);
 
-  const handleExit = useCallback(() => {
-    clearPersistedSession();
-    clearRemoteSession();
-    onExit();
-  }, [clearPersistedSession, clearRemoteSession, onExit]);
+  const persistPartialSessionIfNeeded = useCallback(async () => {
+    if (sessionCompletedRef.current) return;
+    if (!user || isNonSrsMode) return;
+
+    const cardsActuallyStudied = responses.size;
+    if (cardsActuallyStudied <= 0) return;
+
+    const sessionTime = Date.now() - startTime - pausedTime;
+    const actualCorrectCount = Array.from(responses.values()).filter(r => r.correct).length;
+    const actualIncorrectCount = Array.from(responses.values()).filter(r => !r.correct).length;
+    const accuracy = Math.min(1, Math.max(0, actualCorrectCount / cardsActuallyStudied));
+
+    const sessionStats: SessionStats = {
+      id: `session-partial-${Date.now()}`,
+      userId: user.uid,
+      deckId: deck.id,
+      deckName: deck.name,
+      timestamp: startTime,
+      duration: sessionTime,
+      cardsStudied: cardsActuallyStudied,
+      cardsCorrect: actualCorrectCount,
+      cardsIncorrect: actualIncorrectCount,
+      cardsSkipped: skippedCount,
+      accuracy,
+      newCards: newCardsStudied,
+      learningCards: learningCardsStudied,
+      reviewCards: reviewCardsStudied,
+      averageResponseTime: cardsActuallyStudied > 0 ? totalResponseTime / cardsActuallyStudied : 0,
+      fastestResponseTime: fastestResponseTime === Number.MAX_VALUE ? 0 : fastestResponseTime,
+      slowestResponseTime,
+      xpEarned: 0,
+      streakSnapshot: deck.stats.currentStreak,
+      perfectSession: accuracy === 1,
+      mode,
+      settings: {
+        sessionLength: deck.settings.sessionLength,
+        reviewMode: deck.settings.reviewMode
+      }
+    };
+
+    try {
+      await flashcardManager.saveSessionStats(sessionStats, user.uid, isPremium || false);
+    } catch (error) {
+      console.error('❌ [StudySession] Failed to save partial session stats:', error);
+    }
+  }, [
+    user,
+    isNonSrsMode,
+    responses,
+    startTime,
+    pausedTime,
+    deck,
+    skippedCount,
+    newCardsStudied,
+    learningCardsStudied,
+    reviewCardsStudied,
+    totalResponseTime,
+    fastestResponseTime,
+    slowestResponseTime,
+    mode,
+    isPremium
+  ]);
+
+  const handleExit = useCallback(async () => {
+    if (exitInProgressRef.current) return;
+    exitInProgressRef.current = true;
+    try {
+      await persistPartialSessionIfNeeded();
+      clearPersistedSession();
+      await clearRemoteSession();
+      onExit();
+    } finally {
+      exitInProgressRef.current = false;
+    }
+  }, [persistPartialSessionIfNeeded, clearPersistedSession, clearRemoteSession, onExit]);
 
   // Batch preload media for a window around the current card for smooth study experience
   // Use useMemo to prevent creating new array reference on every render (causes infinite loop)

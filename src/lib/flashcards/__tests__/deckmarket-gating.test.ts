@@ -166,6 +166,49 @@ async function seedDeckMarketDeck(userId: string, id = 'dm-seeded-1') {
   return deck
 }
 
+/** Seed a normal user deck directly into FakeDB (bypasses createDeck flow). */
+async function seedUserDeck(userId: string, id: string) {
+  const deck: FlashcardDeck = {
+    id,
+    userId,
+    name: `Seeded User Deck ${id}`,
+    emoji: '🎴',
+    color: 'primary',
+    cardStyle: 'minimal',
+    source: 'user',
+    cards: [],
+    settings: {
+      studyDirection: 'front-to-back',
+      autoPlay: false,
+      showHints: true,
+      animationSpeed: 'normal',
+      soundEffects: true,
+      hapticFeedback: true,
+      sessionLength: 20,
+      reviewMode: 'srs',
+      newCardsPerDay: 20,
+      reviewsPerDay: 100,
+    },
+    stats: {
+      totalCards: 0,
+      newCards: 0,
+      learningCards: 0,
+      reviewCards: 0,
+      masteredCards: 0,
+      totalStudied: 0,
+      averageAccuracy: 0,
+      currentStreak: 0,
+      longestStreak: 0,
+      totalTimeSpent: 0,
+      heatmapData: {},
+    },
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  }
+  await fakeDb.put('decks', deck)
+  return deck
+}
+
 function makeStarterDeck(userId: string, id = 'starter-v1-greetings'): FlashcardDeck {
   return {
     id,
@@ -332,6 +375,24 @@ describe('FlashcardManager — DeckMarket gating (premium tier)', () => {
     // But excluded from user-deck count (source !== 'anki' filter)
     const userDecks = decks.filter(d => d.source !== 'anki')
     expect(userDecks.some(d => d.origin === 'deckmarket')).toBe(false)
+  })
+
+  it('allows premium creation even when local active user deck count already exceeds monthly quota', async () => {
+    // Premium monthly quota is about creations tracked in entitlements, not local active inventory.
+    // Seed many existing user decks; createDeck should still succeed locally.
+    for (let i = 0; i < 12; i++) {
+      await seedUserDeck(USER_ID, `seed-user-${i}`)
+    }
+
+    const created = await manager.createDeck(
+      makeUserDeckRequest({ id: 'premium-after-many-local', source: 'user' }),
+      USER_ID,
+      true
+    )
+
+    expect(created).not.toBeNull()
+    expect(created!.id).toBe('premium-after-many-local')
+    expect(created!.source).toBe('user')
   })
 })
 

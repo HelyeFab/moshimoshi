@@ -382,21 +382,8 @@ export class FlashcardManager {
       throw error
     }
 
-    // Check deck limit before creating deck
-    if (!(!isPremium && request.origin === 'deckmarket' && request.source === 'anki')) {
-      const userTier = isPremium ? 'premium_yearly' : 'free'
-      const limits = FlashcardManager.getDeckLimits(userTier)
-
-      // Get existing user decks (exclude Anki decks from count)
-      const existingDecks = await this.getDecks(userId, isPremium)
-      const userDecks = existingDecks.filter(d => d.source !== 'anki')
-
-      if (limits.maxDecks !== -1 && userDecks.length >= limits.maxDecks) {
-        const error = new Error(`DECK_LIMIT_REACHED: You've reached the maximum of ${limits.maxDecks} decks for your plan`)
-        error.name = 'DECK_LIMIT_REACHED'
-        throw error
-      }
-    }
+    // Premium deck-creation quota is enforced by entitlement usage checks.
+    // Keep free-tier DeckMarket restrictions above as the local guardrail.
 
     const deck: FlashcardDeck = {
       id: request.id || uuidv4(),

@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useIsMobile } from '@/hooks/useMediaQuery';
 import {
   Clock, Zap, Brain, Target, Timer,
   AlertCircle, BookOpen, TrendingDown, Sparkles
@@ -14,8 +13,10 @@ import { FlashcardSRSHelper } from '@/lib/flashcards/SRSHelper';
 import Dropdown from '@/components/ui/Dropdown';
 import { mistakeReplayStore } from '@/lib/flashcards/mistakeReplay';
 import Checkbox from '@/components/ui/Checkbox';
+import { getEventHub } from '@/lib/review-engine/core/event-hub';
+import { ReviewEventType } from '@/lib/review-engine/core/events';
 
-export type StudyModeType = 'preview' | 'study' | 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom' | 'mistake_replay' | 'audio';
+export type StudyModeType = 'preview' | 'study' | 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom' | 'mistake_replay' | 'audio' | 'backlog';
 
 type StudyRotationState = {
   deckId: string;
@@ -173,11 +174,18 @@ interface StudyMode {
 interface StudyModeSelectorProps {
   deck: FlashcardDeck;
   userId: string;
+  studiedToday?: number;
   onStartStudy: (cards: FlashcardContent[], mode: StudyModeType) => void;
   onClose: () => void;
 }
 
-export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: StudyModeSelectorProps) {
+export function StudyModeSelector({
+  deck,
+  userId,
+  studiedToday = 0,
+  onStartStudy,
+  onClose
+}: StudyModeSelectorProps) {
   const { t } = useI18n();
   const isNewDeck = (deck.stats?.totalStudied ?? 0) === 0;
   const [selectedMode, setSelectedMode] = useState<StudyModeType | null>(isNewDeck ? 'preview' : null);
@@ -191,8 +199,15 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
     includeMastered: false,
     sortBy: 'priority' as 'priority' | 'random' | 'oldest'
   });
-  const isMobile = useIsMobile();
+  const [backlogSettings, setBacklogSettings] = useState({
+    cardLimit: 50,
+  });
 
+  useEffect(() => {
+    setBacklogSettings(prev => ({
+      cardLimit: Math.max(1, Math.min(prev.cardLimit, maxCards)),
+    }));
+  }, [maxCards]);
   useEffect(() => {
     if (isNewDeck) {
       setSelectedMode(prev => prev ?? 'preview');
@@ -200,7 +215,7 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
   }, [isNewDeck, deck.id]);
 
   // Modes that require sub-configuration before starting
-  const modesWithConfig: StudyModeType[] = ['custom', 'mistake_replay'];
+  const modesWithConfig: StudyModeType[] = ['custom', 'mistake_replay', 'backlog'];
   const needsConfigPanel = selectedMode !== null && modesWithConfig.includes(selectedMode);
 
   const interleaveArrays = <T,>(primary: T[], secondary: T[]): T[] => {
@@ -237,13 +252,19 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
   const allNewCards = deck.cards.filter(card =>
     !card.metadata?.status || card.metadata.status === 'new'
   );
+  const dueBacklogCount = allNewCards.length + allReviewCards.length;
+  const sortedReviewBacklog = [...allReviewCards].sort((a, b) => {
+    const aDue = a.metadata?.nextReview ?? Number.MAX_SAFE_INTEGER;
+    const bDue = b.metadata?.nextReview ?? Number.MAX_SAFE_INTEGER;
+    return aDue - bDue;
+  });
+  const backlogCards = [...sortedReviewBacklog, ...allNewCards];
 
   // Apply daily limits
   const reviewCards = allReviewCards.slice(0, reviewsPerDay);
   const newCards = allNewCards.slice(0, newCardsPerDay);
 
   // "Due" for study today = new cards (up to daily limit) + review cards (up to daily limit)
-  // This matches what DeckGrid shows in the "due" badge
   const dueCards = [...newCards, ...reviewCards];
   const mixedDueCards = (() => {
     const total = dueCards.length;
@@ -263,6 +284,8 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
 
     return interleaveArrays(dueSlice, newSlice);
   })();
+  const consumedToday = Math.max(0, studiedToday);
+  const remainingDueCards = mixedDueCards.slice(Math.min(consumedToday, mixedDueCards.length));
 
   const weakCards = deck.cards.filter(card => {
     if (!card.metadata) return false;
@@ -304,8 +327,8 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
       description: t('flashcards.modes.study.description'),
       icon: <Brain className="w-4 h-4" />,
       color: 'from-teal-500 to-cyan-600',
-      cardCount: Math.max(mixedDueCards.length, newCards.length, Math.min(deck.cards.length, 20)),
-      estimatedTime: Math.ceil((Math.max(mixedDueCards.length, newCards.length, Math.min(deck.cards.length, 20)) * 3) / 60)
+      cardCount: Math.max(remainingDueCards.length, newCards.length, Math.min(deck.cards.length, 20)),
+      estimatedTime: Math.ceil((Math.max(remainingDueCards.length, newCards.length, Math.min(deck.cards.length, 20)) * 3) / 60)
     },
     {
       id: 'due',
@@ -313,8 +336,8 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
       description: t('flashcards.modes.due.description'),
       icon: <Clock className="w-4 h-4" />,
       color: 'from-blue-500 to-indigo-600',
-      cardCount: dueCards.length,
-      estimatedTime: Math.ceil((dueCards.length * 3) / 60)
+      cardCount: remainingDueCards.length,
+      estimatedTime: Math.ceil((remainingDueCards.length * 3) / 60)
     },
     {
       id: 'new',
@@ -387,6 +410,15 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
       color: 'from-gray-500 to-gray-700',
       cardCount: 0,
       estimatedTime: 0
+    },
+    {
+      id: 'backlog',
+      name: t('flashcards.modes.backlog.name'),
+      description: t('flashcards.modes.backlog.description'),
+      icon: <Zap className="w-4 h-4" />,
+      color: 'from-fuchsia-500 to-pink-600',
+      cardCount: dueBacklogCount,
+      estimatedTime: Math.ceil((Math.min(dueBacklogCount, backlogSettings.cardLimit) * 3) / 60)
     }
   ];
 
@@ -403,12 +435,12 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
         if (allReviewCards.length === 0 && allNewCards.length > newCards.length && newCards.length > 0) {
           cards = getRotatingStudyNewCards(userId, deck, allNewCards, newCards.length);
         } else {
-          cards = mixedDueCards.length > 0 ? [...mixedDueCards] : [...deck.cards];
+          cards = remainingDueCards.length > 0 ? [...remainingDueCards] : [...deck.cards];
         }
         break;
       case 'due':
         // Mixed due cards = review + new (already limited by daily settings)
-        cards = [...mixedDueCards];
+        cards = [...remainingDueCards];
         break;
 
       case 'new':
@@ -488,6 +520,9 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
       case 'audio':
         cards = [...audioCards];
         break;
+      case 'backlog':
+        cards = [...backlogCards].slice(0, Math.max(1, backlogSettings.cardLimit));
+        break;
     }
 
     // Initialize SRS for new cards
@@ -508,20 +543,36 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
     if (cards.length === 0) {
       return;
     }
+
+    if (selectedMode === 'backlog') {
+      try {
+        getEventHub().emit(ReviewEventType.ANALYTICS_TRACKED, {
+          eventName: 'flashcards_backlog_mode_started',
+          category: 'flashcards',
+          properties: {
+            deckId: deck.id,
+            selectedCount: cards.length,
+            backlogSize: dueBacklogCount,
+          },
+        });
+      } catch {
+        // no-op: analytics must not block study start
+      }
+    }
+
     onStartStudy(cards, selectedMode);
   };
 
   const handleModeClick = useCallback((modeId: StudyModeType, cardCount: number | undefined) => {
-    if (selectedMode === modeId && isMobile && !modesWithConfig.includes(modeId)) {
-      // Double-tap on mobile: start session if mode has cards
+    if (selectedMode === modeId && !modesWithConfig.includes(modeId)) {
+      // Double-click/tap: start session if mode has cards
       if (cardCount !== undefined && cardCount > 0) {
-        // Briefly set mode to ensure getCardsForMode picks it up, then start
         handleStartStudy();
         return;
       }
     }
     setSelectedMode(modeId);
-  }, [selectedMode, isMobile, modesWithConfig, handleStartStudy]);
+  }, [selectedMode, modesWithConfig, handleStartStudy]);
 
   // Close on Escape key
   useEffect(() => {
@@ -552,7 +603,7 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 truncate">
                 {deck.name} • {deck.cards.length} {t('flashcards.cards')}
               </p>
-              {isMobile && selectedMode && !needsConfigPanel && (
+              {selectedMode && !needsConfigPanel && (
                 <p className="mt-1 text-xs text-primary-500 dark:text-primary-400">
                   {t('flashcards.tapAgainToStart')}
                 </p>
@@ -622,6 +673,11 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
                           {mode.estimatedTime} {t('common.minutes')}
                         </span>
                       )}
+                    </div>
+                  )}
+                  {mode.id === 'due' && dueBacklogCount > 0 && (
+                    <div className="text-[10px] text-gray-500 dark:text-gray-500">
+                      {t('flashcards.backlog.label', { count: dueBacklogCount })}
                     </div>
                   )}
                   {mode.cardCount === 0 && mode.id !== 'custom' && (
@@ -848,10 +904,48 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
       )}
     </AnimatePresence>
 
+    <AnimatePresence>
+      {selectedMode === 'backlog' && dueBacklogCount > 0 && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="mt-6 p-4 bg-gray-50 dark:bg-dark-700 rounded-xl"
+        >
+          <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            {t('flashcards.modes.backlog.sessionSize')}
+          </h4>
+          <div className="grid grid-cols-4 gap-2 mb-3">
+            {[...new Set([20, 50, 100, dueBacklogCount])].map((preset) => {
+              const value = Math.max(1, Math.min(preset, dueBacklogCount));
+              const label = preset === dueBacklogCount ? (t('common.all') || 'All') : String(preset);
+              return (
+                <button
+                  key={`${preset}-${value}`}
+                  onClick={() => setBacklogSettings({ cardLimit: value })}
+                  className={cn(
+                    'px-3 py-2 rounded-lg text-sm font-medium transition-all',
+                    backlogSettings.cardLimit === value
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  )}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {t('flashcards.modes.backlog.priorityHint')}
+          </p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
           {/* Action buttons: hidden on mobile unless a mode with config panel is selected */}
           <div className={cn(
             "mt-6 flex flex-col gap-3",
-            isMobile && !needsConfigPanel && "hidden"
+            !needsConfigPanel && "hidden"
           )}>
             <button
               onClick={handleStartStudy}
@@ -870,7 +964,7 @@ export function StudyModeSelector({ deck, userId, onStartStudy, onClose }: Study
               onClick={onClose}
               className={cn(
                 "w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors border border-gray-300 dark:border-dark-600",
-                isMobile && "hidden"
+                ""
               )}
             >
               {t('common.cancel')}

@@ -147,6 +147,10 @@ export const POST = withAdminAuth(async (request: NextRequest, _context: AdminCo
       return NextResponse.json({ error: 'Invalid JLPT level' }, { status: 400 })
     }
 
+    if (typeof body.hasNativeAudio !== 'undefined' && typeof body.hasNativeAudio !== 'boolean') {
+      return NextResponse.json({ error: 'hasNativeAudio must be a boolean' }, { status: 400 })
+    }
+
     const slug = body.id ? body.id.trim() : normalizeSlug(body.title)
 
     if (!isValidSlug(slug)) {
@@ -165,6 +169,7 @@ export const POST = withAdminAuth(async (request: NextRequest, _context: AdminCo
       id: slug,
       title: body.title.trim(),
       description: body.description || '',
+      hasNativeAudio: body.hasNativeAudio === true,
       language: body.language || 'ja',
       jlpt: body.jlpt || null,
       tags: body.tags || [],

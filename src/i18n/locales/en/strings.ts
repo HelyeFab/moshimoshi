@@ -4754,10 +4754,20 @@ export const strings = {
         name: 'Custom Session',
         description: 'Create your own study session with custom settings',
       },
+      backlog: {
+        name: 'Backlog Clear',
+        description: 'Go beyond today\'s target and chip away at remaining due backlog',
+        sessionSize: 'Backlog Session Size',
+        priorityHint: 'Prioritizes overdue reviews first, then due reviews, then new cards.',
+      },
+    },
+
+    backlog: {
+      label: 'Backlog: {{count}}',
     },
 
     // Study session
-    tapAgainToStart: 'Tap again to start',
+    tapAgainToStart: 'Select again to start',
     startStudying: 'Start Studying',
     resumeStudying: 'Resume Study',
     reviewWeakCards: 'Review Weak Cards',
@@ -5014,7 +5024,7 @@ export const strings = {
       syncFailed: 'Failed to sync with cloud',
       deckSyncFailed: 'Failed to sync decks. Please try again.',
       syncRequiresPremium: 'Premium subscription required for sync',
-      deckLimitReached: "You've reached the maximum number of decks (15) for your plan",
+      deckLimitReached: "You've reached your deck creation limit for this plan",
       deckMarketLimitReached: 'Free users can have one DeckMarket deck at a time. Delete your current DeckMarket deck first.',
       deckMarketOnlyForFree: 'Free users can only add decks from DeckMarket.',
     },

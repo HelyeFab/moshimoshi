@@ -105,6 +105,7 @@ describe('/api/admin/deckmarket/decks/[deckId] GET', () => {
       data: () => ({
         title: 'Genki 1',
         description: 'Test',
+        hasNativeAudio: true,
         language: 'ja',
         jlpt: 'N5',
         tags: ['vocab'],
@@ -154,6 +155,7 @@ describe('/api/admin/deckmarket/decks/[deckId] GET', () => {
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
     expect(data.data.deck.id).toBe('genki-1')
+    expect(data.data.deck.hasNativeAudio).toBe(true)
     expect(data.data.versions).toHaveLength(1)
     expect(data.data.latestVersion.id).toBe('v-1')
   })
@@ -268,7 +270,7 @@ describe('/api/admin/deckmarket/decks/[deckId] PATCH', () => {
 
     const request = new NextRequest('http://localhost/api/admin/deckmarket/decks/genki-1', {
       method: 'PATCH',
-      body: JSON.stringify({ title: 'Updated', tags: ['a'] }),
+      body: JSON.stringify({ title: 'Updated', tags: ['a'], hasNativeAudio: true }),
     })
 
     const response = await PATCH(request, { params: Promise.resolve({ deckId: 'genki-1' }) })
@@ -277,6 +279,7 @@ describe('/api/admin/deckmarket/decks/[deckId] PATCH', () => {
       expect.objectContaining({
         title: 'Updated',
         tags: ['a'],
+        hasNativeAudio: true,
         updatedAt: FieldValue.serverTimestamp(),
       })
     )

@@ -185,6 +185,36 @@ describe('StudySession preview/study modes', () => {
     expect(mockFlashcardManager.saveSessionStats).not.toHaveBeenCalled()
   })
 
+  it('persists partial session stats when exiting early in classic mode', async () => {
+    const onComplete = jest.fn()
+    const onExit = jest.fn()
+
+    render(
+      <StudySession
+        deck={{ ...baseDeck, cards: twoCards }}
+        cards={twoCards}
+        mode="classic"
+        onComplete={onComplete}
+        onExit={onExit}
+      />
+    )
+
+    fireEvent.click(screen.getByText('viewer-grade-good'))
+    fireEvent.click(screen.getAllByLabelText('common.close')[0])
+
+    await waitFor(() => expect(mockFlashcardManager.saveSessionStats).toHaveBeenCalledTimes(1))
+    expect(mockFlashcardManager.saveSessionStats).toHaveBeenCalledWith(
+      expect.objectContaining({
+        cardsStudied: 1,
+        mode: 'classic',
+      }),
+      'user-1',
+      false
+    )
+    expect(onExit).toHaveBeenCalledTimes(1)
+    expect(onComplete).not.toHaveBeenCalled()
+  })
+
   it('study mode ignores duplicate taps for the same card', async () => {
     const onComplete = jest.fn()
 
