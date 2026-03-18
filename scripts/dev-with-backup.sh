@@ -4,7 +4,7 @@
 # Runs the dev server and backs up .env.local when it stops
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BACKUP_DIR="/home/beano/Life-Org/SecondBrain/Moshimoshi/Git"
+BACKUP_DIR="$HOME/Documents/UnSync/Life-Org/08_Moshimoshi/Git"
 ENV_FILE="$PROJECT_ROOT/.env.local"
 LOG_FILE="$PROJECT_ROOT/backup.log"
 

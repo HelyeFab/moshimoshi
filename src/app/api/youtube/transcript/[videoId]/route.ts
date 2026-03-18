@@ -12,6 +12,17 @@ import type { ResegmentedSegment } from '@/lib/transcript/resegmentation'
 import { validateResegmentedOutput } from '@/lib/transcript/resegmentation'
 import { computeSegmentQuality } from '@/lib/transcript/segmentQuality'
 import { alignAiTextsToSourceTimeline } from '@/lib/transcript/aiTimingAlignment'
+import type {
+  ComputedPracticeSegment,
+  FinalPracticeSegment,
+  SourceTranscriptSegment,
+} from '@/lib/transcript/practiceSegmentTypes'
+import {
+  buildSourceSegments,
+  buildComputedPracticeSegments,
+  buildFinalPracticeSegments,
+  type PipelineMetadata,
+} from '@/lib/transcript/practiceSegments'
 
 interface TranscriptSegment {
   start: number
@@ -58,6 +69,9 @@ interface TranscriptResponse {
     quality_after?: number
     reject_reason_histogram?: Record<string, number>
   }
+  computedPracticeSegments?: ComputedPracticeSegment[]
+  finalPracticeSegments?: FinalPracticeSegment[]
+  sourceSegments?: SourceTranscriptSegment[]
   message?: string
   error?: string
 }
@@ -528,6 +542,44 @@ function buildAiMetadata(ai: AiPipelineResult): Record<string, unknown> {
     aiShadowingChunkStrategyVersion: AI_CHUNK_STRATEGY_VERSION,
     aiShadowingMetrics: ai.metrics,
   }
+}
+
+/**
+ * Build practice segment layers from processed pipeline output.
+ * Returns source, computed, and final practice segments for the API response.
+ */
+function buildPracticeSegmentLayers(
+  finalSegments: TranscriptSegment[],
+  rawSegments: TranscriptSegment[],
+  aiResult: AiPipelineResult,
+  transcriptSource: TranscriptResponse['source']
+): {
+  sourceSegments: SourceTranscriptSegment[]
+  computedPracticeSegments: ComputedPracticeSegment[]
+  finalPracticeSegments: FinalPracticeSegment[]
+} {
+  const providerSource = (transcriptSource || 'firebase-cache') as SourceTranscriptSegment['source']
+
+  const sourceSegs = buildSourceSegments(
+    rawSegments.map(s => ({ text: s.text, start: s.start, end: s.end, words: s.words })),
+    providerSource
+  )
+
+  const meta: PipelineMetadata = {
+    method: aiResult.method,
+    source: providerSource as PipelineMetadata['source'],
+    transcriptQualityScore: aiResult.qualityAfter,
+  }
+
+  const computed = buildComputedPracticeSegments(
+    finalSegments.map(s => ({ text: s.text, start: s.start, end: s.end, words: s.words })),
+    sourceSegs,
+    meta
+  )
+
+  const final = buildFinalPracticeSegments(computed)
+
+  return { sourceSegments: sourceSegs, computedPracticeSegments: computed, finalPracticeSegments: final }
 }
 
 function categorizeValidationError(error: string): string {
@@ -1628,6 +1680,23 @@ export async function GET(
           .catch(err => console.error('[TRANSCRIPT-API] Cache merge update failed:', err))
       }
 
+      const cachedPsMethod: 'ai' | 'deterministic' =
+        processingInfo?.aiMethod === 'ai' ? 'ai' : 'deterministic'
+      const cachedPsLayers = buildPracticeSegmentLayers(
+        mergedSegments,
+        cleanedSegments,
+        {
+          segments: mergedSegments,
+          method: cachedPsMethod,
+          reason: processingInfo?.aiReason || 'cached',
+          qualityBefore: processingInfo?.aiQualityBefore ?? 0,
+          qualityAfter: processingInfo?.aiQualityAfter ?? 0,
+          correctionApplied: processingInfo?.correctionApplied ?? false,
+          metrics: createDefaultAiMetrics(processingInfo?.aiQualityBefore ?? 0),
+        },
+        'firebase-cache'
+      )
+
       return NextResponse.json<TranscriptResponse>({
         available: true,
         videoId,
@@ -1639,6 +1708,7 @@ export async function GET(
         totalSegments: mergedSegments.length,
         totalDuration: mergedSegments[mergedSegments.length - 1]?.end || 0,
         processing: processingInfo,
+        ...cachedPsLayers,
       })
       }
     }
@@ -1679,12 +1749,20 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
+      const railwayPsLayers = buildPracticeSegmentLayers(
+        normalizedSegments,
+        railwayResult.segments,
+        aiProcessed,
+        railwayResult.source
+      )
+
       return NextResponse.json<TranscriptResponse>({
         ...railwayResult,
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
         processing: buildProcessingInfo(aiProcessed),
+        ...railwayPsLayers,
       })
     }
 
@@ -1722,12 +1800,20 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
+      const sheldonPsLayers = buildPracticeSegmentLayers(
+        normalizedSegments,
+        sheldonResult.segments,
+        aiProcessed,
+        sheldonResult.source
+      )
+
       return NextResponse.json<TranscriptResponse>({
         ...sheldonResult,
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
         processing: buildProcessingInfo(aiProcessed),
+        ...sheldonPsLayers,
       })
     }
 
@@ -1765,12 +1851,20 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
+      const enhancedPsLayers = buildPracticeSegmentLayers(
+        normalizedSegments,
+        enhancedResult.segments,
+        aiProcessed,
+        enhancedResult.source
+      )
+
       return NextResponse.json<TranscriptResponse>({
         ...enhancedResult,
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
         processing: buildProcessingInfo(aiProcessed),
+        ...enhancedPsLayers,
       })
     }
 
@@ -1808,12 +1902,20 @@ export async function GET(
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
+      const standardPsLayers = buildPracticeSegmentLayers(
+        normalizedSegments,
+        standardResult.segments,
+        aiProcessed,
+        standardResult.source
+      )
+
       return NextResponse.json<TranscriptResponse>({
         ...standardResult,
         segments: normalizedSegments,
         totalSegments: normalizedSegments.length,
         totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
         processing: buildProcessingInfo(aiProcessed),
+        ...standardPsLayers,
       })
     }
 
@@ -1866,6 +1968,13 @@ export async function GET(
 
         console.log(`[TRANSCRIPT-API] ✅ Supa API success: ${normalizedSegments.length} segments`)
 
+        const supaPsLayers = buildPracticeSegmentLayers(
+          normalizedSegments,
+          segments,
+          aiProcessed,
+          'supa-api'
+        )
+
         return NextResponse.json<TranscriptResponse>({
           available: true,
           videoId,
@@ -1877,6 +1986,7 @@ export async function GET(
           totalSegments: normalizedSegments.length,
           totalDuration: normalizedSegments[normalizedSegments.length - 1]?.end || 0,
           processing: buildProcessingInfo(aiProcessed),
+          ...supaPsLayers,
         })
       }
     }

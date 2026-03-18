@@ -9,7 +9,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const ENV_FILE = path.join(PROJECT_ROOT, '.env.local');
 const BACKUP_DIR = path.join(PROJECT_ROOT, '02-PRODUCTION_DOCS');
 const BACKUP_FILE = path.join(BACKUP_DIR, 'ENV_LOCAL_BACKUP.md');
-const EXTERNAL_BACKUP_DIR = '/home/beano/Documents/Life-Org/08_Moshimoshi/Git';
+const EXTERNAL_BACKUP_DIR = path.join(os.homedir(), 'Documents', 'UnSync', 'Life-Org', '08_Moshimoshi', 'Git');
 const EXTERNAL_BACKUP_FILE = path.join(EXTERNAL_BACKUP_DIR, 'env_latest.md');
 
 function backupEnv() {

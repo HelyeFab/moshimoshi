@@ -11,7 +11,7 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles, Scissors, Merge, RotateCcw, Pencil, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
@@ -31,6 +31,13 @@ import { hasSeenWordLookup } from "@/utils/wordLookupSeen";
 import { useSubscription } from "@/hooks/useSubscription";
 import { isFeatureEnabled } from "@/lib/features/featureFlags";
 import { verifySeekLanding, calculateSegmentBuffers } from "@/utils/youtubePlayerUtils";
+import {
+  mergeAdjacentSegments,
+  splitSegmentAtPosition,
+  saveSegmentOverrides,
+  loadSegmentOverrides,
+  clearSegmentOverrides,
+} from "@/lib/transcript/segmentOverrides";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -58,10 +65,26 @@ type TranscriptSegment = {
   end: number;
   text: string;
   translation?: string;
+  // Practice segment metadata (Phase 2) — populated when the route
+  // returns finalPracticeSegments, absent on legacy fallback.
+  contentKind?: "speech" | "lyrics" | "mixed" | "unknown";
+  segmentationPolicy?: "speech-utterance" | "lyrics-lineation" | "mixed-adaptive" | "fallback-safe";
+  boundaryConfidence?: number;
+  isUserEdited?: boolean;
 };
 
 type TranscriptResponse = {
   segments: TranscriptSegment[];
+  finalPracticeSegments?: Array<{
+    id: string;
+    text: string;
+    startTime: number;
+    endTime: number;
+    contentKind: "speech" | "lyrics" | "mixed" | "unknown";
+    segmentationPolicy: "speech-utterance" | "lyrics-lineation" | "mixed-adaptive" | "fallback-safe";
+    boundaryConfidence: number;
+    isUserEdited: boolean;
+  }>;
   language?: string;
   source: string;
 };
@@ -113,6 +136,43 @@ function normalizeSegmentsForPlayback(segments: TranscriptSegment[]): Transcript
   }
 
   return normalized;
+}
+
+/**
+ * Extract playable TranscriptSegment[] from the API response.
+ * Prefers finalPracticeSegments when available, falls back to legacy segments.
+ *
+ * When using finalPracticeSegments, translations are merged from the legacy
+ * segments array (which the route still returns alongside) by matching on
+ * text content.  This preserves existing translations until the
+ * FinalPracticeSegment contract carries them natively.
+ */
+function extractSegmentsFromResponse(data: TranscriptResponse): TranscriptSegment[] {
+  if (Array.isArray(data.finalPracticeSegments) && data.finalPracticeSegments.length > 0) {
+    // Build a lookup from segment text → translation using the legacy
+    // segments that may carry cached translations from the route.
+    const translationByText = new Map<string, string>();
+    if (Array.isArray(data.segments)) {
+      for (const seg of data.segments) {
+        if (seg.translation) {
+          translationByText.set(seg.text, seg.translation);
+        }
+      }
+    }
+
+    return data.finalPracticeSegments.map((fps) => ({
+      start: fps.startTime,
+      end: fps.endTime,
+      text: fps.text,
+      translation: translationByText.get(fps.text),
+      contentKind: fps.contentKind,
+      segmentationPolicy: fps.segmentationPolicy,
+      boundaryConfidence: fps.boundaryConfidence,
+      isUserEdited: fps.isUserEdited,
+    }));
+  }
+  // Legacy fallback — route did not return practice segments
+  return Array.isArray(data.segments) ? data.segments : [];
 }
 
 type VideoMetadata = {
@@ -188,6 +248,12 @@ function YouTubeShadowingContent() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [translationInFlight, setTranslationInFlight] = useState<Set<string>>(() => new Set());
   const [resegmenting, setResegmenting] = useState(false);
+
+  // Edit mode state (Phase 3 — Agent 03)
+  const [editMode, setEditMode] = useState(false);
+  const [splitModeIndex, setSplitModeIndex] = useState<number | null>(null);
+  const originalSegmentsRef = useRef<TranscriptSegment[] | null>(null);
+
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
   const trackFeaturedClick = useCallback(() => {
@@ -532,14 +598,17 @@ function YouTubeShadowingContent() {
 
         const data = (await response.json()) as TranscriptResponse;
 
+        const rawSegments = extractSegmentsFromResponse(data);
+        const usedPracticeSegments = Array.isArray(data.finalPracticeSegments) && data.finalPracticeSegments.length > 0;
+
         // 🎯 Highlight which transcript source was used
         console.log(
-          `%c 📹 TRANSCRIPT SOURCE: ${data.source?.toUpperCase() || 'UNKNOWN'} %c`,
+          `%c 📹 TRANSCRIPT SOURCE: ${data.source?.toUpperCase() || 'UNKNOWN'}${usedPracticeSegments ? ' (FinalPracticeSegments)' : ' (legacy segments)'} %c`,
           'background: #ef4444; color: white; font-size: 14px; font-weight: bold; padding: 4px 8px; border-radius: 4px;',
           ''
         );
         console.log(
-          `%c Segments: ${data.segments?.length || 0} | Language: ${data.language || 'unknown'} %c`,
+          `%c Segments: ${rawSegments.length || 0} | Language: ${data.language || 'unknown'} %c`,
           'background: #374151; color: #ef4444; font-size: 12px; padding: 2px 8px; border-radius: 2px;',
           ''
         );
@@ -557,10 +626,18 @@ function YouTubeShadowingContent() {
           }
         }
 
-        const normalizedSegments = normalizeSegmentsForPlayback(data.segments);
+        const normalizedSegments = normalizeSegmentsForPlayback(rawSegments);
+        // Check for saved segment overrides from a previous edit session
+        const overrides = loadSegmentOverrides(extractedId);
+        const activeSegments = overrides
+          ? normalizeSegmentsForPlayback(overrides)
+          : normalizedSegments;
+        // Store originals for reset even if overrides are active
+        if (overrides) originalSegmentsRef.current = normalizedSegments;
+
         setVideoId(extractedId);
-        setSegments(normalizedSegments);
-        segmentsRef.current = normalizedSegments;
+        setSegments(activeSegments);
+        segmentsRef.current = activeSegments;
         segmentIndexRef.current = 0;
         currentRepeatRef.current = 1;
         repeatCountRef.current = repeatCount;
@@ -577,12 +654,12 @@ function YouTubeShadowingContent() {
           }),
         );
 
-        if (normalizedSegments[0] && playerRef.current) {
-          playerRef.current.seekTo(normalizedSegments[0].start, true);
+        if (activeSegments[0] && playerRef.current) {
+          playerRef.current.seekTo(activeSegments[0].start, true);
 
           // SYNC_V2: verify initial transcript seek landing
           if (SYNC_V2) {
-            void verifySeekLanding(playerRef.current, normalizedSegments[0].start);
+            void verifySeekLanding(playerRef.current, activeSegments[0].start);
           }
         }
 
@@ -591,8 +668,8 @@ function YouTubeShadowingContent() {
 
         // Prefetch word explanations - prioritize first segments for instant response
         const PRIORITY_SEGMENTS = 3; // Precompute first 3 segments immediately
-        const prioritySegments = normalizedSegments.slice(0, PRIORITY_SEGMENTS);
-        const remainingSegments = normalizedSegments.slice(PRIORITY_SEGMENTS);
+        const prioritySegments = activeSegments.slice(0, PRIORITY_SEGMENTS);
+        const remainingSegments = activeSegments.slice(PRIORITY_SEGMENTS);
 
         const priorityText = prioritySegments.map((s) => s.text).join(" ");
         const remainingText = remainingSegments.map((s) => s.text).join(" ");
@@ -680,6 +757,12 @@ function YouTubeShadowingContent() {
   const handleResegment = useCallback(async () => {
     if (!videoId || !segmentsRef.current.length || resegmenting) return;
 
+    // Exit edit mode and clear overrides on resegment
+    setEditMode(false);
+    setSplitModeIndex(null);
+    clearSegmentOverrides(videoId);
+    originalSegmentsRef.current = null;
+
     setResegmenting(true);
     setStatus("Resegmenting transcript...");
     setError(null);
@@ -754,6 +837,79 @@ function YouTubeShadowingContent() {
     }
   }, [videoId, resegmenting, showToast]);
 
+  // -----------------------------------------------------------------------
+  // Edit mode handlers (Phase 3 — Agent 03)
+  // -----------------------------------------------------------------------
+
+  const toggleEditMode = useCallback(() => {
+    setEditMode((prev) => {
+      if (!prev) {
+        // Entering edit mode — snapshot current segments for reset,
+        // but only if we don't already hold a true baseline from load/restore.
+        if (!originalSegmentsRef.current) {
+          originalSegmentsRef.current = [...segmentsRef.current];
+        }
+      } else {
+        // Leaving edit mode — persist overrides if any edits were made
+        setSplitModeIndex(null);
+        if (videoId && segmentsRef.current.some((s) => s.isUserEdited)) {
+          saveSegmentOverrides(videoId, segmentsRef.current);
+        }
+      }
+      return !prev;
+    });
+  }, [videoId]);
+
+  const handleMergeSegments = useCallback(
+    (indexA: number) => {
+      const next = mergeAdjacentSegments(segmentsRef.current, indexA, indexA + 1);
+      const normalized = normalizeSegmentsForPlayback(next);
+      setSegments(normalized);
+      segmentsRef.current = normalized;
+      // Adjust current segment index if needed
+      if (segmentIndexRef.current > indexA) {
+        const adjusted = Math.max(0, segmentIndexRef.current - 1);
+        segmentIndexRef.current = adjusted;
+        setCurrentSegmentIndex(adjusted);
+      }
+      setSplitModeIndex(null);
+      if (videoId) saveSegmentOverrides(videoId, normalized);
+    },
+    [videoId],
+  );
+
+  const handleSplitSegment = useCallback(
+    (segmentIndex: number, charPosition: number) => {
+      const next = splitSegmentAtPosition(segmentsRef.current, segmentIndex, charPosition);
+      const normalized = normalizeSegmentsForPlayback(next);
+      setSegments(normalized);
+      segmentsRef.current = normalized;
+      // Adjust current segment index if the split happened before or at current
+      if (segmentIndexRef.current > segmentIndex) {
+        const adjusted = segmentIndexRef.current + 1;
+        segmentIndexRef.current = adjusted;
+        setCurrentSegmentIndex(adjusted);
+      }
+      setSplitModeIndex(null);
+      if (videoId) saveSegmentOverrides(videoId, normalized);
+    },
+    [videoId],
+  );
+
+  const handleResetSegments = useCallback(() => {
+    if (!originalSegmentsRef.current) return;
+    const restored = normalizeSegmentsForPlayback(originalSegmentsRef.current);
+    setSegments(restored);
+    segmentsRef.current = restored;
+    const nextIndex = Math.min(segmentIndexRef.current, restored.length - 1);
+    segmentIndexRef.current = nextIndex;
+    setCurrentSegmentIndex(nextIndex);
+    setSplitModeIndex(null);
+    if (videoId) clearSegmentOverrides(videoId);
+    originalSegmentsRef.current = null;
+    showToast(t('youtubeShadowing.player.transcript.reset'), 'info');
+  }, [videoId, showToast, t]);
+
   useEffect(() => {
     return () => {
       clearTranslationPoll();
@@ -792,8 +948,9 @@ function YouTubeShadowingContent() {
         );
         if (!response.ok) return;
         const data = (await response.json()) as TranscriptResponse;
-        if (Array.isArray(data.segments) && data.segments.length) {
-          const normalizedSegments = normalizeSegmentsForPlayback(data.segments);
+        const refreshedSegments = extractSegmentsFromResponse(data);
+        if (refreshedSegments.length) {
+          const normalizedSegments = normalizeSegmentsForPlayback(refreshedSegments);
           setSegments(normalizedSegments);
           segmentsRef.current = normalizedSegments;
         }
@@ -1031,8 +1188,14 @@ function YouTubeShadowingContent() {
       }
       if (parsed.segments?.length) {
         const normalizedSegments = normalizeSegmentsForPlayback(parsed.segments);
-        setSegments(normalizedSegments);
-        segmentsRef.current = normalizedSegments;
+        // Check for saved overrides from a previous edit session
+        const overrides = parsed.videoId ? loadSegmentOverrides(parsed.videoId) : null;
+        const activeSegments = overrides
+          ? normalizeSegmentsForPlayback(overrides)
+          : normalizedSegments;
+        if (overrides) originalSegmentsRef.current = normalizedSegments;
+        setSegments(activeSegments);
+        segmentsRef.current = activeSegments;
         setShowUrlInput(false); // Collapse form when restoring a session
       }
       if (parsed.source) setSource(parsed.source);
@@ -1120,6 +1283,12 @@ function YouTubeShadowingContent() {
   // Clear session function (can be called from UI)
   const clearSession = useCallback(() => {
     localStorage.removeItem(SESSION_STORAGE_KEY);
+    // Clear edit mode state and overrides
+    if (videoId) clearSegmentOverrides(videoId);
+    setEditMode(false);
+    setSplitModeIndex(null);
+    originalSegmentsRef.current = null;
+
     setVideoInput("");
     setVideoId(null);
     setSegments([]);
@@ -1354,47 +1523,133 @@ function YouTubeShadowingContent() {
           <div className={styles.transcriptColumn}>
             {segments.length > 0 ? (
               <div className={styles.transcriptListSection}>
-                <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+                <div className={styles.transcriptTitleRow}>
+                  <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+                  <button
+                    className={`${styles.editToggleButton} ${editMode ? styles.editToggleButtonActive : ""}`}
+                    onClick={toggleEditMode}
+                  >
+                    {editMode ? (
+                      <><Check className="w-3.5 h-3.5" /> {t('youtubeShadowing.player.transcript.editDone')}</>
+                    ) : (
+                      <><Pencil className="w-3.5 h-3.5" /> {t('youtubeShadowing.player.transcript.edit')}</>
+                    )}
+                  </button>
+                </div>
+                {editMode && (
+                  <div className={styles.editToolbar}>
+                    <Scissors className="w-3.5 h-3.5" />
+                    <span>{t('youtubeShadowing.player.transcript.splitHint')}</span>
+                    {originalSegmentsRef.current && (
+                      <button
+                        className={styles.resetButton}
+                        onClick={() => {
+                          if (confirm(t('youtubeShadowing.player.transcript.resetConfirm'))) {
+                            handleResetSegments();
+                          }
+                        }}
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        {t('youtubeShadowing.player.transcript.reset')}
+                      </button>
+                    )}
+                  </div>
+                )}
                 <div className={`${styles.segmentList} scrollbar-hide`}>
                   {segments.map((segment, index) => {
                     const active = index === currentSegmentIndex;
                     return (
-                      <div
-                        key={`${segment.start}-${index}`}
-                        className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
-                      >
+                      <div key={`seg-${segment.start}-${index}`}>
+                        <div
+                          className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
+                        >
                           {/* Repeat badge - top right corner */}
-                        {active && (
-                          <span className={styles.repeatBadge}>
-                            {currentRepeatDisplay}/{repeatCountDisplay}
-                          </span>
-                        )}
-                        <div className={styles.segmentHeader}>
-                          <button
-                            className={styles.jumpButton}
-                            onClick={() => seekToSegment(index)}
-                            title="Jump to this segment"
-                          >
-                            <PlayIcon className={styles.jumpIcon} />
-                          </button>
-                          <div className={styles.segmentMeta}>
-                            <span>
-                              {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
+                          {active && !editMode && (
+                            <span className={styles.repeatBadge}>
+                              {currentRepeatDisplay}/{repeatCountDisplay}
                             </span>
+                          )}
+                          <div className={styles.segmentHeader}>
+                            <button
+                              className={styles.jumpButton}
+                              onClick={() => seekToSegment(index)}
+                              title="Jump to this segment"
+                            >
+                              <PlayIcon className={styles.jumpIcon} />
+                            </button>
+                            <div className={styles.segmentMeta}>
+                              <span>
+                                {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
+                              </span>
+                            </div>
+                            {segment.isUserEdited && (
+                              <span className={styles.editedBadge}>edited</span>
+                            )}
+                            {editMode && (
+                              <div className={styles.segmentEditActions}>
+                                <button
+                                  className={styles.splitButton}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSplitModeIndex(splitModeIndex === index ? null : index);
+                                  }}
+                                  title={t('youtubeShadowing.player.transcript.split')}
+                                >
+                                  <Scissors className="w-3 h-3" />
+                                  {t('youtubeShadowing.player.transcript.split')}
+                                </button>
+                              </div>
+                            )}
                           </div>
+                          {/* Split mode: render characters with clickable split points */}
+                          {editMode && splitModeIndex === index ? (
+                            <div className={styles.splitModeText}>
+                              {segment.text.split("").map((char, charIdx) => (
+                                <span key={charIdx}>
+                                  {charIdx > 0 && (
+                                    <span
+                                      className={styles.splitPoint}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleSplitSegment(index, charIdx);
+                                      }}
+                                      role="button"
+                                      tabIndex={0}
+                                      aria-label={`Split after character ${charIdx}`}
+                                    />
+                                  )}
+                                  <span className={styles.splitChar}>{char}</span>
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className={styles.segmentTextSmall}>
+                              <GrammarHighlightedText
+                                text={segment.text}
+                                highlightMode={highlightMode}
+                                showFurigana={showFurigana}
+                                furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
+                                onWordClick={(word, e) => {
+                                  e.stopPropagation();
+                                  handleWordTap(word, segment.text);
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
-                        <div className={styles.segmentTextSmall}>
-                          <GrammarHighlightedText
-                            text={segment.text}
-                            highlightMode={highlightMode}
-                            showFurigana={showFurigana}
-                            furiganaContextKey={videoId ? `youtube:${videoId}` : undefined}
-                            onWordClick={(word, e) => {
-                              e.stopPropagation();
-                              handleWordTap(word, segment.text);
-                            }}
-                          />
-                        </div>
+                        {/* Merge button between adjacent segments */}
+                        {editMode && index < segments.length - 1 && (
+                          <button
+                            className={styles.mergeButton}
+                            onClick={() => handleMergeSegments(index)}
+                            title={t('youtubeShadowing.player.transcript.merge')}
+                          >
+                            <span className={styles.mergeButtonInner}>
+                              <Merge className="w-3 h-3" />
+                              {t('youtubeShadowing.player.transcript.merge')}
+                            </span>
+                          </button>
+                        )}
                       </div>
                     );
                   })}

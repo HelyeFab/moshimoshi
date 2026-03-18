@@ -4595,11 +4595,17 @@ export const strings = {
 
       transcript: {
         title: 'Transcript',
-        edit: 'Edit',
+        edit: 'Edit Segments',
+        editDone: 'Done Editing',
         regenerate: 'Regenerate',
         save: 'Save Changes',
         cancel: 'Cancel Edit',
         noTranscript: 'No transcript available',
+        merge: 'Merge',
+        split: 'Split',
+        splitHint: 'Tap between characters to split',
+        reset: 'Reset to original',
+        resetConfirm: 'Discard all edits?',
       },
       repeatLine: 'Repeat Line',
       playTTS: 'Play TTS',
