@@ -549,6 +549,7 @@ addTemplate()
 | `coJourneyAnnouncement` | Co-Journey Announcement | Moshi's MNN series |
 | `flashcardsLaunch` | Flashcards Launch | Flashcards feature announcement |
 | `kuchiguse500DeckUpdate` | Kuchiguse 500 Deck Update | DeckMarket + flashcards rollout email |
+| `adjectives-100-master-deck` | Adjectives 100 Master Deck | 100 Japanese Adjectives deck launch email |
 
 Access via: **Create Template > Choose Starter** or `GET /api/admin/templates/starters`
 
