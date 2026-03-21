@@ -494,6 +494,79 @@ Unsubscribe: {{unsubscribeUrl}}`,
     ],
   },
   {
+    name: 'Adjectives 100 Master Deck',
+    slug: 'adjectives-100-master-deck',
+    description: 'Announce the new 100 Japanese Adjectives Master Deck in the Deck Market',
+    category: 'marketing',
+    subject: 'New Deck: 100 Japanese Adjectives Master Deck',
+    htmlContent: wrapEmailHtml(`
+      ${emailHeader({ showLogo: true })}
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.accent}, ${EMAIL_COLORS.primary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">NEW DECK</span>
+      </div>
+      <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">100 Japanese Adjectives<br/>Master Deck</h1>
+      <p style="text-align: center; margin: 0 0 24px 0; font-size: 16px; color: ${EMAIL_COLORS.textLight};">50 い-adjectives + 50 な-adjectives &mdash; 300 flashcards</p>
+      <p style="${EMAIL_STYLES.paragraph}">Hey {{name}},</p>
+      <p style="${EMAIL_STYLES.paragraph}">Adjectives are what make your Japanese expressive and natural. We just dropped a brand new deck in the Deck Market designed to take you from basic descriptions to confident, natural-sounding sentences.</p>
+      ${characterMessage({ character: 'doshi', message: "Adjectives bring your Japanese to life! This deck covers 100 essential い and な adjectives with negation drills and noun-pairing practice. Trust me, your sentences are about to get a lot more 楽しい!" })}
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 24px 0;">
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.primary};">100</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Adjectives</p>
+        </div>
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.secondary};">300</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Flashcards</p>
+        </div>
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.accent};">3</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Card Types</p>
+        </div>
+      </div>
+      <p style="${EMAIL_STYLES.paragraph}"><strong>Each adjective is drilled 3 ways:</strong></p>
+      ${featureList([
+        'Meaning & reading with furigana',
+        'Negative conjugation (否定形) practice',
+        'Noun modification — build real phrases',
+      ])}
+      ${highlightBox({ type: 'info', title: 'Sample from the deck', content: '<strong>大きい</strong> (おおきい) — Big / large<br/>Negative: 大きくないです<br/>Noun mod: 大きい家 — A big house' })}
+      ${ctaButton({ text: 'Get the Deck', url: 'https://moshimoshi.app/deckmarket?utm_source=email&utm_medium=campaign&utm_campaign=adjectives-100-deck' })}
+      <p style="${EMAIL_STYLES.smallText}; text-align: center;">Available now in the Deck Market. Powered by our SRS engine for optimal retention.</p>
+      ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+    `),
+    textContent: `NEW DECK: 100 Japanese Adjectives Master Deck
+50 い-adjectives + 50 な-adjectives — 300 flashcards
+
+Hey {{name}},
+
+Adjectives are what make your Japanese expressive and natural. We just dropped a brand new deck in the Deck Market designed to take you from basic descriptions to confident, natural-sounding sentences.
+
+Doshi says: "Adjectives bring your Japanese to life! This deck covers 100 essential い and な adjectives with negation drills and noun-pairing practice. Trust me, your sentences are about to get a lot more 楽しい!"
+
+100 Adjectives | 300 Flashcards | 3 Card Types
+
+Each adjective is drilled 3 ways:
+- Meaning & reading with furigana
+- Negative conjugation (否定形) practice
+- Noun modification — build real phrases
+
+Sample: 大きい (おおきい) — Big / large
+Negative: 大きくないです
+Noun mod: 大きい家 — A big house
+
+Get the deck: https://moshimoshi.app/deckmarket?utm_source=email&utm_medium=campaign&utm_campaign=adjectives-100-deck
+
+Available now in the Deck Market. Powered by our SRS engine for optimal retention.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}`,
+    variables: [
+      { name: 'name', label: 'User Name', type: 'string', defaultValue: 'Learner', required: true },
+      { name: 'unsubscribeUrl', label: 'Unsubscribe URL', type: 'url', defaultValue: 'https://moshimoshi.app/api/email/unsubscribe?token=PREVIEW', required: true },
+    ],
+  },
+  {
     name: 'Newsletter',
     slug: 'newsletter',
     description: 'Clean template for general announcements',

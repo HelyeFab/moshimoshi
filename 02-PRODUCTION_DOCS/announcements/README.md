@@ -23,6 +23,7 @@ The Feature Announcements system provides in-app overlay notifications to inform
 | [_TEMPLATE.md](./_TEMPLATE.md) | Template for documenting new announcement features |
 | [kanji-mastery-progress.md](./kanji-mastery-progress.md) | Example: Kanji Mastery progress announcement |
 | [kuchiguse500-deck-update.md](./kuchiguse500-deck-update.md) | Launch copy for Kuchiguse 500 deck/audio/format updates |
+| [adjectives-100-master-deck.md](./adjectives-100-master-deck.md) | Launch copy for 100 Japanese Adjectives Master Deck |
 
 ## Key Topics
 
@@ -76,11 +77,29 @@ Announcements System
 
 ## Scripted Seeding
 
-- New announcement markdown for this release: [kuchiguse500-deck-update.md](./kuchiguse500-deck-update.md)
-- Seed script (draft by default): `scripts/announcements/seed-kuchiguse500-announcement.mjs`
+Each announcement has a markdown content file and a corresponding seed script.
+
+### Kuchiguse 500 Deck Update
+- Markdown: [kuchiguse500-deck-update.md](./kuchiguse500-deck-update.md)
+- Seed script: `scripts/announcements/seed-kuchiguse500-announcement.mjs`
   - Dry run: `node scripts/announcements/seed-kuchiguse500-announcement.mjs --dry-run`
   - Draft create: `node scripts/announcements/seed-kuchiguse500-announcement.mjs`
   - Publish now: `node scripts/announcements/seed-kuchiguse500-announcement.mjs --publish`
+
+### 100 Japanese Adjectives Master Deck
+- Markdown: [adjectives-100-master-deck.md](./adjectives-100-master-deck.md)
+- Seed script: `scripts/announcements/seed-adjectives100-announcement.mjs`
+  - Dry run: `node scripts/announcements/seed-adjectives100-announcement.mjs --dry-run`
+  - Draft create: `node scripts/announcements/seed-adjectives100-announcement.mjs`
+  - Publish now: `node scripts/announcements/seed-adjectives100-announcement.mjs --publish`
+
+### Creating New Seed Scripts
+Use any existing seed script as a template. The pattern:
+1. Create markdown in `02-PRODUCTION_DOCS/announcements/<slug>.md`
+2. Copy an existing seed script to `scripts/announcements/seed-<slug>-announcement.mjs`
+3. Update `payload` (title, featureId, imageUrl) and the markdown path
+4. Run the seed script — draft by default, `--publish` to go live immediately
+5. The `/marketeer` Claude Code skill automates this entire process
 
 ---
 
