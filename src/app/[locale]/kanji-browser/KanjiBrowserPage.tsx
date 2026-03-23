@@ -15,7 +15,7 @@ import { useTheme } from '@/lib/theme/ThemeContext'
 import { motion } from 'framer-motion'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
-import { Pencil, Pin, Search, X } from 'lucide-react'
+import { Pencil, Pin, Search, X, BookOpen, RotateCw } from 'lucide-react'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
@@ -375,8 +375,8 @@ function KanjiBrowserContent() {
     // Always open modal for kanji preview
     setModalKanji(kanji)
 
-    // Track locally and sync for premium
-    if (user) {
+    // Track views ONLY in browse mode (not during study/review sessions)
+    if (user && viewMode === 'browse') {
       kanjiProgressManager
         .trackKanjiView(kanji.kanji, user, isPremium ?? false)
         .then(() => refreshKanjiProgress())
@@ -520,6 +520,54 @@ function KanjiBrowserContent() {
     setSelectedKanjiData(kanjiDataArray)
     setCurrentStudyIndex(0)
     setViewMode('study')
+  }
+
+  const handleStudyAllMastered = () => {
+    // Get all learned kanji IDs
+    const learnedKanjiIds = new Set(
+      Array.from(kanjiProgress.entries())
+        .filter(([, progress]) => progress.status === 'learned')
+        .map(([kanjiId]) => kanjiId)
+    )
+
+    if (learnedKanjiIds.size === 0) {
+      showToast(strings.kanjiBrowser?.collection?.noLearnedKanji || 'No learned kanji to study', 'warning')
+      return
+    }
+
+    // Select all learned kanji
+    setSelectedKanji(learnedKanjiIds)
+
+    // Switch to study mode to show selection UI
+    setViewMode('study')
+
+    // Show confirmation toast
+    const message = (strings.kanjiBrowser?.collection?.studyAllSuccess || '{count} learned kanji selected for study').replace('{count}', learnedKanjiIds.size.toString())
+    showToast(message, 'success')
+  }
+
+  const handleReviewAllMastered = () => {
+    // Get all learned kanji IDs
+    const learnedKanjiIds = new Set(
+      Array.from(kanjiProgress.entries())
+        .filter(([, progress]) => progress.status === 'learned')
+        .map(([kanjiId]) => kanjiId)
+    )
+
+    if (learnedKanjiIds.size === 0) {
+      showToast(strings.kanjiBrowser?.collection?.noLearnedKanjiReview || 'No learned kanji to review', 'warning')
+      return
+    }
+
+    // Select all learned kanji
+    setSelectedKanji(learnedKanjiIds)
+
+    // Switch to review mode to show selection UI
+    setViewMode('review')
+
+    // Show confirmation toast
+    const message = (strings.kanjiBrowser?.collection?.reviewAllSuccess || '{count} learned kanji selected for review').replace('{count}', learnedKanjiIds.size.toString())
+    showToast(message, 'success')
   }
 
   const handleReviewComplete = async (stats: SessionStatistics) => {
@@ -720,6 +768,7 @@ function KanjiBrowserContent() {
         <main className="container mx-auto px-4 py-8">
           <KanjiStudyMode
             kanji={selectedKanjiData[currentStudyIndex]}
+            isKanjiLearned={kanjiProgress.get(selectedKanjiData[currentStudyIndex].kanji)?.status === 'learned'}
             onNext={async () => {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
@@ -922,52 +971,120 @@ function KanjiBrowserContent() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl shadow-lg border-2 border-green-200 dark:border-green-800 overflow-hidden"
           >
-            <button
-              onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
-              className="w-full px-6 py-4 bg-green-100 dark:bg-green-900/30 border-b border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
+            <div className="px-4 py-4 sm:px-6 bg-green-100 dark:bg-green-900/30 border-b border-green-200 dark:border-green-800">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                {/* Title Section - Clickable area */}
+                <div
+                  onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
+                  className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setMasteredDashboardExpanded(!masteredDashboardExpanded)
+                    }
+                  }}
+                  aria-label={masteredDashboardExpanded ? 'Collapse collection' : 'Expand collection'}
+                >
+                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
                     🎯
                   </div>
-                  <div className="text-left">
+                  <div className="text-left flex-1 min-w-0 pointer-events-none">
                     <h3 className="text-lg font-bold text-green-900 dark:text-green-100">
-                      Mastered Kanji
+                      {strings.kanjiBrowser?.collection?.title || 'My Kanji Collection'}
                     </h3>
-                    <p className="text-sm text-green-700 dark:text-green-300">
-                      {progressStats.learned} kanji learned • Keep up the great work!
+                    <p className="text-sm text-green-700 dark:text-green-300 truncate sm:whitespace-normal">
+                      {(strings.kanjiBrowser?.collection?.subtitle || '{count} kanji learned • Keep up the great work!').replace('{count}', progressStats.learned.toString())}
                     </p>
                   </div>
+                  {/* Mobile collapse toggle - shown on the right of title */}
+                  <div className="sm:hidden p-2 hover:bg-green-200 dark:hover:bg-green-900/40 rounded-lg transition-colors flex-shrink-0 pointer-events-none">
+                    <svg
+                      className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
                 </div>
-                <svg
-                  className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+
+                {/* Desktop collapse toggle - Always visible on desktop */}
+                <button
+                  onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
+                  className="hidden sm:block p-2 hover:bg-green-200 dark:hover:bg-green-900/40 rounded-lg transition-colors flex-shrink-0"
+                  title={masteredDashboardExpanded ? 'Collapse' : 'Expand'}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                  <svg
+                    className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
               </div>
-            </button>
+            </div>
 
             {masteredDashboardExpanded && (
-              <div className="px-6 py-6 space-y-6">
+              <div className="px-4 sm:px-6 py-6 space-y-6">
+                {/* Action Buttons - Only visible when expanded */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pb-2 border-b border-green-200 dark:border-green-800">
+                  <button
+                    onClick={handleStudyAllMastered}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                    title={strings.kanjiBrowser?.collection?.studyAllTooltip || 'Study all learned kanji'}
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    <span>{strings.kanjiBrowser?.collection?.studyAll || 'Study All'}</span>
+                  </button>
+                  <button
+                    onClick={handleReviewAllMastered}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                    title={strings.kanjiBrowser?.collection?.reviewAllTooltip || 'Review all learned kanji'}
+                  >
+                    <RotateCw className="w-4 h-4" />
+                    <span>{strings.kanjiBrowser?.collection?.reviewAll || 'Review All'}</span>
+                  </button>
+                </div>
+
               {(['N5', 'N4', 'N3', 'N2', 'N1'] as JLPTLevel[]).map(level => {
                 const masteredKanji = masteredKanjiByLevel[level]
                 if (masteredKanji.length === 0) return null
 
                 const info = levelInfo[level]
+                const isLevelExpanded = expandedLevels.has(level)
+
                 return (
                   <div key={level} className="space-y-3">
-                    <div className="flex items-center gap-2">
+                    {/* Level Header - Clickable */}
+                    <button
+                      onClick={() => {
+                        const newExpanded = new Set(expandedLevels)
+                        if (isLevelExpanded) {
+                          newExpanded.delete(level)
+                        } else {
+                          newExpanded.add(level)
+                        }
+                        setExpandedLevels(newExpanded)
+                      }}
+                      className="flex items-center gap-2 w-full hover:opacity-80 transition-opacity"
+                    >
                       <div
-                        className={`w-6 h-6 ${info.color} rounded-full flex items-center justify-center text-white text-xs font-bold`}
+                        className={`w-6 h-6 ${info.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
                       >
                         {level.replace('N', '')}
                       </div>
@@ -977,31 +1094,49 @@ function KanjiBrowserContent() {
                       <span className="text-xs text-gray-500 dark:text-gray-400">
                         ({masteredKanji.length} mastered)
                       </span>
-                    </div>
-                    <div className="grid grid-cols-6 sm:grid-cols-12 md:grid-cols-16 lg:grid-cols-20 gap-2">
-                      {masteredKanji.map((kanjiItem, index) => (
-                        <motion.div
-                          key={`mastered-${kanjiItem.kanji}-${index}`}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.01 }}
-                          whileHover={{ scale: 1.15, zIndex: 10 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => handleKanjiClick(kanjiItem)}
-                          className="relative w-full aspect-square flex items-center justify-center text-lg font-medium
-                            rounded-lg transition-all cursor-pointer
-                            bg-white dark:bg-dark-800 border-2 border-green-500 dark:border-green-600
-                            hover:shadow-lg hover:border-green-600 dark:hover:border-green-500"
-                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
-                          title={`${kanjiItem.kanji} - Click to view details`}
-                        >
-                          <span className="text-gray-900 dark:text-gray-100">{kanjiItem.kanji}</span>
-                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
-                            ✓
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                      {/* Chevron indicator */}
+                      <svg
+                        className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ml-auto ${isLevelExpanded ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* Kanji Grid - Collapsible */}
+                    {isLevelExpanded && (
+                      <div className="grid grid-cols-6 sm:grid-cols-12 md:grid-cols-16 lg:grid-cols-20 gap-2">
+                        {masteredKanji.map((kanjiItem, index) => (
+                          <motion.div
+                            key={`mastered-${kanjiItem.kanji}-${index}`}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.01 }}
+                            whileHover={{ scale: 1.15, zIndex: 10 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleKanjiClick(kanjiItem)}
+                            className="relative w-full aspect-square flex items-center justify-center text-lg font-medium
+                              rounded-lg transition-all cursor-pointer
+                              bg-white dark:bg-dark-800 border-2 border-green-500 dark:border-green-600
+                              hover:shadow-lg hover:border-green-600 dark:hover:border-green-500"
+                            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                            title={`${kanjiItem.kanji} - Click to view details`}
+                          >
+                            <span className="text-gray-900 dark:text-gray-100">{kanjiItem.kanji}</span>
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
+                              ✓
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )
               })}

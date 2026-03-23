@@ -84,6 +84,21 @@ export class KanjiProgressManager extends UniversalProgressManager<KanjiProgress
     return this.getProgress(user.uid, 'kanji', isPremium)
   }
 
+  async getKanjiProgressItem(
+    kanjiId: string,
+    user: any | null,
+    isPremium: boolean
+  ): Promise<KanjiProgressData | null> {
+    if (!user?.uid) return null
+
+    const progressMap = await this.getProgress(user.uid, 'kanji', isPremium)
+    return progressMap.get(kanjiId) || null
+  }
+
+  async flushKanjiSync(): Promise<void> {
+    await this.flushPendingSync()
+  }
+
   // Promote status to learned once thresholds are reached
   protected updateProgressForEvent(
     progress: KanjiProgressData,

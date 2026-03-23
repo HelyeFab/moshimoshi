@@ -126,7 +126,7 @@ export class GrammarProgressManager extends UniversalProgressManager<GrammarProg
     if (navigator.onLine) {
       try {
         const cloudData = await this.loadFromFirebase(userId, contentType)
-        return this.mergeProgress(localData, cloudData)
+        return this.mergeProgress(userId, contentType, localData, cloudData)
       } catch (error) {
         reviewLogger.error('[GrammarProgressManager] Failed to load from Firebase:', error)
       }

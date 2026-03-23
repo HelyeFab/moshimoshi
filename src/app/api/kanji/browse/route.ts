@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb, getAdminDb } from '@/lib/firebase/admin';
+import { getAdminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 
 // Use centralized getAdminDb() for null-safe database access
@@ -27,98 +27,13 @@ export async function GET(request: NextRequest) {
       pageSize: parseInt(searchParams.get('size') || '20')
     };
 
-    console.log('[Kanji Browse] Request with filters:', filters);
-
-    // Return empty data since the page loads kanji from local files via kanjiService
-    // This endpoint is only called by the useKanjiBrowser hook which we're not using for loading
-    return NextResponse.json({
-      items: [],
-      page: filters.page,
-      pageSize: filters.pageSize,
-      hasMore: false
-    });
-
-    // Original query code commented out as we don't have kanji in Firestore
-    /*
-    // Build query
-    let query = adminDb.collection('kanji') as any;
-
-    if (filters.jlpt) {
-      query = query.where('jlptLevel', '==', parseInt(filters.jlpt));
-    }
-    if (filters.grade) {
-      query = query.where('grade', '==', parseInt(filters.grade));
-    }
-    if (filters.strokes) {
-      const [min, max] = filters.strokes.split('-').map(Number);
-      query = query.where('strokeCount', '>=', min);
-      if (max) {
-        query = query.where('strokeCount', '<=', max);
-      }
-    }
-
-    // Get user's progress for these kanji
-    const progressDoc = await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('progress')
-      .doc('kanji')
-      .get();
-
-    const userProgress = progressDoc.data()?.items || {};
-
-    // Get user's bookmarks
-    const bookmarksSnapshot = await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('kanji_bookmarks')
-      .get();
-
-    const bookmarks = new Set(bookmarksSnapshot.docs.map(doc => doc.id));
-
-    // Execute query with pagination
-    const snapshot = await query
-      .orderBy('frequency', 'asc')
-      .orderBy('jlptLevel', 'asc')
-      .limit(filters.pageSize)
-      .offset((filters.page - 1) * filters.pageSize)
-      .get();
-
-    const kanjiList = snapshot.docs.map((doc: any) => ({
-      id: doc.id,
-      ...doc.data(),
-      progress: userProgress[doc.id] || null,
-      bookmarked: bookmarks.has(doc.id)
-    }));
-
-    // If search query provided, filter results
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const filtered = kanjiList.filter((kanji: any) => {
-        return (
-          kanji.character?.includes(filters.search) ||
-          kanji.meanings?.some((m: string) => m.toLowerCase().includes(searchLower)) ||
-          kanji.onyomi?.some((r: string) => r.toLowerCase().includes(searchLower)) ||
-          kanji.kunyomi?.some((r: string) => r.toLowerCase().includes(searchLower))
-        );
-      });
-
-      return NextResponse.json({
-        items: filtered,
-        page: filters.page,
-        pageSize: filters.pageSize,
-        hasMore: snapshot.docs.length === filters.pageSize,
-        totalFiltered: filtered.length
-      });
-    }
-
-    return NextResponse.json({
-      items: kanjiList,
-      page: filters.page,
-      pageSize: filters.pageSize,
-      hasMore: snapshot.docs.length === filters.pageSize
-    });
-    */
+    console.warn('[Kanji Browse] GET is no longer supported. Kanji catalog data is loaded client-side via kanjiService.', filters);
+    return NextResponse.json(
+      {
+        error: 'Kanji catalog data is served from local JSON via kanjiService. GET /api/kanji/browse is not supported.',
+      },
+      { status: 410 }
+    );
 
   } catch (error) {
     console.error('[Kanji Browse] Error:', error);
@@ -182,6 +97,8 @@ export async function POST(request: NextRequest) {
           .doc('kanji');
 
         batch.set(progressRef, {
+          userId: session.uid,
+          contentType: 'kanji',
           [`items.${kanjiId}.lastBrowsed`]: timestamp,
           [`items.${kanjiId}.browseCount`]: FieldValue.increment(1),
           lastUpdated: timestamp

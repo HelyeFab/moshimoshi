@@ -497,6 +497,18 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   }
 
   /**
+   * Flush any queued progress updates immediately.
+   * Useful for explicit save points such as manual "mark learned" actions.
+   */
+  async flushPendingSync(): Promise<void> {
+    await this.processPendingUpdates()
+
+    if (typeof navigator === 'undefined' || navigator.onLine) {
+      await this.processSyncQueue()
+    }
+  }
+
+  /**
    * Sync to Firebase via server API (Premium users only)
    */
   protected async syncToFirebase(
@@ -615,7 +627,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     if (isPremium && navigator.onLine) {
       try {
         const cloudData = await this.loadFromFirebase(userId, contentType)
-        return this.mergeProgress(localData, cloudData)
+        return this.mergeProgress(userId, contentType, localData, cloudData)
       } catch (error) {
         reviewLogger.error('[UniversalProgressManager] Failed to load from Firebase:', error)
         return localData
@@ -698,15 +710,30 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   /**
    * Merge local and cloud progress data
    */
-  protected mergeProgress(local: Map<string, T>, cloud: Map<string, T>): Map<string, T> {
+  protected async mergeProgress(
+    userId: string,
+    contentType: string,
+    local: Map<string, T>,
+    cloud: Map<string, T>
+  ): Promise<Map<string, T>> {
     const merged = new Map(local)
+    const cloudBackfill: Array<[string, T]> = []
 
     for (const [contentId, cloudItem] of cloud) {
       const localItem = local.get(contentId)
 
       if (!localItem || cloudItem.updatedAt > localItem.updatedAt) {
         merged.set(contentId, cloudItem)
+        cloudBackfill.push([contentId, cloudItem])
       }
+    }
+
+    if (cloudBackfill.length > 0) {
+      await Promise.all(
+        cloudBackfill.map(([contentId, progress]) =>
+          this.saveToIndexedDB(userId, contentType, contentId, progress)
+        )
+      )
     }
 
     return merged

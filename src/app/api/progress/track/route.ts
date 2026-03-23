@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
         }
 
         const updateData: Record<string, any> = {
+          userId: session.uid,
           contentType,
           lastUpdated: FieldValue.serverTimestamp(),
           items: itemsObj,

@@ -5,6 +5,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { useFeature } from '@/hooks/useFeature';
+import { kanjiService } from '@/services/kanjiService';
+import type { JLPTLevel, Kanji } from '@/types/kanji';
 // Gamification removed;
 
 interface KanjiItem {
@@ -34,6 +36,93 @@ interface BrowseSession {
   kanjiViewed: string[];
   kanjiBookmarked: string[];
   kanjiAddedToReview: string[];
+}
+
+const FREE_BOOKMARK_LIMIT = 20;
+const PAGE_SIZE = 20;
+const ALL_LEVELS: JLPTLevel[] = ['N5', 'N4', 'N3', 'N2', 'N1'];
+
+function getFreeBookmarkStorageKey(userId: string): string {
+  return `kanji_browser_free_bookmarks_${userId}`;
+}
+
+function loadFreeBookmarks(userId: string): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(getFreeBookmarkStorageKey(userId));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(id => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFreeBookmarks(userId: string, bookmarkIds: string[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(getFreeBookmarkStorageKey(userId), JSON.stringify(bookmarkIds));
+  } catch (error) {
+    console.error('Failed to persist free kanji bookmarks locally:', error);
+  }
+}
+
+function normalizeJlptFilter(jlpt?: string): JLPTLevel[] {
+  if (!jlpt) return ALL_LEVELS;
+
+  const normalized = jlpt.toUpperCase();
+  if (ALL_LEVELS.includes(normalized as JLPTLevel)) {
+    return [normalized as JLPTLevel];
+  }
+
+  const numericLevel = normalized.replace(/^N/, '');
+  const candidate = `N${numericLevel}` as JLPTLevel;
+  return ALL_LEVELS.includes(candidate) ? [candidate] : ALL_LEVELS;
+}
+
+function matchesStrokeFilter(strokeCount: number, strokes?: string): boolean {
+  if (!strokes) return true;
+
+  if (strokes.endsWith('+')) {
+    const minimum = Number.parseInt(strokes.slice(0, -1), 10);
+    return Number.isFinite(minimum) ? strokeCount >= minimum : true;
+  }
+
+  const [minimumRaw, maximumRaw] = strokes.split('-');
+  const minimum = Number.parseInt(minimumRaw || '', 10);
+  const maximum = Number.parseInt(maximumRaw || '', 10);
+
+  if (!Number.isFinite(minimum)) return true;
+  if (!Number.isFinite(maximum)) return strokeCount >= minimum;
+  return strokeCount >= minimum && strokeCount <= maximum;
+}
+
+function matchesKanjiFilters(kanji: Kanji, currentFilters: BrowseFilters): boolean {
+  if (currentFilters.grade) {
+    const targetGrade = currentFilters.grade === 'S'
+      ? 'S'
+      : Number.parseInt(currentFilters.grade, 10);
+    if (kanji.grade !== targetGrade) {
+      return false;
+    }
+  }
+
+  return matchesStrokeFilter(kanji.strokeCount, currentFilters.strokes);
+}
+
+function toBrowseKanjiItem(kanji: Kanji, bookmarks: Set<string>): KanjiItem {
+  return {
+    id: kanji.kanji,
+    character: kanji.kanji,
+    meanings: kanji.meanings,
+    onyomi: kanji.onyomi,
+    kunyomi: kanji.kunyomi,
+    strokeCount: kanji.strokeCount,
+    jlptLevel: Number.parseInt(kanji.jlpt.replace('N', ''), 10),
+    grade: typeof kanji.grade === 'number' ? kanji.grade : 0,
+    frequency: kanji.frequency,
+    bookmarked: bookmarks.has(kanji.kanji),
+  };
 }
 
 export function useKanjiBrowser() {
@@ -68,55 +157,6 @@ export function useKanjiBrowser() {
     sessionStorage.setItem('kanji_browse_session', JSON.stringify(newSession));
   }, []);
 
-  // Load kanji with filters
-  const loadKanji = useCallback(async (pageNum: number = 1, newFilters?: BrowseFilters) => {
-    if (!user?.uid) {
-      showToast('Please sign in to browse kanji', 'warning');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const currentFilters = newFilters || filters;
-      const params = new URLSearchParams();
-
-      if (currentFilters.jlpt) params.append('jlpt', currentFilters.jlpt);
-      if (currentFilters.grade) params.append('grade', currentFilters.grade);
-      if (currentFilters.strokes) params.append('strokes', currentFilters.strokes);
-      if (currentFilters.search) params.append('q', currentFilters.search);
-      params.append('page', pageNum.toString());
-      params.append('size', '20');
-
-      const response = await fetch(`/api/kanji/browse?${params}`);
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to load kanji');
-      }
-
-      if (pageNum === 1) {
-        setKanji(data.items);
-      } else {
-        setKanji(prev => [...prev, ...data.items]);
-      }
-
-      setHasMore(data.hasMore);
-      setPage(pageNum);
-
-      // Track browse events for loaded kanji
-      if (session && data.items.length > 0) {
-        const kanjiIds = data.items.map((k: KanjiItem) => k.id);
-        trackBrowseEvent(kanjiIds);
-      }
-
-    } catch (error) {
-      console.error('Failed to load kanji:', error);
-      showToast('Failed to load kanji. Please try again.', 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, [user, filters, session, showToast]);
-
   // Track browse events
   const trackBrowseEvent = useCallback(async (kanjiIds: string[]) => {
     if (!user?.uid || !session) return;
@@ -134,26 +174,78 @@ export function useKanjiBrowser() {
         })
       });
 
-      // Update session
       const updatedSession = {
         ...session,
         kanjiViewed: [...new Set([...session.kanjiViewed, ...kanjiIds])]
       };
       setSession(updatedSession);
       sessionStorage.setItem('kanji_browse_session', JSON.stringify(updatedSession));
-
-      // Gamification removed - achievement progress disabled
-      // if (kanjiIds.length >= 5) {
-      //   await achievementStore.updateProgress({
-      //     sessionType: 'browse',
-      //     itemsBrowsed: kanjiIds.length
-      //   });
-      // }
-
     } catch (error) {
       console.error('Failed to track browse event:', error);
     }
   }, [user, session]);
+
+  // Load kanji with filters
+  const loadKanji = useCallback(async (pageNum: number = 1, newFilters?: BrowseFilters) => {
+    if (!user?.uid) {
+      showToast('Please sign in to browse kanji', 'warning');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const currentFilters = newFilters || filters;
+      const targetLevels = normalizeJlptFilter(currentFilters.jlpt);
+      const searchQuery = currentFilters.search?.trim() || '';
+
+      let filteredKanji: Kanji[];
+      if (searchQuery) {
+        filteredKanji = await kanjiService.searchKanji(searchQuery, targetLevels);
+      } else {
+        const levelResults = await Promise.all(
+          targetLevels.map(level => kanjiService.loadKanjiByLevel(level))
+        );
+        filteredKanji = levelResults.flat();
+      }
+
+      const filteredItems = filteredKanji
+        .filter(kanji => matchesKanjiFilters(kanji, currentFilters))
+        .sort((left, right) => {
+          const leftFrequency = left.frequency ?? Number.MAX_SAFE_INTEGER;
+          const rightFrequency = right.frequency ?? Number.MAX_SAFE_INTEGER;
+          if (leftFrequency !== rightFrequency) {
+            return leftFrequency - rightFrequency;
+          }
+          return left.kanji.localeCompare(right.kanji);
+        })
+        .map(item => toBrowseKanjiItem(item, bookmarks));
+
+      const offset = (pageNum - 1) * PAGE_SIZE;
+      const pageItems = filteredItems.slice(offset, offset + PAGE_SIZE);
+      const nextHasMore = offset + PAGE_SIZE < filteredItems.length;
+
+      if (pageNum === 1) {
+        setKanji(pageItems);
+      } else {
+        setKanji(prev => [...prev, ...pageItems]);
+      }
+
+      setHasMore(nextHasMore);
+      setPage(pageNum);
+
+      // Track browse events for loaded kanji
+      if (session && pageItems.length > 0) {
+        const kanjiIds = pageItems.map(k => k.id);
+        trackBrowseEvent(kanjiIds);
+      }
+
+    } catch (error) {
+      console.error('Failed to load kanji:', error);
+      showToast('Failed to load kanji. Please try again.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [user, filters, session, showToast, bookmarks, trackBrowseEvent]);
 
   // Browse a specific kanji (detailed view)
   const browseKanji = useCallback(async (kanjiId: string, character?: string) => {
@@ -223,7 +315,10 @@ export function useKanjiBrowser() {
       );
 
       // Update daily usage
-      setDailyUsage({ added: data.dailyUsage, limit: data.dailyLimit });
+      setDailyUsage({
+        added: typeof data.dailyUsage === 'number' ? data.dailyUsage : kanjiIds.length,
+        limit: data.dailyLimit === 'unlimited' ? -1 : Number(data.dailyLimit ?? 5),
+      });
 
       // Update session
       if (session) {
@@ -254,6 +349,44 @@ export function useKanjiBrowser() {
     const isBookmarked = bookmarks.has(kanjiId);
 
     try {
+      if (!isPremium) {
+        const currentLocalBookmarks = loadFreeBookmarks(user.uid);
+
+        if (isBookmarked) {
+          const nextBookmarks = currentLocalBookmarks.filter(id => id !== kanjiId);
+          saveFreeBookmarks(user.uid, nextBookmarks);
+          setBookmarks(new Set(nextBookmarks));
+          showToast('Bookmark removed', 'info');
+        } else {
+          if (currentLocalBookmarks.length >= FREE_BOOKMARK_LIMIT) {
+            showToast(
+              'Bookmark limit reached! Upgrade to premium for unlimited bookmarks.',
+              'warning'
+            );
+            return;
+          }
+
+          const nextBookmarks = [...currentLocalBookmarks, kanjiId];
+          saveFreeBookmarks(user.uid, nextBookmarks);
+          setBookmarks(new Set(nextBookmarks));
+          showToast('Kanji bookmarked!', 'success');
+
+          if (session) {
+            const updatedSession = {
+              ...session,
+              kanjiBookmarked: [...session.kanjiBookmarked, kanjiId]
+            };
+            setSession(updatedSession);
+            sessionStorage.setItem('kanji_browse_session', JSON.stringify(updatedSession));
+          }
+        }
+
+        setKanji(prev => prev.map(k =>
+          k.id === kanjiId ? { ...k, bookmarked: !isBookmarked } : k
+        ));
+        return;
+      }
+
       if (isBookmarked) {
         // Remove bookmark
         const response = await fetch(`/api/kanji/bookmarks?kanjiId=${kanjiId}`, {
@@ -317,13 +450,18 @@ export function useKanjiBrowser() {
       console.error('Failed to toggle bookmark:', error);
       showToast('Failed to update bookmark', 'error');
     }
-  }, [user, bookmarks, session, showToast]);
+  }, [user, bookmarks, session, showToast, isPremium]);
 
   // Load bookmarks
   const loadBookmarks = useCallback(async () => {
     if (!user?.uid) return;
 
     try {
+      if (!isPremium) {
+        setBookmarks(new Set(loadFreeBookmarks(user.uid)));
+        return;
+      }
+
       const response = await fetch('/api/kanji/bookmarks');
       const data = await response.json();
 
@@ -333,7 +471,7 @@ export function useKanjiBrowser() {
     } catch (error) {
       console.error('Failed to load bookmarks:', error);
     }
-  }, [user]);
+  }, [user, isPremium]);
 
   // Apply filters
   const applyFilters = useCallback((newFilters: BrowseFilters) => {
@@ -390,6 +528,13 @@ export function useKanjiBrowser() {
     }
   }, [user]);
 
+  useEffect(() => {
+    setKanji(prev => prev.map(item => ({
+      ...item,
+      bookmarked: bookmarks.has(item.id),
+    })));
+  }, [bookmarks]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -422,6 +567,6 @@ export function useKanjiBrowser() {
 
     // Computed
     isPremium,
-    canAddMore: dailyUsage.added < dailyUsage.limit
+    canAddMore: dailyUsage.limit === -1 || dailyUsage.added < dailyUsage.limit
   };
 }

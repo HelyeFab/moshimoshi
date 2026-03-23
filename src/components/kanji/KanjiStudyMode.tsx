@@ -12,6 +12,7 @@ import { useTTS } from '@/hooks/useTTS'
 import ExamplesModal from './ExamplesModal'
 import StrokeOrderModal from './StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
+import Dialog from '@/components/ui/Dialog'
 import { kanjiProgressManager } from '@/utils/kanjiProgressManager'
 import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
 import { useFeature } from '@/hooks/useFeature'
@@ -25,6 +26,7 @@ interface KanjiStudyModeProps {
   currentIndex: number
   totalKanji: number
   onProgressUpdate?: (kanjiId: string, updates?: Partial<any>) => void
+  isKanjiLearned?: boolean // Override for kanji from "My Kanji Collection"
 }
 
 export default function KanjiStudyMode({
@@ -35,6 +37,7 @@ export default function KanjiStudyMode({
   currentIndex,
   totalKanji,
   onProgressUpdate,
+  isKanjiLearned,
 }: KanjiStudyModeProps) {
   const { t, strings } = useI18n()
   const { showToast } = useToast()
@@ -54,6 +57,7 @@ export default function KanjiStudyMode({
   const [showExamplesModal, setShowExamplesModal] = useState(false)
   const [showStrokeOrderModal, setShowStrokeOrderModal] = useState(false)
   const [showDrawingPractice, setShowDrawingPractice] = useState(false)
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false)
 
   // Entitlement check for drawing practice
   const { checkAndTrack } = useFeature('drawing_practice')
@@ -81,11 +85,18 @@ export default function KanjiStudyMode({
         return
       }
 
+      // If learned status is passed as prop (from "My Kanji Collection"), use it
+      if (isKanjiLearned !== undefined) {
+        setIsLearned(isKanjiLearned)
+        return
+      }
+
+      // Otherwise, check Firebase/IndexedDB
       if (user?.uid && kanji) {
-        const progress = await kanjiProgressManager['getProgressItem'](
-          user.uid,
-          'kanji',
-          kanji.kanji
+        const progress = await kanjiProgressManager.getKanjiProgressItem(
+          kanji.kanji,
+          user,
+          isPremium ?? false
         )
         setIsLearned(progress?.status === 'learned')
       } else {
@@ -93,7 +104,7 @@ export default function KanjiStudyMode({
       }
     }
     checkLearnedStatus()
-  }, [kanji?.kanji, user])
+  }, [kanji?.kanji, user, isKanjiLearned, isPremium])
 
   // Track kanji view when component mounts or kanji changes
   useEffect(() => {
@@ -104,7 +115,7 @@ export default function KanjiStudyMode({
           user,
           isPremium ?? false
         )
-        onProgressUpdate?.(kanji.kanji, { status: 'learning' })
+        onProgressUpdate?.(kanji.kanji)
         setHasTrackedView(true)
       }
     }
@@ -205,26 +216,19 @@ export default function KanjiStudyMode({
       return
     }
 
-    // Mark that we're manually toggling - prevents effect from overwriting
-    justToggledRef.current = true
-
     if (isLearned) {
-      // Reset to not-started
-      try {
-        await kanjiProgressManager.resetKanjiProgress(kanji.kanji, user, isPremium ?? false)
-        setIsLearned(false)
-        onProgressUpdate?.(kanji.kanji, { status: 'not-started' })
-        showToast(strings.kana?.messages?.progressReset || 'Progress reset', 'info')
-      } catch (err) {
-        console.error('[KanjiStudyMode] Failed to reset progress:', err)
-        justToggledRef.current = false
-      }
+      // Show confirmation dialog before removing from collection
+      setShowRemoveDialog(true)
     } else {
-      // Mark as learned
+      // Mark as learned (no confirmation needed)
+      justToggledRef.current = true
       try {
         await kanjiProgressManager.markKanjiLearned(kanji.kanji, user, isPremium ?? false)
+        if (isPremium) {
+          await kanjiProgressManager.flushKanjiSync()
+        }
         setIsLearned(true)
-        onProgressUpdate?.(kanji.kanji, { status: 'learned' })
+        onProgressUpdate?.(kanji.kanji)
         showToast(strings.kana?.messages?.markedAsLearned || 'Marked as learned!', 'success')
         setTimeout(onNext, 500)
       } catch (err) {
@@ -234,8 +238,29 @@ export default function KanjiStudyMode({
     }
   }
 
+  const handleConfirmRemove = async () => {
+    if (!user) return
+
+    // Mark that we're manually toggling - prevents effect from overwriting
+    justToggledRef.current = true
+
+    try {
+      await kanjiProgressManager.resetKanjiProgress(kanji.kanji, user, isPremium ?? false)
+      if (isPremium) {
+        await kanjiProgressManager.flushKanjiSync()
+      }
+      setIsLearned(false)
+      onProgressUpdate?.(kanji.kanji)
+      setShowRemoveDialog(false)
+      showToast(strings.kana?.messages?.progressReset || 'Progress reset', 'info')
+    } catch (err) {
+      console.error('[KanjiStudyMode] Failed to reset progress:', err)
+      justToggledRef.current = false
+    }
+  }
+
   return (
-    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 pb-6 relative">
       {/* Exit Button - Top Right */}
       <button
         onClick={onBack}
@@ -249,7 +274,7 @@ export default function KanjiStudyMode({
       </button>
 
       {/* Progress Indicator */}
-      <div className="w-full max-w-2xl mb-8">
+      <div className="w-full max-w-2xl mb-4 mt-2">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             {currentIndex} / {totalKanji}
@@ -271,10 +296,10 @@ export default function KanjiStudyMode({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="relative"
+        className="relative flex-shrink-0"
       >
         <div
-          className="relative w-80 h-80 md:w-96 md:h-96 cursor-pointer"
+          className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
         >
           <AnimatePresence mode="wait">
@@ -366,27 +391,49 @@ export default function KanjiStudyMode({
                 className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100
                          dark:bg-gradient-to-br dark:from-surface-dark dark:to-background-darkElevated
                          rounded-2xl shadow-2xl border-2 border-primary-200 dark:border-primary-400
-                         p-8 overflow-y-auto scrollbar-hide"
+                         p-4 sm:p-6 overflow-y-auto scrollbar-hide"
                 style={{
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none'
                 }}
               >
-                {/* Kanji in top-right corner */}
-                <div className="absolute top-6 right-6 text-5xl font-bold text-gray-800 dark:text-gray-200"
-                     style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
-                  {kanji.kanji}
+                {/* Kanji Badge - Top Center */}
+                <div className="flex justify-center mb-3 sm:mb-6">
+                  <div className="relative inline-flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3
+                                bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm
+                                rounded-2xl shadow-lg border-2 border-primary-300 dark:border-primary-500/50
+                                hover:shadow-xl transition-all duration-200">
+                    <div className="text-3xl sm:text-4xl font-bold text-primary-600 dark:text-primary-400"
+                         style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
+                      {kanji.kanji}
+                    </div>
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <AudioButton
+                        size="sm"
+                        onPlay={() => handlePlayAudio(kanji.kanji)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Can you recall header */}
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    Can you recall:
-                  </h3>
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-center gap-2 mb-3 sm:mb-6">
+                    <div className="h-1 w-8 bg-primary-400 dark:bg-primary-500 rounded-full"></div>
+                    <h3 className="text-base font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">
+                      Can you recall
+                    </h3>
+                    <div className="h-1 flex-1 bg-primary-400 dark:bg-primary-500 rounded-full"></div>
+                  </div>
 
                   {/* Meaning pill */}
                   <div className="space-y-2">
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Meaning</div>
+                    <div className="flex items-center gap-2 px-1">
+                      <svg className="w-4 h-4 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                      </svg>
+                      <span className="text-xs font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">Meaning</span>
+                    </div>
                     <button
                       onClick={(e) => {
                         e.stopPropagation()
@@ -407,19 +454,30 @@ export default function KanjiStudyMode({
                           }, 5000) // Increased to 5 seconds
                         }
                       }}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800
-                               hover:bg-slate-200 dark:hover:bg-slate-700
-                               transition-all transform active:scale-95
-                               border border-slate-200 dark:border-slate-600 text-left"
+                      className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
+                               bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20
+                               hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-900/30 dark:hover:to-purple-800/30
+                               transition-all transform active:scale-[0.98] duration-200
+                               border-2 border-purple-200 dark:border-purple-700
+                               shadow-md hover:shadow-lg text-left
+                               relative overflow-hidden group"
                     >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
+                                    translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                       {showMeaning ? (
-                        <span className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+                        <span className="text-lg font-bold text-purple-900 dark:text-purple-100 relative z-10">
                           {kanji.meaning}
                         </span>
                       ) : (
-                        <span className="text-sm text-slate-500 dark:text-slate-400">
-                          Tap to reveal
-                        </span>
+                        <div className="flex items-center justify-center gap-2 relative z-10">
+                          <svg className="w-5 h-5 text-purple-400 dark:text-purple-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">
+                            Tap to reveal
+                          </span>
+                        </div>
                       )}
                     </button>
                   </div>
@@ -427,7 +485,12 @@ export default function KanjiStudyMode({
                   {/* Onyomi pill */}
                   {kanji.onyomi && kanji.onyomi.length > 0 && kanji.onyomi[0] !== '' && (
                     <div className="space-y-2">
-                      <div className="text-sm text-gray-600 dark:text-gray-300">On'yomi</div>
+                      <div className="flex items-center gap-2 px-1">
+                        <svg className="w-4 h-4 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                        <span className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider">On'yomi</span>
+                      </div>
                       <div
                         onClick={(e) => {
                           e.stopPropagation()
@@ -448,15 +511,20 @@ export default function KanjiStudyMode({
                             }, 5000) // Increased to 5 seconds
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-sky-50 dark:bg-sky-900/30
-                                 hover:bg-sky-100 dark:hover:bg-sky-900/50
-                                 transition-all transform active:scale-95
-                                 border border-sky-200 dark:border-sky-800 cursor-pointer"
+                        className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
+                                 bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-900/20 dark:to-sky-800/20
+                                 hover:from-blue-100 hover:to-sky-200 dark:hover:from-blue-900/30 dark:hover:to-sky-800/30
+                                 transition-all transform active:scale-[0.98] duration-200
+                                 border-2 border-blue-200 dark:border-blue-700
+                                 shadow-md hover:shadow-lg cursor-pointer
+                                 relative overflow-hidden group"
                       >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
+                                      translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                         {showOnyomi ? (
-                          <div className="flex flex-wrap gap-2 justify-center items-center">
+                          <div className="flex flex-wrap gap-3 justify-center items-center relative z-10">
                             {kanji.onyomi.filter(r => r).map((reading, idx) => (
-                              <div key={idx} className="flex items-center gap-2">
+                              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-900/40 rounded-lg">
                                 <AudioButton
                                   size="sm"
                                   onPlay={() => {
@@ -471,16 +539,22 @@ export default function KanjiStudyMode({
                                     handlePlayAudio(reading)
                                   }}
                                 />
-                                <span className="text-lg font-semibold text-sky-800 dark:text-sky-200">
+                                <span className="text-lg font-bold text-blue-900 dark:text-blue-100">
                                   {reading}
                                 </span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-sm text-sky-600 dark:text-sky-400">
-                            Tap to reveal
-                          </span>
+                          <div className="flex items-center justify-center gap-2 relative z-10">
+                            <svg className="w-5 h-5 text-blue-400 dark:text-blue-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                              Tap to reveal
+                            </span>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -489,7 +563,12 @@ export default function KanjiStudyMode({
                   {/* Kunyomi pill */}
                   {kanji.kunyomi && kanji.kunyomi.length > 0 && kanji.kunyomi[0] !== '' && (
                     <div className="space-y-2">
-                      <div className="text-sm text-gray-600 dark:text-gray-300">Kun'yomi</div>
+                      <div className="flex items-center gap-2 px-1">
+                        <svg className="w-4 h-4 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Kun'yomi</span>
+                      </div>
                       <div
                         onClick={(e) => {
                           e.stopPropagation()
@@ -510,15 +589,20 @@ export default function KanjiStudyMode({
                             }, 5000) // Increased to 5 seconds
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30
-                                 hover:bg-emerald-100 dark:hover:bg-emerald-900/50
-                                 transition-all transform active:scale-95
-                                 border border-emerald-200 dark:border-emerald-800 cursor-pointer"
+                        className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
+                                 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-800/20
+                                 hover:from-emerald-100 hover:to-green-200 dark:hover:from-emerald-900/30 dark:hover:to-green-800/30
+                                 transition-all transform active:scale-[0.98] duration-200
+                                 border-2 border-emerald-200 dark:border-emerald-700
+                                 shadow-md hover:shadow-lg cursor-pointer
+                                 relative overflow-hidden group"
                       >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
+                                      translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                         {showKunyomi ? (
-                          <div className="flex flex-wrap gap-2 justify-center items-center">
+                          <div className="flex flex-wrap gap-3 justify-center items-center relative z-10">
                             {kanji.kunyomi.filter(r => r).map((reading, idx) => (
-                              <div key={idx} className="flex items-center gap-2">
+                              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-900/40 rounded-lg">
                                 <AudioButton
                                   size="sm"
                                   onPlay={() => {
@@ -533,16 +617,22 @@ export default function KanjiStudyMode({
                                     handlePlayAudio(reading)
                                   }}
                                 />
-                                <span className="text-lg font-semibold text-emerald-800 dark:text-emerald-200">
+                                <span className="text-lg font-bold text-emerald-900 dark:text-emerald-100">
                                   {reading}
                                 </span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-sm text-emerald-600 dark:text-emerald-400">
-                            Tap to reveal
-                          </span>
+                          <div className="flex items-center justify-center gap-2 relative z-10">
+                            <svg className="w-5 h-5 text-emerald-400 dark:text-emerald-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                              Tap to reveal
+                            </span>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -556,7 +646,7 @@ export default function KanjiStudyMode({
 
 
       {/* Action Buttons - Icon only */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+      <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
         <button
           onClick={handleSkip}
           className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
@@ -596,7 +686,7 @@ export default function KanjiStudyMode({
 
       {/* Navigation */}
       {totalKanji > 1 && (
-        <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-8">
+        <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-3">
           <button
             onClick={onPrevious}
             className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
@@ -648,6 +738,18 @@ export default function KanjiStudyMode({
           characterType="kanji"
         />
       )}
+
+      {/* Remove from Collection Confirmation Dialog */}
+      <Dialog
+        isOpen={showRemoveDialog}
+        onClose={() => setShowRemoveDialog(false)}
+        onConfirm={handleConfirmRemove}
+        title={strings.kanjiBrowser?.collection?.confirmRemoveTitle || 'Remove from Collection?'}
+        message={strings.kanjiBrowser?.collection?.confirmRemoveMessage || 'Are you sure you want to remove this kanji from your learned collection? This will reset all progress for this kanji.'}
+        confirmText={strings.kanjiBrowser?.collection?.confirmRemoveButton || 'Remove'}
+        cancelText={strings.common?.cancel || 'Cancel'}
+        type="warning"
+      />
     </div>
   )
 }

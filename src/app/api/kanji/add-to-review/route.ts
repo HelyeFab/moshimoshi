@@ -37,11 +37,13 @@ export async function POST(request: NextRequest) {
 
     const nowUtcISO = new Date().toISOString();
     const plan = await getUserPlan(session.uid);
-    const { decision } = await evaluateFeatureAccess({
+    const { decision, currentUsage } = await evaluateFeatureAccess({
       featureId: 'kanji_browser',
       userId: session.uid,
       plan,
-      nowUtcISO
+      nowUtcISO,
+      increment: true,
+      incrementBy: kanjiIds.length,
     });
 
     if (!decision.allow) {
@@ -89,6 +91,8 @@ export async function POST(request: NextRequest) {
         .doc('kanji');
 
       batch.set(progressRef, {
+        userId: session.uid,
+        contentType: 'kanji',
         [`items.${kanjiId}.addedToReview`]: true,
         [`items.${kanjiId}.addedToReviewAt`]: timestamp,
         lastUpdated: timestamp
@@ -122,6 +126,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: `Added ${kanjiIds.length} kanji to review queue`,
       added: kanjiIds.length,
+      dailyUsage: currentUsage + kanjiIds.length,
       dailyLimit: decision.limit === -1 ? 'unlimited' : decision.limit,
       remaining: decision.remaining === -1 ? 'unlimited' : decision.remaining
     });
