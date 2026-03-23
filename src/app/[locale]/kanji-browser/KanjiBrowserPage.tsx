@@ -80,6 +80,7 @@ function KanjiBrowserContent() {
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
   const [selectedKanjiData, setSelectedKanjiData] = useState<Kanji[]>([])
+  const [masteredDashboardExpanded, setMasteredDashboardExpanded] = useState(true)
 
   // Handler to safely change view mode and clear session state
   const handleModeChange = (mode: ViewMode) => {
@@ -548,6 +549,36 @@ function KanjiBrowserContent() {
     }
   }, [kanjiData, kanjiProgress])
 
+  // Mastered kanji grouped by level
+  const masteredKanjiByLevel = useMemo(() => {
+    const grouped: Record<JLPTLevel, Kanji[]> = {
+      N5: [],
+      N4: [],
+      N3: [],
+      N2: [],
+      N1: [],
+    }
+
+    // Get all learned kanji IDs
+    const learnedKanjiIds = new Set(
+      Array.from(kanjiProgress.entries())
+        .filter(([, progress]) => progress.status === 'learned')
+        .map(([kanjiId]) => kanjiId)
+    )
+
+    // Group learned kanji by their JLPT level
+    Object.entries(kanjiData).forEach(([level, levelKanji]) => {
+      if (!levelKanji) return
+      levelKanji.forEach((k: Kanji) => {
+        if (learnedKanjiIds.has(k.kanji)) {
+          grouped[level as JLPTLevel].push(k)
+        }
+      })
+    })
+
+    return grouped
+  }, [kanjiData, kanjiProgress])
+
   const handleToggleBookmark = async (kanjiChar: string) => {
     if (!user) {
       showToast('Please sign in to bookmark kanji', 'warning')
@@ -883,6 +914,101 @@ function KanjiBrowserContent() {
             onSelectCharacter={handleDrawingCharacterSelect}
           />
         </motion.div>
+
+        {/* Mastered Kanji Dashboard */}
+        {progressStats.learned > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl shadow-lg border-2 border-green-200 dark:border-green-800 overflow-hidden"
+          >
+            <button
+              onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
+              className="w-full px-6 py-4 bg-green-100 dark:bg-green-900/30 border-b border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
+                    🎯
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-bold text-green-900 dark:text-green-100">
+                      Mastered Kanji
+                    </h3>
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      {progressStats.learned} kanji learned • Keep up the great work!
+                    </p>
+                  </div>
+                </div>
+                <svg
+                  className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+            </button>
+
+            {masteredDashboardExpanded && (
+              <div className="px-6 py-6 space-y-6">
+              {(['N5', 'N4', 'N3', 'N2', 'N1'] as JLPTLevel[]).map(level => {
+                const masteredKanji = masteredKanjiByLevel[level]
+                if (masteredKanji.length === 0) return null
+
+                const info = levelInfo[level]
+                return (
+                  <div key={level} className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-6 h-6 ${info.color} rounded-full flex items-center justify-center text-white text-xs font-bold`}
+                      >
+                        {level.replace('N', '')}
+                      </div>
+                      <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        {info.name}
+                      </h4>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        ({masteredKanji.length} mastered)
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-6 sm:grid-cols-12 md:grid-cols-16 lg:grid-cols-20 gap-2">
+                      {masteredKanji.map((kanjiItem, index) => (
+                        <motion.div
+                          key={`mastered-${kanjiItem.kanji}-${index}`}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: index * 0.01 }}
+                          whileHover={{ scale: 1.15, zIndex: 10 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleKanjiClick(kanjiItem)}
+                          className="relative w-full aspect-square flex items-center justify-center text-lg font-medium
+                            rounded-lg transition-all cursor-pointer
+                            bg-white dark:bg-dark-800 border-2 border-green-500 dark:border-green-600
+                            hover:shadow-lg hover:border-green-600 dark:hover:border-green-500"
+                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                          title={`${kanjiItem.kanji} - Click to view details`}
+                        >
+                          <span className="text-gray-900 dark:text-gray-100">{kanjiItem.kanji}</span>
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
+                            ✓
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* Search Results - only show after user has searched */}
         {hasSearched && (
