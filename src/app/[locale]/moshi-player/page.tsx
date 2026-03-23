@@ -6,6 +6,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/button'
 import { Play, Link2, AlertCircle, Loader2, FileText } from 'lucide-react'
+import type { PlayerSegment } from '@/lib/moshi-player/transcript-types'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -21,24 +22,30 @@ interface YTPlayerInstance {
   destroy: () => void
 }
 
-/** Shape of a single transcript segment from the API. */
-interface TranscriptSegment {
-  start: number
-  end: number
-  duration: number
-  text: string
-}
-
-/** Subset of the transcript API response we consume. */
+/**
+ * Stage C1 transcript API response.
+ * The page consumes `playerSegments` — computed learner-facing segments.
+ * Raw provider segments remain available via `segments` for backward compatibility.
+ */
 interface TranscriptResponse {
   available: boolean
   videoId: string
   title?: string
-  segments?: TranscriptSegment[]
   language?: string
   totalSegments?: number
   error?: string
   message?: string
+
+  /** Stage C1: Computed player segments (primary contract) */
+  playerSegments?: PlayerSegment[]
+
+  /** DEPRECATED: Raw provider segments (backward compatibility only) */
+  segments?: Array<{
+    start: number
+    end: number
+    duration: number
+    text: string
+  }>
 }
 
 type TranscriptState = 'idle' | 'loading' | 'loaded' | 'unavailable' | 'error'
@@ -124,7 +131,7 @@ export default function MoshiPlayerPage() {
   const [error, setError] = useState<PlayerError | null>(null)
 
   const [transcriptState, setTranscriptState] = useState<TranscriptState>('idle')
-  const [transcriptSegments, setTranscriptSegments] = useState<TranscriptSegment[]>([])
+  const [playerSegments, setPlayerSegments] = useState<PlayerSegment[]>([])
   const [transcriptTitle, setTranscriptTitle] = useState<string | null>(null)
   const [transcriptError, setTranscriptError] = useState<string | null>(null)
 
@@ -244,7 +251,7 @@ export default function MoshiPlayerPage() {
   useEffect(() => {
     if (!videoId) {
       setTranscriptState('idle')
-      setTranscriptSegments([])
+      setPlayerSegments([])
       setTranscriptTitle(null)
       setTranscriptError(null)
       return
@@ -255,14 +262,14 @@ export default function MoshiPlayerPage() {
 
     async function fetchTranscript() {
       setTranscriptState('loading')
-      setTranscriptSegments([])
+      setPlayerSegments([])
       setTranscriptTitle(null)
       setTranscriptError(null)
 
       try {
         const res = await fetch(`/api/moshi-player/transcript/${videoId}`, {
           signal: controller.signal,
-          cache: 'no-cache',
+          cache: 'no-store',
         })
 
         if (cancelled) return
@@ -277,13 +284,22 @@ export default function MoshiPlayerPage() {
 
         if (cancelled) return
 
-        if (!data.available || !data.segments?.length) {
+        if (!data.available) {
           setTranscriptError(data.message || data.error || 'No transcript available for this video')
           setTranscriptState('unavailable')
           return
         }
 
-        setTranscriptSegments(data.segments)
+        // Stage C1: Prefer computed playerSegments over raw provider segments
+        const segments = data.playerSegments ?? []
+
+        if (!segments.length) {
+          setTranscriptError('No segments available for this video')
+          setTranscriptState('unavailable')
+          return
+        }
+
+        setPlayerSegments(segments)
         setTranscriptTitle(data.title ?? null)
         setTranscriptState('loaded')
       } catch (err) {
@@ -400,7 +416,7 @@ export default function MoshiPlayerPage() {
                 </span>
                 {transcriptState === 'loaded' && (
                   <span className="ml-auto text-xs text-gray-400 dark:text-dark-500">
-                    {transcriptSegments.length} segments
+                    {playerSegments.length} segments
                   </span>
                 )}
                 {transcriptState === 'loading' && (
@@ -453,12 +469,12 @@ export default function MoshiPlayerPage() {
                   </div>
                 )}
 
-                {/* Loaded — render segments */}
+                {/* Loaded — render computed player segments */}
                 {transcriptState === 'loaded' && (
                   <div className="divide-y divide-gray-100 dark:divide-dark-700">
-                    {transcriptSegments.map((seg, i) => (
+                    {playerSegments.map((seg) => (
                       <div
-                        key={i}
+                        key={seg.id}
                         className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-dark-700/50 transition-colors"
                       >
                         <span className="text-xs text-gray-400 dark:text-dark-500 font-mono mr-2 select-none">

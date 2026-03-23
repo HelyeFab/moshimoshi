@@ -448,12 +448,49 @@ const PROVIDERS: ProviderEntry[] = [
  * Run the transcript retrieval waterfall.
  * Tries each provider in order. First success wins.
  * Returns a definitive unavailable result if all providers fail.
+ *
+ * @param videoId - YouTube video ID
+ * @param specificProvider - Optional: force a specific provider for debugging
+ *                           Valid values: 'youtubei-api', 'youtubei-timedtext', 'sheldon', 'supa'
  */
 export async function runTranscriptWaterfall(
   videoId: string,
+  specificProvider?: string,
 ): Promise<TranscriptResult> {
   let lastUnavailable: TranscriptUnavailable | null = null
 
+  // If a specific provider is requested, try only that one
+  if (specificProvider) {
+    const provider = PROVIDERS.find((p) => p.name === specificProvider)
+    if (!provider) {
+      return {
+        available: false,
+        videoId,
+        error: `Unknown provider: ${specificProvider}. Valid: ${PROVIDERS.map((p) => p.name).join(', ')}`,
+      }
+    }
+
+    console.log(`[moshi-player] Forcing provider: ${provider.name}`)
+    try {
+      const result = await provider.fn(videoId)
+      if (result === null) {
+        return {
+          available: false,
+          videoId,
+          error: `Provider ${provider.name} returned null (not configured or failed)`,
+        }
+      }
+      return result
+    } catch (err) {
+      return {
+        available: false,
+        videoId,
+        error: `Provider ${provider.name} threw: ${(err as Error)?.message}`,
+      }
+    }
+  }
+
+  // Normal waterfall mode
   for (const provider of PROVIDERS) {
     try {
       console.log(`[moshi-player] Trying provider: ${provider.name}`)

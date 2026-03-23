@@ -567,6 +567,84 @@ Unsubscribe: {{unsubscribeUrl}}`,
     ],
   },
   {
+    name: 'Lonely Castle in the Mirror - Library',
+    slug: 'lonely-castle-mirror-library',
+    description: 'Announce かがみの孤城 (Lonely Castle in the Mirror) book added to Library',
+    category: 'marketing',
+    subject: 'New Book: かがみの孤城 — Lonely Castle in the Mirror',
+    htmlContent: wrapEmailHtml(`
+      ${emailHeader({ showLogo: true })}
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.accent}, ${EMAIL_COLORS.primary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">NEW BOOK</span>
+      </div>
+      <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">かがみの孤城<br/><span style="font-size: 22px; font-weight: 600; color: ${EMAIL_COLORS.textLight};">Lonely Castle in the Mirror</span></h1>
+      <p style="text-align: center; margin: 0 0 24px 0; font-size: 16px; color: ${EMAIL_COLORS.textLight};">By Mizuki Tsujimura (辻村深月) • 2017</p>
+      <p style="${EMAIL_STYLES.paragraph}">Hey {{name}},</p>
+      <p style="${EMAIL_STYLES.paragraph}">We just added a beautiful new story to the Library — a touching tale about friendship, courage, and overcoming adversity.</p>
+      ${characterMessage({ character: 'doshi', message: "This is one of my favorite modern Japanese novels! かがみの孤城 is perfect for intermediate learners — the story pulls you in and the vocabulary feels natural. You'll learn so much while getting lost in this touching story!" })}
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 24px 0;">
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.primary};">805</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Words</p>
+        </div>
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.secondary};">~5</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Min Read</p>
+        </div>
+        <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+          <p style="margin: 0; font-size: 20px; font-weight: 700; color: ${EMAIL_COLORS.accent};">N3-N2</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">JLPT Level</p>
+        </div>
+      </div>
+      <p style="${EMAIL_STYLES.paragraph}"><strong>Reading features:</strong></p>
+      ${featureList([
+        'Carefully segmented chapters for easier reading',
+        'Built-in dictionary support for lookups',
+        'Progress tracking as you read',
+        'Natural, modern Japanese vocabulary',
+        'Engaging story that motivates you to continue',
+      ])}
+      ${highlightBox({ type: 'info', title: 'Story Summary', content: '<strong>本作では、いじめに苦しむ中学生の心が、鏡の中の不思議な城に導かれ、同じような境遇の仲間たちと出会う物語です。彼女たちは共に試練を乗り越え、友情を育んでいきます。</strong><br/><br/><em>A middle school student suffering from bullying finds her way to a mysterious castle in a mirror, where she meets companions facing similar struggles. Together, they overcome trials and build lasting friendships.</em>' })}
+      ${ctaButton({ text: 'Start Reading Now', url: 'https://moshimoshi.app/library?utm_source=email&utm_medium=campaign&utm_campaign=lonely-castle-mirror' })}
+      <p style="${EMAIL_STYLES.smallText}; text-align: center;">Perfect for intermediate learners looking to read authentic Japanese literature.</p>
+      ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+    `),
+    textContent: `NEW BOOK: かがみの孤城 — Lonely Castle in the Mirror
+By Mizuki Tsujimura (辻村深月) • 2017
+
+Hey {{name}},
+
+We just added a beautiful new story to the Library — a touching tale about friendship, courage, and overcoming adversity.
+
+Doshi says: "This is one of my favorite modern Japanese novels! かがみの孤城 is perfect for intermediate learners — the story pulls you in and the vocabulary feels natural. You'll learn so much while getting lost in this touching story!"
+
+805 Words | ~5 Min Read | N3-N2 JLPT Level
+
+Reading features:
+- Carefully segmented chapters for easier reading
+- Built-in dictionary support for lookups
+- Progress tracking as you read
+- Natural, modern Japanese vocabulary
+- Engaging story that motivates you to continue
+
+Story Summary:
+本作では、いじめに苦しむ中学生の心が、鏡の中の不思議な城に導かれ、同じような境遇の仲間たちと出会う物語です。彼女たちは共に試練を乗り越え、友情を育んでいきます。
+
+A middle school student suffering from bullying finds her way to a mysterious castle in a mirror, where she meets companions facing similar struggles. Together, they overcome trials and build lasting friendships.
+
+Start reading: https://moshimoshi.app/library?utm_source=email&utm_medium=campaign&utm_campaign=lonely-castle-mirror
+
+Perfect for intermediate learners looking to read authentic Japanese literature.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}`,
+    variables: [
+      { name: 'name', label: 'User Name', type: 'string', defaultValue: 'Learner', required: true },
+      { name: 'unsubscribeUrl', label: 'Unsubscribe URL', type: 'url', defaultValue: 'https://moshimoshi.app/api/email/unsubscribe?token=PREVIEW', required: true },
+    ],
+  },
+  {
     name: 'Newsletter',
     slug: 'newsletter',
     description: 'Clean template for general announcements',
