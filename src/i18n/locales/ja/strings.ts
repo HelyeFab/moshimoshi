@@ -6412,6 +6412,7 @@ export const strings = {
       reviewAllTooltip: '習得した漢字を全て復習',
       studyAllSuccess: '{count}個の習得済み漢字を学習用に選択しました',
       reviewAllSuccess: '{count}個の習得済み漢字を復習用に選択しました',
+      resumeStudySession: '漢字学習セッションを再開しました',
       noLearnedKanji: '学習する習得済み漢字がありません',
       noLearnedKanjiReview: '復習する習得済み漢字がありません',
       confirmRemoveTitle: 'コレクションから削除しますか？',

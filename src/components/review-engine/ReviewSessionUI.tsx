@@ -156,11 +156,11 @@ export default function ReviewSessionUI({
   // Handle manual next navigation
   const handleNext = async () => {
     try {
+      setShowAnswer(false)
+      setIsAnswered(false)
       console.log('[ReviewSessionUI] Next clicked, current:', state.progress.current, 'total:', state.progress.total)
       const next = await nextItem()
       console.log('[ReviewSessionUI] Next item:', next ? 'exists' : 'null (session should complete)')
-      setShowAnswer(false)
-      setIsAnswered(false)
     } catch (error) {
       console.error('[ReviewSessionUI] Error moving to next item:', error)
     }
@@ -169,9 +169,9 @@ export default function ReviewSessionUI({
   // Handle skip
   const handleSkip = async () => {
     try {
-      await skipItem()
       setShowAnswer(false)
       setIsAnswered(false)
+      await skipItem()
     } catch (error) {
       console.error('[ReviewSessionUI] Error skipping item:', error)
     }

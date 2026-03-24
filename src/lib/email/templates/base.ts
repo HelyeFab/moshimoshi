@@ -208,7 +208,7 @@ export function emailFooter(options?: {
   const doshiHtml = showDoshi
     ? `
       <div style="text-align: center; margin-bottom: 20px;">
-        <img src="${EMAIL_ASSETS.doshi}" alt="Doshi" style="width: 60px; height: 60px;" />
+        <img src="${EMAIL_ASSETS.doshi}" alt="Moshi" style="width: 60px; height: 60px;" />
       </div>
     `
     : ''

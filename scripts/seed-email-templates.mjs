@@ -106,7 +106,7 @@ function emailFooter(options = {}) {
   const { unsubscribeUrl, showSocial = true, showDoshi = false } = options
 
   const doshiHtml = showDoshi
-    ? `<div style="text-align: center; margin-bottom: 20px;"><img src="${EMAIL_ASSETS.doshi}" alt="Doshi" style="width: 60px; height: 60px;" /></div>`
+    ? `<div style="text-align: center; margin-bottom: 20px;"><img src="${EMAIL_ASSETS.doshi}" alt="Moshi" style="width: 60px; height: 60px;" /></div>`
     : ''
 
   const socialHtml = showSocial
@@ -134,14 +134,14 @@ function emailFooter(options = {}) {
 function characterMessage(options) {
   const { character, message, name } = options
   const imageSrc = character === 'doshi' ? EMAIL_ASSETS.doshi : EMAIL_ASSETS.doshiEmma
-  const characterName = name || (character === 'doshi' ? 'Doshi' : 'Emma')
+  const characterName = name || (character === 'doshi' ? 'Moshi' : 'Emma')
 
-  return `<div style="display: flex; align-items: flex-start; gap: 16px; margin: 24px 0; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
-    <img src="${imageSrc}" alt="${characterName}" style="${EMAIL_STYLES.characterImage}" />
-    <div style="flex: 1;">
-      <p style="margin: 0 0 4px 0; font-weight: 600; color: ${EMAIL_COLORS.text};">${characterName}</p>
-      <p style="margin: 0; color: ${EMAIL_COLORS.textLight};">${message}</p>
+  return `<div style="margin: 24px 0; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+    <div style="text-align: center; margin-bottom: 12px;">
+      <img src="${imageSrc}" alt="${characterName}" style="${EMAIL_STYLES.characterImage}" />
+      <p style="margin: 8px 0 0 0; font-weight: 600; color: ${EMAIL_COLORS.text};">${characterName}</p>
     </div>
+    <p style="margin: 0; color: ${EMAIL_COLORS.textLight}; text-align: left;">${message}</p>
   </div>`
 }
 
@@ -200,13 +200,13 @@ const templates = [
   {
     name: 'Welcome Email',
     slug: 'welcome',
-    description: 'A friendly welcome email with Doshi greeting new users',
+    description: 'A friendly welcome email with Moshi greeting new users',
     category: 'transactional',
     subject: 'Welcome to Moshimoshi, {{name}}!',
     htmlContent: wrapEmailHtml(`
       ${emailHeader({ showLogo: true, greeting: 'Welcome to Moshimoshi', recipientName: '{{name}}' })}
       <p style="${EMAIL_STYLES.paragraph}">We're so excited to have you join our community of Japanese learners!</p>
-      ${characterMessage({ character: 'doshi', message: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!" })}
+      ${characterMessage({ character: 'doshi', message: "Hi there! I'm Moshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!" })}
       <p style="${EMAIL_STYLES.paragraph}"><strong>Here's what you can do with Moshimoshi:</strong></p>
       ${featureList([
         'Practice with YouTube shadowing exercises',
@@ -223,7 +223,7 @@ const templates = [
 
 We're so excited to have you join our community of Japanese learners!
 
-Doshi says: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!"
+Moshi says: "Hi there! I'm Moshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!"
 
 Here's what you can do with Moshimoshi:
 - Practice with YouTube shadowing exercises
@@ -319,7 +319,7 @@ Hey {{name}},
 
 We just released something new that we think you'll love!
 
-Doshi says: "{{doshiMessage}}"
+Moshi says: "{{doshiMessage}}"
 
 {{contentTitle}}
 {{contentDescription}}
@@ -364,7 +364,7 @@ Unsubscribe: {{unsubscribeUrl}}`,
 
 We wanted to take a moment to express our heartfelt gratitude for being part of the Moshimoshi family.
 
-Doshi says: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!"
+Moshi says: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!"
 
 {{personalMessage}}
 
@@ -416,7 +416,7 @@ Hey {{name}},
 
 You've been on a {{streakDays}}-day streak! That's amazing dedication.
 
-Doshi says: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!"
+Moshi says: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!"
 
 Current Streak: {{streakDays}} days
 
@@ -474,7 +474,7 @@ Hey {{name}}, here's what you accomplished this week:
 - Minutes Practiced: {{minutesPracticed}}
 - Current Streak: {{currentStreak}} days
 
-Doshi says: "{{personalMessage}}"
+Moshi says: "{{personalMessage}}"
 
 Continue learning: {{appUrl}}
 
@@ -541,7 +541,7 @@ Hey {{name}},
 
 Adjectives are what make your Japanese expressive and natural. We just dropped a brand new deck in the Deck Market designed to take you from basic descriptions to confident, natural-sounding sentences.
 
-Doshi says: "Adjectives bring your Japanese to life! This deck covers 100 essential い and な adjectives with negation drills and noun-pairing practice. Trust me, your sentences are about to get a lot more 楽しい!"
+Moshi says: "Adjectives bring your Japanese to life! This deck covers 100 essential い and な adjectives with negation drills and noun-pairing practice. Trust me, your sentences are about to get a lot more 楽しい!"
 
 100 Adjectives | 300 Flashcards | 3 Card Types
 
@@ -557,6 +557,82 @@ Noun mod: 大きい家 — A big house
 Get the deck: https://moshimoshi.app/deckmarket?utm_source=email&utm_medium=campaign&utm_campaign=adjectives-100-deck
 
 Available now in the Deck Market. Powered by our SRS engine for optimal retention.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}`,
+    variables: [
+      { name: 'name', label: 'User Name', type: 'string', defaultValue: 'Learner', required: true },
+      { name: 'unsubscribeUrl', label: 'Unsubscribe URL', type: 'url', defaultValue: 'https://moshimoshi.app/api/email/unsubscribe?token=PREVIEW', required: true },
+    ],
+  },
+  {
+    name: 'My Kanji Collection Dashboard',
+    slug: 'kanji-collection-dashboard',
+    description: 'Announce the new My Kanji Collection dashboard feature for organizing and reviewing mastered kanji',
+    category: 'marketing',
+    subject: 'Your Kanji Journey, Beautifully Organized 🎯',
+    htmlContent: wrapEmailHtml(`
+      ${emailHeader({ showLogo: true })}
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.accent}, ${EMAIL_COLORS.primary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">NEW FEATURE</span>
+      </div>
+      <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">My Kanji Collection</h1>
+      <p style="${EMAIL_STYLES.smallText}; text-align: center; color: ${EMAIL_COLORS.textLight}; margin-bottom: 24px;">Now in your Kanji Browser — Your personal library, organized by JLPT level</p>
+
+      <p style="${EMAIL_STYLES.paragraph}">Hey {{name}},</p>
+      <p style="${EMAIL_STYLES.paragraph}">We've added a brand new dashboard to the <strong>Kanji Browser</strong> to help you track and review all the kanji you've mastered!</p>
+
+      ${characterMessage({ character: 'doshi', message: "漢字の旅、順調ですか？ (How's your kanji journey going?) Your Kanji Browser just got an upgrade! I've added a personal Collection dashboard — see all your learned kanji organized by JLPT level in one beautiful place!" })}
+
+      <p style="${EMAIL_STYLES.paragraph}"><strong>What's inside your Kanji Collection:</strong></p>
+      ${featureList([
+        'Organized by JLPT level (N5 to N1) — see your progress at a glance',
+        'Collapsible sections — expand only the levels you want to review',
+        'Study All & Review All buttons — jump straight into practice',
+        'Visual kanji cards — each one shows your mastery status',
+        'Real-time sync — works across all your devices',
+      ])}
+
+      <div style="background: ${EMAIL_COLORS.background}; border-radius: 12px; padding: 24px; margin: 24px 0; border-left: 4px solid ${EMAIL_COLORS.primary};">
+        <h3 style="${EMAIL_STYLES.heading2}; margin-bottom: 12px;">How it helps you learn</h3>
+        <p style="${EMAIL_STYLES.paragraph}; margin-bottom: 0;">Open the Kanji Browser and you'll find your new Collection dashboard at the top. Instead of searching for kanji you've already learned, see them all organized by difficulty level. Perfect for quick reviews before JLPT exams or just seeing how far you've come!</p>
+      </div>
+
+      ${highlightBox({ type: 'success', title: '✨ Pro tip', content: 'Use the "Study All" button to review an entire JLPT level in one session. Great for exam prep!' })}
+
+      ${ctaButton({ text: 'View My Collection', url: 'https://moshimoshi.app/kanji-browser?utm_source=email&utm_medium=campaign&utm_campaign=kanji-collection-dashboard' })}
+
+      <p style="${EMAIL_STYLES.smallText}; text-align: center; margin-top: 32px; color: ${EMAIL_COLORS.textLight};">
+        Every kanji you mark as learned appears here automatically. Keep studying and watch your collection grow! 🌸
+      </p>
+
+      ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+    `),
+    textContent: `NEW FEATURE: My Kanji Collection 🎯
+Now in your Kanji Browser — Your personal library, organized by JLPT level
+
+Hey {{name}},
+
+We've added a brand new dashboard to the Kanji Browser to help you track and review all the kanji you've mastered!
+
+Moshi says: "漢字の旅、順調ですか？ (How's your kanji journey going?) Your Kanji Browser just got an upgrade! I've added a personal Collection dashboard — see all your learned kanji organized by JLPT level in one beautiful place!"
+
+What's inside your Kanji Collection:
+✓ Organized by JLPT level (N5 to N1) — see your progress at a glance
+✓ Collapsible sections — expand only the levels you want to review
+✓ Study All & Review All buttons — jump straight into practice
+✓ Visual kanji cards — each one shows your mastery status
+✓ Real-time sync — works across all your devices
+
+How it helps you learn:
+Open the Kanji Browser and you'll find your new Collection dashboard at the top. Instead of searching for kanji you've already learned, see them all organized by difficulty level. Perfect for quick reviews before JLPT exams or just seeing how far you've come!
+
+✨ Pro tip: Use the "Study All" button to review an entire JLPT level in one session. Great for exam prep!
+
+View your collection: https://moshimoshi.app/kanji-browser?utm_source=email&utm_medium=campaign&utm_campaign=kanji-collection-dashboard
+
+Every kanji you mark as learned appears here automatically. Keep studying and watch your collection grow! 🌸
 
 ---
 You're receiving this email because you signed up for Moshimoshi.

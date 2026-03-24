@@ -6004,6 +6004,7 @@ export const strings = {
       reviewAllTooltip: 'Repasar todos los kanji aprendidos',
       studyAllSuccess: '{count} kanji aprendidos seleccionados para estudiar',
       reviewAllSuccess: '{count} kanji aprendidos seleccionados para repasar',
+      resumeStudySession: 'Se reanudó tu sesión de estudio de kanji',
       noLearnedKanji: 'No hay kanji aprendidos para estudiar',
       noLearnedKanjiReview: 'No hay kanji aprendidos para repasar',
       confirmRemoveTitle: '¿Eliminar de la colección?',

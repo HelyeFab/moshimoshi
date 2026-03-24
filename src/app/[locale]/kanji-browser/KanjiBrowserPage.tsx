@@ -52,6 +52,14 @@ const DrawingSearchModal = dynamic(
 )
 
 type ViewMode = 'browse' | 'study' | 'review'
+type StudySessionSource = 'manual-selection' | 'collection'
+
+interface StudySessionState {
+  items: Kanji[]
+  currentIndex: number
+  startedAt: number
+  source: StudySessionSource
+}
 
 function KanjiBrowserContent() {
   const { strings } = useI18n()
@@ -78,8 +86,8 @@ function KanjiBrowserContent() {
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [reviewContentPool, setReviewContentPool] = useState<ReviewableContent[]>([])
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
-  const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
-  const [selectedKanjiData, setSelectedKanjiData] = useState<Kanji[]>([])
+  const [studySession, setStudySession] = useState<StudySessionState | null>(null)
+  const [restoredStudySessionForUser, setRestoredStudySessionForUser] = useState<string | null>(null)
   const [masteredDashboardExpanded, setMasteredDashboardExpanded] = useState(true)
 
   // Handler to safely change view mode and clear session state
@@ -87,14 +95,10 @@ function KanjiBrowserContent() {
     setViewMode(mode)
     // Clear session data when switching modes to prevent leftover state
     setSelectedKanji(new Set())
-    setSelectedKanjiData([])
+    setStudySession(null)
     setReviewContent([])
     setReviewContentPool([])
-    setCurrentStudyIndex(0)
   }
-
-  // Study session tracking for gamification
-  const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
 
   // Progress tracking for visual indicators
   const [kanjiProgress, setKanjiProgress] = useState<Map<string, KanjiProgressData>>(new Map())
@@ -201,6 +205,78 @@ function KanjiBrowserContent() {
     },
   }
 
+  const getStudySessionStorageKey = useCallback(
+    (userId: string) => `kanji-browser-study-session:${userId}`,
+    []
+  )
+
+  const activeStudyKanji = useMemo(() => {
+    if (!studySession) return []
+    return studySession.items
+  }, [studySession])
+
+  const currentStudyKanji = studySession
+    ? activeStudyKanji[studySession.currentIndex] ?? null
+    : null
+
+  const clearPersistedStudySession = useCallback(() => {
+    if (typeof window === 'undefined' || !user?.uid) return
+    window.localStorage.removeItem(getStudySessionStorageKey(user.uid))
+  }, [getStudySessionStorageKey, user?.uid])
+
+  const buildKanjiSelectionData = useCallback(
+    (selectedIds: Iterable<string>) => {
+      const ids = new Set(selectedIds)
+      const kanjiItems: Kanji[] = []
+
+      Object.values(kanjiData).forEach(levelKanji => {
+        if (!levelKanji) return
+        levelKanji.forEach((item: Kanji) => {
+          if (ids.has(item.kanji)) {
+            kanjiItems.push(item)
+          }
+        })
+      })
+
+      searchResults.forEach(item => {
+        if (ids.has(item.kanji) && !kanjiItems.some(existing => existing.kanji === item.kanji)) {
+          kanjiItems.push(item)
+        }
+      })
+
+      return kanjiItems
+    },
+    [kanjiData, searchResults]
+  )
+
+  const startStudySession = useCallback(
+    (kanjiItems: Kanji[], source: StudySessionSource) => {
+      if (kanjiItems.length === 0) {
+        showToast('Could not find selected kanji data', 'error')
+        return false
+      }
+
+      setStudySession({
+        items: kanjiItems,
+        currentIndex: 0,
+        startedAt: Date.now(),
+        source,
+      })
+      setViewMode('study')
+      return true
+    },
+    [showToast]
+  )
+
+  const resumeStudySession = useCallback(() => {
+    if (!studySession || studySession.items.length === 0) {
+      return false
+    }
+
+    setViewMode('study')
+    return true
+  }, [studySession])
+
   // Event Hub initialization removed - ReviewSessionUI handles this automatically
 
   // Load kanji progress for visual indicators (local IndexedDB + premium sync)
@@ -285,6 +361,71 @@ function KanjiBrowserContent() {
   useEffect(() => {
     refreshKanjiProgress()
   }, [refreshKanjiProgress])
+
+  useEffect(() => {
+    if (!user?.uid) {
+      setRestoredStudySessionForUser(null)
+      return
+    }
+
+    if (restoredStudySessionForUser === user.uid) return
+    if (studySession) {
+      setRestoredStudySessionForUser(user.uid)
+      return
+    }
+    if (typeof window === 'undefined') return
+
+    const raw = window.localStorage.getItem(getStudySessionStorageKey(user.uid))
+    setRestoredStudySessionForUser(user.uid)
+    if (!raw) return
+
+    try {
+      const parsed = JSON.parse(raw) as Partial<StudySessionState>
+      if (!Array.isArray(parsed.items) || parsed.items.length === 0) {
+        clearPersistedStudySession()
+        return
+      }
+
+      const currentIndex = Math.min(
+        Math.max(Number(parsed.currentIndex) || 0, 0),
+        parsed.items.length - 1
+      )
+
+      setStudySession({
+        items: parsed.items as Kanji[],
+        currentIndex,
+        startedAt: Number(parsed.startedAt) || Date.now(),
+        source: parsed.source === 'collection' ? 'collection' : 'manual-selection',
+      })
+      setViewMode('study')
+      showToast(
+        strings.kanjiBrowser?.collection?.resumeStudySession || 'Resumed your kanji study session',
+        'info'
+      )
+    } catch (error) {
+      console.error('[Kanji Browser] Failed to restore study session:', error)
+      clearPersistedStudySession()
+    }
+  }, [
+    clearPersistedStudySession,
+    getStudySessionStorageKey,
+    restoredStudySessionForUser,
+    showToast,
+    studySession,
+    user?.uid,
+  ])
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !user?.uid) return
+
+    const storageKey = getStudySessionStorageKey(user.uid)
+    if (!studySession || studySession.items.length === 0) {
+      window.localStorage.removeItem(storageKey)
+      return
+    }
+
+    window.localStorage.setItem(storageKey, JSON.stringify(studySession))
+  }, [getStudySessionStorageKey, studySession, user?.uid])
 
   // Load kanji data on component mount
   useEffect(() => {
@@ -490,39 +631,22 @@ function KanjiBrowserContent() {
       showToast('Please select kanji to study', 'warning')
       return
     }
-
-    // Convert selected kanji to array
-    const kanjiDataArray: Kanji[] = []
-    Object.values(kanjiData).forEach(levelKanji => {
-      if (!levelKanji) return
-      levelKanji.forEach((k: Kanji) => {
-        if (selectedKanji.has(k.kanji)) {
-          kanjiDataArray.push(k)
-        }
-      })
-    })
-
-    // Also check search results
-    searchResults.forEach(k => {
-      if (selectedKanji.has(k.kanji) && !kanjiDataArray.some(sk => sk.kanji === k.kanji)) {
-        kanjiDataArray.push(k)
-      }
-    })
-
-    if (kanjiDataArray.length === 0) {
-      showToast('Could not find selected kanji data', 'error')
-      return
-    }
-
-    // Track study session start time for gamification
-    setStudySessionStartTime(Date.now())
-
-    setSelectedKanjiData(kanjiDataArray)
-    setCurrentStudyIndex(0)
-    setViewMode('study')
+    const kanjiDataArray = buildKanjiSelectionData(selectedKanji)
+    startStudySession(kanjiDataArray, 'manual-selection')
   }
 
   const handleStudyAllMastered = () => {
+    if (studySession?.source === 'collection' && studySession.currentIndex < studySession.items.length) {
+      const resumed = resumeStudySession()
+      if (resumed) {
+        showToast(
+          strings.kanjiBrowser?.collection?.resumeStudySession || 'Resumed your kanji study session',
+          'info'
+        )
+        return
+      }
+    }
+
     // Get all learned kanji IDs
     const learnedKanjiIds = new Set(
       Array.from(kanjiProgress.entries())
@@ -535,14 +659,12 @@ function KanjiBrowserContent() {
       return
     }
 
-    // Select all learned kanji
-    setSelectedKanji(learnedKanjiIds)
-
-    // Switch to study mode to show selection UI
-    setViewMode('study')
+    const learnedKanji = buildKanjiSelectionData(learnedKanjiIds)
+    const didStart = startStudySession(learnedKanji, 'collection')
+    if (!didStart) return
 
     // Show confirmation toast
-    const message = (strings.kanjiBrowser?.collection?.studyAllSuccess || '{count} learned kanji selected for study').replace('{count}', learnedKanjiIds.size.toString())
+    const message = (strings.kanjiBrowser?.collection?.studyAllSuccess || 'Started studying {count} learned kanji').replace('{count}', learnedKanji.length.toString())
     showToast(message, 'success')
   }
 
@@ -761,24 +883,31 @@ function KanjiBrowserContent() {
   }
 
   // Active study session (actually studying, not selecting)
-  if (selectedKanjiData.length > 0 && selectedKanjiData[currentStudyIndex]) {
+  if (viewMode === 'study' && studySession && currentStudyKanji) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
         {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <KanjiStudyMode
-            kanji={selectedKanjiData[currentStudyIndex]}
-            isKanjiLearned={kanjiProgress.get(selectedKanjiData[currentStudyIndex].kanji)?.status === 'learned'}
+            kanji={currentStudyKanji}
+            isKanjiLearned={kanjiProgress.get(currentStudyKanji.kanji)?.status === 'learned'}
             onNext={async () => {
-              if (currentStudyIndex < selectedKanjiData.length - 1) {
-                setCurrentStudyIndex(currentStudyIndex + 1)
+              if (studySession.currentIndex < activeStudyKanji.length - 1) {
+                setStudySession(prev =>
+                  prev
+                    ? {
+                        ...prev,
+                        currentIndex: Math.min(prev.currentIndex + 1, activeStudyKanji.length - 1),
+                      }
+                    : prev
+                )
               } else {
                 // Study mode awards XP - PRODUCT REQUIREMENT
                 // While architecturally study mode is "passive learning",
                 // users expect XP for completing study sessions.
                 // This is intentional user-facing behavior, not a bug.
-                const sessionDuration = Date.now() - studySessionStartTime
-                const totalKanji = selectedKanjiData.length
+                const sessionDuration = Date.now() - studySession.startedAt
+                const totalKanji = activeStudyKanji.length
 
                 const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -802,22 +931,29 @@ function KanjiBrowserContent() {
                 })
 
                 showToast('Study session complete!', 'success')
-                setStudySessionStartTime(0)
                 refreshKanjiProgress()
+                clearPersistedStudySession()
                 handleModeChange('browse')
               }
             }}
             onPrevious={() => {
-              if (currentStudyIndex > 0) {
-                setCurrentStudyIndex(currentStudyIndex - 1)
+              if (studySession.currentIndex > 0) {
+                setStudySession(prev =>
+                  prev
+                    ? {
+                        ...prev,
+                        currentIndex: Math.max(prev.currentIndex - 1, 0),
+                      }
+                    : prev
+                )
               }
             }}
             onBack={() => {
               refreshKanjiProgress()
-              handleModeChange('browse')
+              setViewMode('browse')
             }}
-            currentIndex={currentStudyIndex + 1}
-            totalKanji={selectedKanjiData.length}
+            currentIndex={studySession.currentIndex + 1}
+            totalKanji={activeStudyKanji.length}
             onProgressUpdate={handleProgressUpdate}
           />
         </main>

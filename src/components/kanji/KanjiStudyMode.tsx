@@ -17,6 +17,10 @@ import { kanjiProgressManager } from '@/utils/kanjiProgressManager'
 import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
 import { useFeature } from '@/hooks/useFeature'
 import { IoCheckmarkCircle, IoPlayForward, IoBookOutline, IoClose } from 'react-icons/io5'
+import { usePrioritizedKanjiReadings } from '@/hooks/usePrioritizedKanjiReadings'
+
+type StudyKanjiStatus = 'not-started' | 'learning' | 'learned'
+const REVEAL_AUTO_HIDE_MS = 10000
 
 interface KanjiStudyModeProps {
   kanji: Kanji
@@ -43,6 +47,10 @@ export default function KanjiStudyMode({
   const { showToast } = useToast()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const {
+    onyomi: primaryOnyomi,
+    kunyomi: primaryKunyomi,
+  } = usePrioritizedKanjiReadings(kanji.kanji, kanji.onyomi || [], kanji.kunyomi || [])
   const [isFlipped, setIsFlipped] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const { play, preload, loading: ttsLoading } = useTTS({ cacheFirst: true })
@@ -69,6 +77,7 @@ export default function KanjiStudyMode({
 
   // Track if kanji is already learned
   const [isLearned, setIsLearned] = useState(false)
+  const [currentStatus, setCurrentStatus] = useState<StudyKanjiStatus>('not-started')
   const justToggledRef = useRef(false)
 
   // Timer refs for auto-hide
@@ -88,6 +97,7 @@ export default function KanjiStudyMode({
       // If learned status is passed as prop (from "My Kanji Collection"), use it
       if (isKanjiLearned !== undefined) {
         setIsLearned(isKanjiLearned)
+        setCurrentStatus(isKanjiLearned ? 'learned' : 'not-started')
         return
       }
 
@@ -98,9 +108,12 @@ export default function KanjiStudyMode({
           user,
           isPremium ?? false
         )
-        setIsLearned(progress?.status === 'learned')
+        const status = (progress?.status as StudyKanjiStatus | undefined) || 'not-started'
+        setIsLearned(status === 'learned')
+        setCurrentStatus(status)
       } else {
         setIsLearned(false)
+        setCurrentStatus('not-started')
       }
     }
     checkLearnedStatus()
@@ -115,6 +128,7 @@ export default function KanjiStudyMode({
           user,
           isPremium ?? false
         )
+        setCurrentStatus(prev => (prev === 'learned' ? prev : 'learning'))
         onProgressUpdate?.(kanji.kanji)
         setHasTrackedView(true)
       }
@@ -228,6 +242,7 @@ export default function KanjiStudyMode({
           await kanjiProgressManager.flushKanjiSync()
         }
         setIsLearned(true)
+        setCurrentStatus('learned')
         onProgressUpdate?.(kanji.kanji)
         showToast(strings.kana?.messages?.markedAsLearned || 'Marked as learned!', 'success')
         setTimeout(onNext, 500)
@@ -250,6 +265,7 @@ export default function KanjiStudyMode({
         await kanjiProgressManager.flushKanjiSync()
       }
       setIsLearned(false)
+      setCurrentStatus('not-started')
       onProgressUpdate?.(kanji.kanji)
       setShowRemoveDialog(false)
       showToast(strings.kana?.messages?.progressReset || 'Progress reset', 'info')
@@ -258,6 +274,13 @@ export default function KanjiStudyMode({
       justToggledRef.current = false
     }
   }
+
+  const statusLabel =
+    currentStatus === 'learned'
+      ? 'Learned'
+      : currentStatus === 'learning'
+        ? 'Learning'
+        : 'Not Started'
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 pb-6 relative">
@@ -280,7 +303,7 @@ export default function KanjiStudyMode({
             {currentIndex} / {totalKanji}
           </span>
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            Not Started
+            {statusLabel}
           </span>
         </div>
         <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
@@ -299,7 +322,7 @@ export default function KanjiStudyMode({
         className="relative flex-shrink-0"
       >
         <div
-          className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 cursor-pointer"
+          className="relative w-72 h-[24rem] sm:w-80 sm:h-[27rem] md:w-96 md:h-[31rem] cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
         >
           <AnimatePresence mode="wait">
@@ -391,15 +414,15 @@ export default function KanjiStudyMode({
                 className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100
                          dark:bg-gradient-to-br dark:from-surface-dark dark:to-background-darkElevated
                          rounded-2xl shadow-2xl border-2 border-primary-200 dark:border-primary-400
-                         p-4 sm:p-6 overflow-y-auto scrollbar-hide"
+                         p-3 sm:p-4 md:p-5 overflow-y-auto scrollbar-hide"
                 style={{
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none'
                 }}
               >
                 {/* Kanji Badge - Top Center */}
-                <div className="flex justify-center mb-3 sm:mb-6">
-                  <div className="relative inline-flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3
+                <div className="flex justify-center mb-2 sm:mb-4">
+                  <div className="relative inline-flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-5 sm:py-2.5
                                 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm
                                 rounded-2xl shadow-lg border-2 border-primary-300 dark:border-primary-500/50
                                 hover:shadow-xl transition-all duration-200">
@@ -417,22 +440,22 @@ export default function KanjiStudyMode({
                 </div>
 
                 {/* Can you recall header */}
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center gap-2 mb-3 sm:mb-6">
+                <div className="space-y-2.5 sm:space-y-3">
+                  <div className="flex items-center gap-2 mb-2 sm:mb-3">
                     <div className="h-1 w-8 bg-primary-400 dark:bg-primary-500 rounded-full"></div>
-                    <h3 className="text-base font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">
+                    <h3 className="text-sm sm:text-base font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">
                       Can you recall
                     </h3>
                     <div className="h-1 flex-1 bg-primary-400 dark:bg-primary-500 rounded-full"></div>
                   </div>
 
                   {/* Meaning pill */}
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <div className="flex items-center gap-2 px-1">
                       <svg className="w-4 h-4 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                       </svg>
-                      <span className="text-xs font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">Meaning</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">Meaning</span>
                     </div>
                     <button
                       onClick={(e) => {
@@ -451,10 +474,10 @@ export default function KanjiStudyMode({
                           meaningTimerRef.current = setTimeout(() => {
                             setShowMeaning(false)
                             meaningTimerRef.current = null
-                          }, 5000) // Increased to 5 seconds
+                          }, REVEAL_AUTO_HIDE_MS)
                         }
                       }}
-                      className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
+                      className="w-full px-3 py-2.5 sm:px-4 sm:py-3 rounded-2xl
                                bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20
                                hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-900/30 dark:hover:to-purple-800/30
                                transition-all transform active:scale-[0.98] duration-200
@@ -465,7 +488,7 @@ export default function KanjiStudyMode({
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
                                     translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                       {showMeaning ? (
-                        <span className="text-lg font-bold text-purple-900 dark:text-purple-100 relative z-10">
+                        <span className="text-base sm:text-lg font-bold text-purple-900 dark:text-purple-100 relative z-10">
                           {kanji.meaning}
                         </span>
                       ) : (
@@ -474,7 +497,7 @@ export default function KanjiStudyMode({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
-                          <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">
+                          <span className="text-xs sm:text-sm font-semibold text-purple-600 dark:text-purple-400">
                             Tap to reveal
                           </span>
                         </div>
@@ -482,161 +505,155 @@ export default function KanjiStudyMode({
                     </button>
                   </div>
 
-                  {/* Onyomi pill */}
-                  {kanji.onyomi && kanji.onyomi.length > 0 && kanji.onyomi[0] !== '' && (
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 px-1">
-                        <svg className="w-4 h-4 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
-                        <span className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider">On'yomi</span>
-                      </div>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation()
+                  <div className={`grid gap-2 ${primaryOnyomi.length > 0 && primaryKunyomi.length > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                    {primaryOnyomi.length > 0 && (
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2 px-1">
+                          <svg className="w-4 h-4 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                          </svg>
+                          <span className="text-[11px] sm:text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider">On'yomi</span>
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation()
 
-                          // Clear existing timer
-                          if (onyomiTimerRef.current) {
-                            clearTimeout(onyomiTimerRef.current)
-                            onyomiTimerRef.current = null
-                          }
-
-                          setShowOnyomi(!showOnyomi)
-
-                          // Set new timer only if revealing
-                          if (!showOnyomi) {
-                            onyomiTimerRef.current = setTimeout(() => {
-                              setShowOnyomi(false)
+                            if (onyomiTimerRef.current) {
+                              clearTimeout(onyomiTimerRef.current)
                               onyomiTimerRef.current = null
-                            }, 5000) // Increased to 5 seconds
-                          }
-                        }}
-                        className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
-                                 bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-900/20 dark:to-sky-800/20
-                                 hover:from-blue-100 hover:to-sky-200 dark:hover:from-blue-900/30 dark:hover:to-sky-800/30
-                                 transition-all transform active:scale-[0.98] duration-200
-                                 border-2 border-blue-200 dark:border-blue-700
-                                 shadow-md hover:shadow-lg cursor-pointer
-                                 relative overflow-hidden group"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
-                                      translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                        {showOnyomi ? (
-                          <div className="flex flex-wrap gap-3 justify-center items-center relative z-10">
-                            {kanji.onyomi.filter(r => r).map((reading, idx) => (
-                              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-900/40 rounded-lg">
-                                <AudioButton
-                                  size="sm"
-                                  onPlay={() => {
-                                    // Reset timer when playing audio
-                                    if (onyomiTimerRef.current) {
-                                      clearTimeout(onyomiTimerRef.current)
-                                      onyomiTimerRef.current = setTimeout(() => {
-                                        setShowOnyomi(false)
-                                        onyomiTimerRef.current = null
-                                      }, 5000)
-                                    }
-                                    handlePlayAudio(reading)
-                                  }}
-                                />
-                                <span className="text-lg font-bold text-blue-900 dark:text-blue-100">
-                                  {reading}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center gap-2 relative z-10">
-                            <svg className="w-5 h-5 text-blue-400 dark:text-blue-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                              Tap to reveal
-                            </span>
-                          </div>
-                        )}
+                            }
+
+                            setShowOnyomi(!showOnyomi)
+
+                            if (!showOnyomi) {
+                              onyomiTimerRef.current = setTimeout(() => {
+                                setShowOnyomi(false)
+                                onyomiTimerRef.current = null
+                              }, REVEAL_AUTO_HIDE_MS)
+                            }
+                          }}
+                          className="w-full min-h-[4.5rem] px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-2xl
+                                   bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-900/20 dark:to-sky-800/20
+                                   hover:from-blue-100 hover:to-sky-200 dark:hover:from-blue-900/30 dark:hover:to-sky-800/30
+                                   transition-all transform active:scale-[0.98] duration-200
+                                   border-2 border-blue-200 dark:border-blue-700
+                                   shadow-md hover:shadow-lg cursor-pointer
+                                   relative overflow-hidden group"
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
+                                        translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                          {showOnyomi ? (
+                            <div className="grid gap-1.5 relative z-10">
+                              {primaryOnyomi.map((reading, idx) => (
+                                <div key={idx} className="flex items-center justify-center gap-1.5 px-2 py-1 bg-white/60 dark:bg-gray-900/40 rounded-lg">
+                                  <AudioButton
+                                    size="sm"
+                                    onPlay={() => {
+                                      if (onyomiTimerRef.current) {
+                                        clearTimeout(onyomiTimerRef.current)
+                                        onyomiTimerRef.current = setTimeout(() => {
+                                          setShowOnyomi(false)
+                                          onyomiTimerRef.current = null
+                                        }, REVEAL_AUTO_HIDE_MS)
+                                      }
+                                      handlePlayAudio(reading)
+                                    }}
+                                  />
+                                  <span className="text-sm sm:text-base font-bold text-blue-900 dark:text-blue-100 leading-none">
+                                    {reading}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center gap-1.5 h-full relative z-10">
+                              <svg className="w-4 h-4 text-blue-400 dark:text-blue-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              <span className="text-[11px] sm:text-sm font-semibold text-blue-600 dark:text-blue-400 text-center">
+                                Tap to reveal
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Kunyomi pill */}
-                  {kanji.kunyomi && kanji.kunyomi.length > 0 && kanji.kunyomi[0] !== '' && (
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 px-1">
-                        <svg className="w-4 h-4 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
-                        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Kun'yomi</span>
-                      </div>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation()
+                    {primaryKunyomi.length > 0 && (
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2 px-1">
+                          <svg className="w-4 h-4 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                          </svg>
+                          <span className="text-[11px] sm:text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Kun'yomi</span>
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation()
 
-                          // Clear existing timer
-                          if (kunyomiTimerRef.current) {
-                            clearTimeout(kunyomiTimerRef.current)
-                            kunyomiTimerRef.current = null
-                          }
-
-                          setShowKunyomi(!showKunyomi)
-
-                          // Set new timer only if revealing
-                          if (!showKunyomi) {
-                            kunyomiTimerRef.current = setTimeout(() => {
-                              setShowKunyomi(false)
+                            if (kunyomiTimerRef.current) {
+                              clearTimeout(kunyomiTimerRef.current)
                               kunyomiTimerRef.current = null
-                            }, 5000) // Increased to 5 seconds
-                          }
-                        }}
-                        className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-2xl
-                                 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-800/20
-                                 hover:from-emerald-100 hover:to-green-200 dark:hover:from-emerald-900/30 dark:hover:to-green-800/30
-                                 transition-all transform active:scale-[0.98] duration-200
-                                 border-2 border-emerald-200 dark:border-emerald-700
-                                 shadow-md hover:shadow-lg cursor-pointer
-                                 relative overflow-hidden group"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
-                                      translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                        {showKunyomi ? (
-                          <div className="flex flex-wrap gap-3 justify-center items-center relative z-10">
-                            {kanji.kunyomi.filter(r => r).map((reading, idx) => (
-                              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-900/40 rounded-lg">
-                                <AudioButton
-                                  size="sm"
-                                  onPlay={() => {
-                                    // Reset timer when playing audio
-                                    if (kunyomiTimerRef.current) {
-                                      clearTimeout(kunyomiTimerRef.current)
-                                      kunyomiTimerRef.current = setTimeout(() => {
-                                        setShowKunyomi(false)
-                                        kunyomiTimerRef.current = null
-                                      }, 5000)
-                                    }
-                                    handlePlayAudio(reading)
-                                  }}
-                                />
-                                <span className="text-lg font-bold text-emerald-900 dark:text-emerald-100">
-                                  {reading}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center gap-2 relative z-10">
-                            <svg className="w-5 h-5 text-emerald-400 dark:text-emerald-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                              Tap to reveal
-                            </span>
-                          </div>
-                        )}
+                            }
+
+                            setShowKunyomi(!showKunyomi)
+
+                            if (!showKunyomi) {
+                              kunyomiTimerRef.current = setTimeout(() => {
+                                setShowKunyomi(false)
+                                kunyomiTimerRef.current = null
+                              }, REVEAL_AUTO_HIDE_MS)
+                            }
+                          }}
+                          className="w-full min-h-[4.5rem] px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-2xl
+                                   bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-800/20
+                                   hover:from-emerald-100 hover:to-green-200 dark:hover:from-emerald-900/30 dark:hover:to-green-800/30
+                                   transition-all transform active:scale-[0.98] duration-200
+                                   border-2 border-emerald-200 dark:border-emerald-700
+                                   shadow-md hover:shadow-lg cursor-pointer
+                                   relative overflow-hidden group"
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
+                                        translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                          {showKunyomi ? (
+                            <div className="grid gap-1.5 relative z-10">
+                              {primaryKunyomi.map((reading, idx) => (
+                                <div key={idx} className="flex items-center justify-center gap-1.5 px-2 py-1 bg-white/60 dark:bg-gray-900/40 rounded-lg">
+                                  <AudioButton
+                                    size="sm"
+                                    onPlay={() => {
+                                      if (kunyomiTimerRef.current) {
+                                        clearTimeout(kunyomiTimerRef.current)
+                                        kunyomiTimerRef.current = setTimeout(() => {
+                                          setShowKunyomi(false)
+                                          kunyomiTimerRef.current = null
+                                        }, REVEAL_AUTO_HIDE_MS)
+                                      }
+                                      handlePlayAudio(reading)
+                                    }}
+                                  />
+                                  <span className="text-sm sm:text-base font-bold text-emerald-900 dark:text-emerald-100 leading-none">
+                                    {reading}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center gap-1.5 h-full relative z-10">
+                              <svg className="w-4 h-4 text-emerald-400 dark:text-emerald-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              <span className="text-[11px] sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400 text-center">
+                                Tap to reveal
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </motion.div>
             )}

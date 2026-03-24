@@ -9,6 +9,7 @@ import { Kanji } from '@/types/kanji'
 import { useTTS } from '@/hooks/useTTS'
 import { useState, useCallback, useEffect } from 'react'
 import { Volume2, Loader2 } from 'lucide-react'
+import { usePrioritizedKanjiReadings } from '@/hooks/usePrioritizedKanjiReadings'
 
 interface KanjiCardProps {
   content: ReviewableContent
@@ -27,6 +28,14 @@ export default function KanjiCard({
   const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
   const { play: playTTS, loading: ttsLoading, playing: ttsPlaying } = useTTS({ cacheFirst: true })
   const [selectedReading, setSelectedReading] = useState<{ reading: string; type: 'onyomi' | 'kunyomi' } | null>(null)
+  const {
+    onyomi: primaryOnyomi,
+    kunyomi: primaryKunyomi,
+    hasAdditionalOnyomi,
+    hasAdditionalKunyomi,
+  } = usePrioritizedKanjiReadings(content.primaryAnswer, metadata?.onyomi || [], metadata?.kunyomi || [])
+  const hasAdditionalReadings =
+    hasAdditionalOnyomi || hasAdditionalKunyomi
 
   // Select a random reading when entering listening mode
   useEffect(() => {
@@ -138,16 +147,21 @@ export default function KanjiCard({
                     {content.primaryAnswer}
                   </div>
                   {/* Show readings */}
-                  {metadata?.onyomi && metadata.onyomi.length > 0 && (
+                  {primaryOnyomi.length > 0 && (
                     <div className="text-lg text-gray-600 dark:text-gray-400">
                       <span className="text-gray-500">On: </span>
-                      {metadata.onyomi.join(', ')}
+                      {primaryOnyomi.join(', ')}
                     </div>
                   )}
-                  {metadata?.kunyomi && metadata.kunyomi.length > 0 && (
+                  {primaryKunyomi.length > 0 && (
                     <div className="text-lg text-gray-600 dark:text-gray-400">
                       <span className="text-gray-500">Kun: </span>
-                      {metadata.kunyomi.join(', ')}
+                      {primaryKunyomi.join(', ')}
+                    </div>
+                  )}
+                  {hasAdditionalReadings && (
+                    <div className="text-sm text-gray-500 dark:text-gray-500">
+                      More readings available in details
                     </div>
                   )}
                 </motion.div>
@@ -207,17 +221,21 @@ export default function KanjiCard({
                       {selectedReading.reading} ({selectedReading.type === 'onyomi' ? 'On' : 'Kun'})
                     </div>
                   )}
-                  {/* Show all readings */}
-                  {metadata?.onyomi && metadata.onyomi.length > 0 && (
+                  {primaryOnyomi.length > 0 && (
                     <div className="text-base text-gray-600 dark:text-gray-400">
                       <span className="text-gray-500">On: </span>
-                      {metadata.onyomi.join(', ')}
+                      {primaryOnyomi.join(', ')}
                     </div>
                   )}
-                  {metadata?.kunyomi && metadata.kunyomi.length > 0 && (
+                  {primaryKunyomi.length > 0 && (
                     <div className="text-base text-gray-600 dark:text-gray-400">
                       <span className="text-gray-500">Kun: </span>
-                      {metadata.kunyomi.join(', ')}
+                      {primaryKunyomi.join(', ')}
+                    </div>
+                  )}
+                  {hasAdditionalReadings && (
+                    <div className="text-sm text-gray-500 dark:text-gray-500">
+                      More readings available in details
                     </div>
                   )}
                 </motion.div>

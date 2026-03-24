@@ -20,7 +20,7 @@ import {
 
 /**
  * Welcome Email Starter
- * A friendly welcome email with Doshi greeting the new user
+ * A friendly welcome email with Moshi greeting the new user
  */
 export function welcomeEmailStarter(): { html: string; text: string; subject: string } {
   const html = wrapEmailHtml(`
@@ -32,7 +32,7 @@ export function welcomeEmailStarter(): { html: string; text: string; subject: st
 
     ${characterMessage({
       character: 'doshi',
-      message: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!",
+      message: "Hi there! I'm Moshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!",
     })}
 
     <p style="${EMAIL_STYLES.paragraph}">
@@ -63,7 +63,7 @@ Welcome to Moshimoshi, {{name}}!
 
 We're so excited to have you join our community of Japanese learners!
 
-Doshi says: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!"
+Moshi says: "Hi there! I'm Moshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!"
 
 Here's what you can do with Moshimoshi:
 - Practice with YouTube shadowing exercises
@@ -205,7 +205,7 @@ Hey {{name}},
 
 You've been on a {{streakDays}}-day streak! That's amazing dedication.
 
-Doshi says: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!"
+Moshi says: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!"
 
 Current Streak: {{streakDays}} days
 
@@ -283,7 +283,7 @@ Hey {{name}}, here's what you accomplished this week:
 - Minutes Practiced: {{minutesPracticed}}
 - Current Streak: {{currentStreak}} days
 
-Doshi says: "{{personalMessage}}"
+Moshi says: "{{personalMessage}}"
 
 Continue learning: {{appUrl}}
 
@@ -353,7 +353,7 @@ Hey {{name}},
 
 We just released something new that we think you'll love!
 
-Doshi says: "{{doshiMessage}}"
+Moshi says: "{{doshiMessage}}"
 
 {{contentTitle}}
 {{contentDescription}}
@@ -430,7 +430,7 @@ Thank You, {{name}}!
 
 We wanted to take a moment to express our heartfelt gratitude for being part of the Moshimoshi family.
 
-Doshi says: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!"
+Moshi says: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!"
 
 {{personalMessage}}
 
@@ -549,7 +549,7 @@ Hey {{name}},
 
 We've got something exciting to share - Moshi is taking on his biggest challenge yet!
 
-Doshi says: "I looked at all 50 lessons of Minna no Nihongo and thought... FIFTY?! But then Pastel reminded me: you don't climb a mountain in one jump. You take it one step at a time. So that's what we're doing!"
+Moshi says: "I looked at all 50 lessons of Minna no Nihongo and thought... FIFTY?! But then Pastel reminded me: you don't climb a mountain in one jump. You take it one step at a time. So that's what we're doing!"
 
 ---
 
@@ -667,7 +667,7 @@ Build, import, and master vocabulary with smart spaced repetition - right where 
 
 Hey {{name}},
 
-Doshi says: "{{name}}-san! I've been waiting to tell you this - you can study flashcards with me now! Create your own decks, import your Anki collection, or grab a deck from DeckMarket. Let's get that vocabulary locked in together!"
+Moshi says: "{{name}}-san! I've been waiting to tell you this - you can study flashcards with me now! Create your own decks, import your Anki collection, or grab a deck from DeckMarket. Let's get that vocabulary locked in together!"
 
 HERE'S WHAT YOU CAN DO:
 - Create your own decks - type in vocab, phrases, or kanji and start studying in seconds
@@ -869,7 +869,7 @@ export function getStarterTemplates() {
   return {
     welcome: {
       name: 'Welcome Email',
-      description: 'A friendly welcome email with Doshi greeting new users',
+      description: 'A friendly welcome email with Moshi greeting new users',
       ...welcomeEmailStarter(),
     },
     featureAnnouncement: {

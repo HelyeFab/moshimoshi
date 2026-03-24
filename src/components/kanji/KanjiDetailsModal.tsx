@@ -43,6 +43,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import KuromojiService from '@/utils/kuromojiService'
 import AddToListButton from '@/components/lists/AddToListButton'
 import { toRomaji } from 'wanakana'
+import { usePrioritizedKanjiReadings } from '@/hooks/usePrioritizedKanjiReadings'
 
 interface KanjiDetailsModalProps {
   kanji: Kanji | null
@@ -70,6 +71,11 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const [regenerating, setRegenerating] = useState(false)
   const [showMnemonic, setShowMnemonic] = useState(false)
   const [regenLimit, setRegenLimit] = useState<RegenerationLimit | null>(null)
+  const { primaryReading } = usePrioritizedKanjiReadings(
+    resolvedKanji?.kanji,
+    resolvedKanji?.onyomi || [],
+    resolvedKanji?.kunyomi || []
+  )
   const { strings } = useI18n()
   const { user } = useAuth()
   const { subscription } = useSubscription()
@@ -436,7 +442,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
               content={resolvedKanji.kanji}
               type="word"
               metadata={{
-                reading: resolvedKanji.kunyomi?.[0] || resolvedKanji.onyomi?.[0] || '',
+                reading: primaryReading || '',
                 meaning: resolvedKanji.meaning,
                 jlptLevel: resolvedKanji.jlpt
                   ? parseInt(resolvedKanji.jlpt.replace('N', ''), 10)
@@ -664,7 +670,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                           Common Reading
                         </p>
                         <p className="text-base font-medium text-gray-900 dark:text-gray-100">
-                          {resolvedKanji.kunyomi?.[0] || resolvedKanji.onyomi?.[0] || 'N/A'}
+                          {primaryReading || 'N/A'}
                         </p>
                       </div>
                       {resolvedKanji.jlpt && (

@@ -6873,6 +6873,7 @@ export const strings = {
       reviewAllTooltip: 'Review all learned kanji',
       studyAllSuccess: '{count} learned kanji selected for study',
       reviewAllSuccess: '{count} learned kanji selected for review',
+      resumeStudySession: 'Resumed your kanji study session',
       noLearnedKanji: 'No learned kanji to study',
       noLearnedKanjiReview: 'No learned kanji to review',
       confirmRemoveTitle: 'Remove from Collection?',

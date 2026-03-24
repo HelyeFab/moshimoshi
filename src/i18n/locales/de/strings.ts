@@ -6007,6 +6007,7 @@ export const strings = {
       reviewAllTooltip: 'Alle gelernten Kanji wiederholen',
       studyAllSuccess: '{count} gelernte Kanji zum Lernen ausgewählt',
       reviewAllSuccess: '{count} gelernte Kanji zum Wiederholen ausgewählt',
+      resumeStudySession: 'Deine Kanji-Lernsitzung wurde fortgesetzt',
       noLearnedKanji: 'Keine gelernten Kanji zum Studieren',
       noLearnedKanjiReview: 'Keine gelernten Kanji zum Wiederholen',
       confirmRemoveTitle: 'Aus Sammlung entfernen?',
