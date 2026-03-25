@@ -21,6 +21,14 @@ Moshimoshi's payment system integrates Stripe for subscription management, one-t
 
 See [discounts/README.md](./discounts/README.md) for complete discount system documentation.
 
+### Price IDs And Pricing Changes
+
+See [PRICE_ID_AND_PRICING_CHANGE_NOTES.md](./PRICE_ID_AND_PRICING_CHANGE_NOTES.md) for:
+- current production Stripe price IDs
+- where price IDs are recorded in app env and Functions
+- risk assessment for app/Functions price mapping
+- safest rollout pattern for future pricing changes
+
 ## Key Topics
 
 - **Stripe integration** - Payment processing and subscription management

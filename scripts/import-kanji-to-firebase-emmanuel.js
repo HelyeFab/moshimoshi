@@ -2,13 +2,14 @@
 
 /**
  * Import Kanji to Firebase Progress Document
+ * Created for: Emmanuel Fabiani (emmanuelfabiani23@gmail.com)
  *
  * Usage:
  *   node scripts/import-kanji-to-firebase.js (--uid <uid> | --email <email>) <markdown-file-1> [markdown-file-2] [...]
  *
  * Example:
  *   node scripts/import-kanji-to-firebase.js \
- *     --email you@example.com \
+ *     --email emmanuelfabiani23@gmail.com \
  *     ~/Documents/UnSync/Life-Org/04_JapaneseLanguage/Minna/Lesson_8/Kanji_Triage_Lesson_8.md \
  *     ~/Documents/UnSync/Life-Org/04_JapaneseLanguage/Minna/Lesson_9/Kanji_Triage_Lesson_9.md
  */

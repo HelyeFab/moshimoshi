@@ -215,6 +215,42 @@ If that gap reappears, inspect:
 
 before changing page-local margins again.
 
+## Private Rollout And Final Public Cleanup
+
+Current rollout state on 2026-03-25:
+
+- `KANJI_BROWSER_STUDY` exists as a feature flag in:
+  - `src/lib/features/featureFlags.ts`
+- the actual rollout helper is:
+  - `src/lib/features/kanjiBrowserStudyRollout.ts`
+- current behavior:
+  - if `KANJI_BROWSER_STUDY` is enabled, everyone can access the study feature
+  - otherwise, access is still enabled for the internal allowlisted email:
+    - `emmanuelfabiani23@gmail.com`
+
+This is intentionally temporary.
+
+When the feature is approved for full public release, the intended cleanup is:
+
+1. Remove the email allowlist override from:
+   - `src/lib/features/kanjiBrowserStudyRollout.ts`
+2. Inline or simplify the rollout helper so it returns `true` unconditionally, or remove the helper entirely and stop importing it
+3. Remove `KANJI_BROWSER_STUDY` from:
+   - `src/lib/features/featureFlags.ts`
+4. Remove any page-level conditional UI checks that hide:
+   - study mode
+   - study slots indicator
+   - unlocked filter
+   - `Study All`
+5. Keep the entitlement system intact
+   - the unlock model remains public
+   - only the temporary rollout gate should disappear
+
+Important:
+
+- once fully public, there should be **no need to keep this as a permanent feature flag**
+- the feature should then behave like a normal shipped product surface, with entitlements but without rollout gating
+
 ## Agent Coordination Rules
 
 - do not revert work outside your brief

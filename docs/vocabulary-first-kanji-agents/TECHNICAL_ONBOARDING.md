@@ -57,6 +57,14 @@ If your work touches Kanji Browser study gating, also read:
 - `/home/helye/DevProjects/nextjs/moshimoshi/02-PRODUCTION_DOCS/entitlements/KANJI_BROWSER_STUDY_GATING_PLAN.md`
 - `/home/helye/DevProjects/nextjs/moshimoshi/02-PRODUCTION_DOCS/entitlements/KANJI_BROWSER_STUDY_AGENT_OVERVIEW.md`
 
+Important rollout note:
+
+- the current production rollout is intentionally private-first
+- the feature is currently guarded by:
+  - `src/lib/features/featureFlags.ts`
+  - `src/lib/features/kanjiBrowserStudyRollout.ts`
+- that rollout guard is temporary and is expected to be removed once the feature is approved for public release
+
 ## Current System Model
 
 ### 1. Session Layer
@@ -108,6 +116,7 @@ Important current behavior:
 - persisted sessions are restored into state
 - the browser page shows a resume/discard choice
 - vocabulary-first analytics are emitted client-side and persisted server-side for admin reporting
+- the live page may also hide study-specific UI entirely if the temporary rollout helper says the current user is not in the private rollout
 
 ### 3. Card Generation Layer
 
@@ -243,6 +252,10 @@ Important UI decisions:
 - on the final card of the final kanji, the primary forward action becomes an explicit finish-session action
 - the reading-match card should not show two near-duplicate kunyomi family members for the same kanji
 - if you see confusing near-duplicates in the match game, diagnose the reading-priority layer first, not the card UI first
+- Kanji Browser now distinguishes:
+  - `Unlocked` = entitlement/unlock state
+  - `Learned` = actual learner progress state
+- those are intentionally different and should not be collapsed into one concept
 
 ### 7. Furigana Rule
 
