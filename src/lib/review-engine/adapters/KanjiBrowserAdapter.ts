@@ -120,6 +120,39 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
     super(config);
   }
 
+  private cleanReadingMarker(reading: string): string {
+    return reading.replace(/[\.\-]/g, '').trim()
+  }
+
+  private getKunyomiFamilyKey(reading: string): string {
+    const trimmed = reading.trim()
+    const base = trimmed.split('.')[0] || trimmed
+    return this.cleanReadingMarker(base)
+  }
+
+  private shouldCreateKunyomiCard(
+    reading: string,
+    rawKunyomi: string[]
+  ): boolean {
+    const matchingRaw = rawKunyomi.filter(raw => this.cleanReadingMarker(raw) === reading)
+    if (matchingRaw.length === 0) return true
+
+    const hasTrailingHyphenForm = matchingRaw.some(raw => raw.trim().endsWith('-'))
+    if (!hasTrailingHyphenForm) return true
+
+    const familyKey = this.getKunyomiFamilyKey(matchingRaw[0])
+    const siblingExplicitForms = rawKunyomi.filter(raw => {
+      const trimmed = raw.trim()
+      if (trimmed.endsWith('-')) return false
+      return this.getKunyomiFamilyKey(raw) === familyKey
+    })
+
+    // Keep the full reading inventory in the summary, but do not teach a bare
+    // prefix-style kunyomi as its own card when richer sibling readings from the
+    // same family already provide concrete vocabulary anchors.
+    return siblingExplicitForms.length < 2
+  }
+
   private getJlptDifficultyRank(level?: string): number | null {
     if (!level) return null
     const match = level.match(/^N([1-5])$/)
@@ -760,6 +793,7 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
       kanji.onyomi || [],
       kanji.kunyomi || []
     )
+    const rawKunyomi = Array.isArray(kanji.kunyomi) ? kanji.kunyomi : []
 
     const readingsWithExamples: ReadingExample[] = []
     const criteria = { ...DEFAULT_VOCABULARY_CRITERIA }
@@ -771,6 +805,10 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
 
     // Try kunyomi first (usually more concrete/beginner-friendly)
     for (const reading of prioritized.kunyomi) {
+      if (!this.shouldCreateKunyomiCard(reading, rawKunyomi)) {
+        continue
+      }
+
       const curatedCandidates = getCuratedVocabularyCandidates(kanjiChar, reading, 'kunyomi')
       const curatedCandidate = curatedCandidates[0]
       if (curatedCandidate) {
