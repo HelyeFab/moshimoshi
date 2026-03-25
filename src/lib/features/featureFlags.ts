@@ -27,6 +27,7 @@ export type FeatureFlag =
   | 'NOTIFICATIONS'             // Push notifications
   | 'DRILL_PRACTICE'            // Drill practice mode
   | 'KANJI_BROWSER'             // Kanji browser
+  | 'KANJI_BROWSER_STUDY'       // Kanji Browser study rollout
   | 'ANKI_IMPORT'               // Anki deck import
   | 'CUSTOM_LISTS'              // Custom study lists
   | 'REVIEW_ENGINE'             // Universal review engine
@@ -60,6 +61,7 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
   DECKMARKET: true,
   DRILL_PRACTICE: true,
   KANJI_BROWSER: true,
+  KANJI_BROWSER_STUDY: false,
   CUSTOM_LISTS: true,
 
   // Gamification (stable)
@@ -241,6 +243,11 @@ export function getFeatureMetadata(feature: FeatureFlag): {
     KANJI_BROWSER: {
       name: 'Kanji Browser',
       description: 'Browse and study kanji',
+      category: 'Learning'
+    },
+    KANJI_BROWSER_STUDY: {
+      name: 'Kanji Browser Study',
+      description: 'Vocabulary-first kanji study from Kanji Browser',
       category: 'Learning'
     },
     ANKI_IMPORT: {

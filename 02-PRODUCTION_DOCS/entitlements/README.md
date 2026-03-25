@@ -54,6 +54,13 @@ Add the upgrade action when the user is not premium:
 - [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) - Full implementation patterns and UX rules
 - [API_REFERENCE.md](./API_REFERENCE.md) - Entitlements API endpoints and payloads
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) - Common issues and fixes
+- [KANJI_BROWSER_STUDY_GATING_PLAN.md](./KANJI_BROWSER_STUDY_GATING_PLAN.md) - Proposed entitlement model for Kanji Browser study
+- [KANJI_BROWSER_STUDY_MARKETING.md](./KANJI_BROWSER_STUDY_MARKETING.md) - Product and marketing framing for the Kanji Browser study cap
+- [KANJI_BROWSER_STUDY_AGENT_OVERVIEW.md](./KANJI_BROWSER_STUDY_AGENT_OVERVIEW.md) - Shared implementation overview for working agents
+- [KANJI_BROWSER_STUDY_AGENT_A_CONFIG.md](./KANJI_BROWSER_STUDY_AGENT_A_CONFIG.md) - Config/regeneration brief
+- [KANJI_BROWSER_STUDY_AGENT_B_API.md](./KANJI_BROWSER_STUDY_AGENT_B_API.md) - Server/API brief
+- [KANJI_BROWSER_STUDY_AGENT_C_CLIENT.md](./KANJI_BROWSER_STUDY_AGENT_C_CLIENT.md) - Client gating brief
+- [KANJI_BROWSER_STUDY_AGENT_D_TESTS.md](./KANJI_BROWSER_STUDY_AGENT_D_TESTS.md) - Test brief
 
 ## Key Files (with line references)
 - `config/features.v1.json:1` - Plans, features, and limits (single source of truth)

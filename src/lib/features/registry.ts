@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-26T11:13:48.288Z
+ * Generated at: 2026-03-25T10:26:23.770Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -48,6 +48,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Browse and explore kanji with detailed information',
+  },
+  kanji_browser_study: {
+    id: 'kanji_browser_study',
+    name: 'Kanji Browser Study',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'monthly',
+    notifications: false,
+    description: 'Unlock and study kanji in Kanji Browser with vocabulary-first learning',
   },
   kanji_connection: {
     id: 'kanji_connection',

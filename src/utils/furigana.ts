@@ -9,6 +9,50 @@ interface FuriganaError {
   details?: string;
 }
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+/**
+ * Generate ruby markup for the target kanji only.
+ *
+ * This is intentionally different from the general furigana API:
+ * vocabulary-first study cards need to teach the selected reading for the
+ * target kanji, not an inferred whole-word reading that may reflect a
+ * different sense or pronunciation.
+ */
+// Vocabulary-first study cards teach one specific reading at a time.
+// The target kanji must therefore render with the card's target reading,
+// even when the full-word pronunciation is irregular or would suggest a
+// different default furigana assignment.
+export function generateTargetKanjiRuby(
+  word: string,
+  targetKanji: string,
+  targetReading: string
+): string {
+  if (!word || !targetKanji || !targetReading) {
+    return escapeHtml(word)
+  }
+
+  const escapedReading = escapeHtml(targetReading)
+
+  return Array.from(word)
+    .map(char => {
+      if (char !== targetKanji) {
+        return escapeHtml(char)
+      }
+
+      const escapedChar = escapeHtml(char)
+      return `<ruby>${escapedChar}<rp>(</rp><rt>${escapedReading}</rt><rp>)</rp></ruby>`
+    })
+    .join('')
+}
+
 /**
  * Generate furigana for Japanese text using the Kuromoji tokenizer
  * @param text - Japanese text to process

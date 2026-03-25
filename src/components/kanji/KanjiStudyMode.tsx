@@ -18,6 +18,11 @@ import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
 import { useFeature } from '@/hooks/useFeature'
 import { IoCheckmarkCircle, IoPlayForward, IoBookOutline, IoClose } from 'react-icons/io5'
 import { usePrioritizedKanjiReadings } from '@/hooks/usePrioritizedKanjiReadings'
+import type { KanjiStudyCard, StudyMode } from '@/types/kanji-study'
+import MeaningCard from './MeaningCard'
+import VocabularyCard from './VocabularyCard'
+import ReadingSummaryCard from './ReadingSummaryCard'
+import ReadingMatchCard from './ReadingMatchCard'
 
 type StudyKanjiStatus = 'not-started' | 'learning' | 'learned'
 const REVEAL_AUTO_HIDE_MS = 10000
@@ -31,6 +36,25 @@ interface KanjiStudyModeProps {
   totalKanji: number
   onProgressUpdate?: (kanjiId: string, updates?: Partial<any>) => void
   isKanjiLearned?: boolean // Override for kanji from "My Kanji Collection"
+
+  // Card-level context (optional, for vocabulary-first mode)
+  // Agent 3 will use these to render different card types
+  currentCard?: KanjiStudyCard // Current card being displayed
+  studyMode?: StudyMode // 'traditional' | 'vocabulary-first'
+  cardIndex?: number // Index of current card within this kanji (0-based)
+  totalCards?: number // Total cards for this kanji
+  onReadingMatchStarted?: (payload: { kanji: string; pairCount: number }) => void
+  onReadingMatchMismatch?: (payload: {
+    kanji: string
+    word: string
+    selectedReading: string
+  }) => void
+  onReadingMatchCompleted?: (payload: {
+    kanji: string
+    mismatchCount: number
+    durationMs: number
+    pairCount: number
+  }) => void
 }
 
 export default function KanjiStudyMode({
@@ -42,6 +66,14 @@ export default function KanjiStudyMode({
   totalKanji,
   onProgressUpdate,
   isKanjiLearned,
+  // Card context (optional)
+  currentCard,
+  studyMode = 'traditional',
+  cardIndex = 0,
+  totalCards = 1,
+  onReadingMatchStarted,
+  onReadingMatchMismatch,
+  onReadingMatchCompleted,
 }: KanjiStudyModeProps) {
   const { t, strings } = useI18n()
   const { showToast } = useToast()
@@ -66,6 +98,7 @@ export default function KanjiStudyMode({
   const [showStrokeOrderModal, setShowStrokeOrderModal] = useState(false)
   const [showDrawingPractice, setShowDrawingPractice] = useState(false)
   const [showRemoveDialog, setShowRemoveDialog] = useState(false)
+  const [completedReadingMatchCards, setCompletedReadingMatchCards] = useState<Record<string, true>>({})
 
   // Entitlement check for drawing practice
   const { checkAndTrack } = useFeature('drawing_practice')
@@ -221,7 +254,21 @@ export default function KanjiStudyMode({
   }
 
   const handleSkip = () => {
+    if (
+      studyMode === 'vocabulary-first' &&
+      currentCard?.type === 'reading-match' &&
+      !completedReadingMatchCards[currentCard.id]
+    ) {
+      return
+    }
     onNext()
+  }
+
+  const handleReadingMatchCompleted = (cardId: string) => {
+    setCompletedReadingMatchCards(prev => {
+      if (prev[cardId]) return prev
+      return { ...prev, [cardId]: true }
+    })
   }
 
   const handleToggleLearned = async () => {
@@ -282,6 +329,26 @@ export default function KanjiStudyMode({
         ? 'Learning'
         : 'Not Started'
 
+  const isReadingMatchCard =
+    studyMode === 'vocabulary-first' && currentCard?.type === 'reading-match'
+  const isReadingMatchCompleted =
+    !isReadingMatchCard || !!(currentCard && completedReadingMatchCards[currentCard.id])
+  const isFinalVocabularyFirstCard =
+    studyMode === 'vocabulary-first' &&
+    currentIndex === totalKanji &&
+    (cardIndex ?? 0) === (totalCards ?? 1) - 1
+
+  const hasCardNavigation =
+    studyMode === 'vocabulary-first' ? (totalCards ?? 1) > 1 : totalKanji > 1
+  const canGoPrevious =
+    studyMode === 'vocabulary-first'
+      ? hasCardNavigation && (cardIndex ?? 0) > 0
+      : totalKanji > 1 && currentIndex > 1
+  const canGoNext =
+    studyMode === 'vocabulary-first'
+      ? hasCardNavigation && (cardIndex ?? 0) < (totalCards ?? 1) - 1 && isReadingMatchCompleted
+      : totalKanji > 1 && currentIndex < totalKanji
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 pb-6 relative">
       {/* Exit Button - Top Right */}
@@ -300,7 +367,14 @@ export default function KanjiStudyMode({
       <div className="w-full max-w-2xl mb-4 mt-2">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            {currentIndex} / {totalKanji}
+            {studyMode === 'vocabulary-first' && totalCards !== undefined
+              ? (strings.vocabularyFirstStudy?.progress?.cardProgress || 'Card {current} of {total} • Kanji {kanjiCurrent} / {kanjiTotal}')
+                  .replace('{current}', ((cardIndex ?? 0) + 1).toString())
+                  .replace('{total}', (totalCards ?? 1).toString())
+                  .replace('{kanjiCurrent}', currentIndex.toString())
+                  .replace('{kanjiTotal}', totalKanji.toString())
+              : `${currentIndex} / ${totalKanji}`
+            }
           </span>
           <span className="text-sm text-gray-600 dark:text-gray-400">
             {statusLabel}
@@ -309,7 +383,11 @@ export default function KanjiStudyMode({
         <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-primary-400 to-primary-600 transition-all duration-300"
-            style={{ width: `${(currentIndex / totalKanji) * 100}%` }}
+            style={{
+              width: studyMode === 'vocabulary-first' && totalCards !== undefined
+                ? `${(((cardIndex ?? 0) + 1) / (totalCards ?? 1)) * 100}%`
+                : `${(currentIndex / totalKanji) * 100}%`
+            }}
           />
         </div>
       </div>
@@ -321,10 +399,68 @@ export default function KanjiStudyMode({
         exit={{ opacity: 0, y: -20 }}
         className="relative flex-shrink-0"
       >
-        <div
-          className="relative w-72 h-[24rem] sm:w-80 sm:h-[27rem] md:w-96 md:h-[31rem] cursor-pointer"
-          onClick={() => setIsFlipped(!isFlipped)}
-        >
+        {/* Vocabulary-First Mode: Render specific card types */}
+        {studyMode === 'vocabulary-first' && currentCard ? (
+          <div
+            key={currentCard.id}
+            className={`relative w-72 sm:w-80 md:w-96 ${
+              currentCard.type === 'reading-match'
+                ? 'h-[28rem] sm:h-[30rem] md:h-[31rem]'
+                : 'h-[24rem] sm:h-[27rem] md:h-[31rem]'
+            }`}
+          >
+            {currentCard.type === 'meaning' && (
+              <MeaningCard
+                card={currentCard}
+                onAudioPlay={handlePlayAudio}
+              />
+            )}
+            {currentCard.type === 'vocabulary' && (
+              <VocabularyCard
+                card={currentCard}
+                onAudioPlay={handlePlayAudio}
+              />
+            )}
+            {currentCard.type === 'reading-summary' && (
+              <ReadingSummaryCard
+                card={currentCard}
+                onAudioPlay={handlePlayAudio}
+              />
+            )}
+            {currentCard.type === 'reading-match' && (
+              <ReadingMatchCard
+                card={currentCard}
+                onStarted={({ pairCount }) =>
+                  onReadingMatchStarted?.({
+                    kanji: currentCard.kanjiCharacter,
+                    pairCount,
+                  })
+                }
+                onMismatch={({ word, selectedReading }) =>
+                  onReadingMatchMismatch?.({
+                    kanji: currentCard.kanjiCharacter,
+                    word,
+                    selectedReading,
+                  })
+                }
+                onCompleted={({ mismatchCount, durationMs }) => {
+                  handleReadingMatchCompleted(currentCard.id)
+                  onReadingMatchCompleted?.({
+                    kanji: currentCard.kanjiCharacter,
+                    mismatchCount,
+                    durationMs,
+                    pairCount: currentCard.pairs.length,
+                  })
+                }}
+              />
+            )}
+          </div>
+        ) : (
+          /* Traditional Mode: Flip card */
+          <div
+            className="relative w-72 h-[24rem] sm:w-80 sm:h-[27rem] md:w-96 md:h-[31rem] cursor-pointer"
+            onClick={() => setIsFlipped(!isFlipped)}
+          >
           <AnimatePresence mode="wait">
             {!isFlipped ? (
               <motion.div
@@ -659,6 +795,7 @@ export default function KanjiStudyMode({
             )}
           </AnimatePresence>
         </div>
+        )}
       </motion.div>
 
 
@@ -666,13 +803,27 @@ export default function KanjiStudyMode({
       <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
         <button
           onClick={handleSkip}
-          className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
-                   hover:bg-gray-200 dark:hover:bg-dark-600
-                   text-gray-600 dark:text-gray-400
-                   transition-all transform hover:scale-105 active:scale-95"
-          title="Skip"
+          disabled={isReadingMatchCard && !isReadingMatchCompleted}
+          className={`p-4 rounded-xl
+                   transition-all transform hover:scale-105 active:scale-95 disabled:bg-gray-100/60 disabled:dark:bg-dark-700/60 disabled:text-gray-400 disabled:dark:text-gray-600 disabled:cursor-not-allowed disabled:hover:scale-100"
+            ${
+              isFinalVocabularyFirstCard
+                ? 'bg-green-500 hover:bg-green-600 text-white shadow-lg shadow-green-500/30'
+                : 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 text-gray-600 dark:text-gray-400'
+            }`}
+          title={
+            isReadingMatchCard && !isReadingMatchCompleted
+              ? 'Complete matching first'
+              : isFinalVocabularyFirstCard
+                ? 'Finish session'
+                : 'Skip'
+          }
         >
-          <IoPlayForward className="w-6 h-6" />
+          {isFinalVocabularyFirstCard ? (
+            <IoCheckmarkCircle className="w-6 h-6" />
+          ) : (
+            <IoPlayForward className="w-6 h-6" />
+          )}
         </button>
 
         <button
@@ -702,33 +853,37 @@ export default function KanjiStudyMode({
       </div>
 
       {/* Navigation */}
-      {totalKanji > 1 && (
-        <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-3">
-          <button
-            onClick={onPrevious}
-            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
-                     hover:bg-gray-200 dark:hover:bg-dark-600
-                     transition-all transform hover:scale-105 active:scale-95"
-            title="Previous"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+      <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-3">
+        <button
+          onClick={onPrevious}
+          disabled={!canGoPrevious}
+          className={`p-3 rounded-xl transition-all transform active:scale-95 ${
+            canGoPrevious
+              ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 hover:scale-105'
+              : 'bg-gray-100/60 dark:bg-dark-700/60 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+          }`}
+          title="Previous"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
 
-          <button
-            onClick={onNext}
-            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
-                     hover:bg-gray-200 dark:hover:bg-dark-600
-                     transition-all transform hover:scale-105 active:scale-95"
-            title="Next"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-      )}
+        <button
+          onClick={onNext}
+          disabled={!canGoNext}
+          className={`p-3 rounded-xl transition-all transform active:scale-95 ${
+            canGoNext
+              ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 hover:scale-105'
+              : 'bg-gray-100/60 dark:bg-dark-700/60 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+          }`}
+          title="Next"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
 
       {/* Modals */}
       <ExamplesModal

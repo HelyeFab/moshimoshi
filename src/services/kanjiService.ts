@@ -136,17 +136,15 @@ class KanjiService {
       meanings.push(...rawKanji.meaning.split(';').map(m => m.trim()).filter(m => m))
     }
 
-    // Clean up readings (remove dots and hyphens from kunyomi)
-    const cleanedKunyomi = rawKanji.kunyomi.map(reading =>
-      reading.replace(/[\.\-]/g, '')
-    )
-
     const enrichedKanji: Kanji = {
       kanji: rawKanji.kanji,
       meaning: rawKanji.meaning,
       meanings: [...new Set(meanings)],
       onyomi: rawKanji.onyomi,
-      kunyomi: cleanedKunyomi,
+      // Preserve raw dictionary-style kunyomi notation (e.g. おお.きい, おお-)
+      // so downstream reading-selection logic can distinguish standalone readings
+      // from affix-like forms instead of flattening them prematurely.
+      kunyomi: rawKanji.kunyomi,
       jlpt: level,
       strokeCount: this.strokeCounts.get(rawKanji.kanji) || 10,
       examples: this.examplesData.get(rawKanji.kanji) || [],

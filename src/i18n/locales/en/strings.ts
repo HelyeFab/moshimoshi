@@ -6880,8 +6880,67 @@ export const strings = {
       confirmRemoveMessage: 'Are you sure you want to remove this kanji from your learned collection? This will reset all progress for this kanji.',
       confirmRemoveButton: 'Remove',
     },
+    studyGating: {
+      slotsTitle: 'Kanji Study Slots',
+      slotsHelper: 'Unlocked kanji can always be studied again',
+      guestSlotsHelper: 'Sign in to unlock kanji for study',
+      unlimited: 'Unlimited kanji study',
+      unlockedLabel: 'unlocked',
+      remainingLabel: 'remaining',
+      usedLabel: 'used',
+      guestDenied: 'Sign in to unlock and study kanji in Kanji Browser',
+      signIn: 'Sign In',
+      limitReached: 'You have unlocked all {unlocked} free kanji study slots. Selected kanji includes {new} new kanji. Upgrade to unlock unlimited kanji study.',
+      upgradeToPremium: 'Upgrade to Premium',
+      alreadyUnlocked: 'Continuing with already unlocked kanji',
+      newlyUnlocked: 'Unlocked {count} new kanji for study',
+    },
+    browseFilters: {
+      all: 'All',
+      unlocked: 'Unlocked',
+      learned: 'Learned',
+    },
     noResults: 'No kanji found matching your criteria',
     loading: 'Loading kanji...',
+  },
+
+  // Vocabulary-First Kanji Study
+  vocabularyFirstStudy: {
+    meaningCard: {
+      meaning: 'Meaning',
+      alsoMeans: 'Also means:',
+      introduction: 'Introduction',
+      strokes: '{count} strokes',
+    },
+    vocabularyCard: {
+      learnThisWord: 'Learn this word',
+      usingKanji: 'Using the kanji {kanji}',
+      onyomi: "On'yomi",
+      kunyomi: "Kun'yomi",
+      common: 'Common',
+      meaning: 'Meaning',
+      vocabulary: 'Vocabulary',
+    },
+    readingSummaryCard: {
+      readingSummary: 'Reading Summary',
+      allWaysToRead: 'All ways to read this kanji',
+      onyomiLabel: "On'yomi",
+      kunyomiLabel: "Kun'yomi",
+      wordsYouLearned: 'Words you learned',
+      summary: 'Summary',
+      moreReadingsAvailable: 'More readings available in details',
+    },
+    readingMatchCard: {
+      title: 'Match Words to Readings',
+      subtitle: 'Pair each word with the reading you just learned',
+      instructions: 'Tap a word, then tap its reading',
+      completed: 'All pairs matched',
+      words: 'Words',
+      readings: 'Readings',
+    },
+    progress: {
+      cardProgress: 'Card {current} of {total} • Kanji {kanjiCurrent} / {kanjiTotal}',
+    },
   },
 
   // Review Prompts (used in vocabulary search and history)

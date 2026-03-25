@@ -1,0 +1,1596 @@
+{
+  "counts": {
+    "N1": 122,
+    "N2": 33,
+    "N3": 29,
+    "N4": 8,
+    "N5": 6
+  },
+  "total": 198,
+  "rows": [
+    {
+      "jlpt": "N1",
+      "kanji": "丘",
+      "reading": "おか",
+      "readingType": "kunyomi",
+      "meaning": "hill",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "丼",
+      "reading": "どんぶり",
+      "readingType": "kunyomi",
+      "meaning": "porcelain bowl",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "亀",
+      "reading": "かめ",
+      "readingType": "kunyomi",
+      "meaning": "tortoise",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "侍",
+      "reading": "さむらい",
+      "readingType": "kunyomi",
+      "meaning": "warrior (esp. of military retainers of daimyos in the Edo period)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "傘",
+      "reading": "かさ",
+      "readingType": "kunyomi",
+      "meaning": "umbrella",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "刀",
+      "reading": "かたな",
+      "readingType": "kunyomi",
+      "meaning": "sword (esp. Japanese single-edged)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "升",
+      "reading": "ます",
+      "readingType": "kunyomi",
+      "meaning": "measuring container",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "唾",
+      "reading": "つば",
+      "readingType": "kunyomi",
+      "meaning": "saliva",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "喉",
+      "reading": "のど",
+      "readingType": "kunyomi",
+      "meaning": "throat",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "器",
+      "reading": "うつわ",
+      "readingType": "kunyomi",
+      "meaning": "bowl",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "坪",
+      "reading": "つぼ",
+      "readingType": "kunyomi",
+      "meaning": "tsubo",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "堤",
+      "reading": "つつみ",
+      "readingType": "kunyomi",
+      "meaning": "bank",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "塀",
+      "reading": "ヘイ",
+      "readingType": "onyomi",
+      "meaning": "wall",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "塊",
+      "reading": "かたまり",
+      "readingType": "kunyomi",
+      "meaning": "lump",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "塚",
+      "reading": "つか",
+      "readingType": "kunyomi",
+      "meaning": "mound",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "尼",
+      "reading": "あま",
+      "readingType": "kunyomi",
+      "meaning": "Buddhist nun",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "岬",
+      "reading": "みさき",
+      "readingType": "kunyomi",
+      "meaning": "cape (on coast)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "岳",
+      "reading": "たけ",
+      "readingType": "kunyomi",
+      "meaning": "(high) mountain",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "峠",
+      "reading": "とうげ",
+      "readingType": "kunyomi",
+      "meaning": "(mountain) pass",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "峰",
+      "reading": "みね",
+      "readingType": "kunyomi",
+      "meaning": "peak",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "崖",
+      "reading": "がけ",
+      "readingType": "kunyomi",
+      "meaning": "cliff",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "嵐",
+      "reading": "あらし",
+      "readingType": "kunyomi",
+      "meaning": "storm",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "己",
+      "reading": "おのれ",
+      "readingType": "kunyomi",
+      "meaning": "oneself (itself, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "帆",
+      "reading": "ほ",
+      "readingType": "kunyomi",
+      "meaning": "sail",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "幹",
+      "reading": "みき",
+      "readingType": "kunyomi",
+      "meaning": "(tree) trunk",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "幻",
+      "reading": "まぼろし",
+      "readingType": "kunyomi",
+      "meaning": "phantom",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "弦",
+      "reading": "つる",
+      "readingType": "kunyomi",
+      "meaning": "bowstring",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "志",
+      "reading": "こころざし",
+      "readingType": "kunyomi",
+      "meaning": "will",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "憩",
+      "reading": "いこい",
+      "readingType": "kunyomi",
+      "meaning": "rest",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "懐",
+      "reading": "ふところ",
+      "readingType": "kunyomi",
+      "meaning": "inside the breast of one's clothing (esp. kimono)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "房",
+      "reading": "ふさ",
+      "readingType": "kunyomi",
+      "meaning": "tuft (of hair, threads, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "扇",
+      "reading": "おうぎ",
+      "readingType": "kunyomi",
+      "meaning": "folding fan",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "扉",
+      "reading": "とびら",
+      "readingType": "kunyomi",
+      "meaning": "door",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "拳",
+      "reading": "こぶし",
+      "readingType": "kunyomi",
+      "meaning": "fist",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "操",
+      "reading": "みさお",
+      "readingType": "kunyomi",
+      "meaning": "fidelity",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "旨",
+      "reading": "むね",
+      "readingType": "kunyomi",
+      "meaning": "principle",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "旬",
+      "reading": "シュン",
+      "readingType": "onyomi",
+      "meaning": "season (for fruit, seafood, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "暁",
+      "reading": "あかつき",
+      "readingType": "kunyomi",
+      "meaning": "dawn",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "暦",
+      "reading": "こよみ",
+      "readingType": "kunyomi",
+      "meaning": "calendar",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "杉",
+      "reading": "すぎ",
+      "readingType": "kunyomi",
+      "meaning": "Japanese cedar (Cryptomeria japonica)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "枕",
+      "reading": "まくら",
+      "readingType": "kunyomi",
+      "meaning": "pillow",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "某",
+      "reading": "ボウ",
+      "readingType": "onyomi",
+      "meaning": "certain",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "柳",
+      "reading": "やなぎ",
+      "readingType": "kunyomi",
+      "meaning": "willow (any tree of genus Salix)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "柵",
+      "reading": "サク",
+      "readingType": "onyomi",
+      "meaning": "fence",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "柿",
+      "reading": "かき",
+      "readingType": "kunyomi",
+      "meaning": "kaki",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "桁",
+      "reading": "けた",
+      "readingType": "kunyomi",
+      "meaning": "column",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "桜",
+      "reading": "さくら",
+      "readingType": "kunyomi",
+      "meaning": "cherry tree",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "梨",
+      "reading": "なし",
+      "readingType": "kunyomi",
+      "meaning": "nashi (esp. Pyrus pyrifolia)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "殻",
+      "reading": "から",
+      "readingType": "kunyomi",
+      "meaning": "shell",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "沢",
+      "reading": "さわ",
+      "readingType": "kunyomi",
+      "meaning": "mountain stream",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "泡",
+      "reading": "あわ",
+      "readingType": "kunyomi",
+      "meaning": "bubble",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "浦",
+      "reading": "うら",
+      "readingType": "kunyomi",
+      "meaning": "inlet",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "源",
+      "reading": "みなもと",
+      "readingType": "kunyomi",
+      "meaning": "source (of a river)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "溝",
+      "reading": "みぞ",
+      "readingType": "kunyomi",
+      "meaning": "ditch",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "潟",
+      "reading": "かた",
+      "readingType": "kunyomi",
+      "meaning": "lagoon",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "炎",
+      "reading": "ほのお",
+      "readingType": "kunyomi",
+      "meaning": "flame",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "猿",
+      "reading": "さる",
+      "readingType": "kunyomi",
+      "meaning": "monkey (esp. the Japanese macaque, Macaca fuscata)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "獣",
+      "reading": "けもの",
+      "readingType": "kunyomi",
+      "meaning": "beast",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "琴",
+      "reading": "こと",
+      "readingType": "kunyomi",
+      "meaning": "koto (13-stringed Japanese zither)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "瓦",
+      "reading": "かわら",
+      "readingType": "kunyomi",
+      "meaning": "tile (e.g. roof)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "畑",
+      "reading": "はたけ",
+      "readingType": "kunyomi",
+      "meaning": "field (for growing wheat, fruit, vegetables, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "盾",
+      "reading": "たて",
+      "readingType": "kunyomi",
+      "meaning": "shield",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "眼",
+      "reading": "まなこ",
+      "readingType": "kunyomi",
+      "meaning": "eye",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "瞳",
+      "reading": "ひとみ",
+      "readingType": "kunyomi",
+      "meaning": "pupil (of the eye)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "礎",
+      "reading": "いしずえ",
+      "readingType": "kunyomi",
+      "meaning": "foundation stone",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "端",
+      "reading": "は",
+      "readingType": "kunyomi",
+      "meaning": "end (e.g. of street)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "端",
+      "reading": "はし",
+      "readingType": "kunyomi",
+      "meaning": "end (e.g. of street)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "笛",
+      "reading": "ふえ",
+      "readingType": "kunyomi",
+      "meaning": "flute",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "箸",
+      "reading": "はし",
+      "readingType": "kunyomi",
+      "meaning": "chopsticks",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "籠",
+      "reading": "かご",
+      "readingType": "kunyomi",
+      "meaning": "basket (shopping, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "粋",
+      "reading": "いき",
+      "readingType": "kunyomi",
+      "meaning": "chic",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "縁",
+      "reading": "ふち",
+      "readingType": "kunyomi",
+      "meaning": "rim",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "繭",
+      "reading": "まゆ",
+      "readingType": "kunyomi",
+      "meaning": "cocoon",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "罰",
+      "reading": "バチ",
+      "readingType": "onyomi",
+      "meaning": "(divine) punishment",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "肘",
+      "reading": "ひじ",
+      "readingType": "kunyomi",
+      "meaning": "elbow",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "肝",
+      "reading": "きも",
+      "readingType": "kunyomi",
+      "meaning": "liver",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "股",
+      "reading": "また",
+      "readingType": "kunyomi",
+      "meaning": "groin",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "芯",
+      "reading": "シン",
+      "readingType": "onyomi",
+      "meaning": "wick",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "茎",
+      "reading": "くき",
+      "readingType": "kunyomi",
+      "meaning": "stalk",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "菊",
+      "reading": "キク",
+      "readingType": "onyomi",
+      "meaning": "chrysanthemum (Chrysanthemum morifolium)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "葛",
+      "reading": "くず",
+      "readingType": "kunyomi",
+      "meaning": "kudzu (Pueraria montana)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "蓋",
+      "reading": "ふた",
+      "readingType": "kunyomi",
+      "meaning": "cover",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "藍",
+      "reading": "あい",
+      "readingType": "kunyomi",
+      "meaning": "dyer's knotweed (Persicaria tinctoria, used to produce indigo dye)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "藤",
+      "reading": "ふじ",
+      "readingType": "kunyomi",
+      "meaning": "wisteria (esp. Japanese wisteria, Wisteria floribunda)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "藻",
+      "reading": "も",
+      "readingType": "kunyomi",
+      "meaning": "algae",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "虎",
+      "reading": "とら",
+      "readingType": "kunyomi",
+      "meaning": "tiger (Panthera tigris)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "虹",
+      "reading": "にじ",
+      "readingType": "kunyomi",
+      "meaning": "rainbow",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "蚕",
+      "reading": "かいこ",
+      "readingType": "kunyomi",
+      "meaning": "silkworm (Bombyx mori)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "蛇",
+      "reading": "へび",
+      "readingType": "kunyomi",
+      "meaning": "snake",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "蛍",
+      "reading": "ほたる",
+      "readingType": "kunyomi",
+      "meaning": "firefly (Luciola cruciata)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "裾",
+      "reading": "すそ",
+      "readingType": "kunyomi",
+      "meaning": "hem",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "謡",
+      "reading": "うたい",
+      "readingType": "kunyomi",
+      "meaning": "noh chanting",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "趣",
+      "reading": "おもむき",
+      "readingType": "kunyomi",
+      "meaning": "meaning",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "釜",
+      "reading": "かま",
+      "readingType": "kunyomi",
+      "meaning": "iron pot",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鈴",
+      "reading": "すず",
+      "readingType": "kunyomi",
+      "meaning": "bell (often globular)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鉛",
+      "reading": "なまり",
+      "readingType": "kunyomi",
+      "meaning": "lead (Pb)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鋼",
+      "reading": "はがね",
+      "readingType": "kunyomi",
+      "meaning": "steel",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "錦",
+      "reading": "にしき",
+      "readingType": "kunyomi",
+      "meaning": "brocade",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鍵",
+      "reading": "かぎ",
+      "readingType": "kunyomi",
+      "meaning": "key",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鎖",
+      "reading": "くさり",
+      "readingType": "kunyomi",
+      "meaning": "chain",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鏡",
+      "reading": "かがみ",
+      "readingType": "kunyomi",
+      "meaning": "mirror",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鐘",
+      "reading": "かね",
+      "readingType": "kunyomi",
+      "meaning": "bell (often a large hanging bell)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "陵",
+      "reading": "みささぎ",
+      "readingType": "kunyomi",
+      "meaning": "imperial mausoleum",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "隣",
+      "reading": "となり",
+      "readingType": "kunyomi",
+      "meaning": "next (to)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "雄",
+      "reading": "お",
+      "readingType": "kunyomi",
+      "meaning": "male (animal, plant)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "雄",
+      "reading": "おす",
+      "readingType": "kunyomi",
+      "meaning": "male (animal, plant)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "雌",
+      "reading": "めす",
+      "readingType": "kunyomi",
+      "meaning": "female (animal, plant)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "雷",
+      "reading": "かみなり",
+      "readingType": "kunyomi",
+      "meaning": "lightning",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "露",
+      "reading": "つゆ",
+      "readingType": "kunyomi",
+      "meaning": "dew",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "顎",
+      "reading": "あご",
+      "readingType": "kunyomi",
+      "meaning": "jaw",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "餅",
+      "reading": "もち",
+      "readingType": "kunyomi",
+      "meaning": "mochi",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "餌",
+      "reading": "え",
+      "readingType": "kunyomi",
+      "meaning": "(animal) feed",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "餌",
+      "reading": "えさ",
+      "readingType": "kunyomi",
+      "meaning": "(animal) feed",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "駒",
+      "reading": "こま",
+      "readingType": "kunyomi",
+      "meaning": "piece (in shogi, chess, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鬼",
+      "reading": "おに",
+      "readingType": "kunyomi",
+      "meaning": "ogre",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "魂",
+      "reading": "たましい",
+      "readingType": "kunyomi",
+      "meaning": "soul",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鯨",
+      "reading": "くじら",
+      "readingType": "kunyomi",
+      "meaning": "whale (Cetacea spp.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鶏",
+      "reading": "にわとり",
+      "readingType": "kunyomi",
+      "meaning": "chicken (Gallus gallus domesticus)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鶴",
+      "reading": "つる",
+      "readingType": "kunyomi",
+      "meaning": "crane (any bird of the family Gruidae, esp. the red-crowned crane, Grus japonensis)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鹿",
+      "reading": "しか",
+      "readingType": "kunyomi",
+      "meaning": "deer (esp. the sika deer, Cervus nippon)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "麓",
+      "reading": "ふもと",
+      "readingType": "kunyomi",
+      "meaning": "foot (of a mountain or hill)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N1",
+      "kanji": "鼓",
+      "reading": "つづみ",
+      "readingType": "kunyomi",
+      "meaning": "hand drum",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "乳",
+      "reading": "ちち",
+      "readingType": "kunyomi",
+      "meaning": "milk",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "仏",
+      "reading": "ほとけ",
+      "readingType": "kunyomi",
+      "meaning": "Buddha",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "印",
+      "reading": "しるし",
+      "readingType": "kunyomi",
+      "meaning": "mark",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "卵",
+      "reading": "たまご",
+      "readingType": "kunyomi",
+      "meaning": "eggs",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "城",
+      "reading": "しろ",
+      "readingType": "kunyomi",
+      "meaning": "castle",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "寺",
+      "reading": "てら",
+      "readingType": "kunyomi",
+      "meaning": "temple (Buddhist)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "寿",
+      "reading": "ことぶき",
+      "readingType": "kunyomi",
+      "meaning": "congratulations",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "尻",
+      "reading": "しり",
+      "readingType": "kunyomi",
+      "meaning": "buttocks",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "技",
+      "reading": "わざ",
+      "readingType": "kunyomi",
+      "meaning": "technique",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "机",
+      "reading": "つくえ",
+      "readingType": "kunyomi",
+      "meaning": "desk",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "林",
+      "reading": "はやし",
+      "readingType": "kunyomi",
+      "meaning": "wood",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "森",
+      "reading": "もり",
+      "readingType": "kunyomi",
+      "meaning": "forest",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "殿",
+      "reading": "どの",
+      "readingType": "kunyomi",
+      "meaning": "Mr.",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "氷",
+      "reading": "こおり",
+      "readingType": "kunyomi",
+      "meaning": "ice",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "池",
+      "reading": "いけ",
+      "readingType": "kunyomi",
+      "meaning": "pond",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "泉",
+      "reading": "いずみ",
+      "readingType": "kunyomi",
+      "meaning": "spring",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "湖",
+      "reading": "みずうみ",
+      "readingType": "kunyomi",
+      "meaning": "lake",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "滴",
+      "reading": "しずく",
+      "readingType": "kunyomi",
+      "meaning": "drop (e.g. of water)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "灯",
+      "reading": "ひ",
+      "readingType": "kunyomi",
+      "meaning": "light",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "炭",
+      "reading": "すみ",
+      "readingType": "kunyomi",
+      "meaning": "charcoal",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "畳",
+      "reading": "たたみ",
+      "readingType": "kunyomi",
+      "meaning": "tatami mat",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "祭",
+      "reading": "まつり",
+      "readingType": "kunyomi",
+      "meaning": "festival",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "竹",
+      "reading": "たけ",
+      "readingType": "kunyomi",
+      "meaning": "bamboo (any grass of subfamily Bambusoideae)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "筆",
+      "reading": "ふで",
+      "readingType": "kunyomi",
+      "meaning": "writing brush",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "粉",
+      "reading": "こな",
+      "readingType": "kunyomi",
+      "meaning": "flour",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "綿",
+      "reading": "わた",
+      "readingType": "kunyomi",
+      "meaning": "cotton plant (Gossypium spp.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "羽",
+      "reading": "はね",
+      "readingType": "kunyomi",
+      "meaning": "feather",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "胸",
+      "reading": "むね",
+      "readingType": "kunyomi",
+      "meaning": "chest",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "膝",
+      "reading": "ひざ",
+      "readingType": "kunyomi",
+      "meaning": "knee",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "血",
+      "reading": "ち",
+      "readingType": "kunyomi",
+      "meaning": "blood",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "角",
+      "reading": "つの",
+      "readingType": "kunyomi",
+      "meaning": "horn",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "額",
+      "reading": "ひたい",
+      "readingType": "kunyomi",
+      "meaning": "forehead",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N2",
+      "kanji": "骨",
+      "reading": "ほね",
+      "readingType": "kunyomi",
+      "meaning": "bone",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "供",
+      "reading": "とも",
+      "readingType": "kunyomi",
+      "meaning": "companion",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "俺",
+      "reading": "おれ",
+      "readingType": "kunyomi",
+      "meaning": "I",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "光",
+      "reading": "ひかり",
+      "readingType": "kunyomi",
+      "meaning": "light",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "否",
+      "reading": "いな",
+      "readingType": "kunyomi",
+      "meaning": "no",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "命",
+      "reading": "いのち",
+      "readingType": "kunyomi",
+      "meaning": "life",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "園",
+      "reading": "その",
+      "readingType": "kunyomi",
+      "meaning": "garden",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "声",
+      "reading": "こえ",
+      "readingType": "kunyomi",
+      "meaning": "voice",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "夫",
+      "reading": "おっと",
+      "readingType": "kunyomi",
+      "meaning": "husband",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "妻",
+      "reading": "つま",
+      "readingType": "kunyomi",
+      "meaning": "wife",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "富",
+      "reading": "とみ",
+      "readingType": "kunyomi",
+      "meaning": "riches",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "幸",
+      "reading": "さち",
+      "readingType": "kunyomi",
+      "meaning": "good luck",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "形",
+      "reading": "かたち",
+      "readingType": "kunyomi",
+      "meaning": "form",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "戦",
+      "reading": "いくさ",
+      "readingType": "kunyomi",
+      "meaning": "war",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "政",
+      "reading": "まつりごと",
+      "readingType": "kunyomi",
+      "meaning": "rule",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "杯",
+      "reading": "さかずき",
+      "readingType": "kunyomi",
+      "meaning": "sake cup",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "民",
+      "reading": "たみ",
+      "readingType": "kunyomi",
+      "meaning": "people",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "港",
+      "reading": "みなと",
+      "readingType": "kunyomi",
+      "meaning": "harbour",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "煙",
+      "reading": "けむり",
+      "readingType": "kunyomi",
+      "meaning": "smoke",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "由",
+      "reading": "よし",
+      "readingType": "kunyomi",
+      "meaning": "reason",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "経",
+      "reading": "キョウ",
+      "readingType": "onyomi",
+      "meaning": "sutra",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "緒",
+      "reading": "お",
+      "readingType": "kunyomi",
+      "meaning": "cord",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "罪",
+      "reading": "つみ",
+      "readingType": "kunyomi",
+      "meaning": "crime",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "背",
+      "reading": "せい",
+      "readingType": "kunyomi",
+      "meaning": "height",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "要",
+      "reading": "かなめ",
+      "readingType": "kunyomi",
+      "meaning": "pivot",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "都",
+      "reading": "みやこ",
+      "readingType": "kunyomi",
+      "meaning": "capital (esp. Kyoto, Japan's former capital)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "酒",
+      "reading": "さけ",
+      "readingType": "kunyomi",
+      "meaning": "alcohol",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "面",
+      "reading": "おもて",
+      "readingType": "kunyomi",
+      "meaning": "face",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "面",
+      "reading": "つら",
+      "readingType": "kunyomi",
+      "meaning": "face",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N3",
+      "kanji": "頂",
+      "reading": "いただき",
+      "readingType": "kunyomi",
+      "meaning": "crown (of head)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "公",
+      "reading": "おおやけ",
+      "readingType": "kunyomi",
+      "meaning": "official",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "妹",
+      "reading": "いもうと",
+      "readingType": "kunyomi",
+      "meaning": "younger sister",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "姉",
+      "reading": "あね",
+      "readingType": "kunyomi",
+      "meaning": "older sister",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "字",
+      "reading": "あざ",
+      "readingType": "kunyomi",
+      "meaning": "section of village",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "弟",
+      "reading": "おとうと",
+      "readingType": "kunyomi",
+      "meaning": "younger brother",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "文",
+      "reading": "ふみ",
+      "readingType": "kunyomi",
+      "meaning": "letter",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "病",
+      "reading": "やまい",
+      "readingType": "kunyomi",
+      "meaning": "illness",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N4",
+      "kanji": "空",
+      "reading": "そら",
+      "readingType": "kunyomi",
+      "meaning": "sky",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "上",
+      "reading": "うえ",
+      "readingType": "kunyomi",
+      "meaning": "above; top; up",
+      "source": "curated"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "下",
+      "reading": "した",
+      "readingType": "kunyomi",
+      "meaning": "below; under; beneath",
+      "source": "curated"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "下",
+      "reading": "もと",
+      "readingType": "kunyomi",
+      "meaning": "under (guidance, supervision, rules, the law, etc.)",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "十",
+      "reading": "と",
+      "readingType": "kunyomi",
+      "meaning": "ten",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "十",
+      "reading": "とお",
+      "readingType": "kunyomi",
+      "meaning": "ten",
+      "source": "jmdict"
+    },
+    {
+      "jlpt": "N5",
+      "kanji": "土",
+      "reading": "つち",
+      "readingType": "kunyomi",
+      "meaning": "earth",
+      "source": "jmdict"
+    }
+  ]
+}

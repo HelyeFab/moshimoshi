@@ -89,6 +89,15 @@ export async function loadJMdictData(): Promise<void> {
   return loadPromise
 }
 
+/**
+ * Get the loaded JMdict data
+ * Must call loadJMdictData() first to ensure data is loaded
+ * Returns null if data not loaded yet
+ */
+export function getLoadedJMdictData(): JMDictData | null {
+  return jmdictData
+}
+
 // Priority tags indicating common usage - higher weight for more common tags
 const PRIORITY_SCORES: Record<string, number> = {
   'news1': 500,

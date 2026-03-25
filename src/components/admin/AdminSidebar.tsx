@@ -17,6 +17,7 @@ const adminLinks = [
   { href: '/admin/email-campaigns', icon: '📧', label: 'Email Campaigns' },
   { href: '/admin/announcements', icon: '📢', label: 'Announcements' },
   { href: '/admin/entitlements', icon: '🔐', label: 'Entitlements' },
+  { href: '/admin/kanji-vocabulary-inspector', icon: '🧪', label: 'Kanji Inspector' },
   { href: '/admin/xp-config', icon: '⚡', label: 'XP Config' },
   { href: '/admin/firebase-monitoring', icon: '🔥', label: 'Firebase' },
   { href: '/admin/youtube-series', icon: '📹', label: 'YouTube Series' },

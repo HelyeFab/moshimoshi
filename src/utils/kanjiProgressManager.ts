@@ -1,9 +1,27 @@
 import { UniversalProgressManager } from '@/lib/review-engine/progress/UniversalProgressManager'
 import { ReviewProgressData, ProgressEvent } from '@/lib/review-engine/core/progress.types'
 
+/**
+ * Reading exposure data for vocabulary-first mode
+ */
+export interface ReadingExposure {
+  reading: string // The reading (hiragana)
+  readingType: 'onyomi' | 'kunyomi'
+  exposureCount: number // How many times this reading was shown
+  lastWord?: string // Last vocabulary word that used this reading
+  lastWordMeaning?: string // Meaning of last word
+  lastSeenAt?: string // ISO timestamp
+}
+
 export interface KanjiProgressData extends ReviewProgressData {
   character?: string
   jlptLevel?: string
+
+  // Vocabulary exposure tracking (Agent 4 - vocabulary-first mode)
+  // All fields optional for backward compatibility
+  vocabularySeenCount?: number // Total vocabulary cards viewed for this kanji
+  readingsExposed?: Record<string, ReadingExposure> // Map: reading → exposure data
+  lastVocabularyTimestamp?: string // ISO timestamp of last vocabulary card view
 }
 
 /**
@@ -93,6 +111,97 @@ export class KanjiProgressManager extends UniversalProgressManager<KanjiProgress
 
     const progressMap = await this.getProgress(user.uid, 'kanji', isPremium)
     return progressMap.get(kanjiId) || null
+  }
+
+  /**
+   * Track vocabulary exposure for vocabulary-first study mode
+   * @param kanjiId - The kanji character
+   * @param reading - The reading being taught (hiragana)
+   * @param readingType - 'onyomi' or 'kunyomi'
+   * @param word - The vocabulary word
+   * @param wordMeaning - English meaning of the word
+   * @param user - User object
+   * @param isPremium - Whether user has premium subscription
+   */
+  async trackVocabularyExposure(
+    kanjiId: string,
+    reading: string,
+    readingType: 'onyomi' | 'kunyomi',
+    word: string,
+    wordMeaning: string,
+    user: any | null,
+    isPremium: boolean
+  ): Promise<void> {
+    if (!user?.uid) return
+
+    const userId = user.uid
+    const existing =
+      (await this.getProgressItem(userId, 'kanji', kanjiId)) ||
+      (this.createInitialProgress(kanjiId, 'kanji') as KanjiProgressData)
+
+    // Initialize vocabulary tracking fields if not present
+    const vocabularySeenCount = (existing.vocabularySeenCount || 0) + 1
+
+    // Create immutable copy of existing readingsExposed (don't mutate!)
+    const existingReadings = existing.readingsExposed || {}
+    const currentExposure = existingReadings[reading] || {
+      reading,
+      readingType,
+      exposureCount: 0,
+    }
+
+    // Create new readingsExposed object with updated reading
+    const readingsExposed: Record<string, ReadingExposure> = {
+      ...existingReadings, // Shallow copy of existing readings
+      [reading]: {
+        ...currentExposure,
+        exposureCount: currentExposure.exposureCount + 1,
+        lastWord: word,
+        lastWordMeaning: wordMeaning,
+        lastSeenAt: new Date().toISOString(),
+      },
+    }
+
+    const updated: KanjiProgressData = {
+      ...existing,
+      vocabularySeenCount,
+      readingsExposed,
+      lastVocabularyTimestamp: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+
+    await this.saveProgress(userId, 'kanji', kanjiId, updated, isPremium)
+  }
+
+  /**
+   * Get vocabulary exposure statistics for a kanji
+   * @param kanjiId - The kanji character
+   * @param user - User object
+   * @param isPremium - Whether user has premium subscription
+   * @returns Vocabulary exposure stats or null if no data
+   */
+  async getVocabularyExposureStats(
+    kanjiId: string,
+    user: any | null,
+    isPremium: boolean
+  ): Promise<{
+    totalVocabularySeen: number
+    readingsExposed: ReadingExposure[]
+    lastVocabularyTimestamp: string | null
+  } | null> {
+    if (!user?.uid) return null
+
+    const progress = await this.getKanjiProgressItem(kanjiId, user, isPremium)
+    if (!progress) return null
+
+    const readingsExposed = progress.readingsExposed || {}
+    const exposureArray = Object.values(readingsExposed)
+
+    return {
+      totalVocabularySeen: progress.vocabularySeenCount || 0,
+      readingsExposed: exposureArray,
+      lastVocabularyTimestamp: progress.lastVocabularyTimestamp || null,
+    }
   }
 
   async flushKanjiSync(): Promise<void> {

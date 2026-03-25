@@ -486,6 +486,23 @@ ruby rp {
   display: none; /* Hide parentheses */
 }
 
+/* Display-sized ruby for kanji study cards needs tighter, more compact spacing
+   than article/body furigana. Keep this scoped so we don't disturb reading views. */
+.kanji-study-display-ruby {
+  line-height: 1;
+}
+
+.kanji-study-display-ruby ruby {
+  ruby-position: over;
+}
+
+.kanji-study-display-ruby ruby rt {
+  font-size: 0.36em;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
 /* Ensure line breaks work in Japanese text with furigana */
 .japanese-text br {
   display: block;

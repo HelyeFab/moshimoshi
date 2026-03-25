@@ -3,6 +3,19 @@
 import { useState, useEffect, Suspense, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Kanji, JLPTLevel, KanjiByLevel } from '@/types/kanji'
+import {
+  KanjiStudySessionState,
+  StudySessionSource,
+  isLegacySession,
+  isCurrentSession,
+  getSessionPosition,
+  advanceToNextCard,
+  goToPreviousCard,
+  StudySessionKanjiItem,
+  MeaningCard,
+  VocabularyCard,
+  StudyMode,
+} from '@/types/kanji-study'
 import { kanjiService } from '@/services/kanjiService'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -29,6 +42,8 @@ import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageInd
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useFeature } from '@/hooks/useFeature'
 import { hasSeenKanjiLookup } from '@/utils/kanjiLookupSeen'
+import KanjiStudySlotsIndicator from '@/components/kanji/KanjiStudySlotsIndicator'
+import { isKanjiBrowserStudyEnabledForEmail } from '@/lib/features/kanjiBrowserStudyRollout'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -52,13 +67,16 @@ const DrawingSearchModal = dynamic(
 )
 
 type ViewMode = 'browse' | 'study' | 'review'
-type StudySessionSource = 'manual-selection' | 'collection'
+type KanjiBrowseFilter = 'all' | 'unlocked' | 'learned'
 
-interface StudySessionState {
-  items: Kanji[]
-  currentIndex: number
-  startedAt: number
-  source: StudySessionSource
+interface KanjiStudySlotsStatus {
+  plan: string
+  unlockedCount: number
+  unlockedKanji: string[]
+  remaining: number
+  limit: number
+  isUnlimited: boolean
+  canStudy: boolean
 }
 
 function KanjiBrowserContent() {
@@ -69,6 +87,7 @@ function KanjiBrowserContent() {
   const { isPremium } = useSubscription()
   const router = useRouter()
   const { checkOnly: checkKanjiLookupOnly } = useFeature('kanji_lookup')
+  const isKanjiBrowserStudyEnabled = isKanjiBrowserStudyEnabledForEmail(user?.email)
 
   const [kanjiData, setKanjiData] = useState<KanjiByLevel>({})
   const [loading, setLoading] = useState(true)
@@ -86,12 +105,34 @@ function KanjiBrowserContent() {
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [reviewContentPool, setReviewContentPool] = useState<ReviewableContent[]>([])
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
-  const [studySession, setStudySession] = useState<StudySessionState | null>(null)
+  const [studySession, setStudySession] = useState<KanjiStudySessionState | null>(null)
   const [restoredStudySessionForUser, setRestoredStudySessionForUser] = useState<string | null>(null)
+  const [preferredStudyMode, setPreferredStudyMode] = useState<StudyMode>('vocabulary-first')
   const [masteredDashboardExpanded, setMasteredDashboardExpanded] = useState(true)
+  const [studySlotsStatus, setStudySlotsStatus] = useState<KanjiStudySlotsStatus | null>(null)
+  const [studySlotsLoading, setStudySlotsLoading] = useState(false)
+  const [browseFilter, setBrowseFilter] = useState<KanjiBrowseFilter>('all')
+
+  const markVocabularyCardTracked = useCallback(
+    (session: KanjiStudySessionState, cardId: string): KanjiStudySessionState => {
+      if (session.trackedVocabularyCardIds.includes(cardId)) {
+        return session
+      }
+
+      return {
+        ...session,
+        trackedVocabularyCardIds: [...session.trackedVocabularyCardIds, cardId],
+      }
+    },
+    []
+  )
 
   // Handler to safely change view mode and clear session state
   const handleModeChange = (mode: ViewMode) => {
+    if (mode === 'study' && !isKanjiBrowserStudyEnabled) {
+      setViewMode('browse')
+      return
+    }
     setViewMode(mode)
     // Clear session data when switching modes to prevent leftover state
     setSelectedKanji(new Set())
@@ -212,17 +253,67 @@ function KanjiBrowserContent() {
 
   const activeStudyKanji = useMemo(() => {
     if (!studySession) return []
-    return studySession.items
+    return studySession.kanji.map(item => item.kanjiData)
   }, [studySession])
 
   const currentStudyKanji = studySession
-    ? activeStudyKanji[studySession.currentIndex] ?? null
+    ? studySession.kanji[studySession.currentKanjiIndex]?.kanjiData ?? null
     : null
 
   const clearPersistedStudySession = useCallback(() => {
     if (typeof window === 'undefined' || !user?.uid) return
     window.localStorage.removeItem(getStudySessionStorageKey(user.uid))
   }, [getStudySessionStorageKey, user?.uid])
+
+  const loadKanjiStudySlotsStatus = useCallback(async () => {
+    setStudySlotsLoading(true)
+    try {
+      const response = await fetch('/api/kanji-browser/study/status', {
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        throw new Error(`Status request failed: ${response.status}`)
+      }
+
+      const result = await response.json()
+      setStudySlotsStatus(result)
+    } catch (error) {
+      console.error('[Kanji Browser] Failed to load study slots status:', error)
+      setStudySlotsStatus(null)
+    } finally {
+      setStudySlotsLoading(false)
+    }
+  }, [])
+
+  const emitKanjiStudyAnalytics = useCallback(
+    (eventName: string, properties: Record<string, unknown>) => {
+      try {
+        getEventHub().emit(ReviewEventType.ANALYTICS_TRACKED, {
+          eventName,
+          category: 'kanji-browser-study',
+          properties,
+        })
+        void fetch('/api/kanji-study/analytics', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            eventName,
+            category: 'kanji-browser-study',
+            properties,
+          }),
+        }).catch(error => {
+          console.error('[Kanji Browser] Failed to persist analytics event:', error)
+        })
+      } catch (error) {
+        console.error('[Kanji Browser] Failed to emit analytics event:', error)
+      }
+    },
+    []
+  )
 
   const buildKanjiSelectionData = useCallback(
     (selectedIds: Iterable<string>) => {
@@ -250,34 +341,138 @@ function KanjiBrowserContent() {
   )
 
   const startStudySession = useCallback(
-    (kanjiItems: Kanji[], source: StudySessionSource) => {
+    async (kanjiItems: Kanji[], source: StudySessionSource) => {
       if (kanjiItems.length === 0) {
         showToast('Could not find selected kanji data', 'error')
         return false
       }
 
+      // Create card-based session structure
+      let sessionKanji: StudySessionKanjiItem[]
+
+      if (preferredStudyMode === 'vocabulary-first') {
+        // Vocabulary-first mode: Generate full card sequences using Agent 1's adapter
+        const adapter = new KanjiBrowserAdapter()
+        sessionKanji = []
+
+        for (const kanji of kanjiItems) {
+          try {
+            const sequence = await adapter.generateStudySequence(kanji)
+            sessionKanji.push({
+              kanjiId: kanji.kanji,
+              kanjiData: kanji,
+              cards: sequence.cards,
+              currentCardIndex: 0,
+              completed: false,
+            })
+          } catch (error) {
+            console.error(`[KanjiBrowserPage] Failed to generate vocabulary-first cards for ${kanji.kanji}:`, error)
+            // Fallback to traditional mode for this kanji
+            const meaningCard: MeaningCard = {
+              id: `${kanji.kanji}-meaning`,
+              type: 'meaning',
+              kanjiCharacter: kanji.kanji,
+              primaryMeaning: kanji.meanings[0] || '',
+              allMeanings: kanji.meanings,
+              strokeCount: kanji.strokeCount,
+              jlptLevel: kanji.jlpt,
+            }
+            sessionKanji.push({
+              kanjiId: kanji.kanji,
+              kanjiData: kanji,
+              cards: [meaningCard],
+              currentCardIndex: 0,
+              completed: false,
+            })
+          }
+        }
+      } else {
+        // Traditional mode: Single meaning card per kanji
+        sessionKanji = kanjiItems.map(kanji => {
+          const meaningCard: MeaningCard = {
+            id: `${kanji.kanji}-meaning`,
+            type: 'meaning',
+            kanjiCharacter: kanji.kanji,
+            primaryMeaning: kanji.meanings[0] || '',
+            allMeanings: kanji.meanings,
+            strokeCount: kanji.strokeCount,
+            jlptLevel: kanji.jlpt,
+          }
+
+          return {
+            kanjiId: kanji.kanji,
+            kanjiData: kanji,
+            cards: [meaningCard],
+            currentCardIndex: 0,
+            completed: false,
+          }
+        })
+      }
+
+      const totalCards = sessionKanji.reduce((sum, item) => sum + item.cards.length, 0)
+
       setStudySession({
-        items: kanjiItems,
-        currentIndex: 0,
+        version: 1,
+        mode: preferredStudyMode,
+        kanji: sessionKanji,
+        currentKanjiIndex: 0,
         startedAt: Date.now(),
         source,
+        totalCards,
+        completedCards: 0,
+        trackedVocabularyCardIds: [],
+      })
+      emitKanjiStudyAnalytics('kanji_study_session_started', {
+        mode: preferredStudyMode,
+        source,
+        kanjiCount: sessionKanji.length,
+        totalCards,
+        vocabularyCardCount: sessionKanji.reduce(
+          (sum, item) => sum + item.cards.filter(card => card.type === 'vocabulary').length,
+          0
+        ),
       })
       setViewMode('study')
       return true
     },
-    [showToast]
+    [emitKanjiStudyAnalytics, showToast, preferredStudyMode]
   )
 
   const resumeStudySession = useCallback(() => {
-    if (!studySession || studySession.items.length === 0) {
+    if (!studySession || studySession.kanji.length === 0) {
       return false
     }
 
+    const position = getSessionPosition(studySession)
+    emitKanjiStudyAnalytics('kanji_study_session_resumed', {
+      mode: studySession.mode,
+      source: studySession.source,
+      totalCards: studySession.totalCards,
+      completedCards: studySession.completedCards,
+      currentKanjiIndex: studySession.currentKanjiIndex,
+      currentCardIndex: position.cardIndex,
+      currentCardType: position.currentCard?.type || null,
+    })
     setViewMode('study')
     return true
-  }, [studySession])
+  }, [emitKanjiStudyAnalytics, studySession])
 
   // Event Hub initialization removed - ReviewSessionUI handles this automatically
+
+  useEffect(() => {
+    void loadKanjiStudySlotsStatus()
+  }, [loadKanjiStudySlotsStatus, user?.uid])
+
+  useEffect(() => {
+    if (isKanjiBrowserStudyEnabled) return
+    if (viewMode === 'study') {
+      setViewMode('browse')
+    }
+    if (studySession) {
+      setStudySession(null)
+      clearPersistedStudySession()
+    }
+  }, [clearPersistedStudySession, isKanjiBrowserStudyEnabled, studySession, viewMode])
 
   // Load kanji progress for visual indicators (local IndexedDB + premium sync)
   const refreshKanjiProgress = useCallback(async () => {
@@ -380,26 +575,72 @@ function KanjiBrowserContent() {
     if (!raw) return
 
     try {
-      const parsed = JSON.parse(raw) as Partial<StudySessionState>
-      if (!Array.isArray(parsed.items) || parsed.items.length === 0) {
+      const parsed = JSON.parse(raw)
+
+      // Check for legacy session (no version field)
+      if (isLegacySession(parsed)) {
+        console.log('[Kanji Browser] Detected legacy session, clearing...')
+        clearPersistedStudySession()
+        showToast(
+          'Previous study session format is outdated and has been cleared. Please start a new session.',
+          'info'
+        )
+        return
+      }
+
+      // Validate current session format
+      if (!isCurrentSession(parsed)) {
+        console.error('[Kanji Browser] Invalid session format:', parsed)
         clearPersistedStudySession()
         return
       }
 
-      const currentIndex = Math.min(
-        Math.max(Number(parsed.currentIndex) || 0, 0),
-        parsed.items.length - 1
+      // Validate session data
+      if (!Array.isArray(parsed.kanji) || parsed.kanji.length === 0) {
+        clearPersistedStudySession()
+        return
+      }
+
+      // Normalize indices to prevent out-of-bounds
+      const currentKanjiIndex = Math.min(
+        Math.max(Number(parsed.currentKanjiIndex) || 0, 0),
+        parsed.kanji.length - 1
       )
 
-      setStudySession({
-        items: parsed.items as Kanji[],
-        currentIndex,
+      // Normalize current card index for the current kanji
+      const currentKanji = parsed.kanji[currentKanjiIndex]
+      if (currentKanji) {
+        currentKanji.currentCardIndex = Math.min(
+          Math.max(Number(currentKanji.currentCardIndex) || 0, 0),
+          currentKanji.cards.length - 1
+        )
+      }
+
+      const restoredSession: KanjiStudySessionState = {
+        version: 1,
+        mode: parsed.mode || 'traditional',
+        kanji: parsed.kanji,
+        currentKanjiIndex,
         startedAt: Number(parsed.startedAt) || Date.now(),
         source: parsed.source === 'collection' ? 'collection' : 'manual-selection',
+        totalCards: parsed.totalCards || 0,
+        completedCards: parsed.completedCards || 0,
+        trackedVocabularyCardIds: Array.isArray(parsed.trackedVocabularyCardIds)
+          ? parsed.trackedVocabularyCardIds.filter((id): id is string => typeof id === 'string')
+          : [],
+      }
+
+      setStudySession(restoredSession)
+      emitKanjiStudyAnalytics('kanji_study_session_restored_to_dashboard', {
+        mode: restoredSession.mode,
+        source: restoredSession.source,
+        totalCards: restoredSession.totalCards,
+        completedCards: restoredSession.completedCards,
+        currentKanjiIndex: restoredSession.currentKanjiIndex,
       })
-      setViewMode('study')
       showToast(
-        strings.kanjiBrowser?.collection?.resumeStudySession || 'Resumed your kanji study session',
+        strings.kanjiBrowser?.collection?.resumeStudySession ||
+          'Found your previous kanji study session. Resume when you are ready.',
         'info'
       )
     } catch (error) {
@@ -411,6 +652,7 @@ function KanjiBrowserContent() {
     getStudySessionStorageKey,
     restoredStudySessionForUser,
     showToast,
+    strings.kanjiBrowser?.collection?.resumeStudySession,
     studySession,
     user?.uid,
   ])
@@ -419,7 +661,7 @@ function KanjiBrowserContent() {
     if (typeof window === 'undefined' || !user?.uid) return
 
     const storageKey = getStudySessionStorageKey(user.uid)
-    if (!studySession || studySession.items.length === 0) {
+    if (!studySession || studySession.kanji.length === 0) {
       window.localStorage.removeItem(storageKey)
       return
     }
@@ -626,17 +868,120 @@ function KanjiBrowserContent() {
     // Don't change view mode - let the review content trigger the review view
   }
 
-  const handleStartStudy = () => {
+  /**
+   * Check kanji study access for the given kanji characters
+   * Calls the batch API to atomically evaluate and unlock all kanji together
+   */
+  const checkKanjiStudyAccess = async (
+    kanjiCharacters: string[]
+  ): Promise<{
+    allowed: boolean
+    reason?: 'guest' | 'limit_reached' | 'error'
+    totalUnlockedCount?: number
+    remaining?: number
+    newKanjiCount?: number
+    alreadyUnlockedCount?: number
+  }> => {
+    // Guest check
+    if (!user) {
+      return { allowed: false, reason: 'guest' }
+    }
+
+    try {
+      // Call batch access API to check all kanji together
+      const response = await fetch('/api/kanji-browser/study/access/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kanji: kanjiCharacters })
+      })
+
+      if (!response.ok) {
+        console.error('[Kanji Browser] Batch access check failed:', response.status)
+        return { allowed: false, reason: 'error' }
+      }
+
+      const result = await response.json()
+
+      if (!result.allow) {
+        return {
+          allowed: false,
+          reason: result.reason === 'Authentication required' ? 'guest' : 'limit_reached',
+          totalUnlockedCount: result.totalUnlockedCount,
+          remaining: result.remaining,
+          newKanjiCount: result.newUnlockCount,
+          alreadyUnlockedCount: result.alreadyUnlockedCount
+        }
+      }
+
+      return {
+        allowed: true,
+        totalUnlockedCount: result.totalUnlockedCount,
+        remaining: result.remaining,
+        newKanjiCount: result.newUnlockCount,
+        alreadyUnlockedCount: result.alreadyUnlockedCount
+      }
+    } catch (error) {
+      console.error('[Kanji Browser] Error checking study access:', error)
+      return { allowed: false, reason: 'error' }
+    }
+  }
+
+  const handleStartStudy = async () => {
+    if (!isKanjiBrowserStudyEnabled) {
+      showToast('Kanji Browser study is not available yet on this account', 'info')
+      return
+    }
+
     if (selectedKanji.size === 0) {
       showToast('Please select kanji to study', 'warning')
       return
     }
+
+    // Check study access for all selected kanji
+    const accessCheckResult = await checkKanjiStudyAccess(Array.from(selectedKanji))
+    if (!accessCheckResult.allowed) {
+      // Show appropriate error message based on the reason
+      if (accessCheckResult.reason === 'guest') {
+        showToast(
+          strings.kanjiBrowser?.studyGating?.guestDenied || 'Please sign in to study kanji',
+          'warning',
+          5000,
+          {
+            label: strings.kanjiBrowser?.studyGating?.signIn || 'Sign In',
+            onClick: () => router.push('/login')
+          }
+        )
+      } else if (accessCheckResult.reason === 'limit_reached') {
+        const totalNewKanji = accessCheckResult.newKanjiCount || 0
+        const alreadyUnlocked = accessCheckResult.alreadyUnlockedCount || 0
+        showToast(
+          (strings.kanjiBrowser?.studyGating?.limitReached ||
+            'You have unlocked all {unlocked} free kanji study slots. Selected kanji includes {new} new kanji. Upgrade to unlock unlimited kanji study.')
+            .replace('{unlocked}', (accessCheckResult.totalUnlockedCount || 10).toString())
+            .replace('{new}', totalNewKanji.toString()),
+          'warning',
+          7000,
+          !isPremium ? {
+            label: strings.kanjiBrowser?.studyGating?.upgradeToPremium || 'Upgrade to Premium',
+            onClick: () => router.push('/pricing')
+          } : undefined
+        )
+      }
+      return
+    }
+
     const kanjiDataArray = buildKanjiSelectionData(selectedKanji)
-    startStudySession(kanjiDataArray, 'manual-selection')
+    await loadKanjiStudySlotsStatus()
+    await startStudySession(kanjiDataArray, 'manual-selection')
   }
 
-  const handleStudyAllMastered = () => {
-    if (studySession?.source === 'collection' && studySession.currentIndex < studySession.items.length) {
+  const handleStudyAllMastered = async () => {
+    if (!isKanjiBrowserStudyEnabled) {
+      showToast('Kanji Browser study is not available yet on this account', 'info')
+      return
+    }
+
+    if (studySession?.source === 'collection' && studySession.currentKanjiIndex < studySession.kanji.length) {
       const resumed = resumeStudySession()
       if (resumed) {
         showToast(
@@ -659,8 +1004,42 @@ function KanjiBrowserContent() {
       return
     }
 
+    // Check study access for all learned kanji
+    const accessCheckResult = await checkKanjiStudyAccess(Array.from(learnedKanjiIds))
+    if (!accessCheckResult.allowed) {
+      // Show appropriate error message based on the reason
+      if (accessCheckResult.reason === 'guest') {
+        showToast(
+          strings.kanjiBrowser?.studyGating?.guestDenied || 'Please sign in to study kanji',
+          'warning',
+          5000,
+          {
+            label: strings.kanjiBrowser?.studyGating?.signIn || 'Sign In',
+            onClick: () => router.push('/login')
+          }
+        )
+      } else if (accessCheckResult.reason === 'limit_reached') {
+        const totalNewKanji = accessCheckResult.newKanjiCount || 0
+        const alreadyUnlocked = accessCheckResult.alreadyUnlockedCount || 0
+        showToast(
+          (strings.kanjiBrowser?.studyGating?.limitReached ||
+            'You have unlocked all {unlocked} free kanji study slots. Selected kanji includes {new} new kanji. Upgrade to unlock unlimited kanji study.')
+            .replace('{unlocked}', (accessCheckResult.totalUnlockedCount || 10).toString())
+            .replace('{new}', totalNewKanji.toString()),
+          'warning',
+          7000,
+          !isPremium ? {
+            label: strings.kanjiBrowser?.studyGating?.upgradeToPremium || 'Upgrade to Premium',
+            onClick: () => router.push('/pricing')
+          } : undefined
+        )
+      }
+      return
+    }
+
     const learnedKanji = buildKanjiSelectionData(learnedKanjiIds)
-    const didStart = startStudySession(learnedKanji, 'collection')
+    await loadKanjiStudySlotsStatus()
+    const didStart = await startStudySession(learnedKanji, 'collection')
     if (!didStart) return
 
     // Show confirmation toast
@@ -748,6 +1127,43 @@ function KanjiBrowserContent() {
 
     return grouped
   }, [kanjiData, kanjiProgress])
+
+  const unlockedKanjiSet = useMemo(
+    () => new Set(studySlotsStatus?.unlockedKanji || []),
+    [studySlotsStatus?.unlockedKanji]
+  )
+
+  const learnedKanjiSet = useMemo(
+    () =>
+      new Set(
+        Array.from(kanjiProgress.entries())
+          .filter(([, progress]) => progress.status === 'learned')
+          .map(([kanjiId]) => kanjiId)
+      ),
+    [kanjiProgress]
+  )
+
+  const filterKanjiList = useCallback(
+    (kanji: Kanji[]) => {
+      if (browseFilter === 'unlocked') {
+        return kanji.filter(item => unlockedKanjiSet.has(item.kanji))
+      }
+      if (browseFilter === 'learned') {
+        return kanji.filter(item => learnedKanjiSet.has(item.kanji))
+      }
+      return kanji
+    },
+    [browseFilter, learnedKanjiSet, unlockedKanjiSet]
+  )
+
+  const unlockedVisibleCount = useMemo(
+    () =>
+      Object.values(kanjiData)
+        .flat()
+        .filter((item): item is Kanji => Boolean(item))
+        .filter(item => unlockedKanjiSet.has(item.kanji)).length,
+    [kanjiData, unlockedKanjiSet]
+  )
 
   const handleToggleBookmark = async (kanjiChar: string) => {
     if (!user) {
@@ -892,22 +1308,59 @@ function KanjiBrowserContent() {
             kanji={currentStudyKanji}
             isKanjiLearned={kanjiProgress.get(currentStudyKanji.kanji)?.status === 'learned'}
             onNext={async () => {
-              if (studySession.currentIndex < activeStudyKanji.length - 1) {
-                setStudySession(prev =>
-                  prev
-                    ? {
-                        ...prev,
-                        currentIndex: Math.min(prev.currentIndex + 1, activeStudyKanji.length - 1),
-                      }
-                    : prev
-                )
-              } else {
+              const position = getSessionPosition(studySession)
+              const currentCardId = position.currentCard?.id
+              const shouldTrackVocabularyExposure =
+                studySession.mode === 'vocabulary-first' &&
+                position.currentCard?.type === 'vocabulary' &&
+                !!currentCardId &&
+                !studySession.trackedVocabularyCardIds.includes(currentCardId)
+
+              // Track vocabulary exposure BEFORE advancing (Agent 4)
+              // Count each vocabulary card only once per session, including after refresh/resume.
+              if (shouldTrackVocabularyExposure) {
+                const vocabCard = position.currentCard as VocabularyCard
+                try {
+                  await kanjiProgressManager.trackVocabularyExposure(
+                    vocabCard.kanjiCharacter,
+                    vocabCard.targetReading,
+                    vocabCard.readingType,
+                    vocabCard.word,
+                    vocabCard.wordMeaning,
+                    user,
+                    isPremium ?? false
+                  )
+                  console.log('[Kanji Study] Vocabulary exposure tracked:', {
+                    kanji: vocabCard.kanjiCharacter,
+                    reading: vocabCard.targetReading,
+                    word: vocabCard.word,
+                  })
+                  emitKanjiStudyAnalytics('kanji_vocabulary_card_completed', {
+                    kanji: vocabCard.kanjiCharacter,
+                    word: vocabCard.word,
+                    reading: vocabCard.targetReading,
+                    readingType: vocabCard.readingType,
+                    source: vocabCard.source || 'unknown',
+                    sessionMode: studySession.mode,
+                    completedCardsBeforeAdvance: studySession.completedCards,
+                  })
+                  setStudySession(prev => (
+                    prev && currentCardId ? markVocabularyCardTracked(prev, currentCardId) : prev
+                  ))
+                } catch (error) {
+                  console.error('[Kanji Study] Failed to track vocabulary exposure:', error)
+                  // Don't block progression on tracking failure
+                }
+              }
+
+              // Check if session is complete
+              if (position.isSessionComplete) {
                 // Study mode awards XP - PRODUCT REQUIREMENT
                 // While architecturally study mode is "passive learning",
                 // users expect XP for completing study sessions.
                 // This is intentional user-facing behavior, not a bug.
                 const sessionDuration = Date.now() - studySession.startedAt
-                const totalKanji = activeStudyKanji.length
+                const totalKanji = studySession.kanji.length
 
                 const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -931,30 +1384,81 @@ function KanjiBrowserContent() {
                 })
 
                 showToast('Study session complete!', 'success')
+                emitKanjiStudyAnalytics('kanji_study_session_completed', {
+                  mode: studySession.mode,
+                  source: studySession.source,
+                  kanjiCount: totalKanji,
+                  totalCards: studySession.totalCards,
+                  trackedVocabularyCards: studySession.trackedVocabularyCardIds.length,
+                  durationMs: sessionDuration,
+                })
                 refreshKanjiProgress()
                 clearPersistedStudySession()
                 handleModeChange('browse')
+              } else {
+                // Advance to next card using helper function
+                setStudySession(prev => (prev ? advanceToNextCard(prev) : prev))
               }
             }}
             onPrevious={() => {
-              if (studySession.currentIndex > 0) {
-                setStudySession(prev =>
-                  prev
-                    ? {
-                        ...prev,
-                        currentIndex: Math.max(prev.currentIndex - 1, 0),
-                      }
-                    : prev
-                )
-              }
+              // Go to previous card using helper function
+              setStudySession(prev => (prev ? goToPreviousCard(prev) : prev))
             }}
             onBack={() => {
+              const position = getSessionPosition(studySession)
+              const currentCard = position.currentCard
+              emitKanjiStudyAnalytics('kanji_study_session_exited', {
+                mode: studySession.mode,
+                source: studySession.source,
+                totalCards: studySession.totalCards,
+                completedCards: studySession.completedCards,
+                trackedVocabularyCards: studySession.trackedVocabularyCardIds.length,
+                currentKanjiIndex: studySession.currentKanjiIndex,
+                currentCardIndex: position.cardIndex,
+                currentCardType: position.currentCard?.type || null,
+                currentKanji: currentStudyKanji.kanji,
+                currentWord: currentCard?.type === 'vocabulary' ? currentCard.word : null,
+                currentReading: currentCard?.type === 'vocabulary' ? currentCard.targetReading : null,
+                sessionAgeMs: Date.now() - studySession.startedAt,
+              })
               refreshKanjiProgress()
               setViewMode('browse')
             }}
-            currentIndex={studySession.currentIndex + 1}
-            totalKanji={activeStudyKanji.length}
+            currentIndex={studySession.currentKanjiIndex + 1}
+            totalKanji={studySession.kanji.length}
             onProgressUpdate={handleProgressUpdate}
+            // Card-level context for vocabulary-first mode support
+            currentCard={getSessionPosition(studySession).currentCard || undefined}
+            studyMode={studySession.mode}
+            cardIndex={studySession.kanji[studySession.currentKanjiIndex]?.currentCardIndex || 0}
+            totalCards={studySession.kanji[studySession.currentKanjiIndex]?.cards.length || 1}
+            onReadingMatchStarted={({ kanji, pairCount }) => {
+              emitKanjiStudyAnalytics('kanji_reading_match_started', {
+                kanji,
+                pairCount,
+                sessionMode: studySession.mode,
+                completedCards: studySession.completedCards,
+              })
+            }}
+            onReadingMatchMismatch={({ kanji, word, selectedReading }) => {
+              emitKanjiStudyAnalytics('kanji_reading_match_mismatch', {
+                kanji,
+                word,
+                selectedReading,
+                sessionMode: studySession.mode,
+                completedCards: studySession.completedCards,
+              })
+            }}
+            onReadingMatchCompleted={({ kanji, mismatchCount, durationMs, pairCount }) => {
+              emitKanjiStudyAnalytics('kanji_reading_match_completed', {
+                kanji,
+                pairCount,
+                mismatchCount,
+                durationMs,
+                sessionMode: studySession.mode,
+                completedCards: studySession.completedCards,
+              })
+            }}
           />
         </main>
       </div>
@@ -995,12 +1499,14 @@ function KanjiBrowserContent() {
       <LearningPageHeader
         title={strings.kanjiBrowser?.title || 'Kanji Browser'}
         description={strings.kanjiBrowser?.subtitle || 'Browse and learn kanji by JLPT level'}
+        className="mb-2 sm:mb-3"
         stats={{
           total: totalKanjiCount,
           learned: progressStats.learned,
         }}
         mode={viewMode}
         onModeChange={handleModeChange}
+        availableModes={isKanjiBrowserStudyEnabled ? ['browse', 'study', 'review'] : ['browse', 'review']}
         selectedCount={selectedKanji.size}
         onSelectAll={() => {
           // Select all kanji from expanded levels
@@ -1015,10 +1521,125 @@ function KanjiBrowserContent() {
         hideBottomBar={isSearchFocused || showDrawingSearch}
       />
 
-      <FeatureUsageIndicator featureId="kanji_browser" className="-mt-24" />
+      {isKanjiBrowserStudyEnabled && studySession && viewMode !== 'study' && (
+        <div className="container mx-auto px-4 pt-6 max-w-7xl">
+          <div className="rounded-2xl border border-primary-200 bg-white/95 p-5 shadow-sm dark:border-primary-900/50 dark:bg-dark-800/95">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="text-sm font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-300">
+                  Study Session Ready
+                </div>
+                <div className="mt-1 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Resume your {studySession.mode === 'vocabulary-first' ? 'vocabulary-first' : 'traditional'} kanji session
+                </div>
+                <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  {studySession.kanji.length} kanji · {studySession.completedCards} / {studySession.totalCards} cards completed
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    clearPersistedStudySession()
+                    setStudySession(null)
+                    showToast('Cleared the saved kanji study session', 'info')
+                  }}
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-dark-600 dark:text-gray-200 dark:hover:bg-dark-700"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => {
+                    const resumed = resumeStudySession()
+                    if (resumed) {
+                      showToast(
+                        strings.kanjiBrowser?.collection?.resumeStudySession || 'Resumed your kanji study session',
+                        'info'
+                      )
+                    }
+                  }}
+                  className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+                >
+                  Resume Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <FeatureUsageIndicator featureId="kanji_browser" className="-mt-20" />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">
+        {isKanjiBrowserStudyEnabled && progressStats.learned === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <KanjiStudySlotsIndicator
+              status={studySlotsStatus}
+              loading={studySlotsLoading}
+              title={strings.kanjiBrowser?.studyGating?.slotsTitle || 'Kanji Study Slots'}
+              helper={
+                strings.kanjiBrowser?.studyGating?.slotsHelper ||
+                'Unlocked kanji can always be studied again'
+              }
+              guestMessage={
+                strings.kanjiBrowser?.studyGating?.guestSlotsHelper ||
+                'Sign in to unlock kanji for study'
+              }
+              unlimitedLabel={
+                strings.kanjiBrowser?.studyGating?.unlimited || 'Unlimited kanji study'
+              }
+              unlockedLabel={strings.kanjiBrowser?.studyGating?.unlockedLabel || 'unlocked'}
+              remainingLabel={strings.kanjiBrowser?.studyGating?.remainingLabel || 'remaining'}
+              usedLabel={strings.kanjiBrowser?.studyGating?.usedLabel || 'used'}
+            />
+          </motion.div>
+        )}
+
+        {isKanjiBrowserStudyEnabled && (
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          {([
+            {
+              key: 'all' as const,
+              label: strings.kanjiBrowser?.browseFilters?.all || 'All',
+              count: totalKanjiCount,
+            },
+            {
+              key: 'unlocked' as const,
+              label: strings.kanjiBrowser?.browseFilters?.unlocked || 'Unlocked',
+              count: unlockedVisibleCount,
+            },
+            {
+              key: 'learned' as const,
+              label: strings.kanjiBrowser?.browseFilters?.learned || 'Learned',
+              count: progressStats.learned,
+            },
+          ] as const).map(tab => {
+            const active = browseFilter === tab.key
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setBrowseFilter(tab.key)}
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                  active
+                    ? 'border-primary-500 bg-primary-500 text-white'
+                    : 'border-gray-200 bg-white/70 text-gray-700 hover:bg-gray-50 dark:border-dark-700 dark:bg-dark-800/70 dark:text-gray-200 dark:hover:bg-dark-700'
+                }`}
+              >
+                <span>{tab.label}</span>
+                <span className={`rounded-full px-2 py-0.5 text-xs ${active ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500 dark:bg-dark-700 dark:text-gray-300'}`}>
+                  {tab.count}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+        )}
+
         {/* Search Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1112,7 +1733,7 @@ function KanjiBrowserContent() {
                 {/* Title Section - Clickable area */}
                 <div
                   onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
-                  className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity flex-1 min-w-0"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -1152,26 +1773,52 @@ function KanjiBrowserContent() {
                   </div>
                 </div>
 
-                {/* Desktop collapse toggle - Always visible on desktop */}
-                <button
-                  onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
-                  className="hidden sm:block p-2 hover:bg-green-200 dark:hover:bg-green-900/40 rounded-lg transition-colors flex-shrink-0"
-                  title={masteredDashboardExpanded ? 'Collapse' : 'Expand'}
-                >
-                  <svg
-                    className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              {/* Desktop collapse toggle - Always visible on desktop */}
+                <div className="hidden sm:flex items-center gap-3 self-center">
+                  {isKanjiBrowserStudyEnabled && (
+                    <div>
+                      <KanjiStudySlotsIndicator
+                        compact
+                        status={studySlotsStatus}
+                        loading={studySlotsLoading}
+                        title={strings.kanjiBrowser?.studyGating?.slotsTitle || 'Kanji Study Slots'}
+                        helper={
+                          strings.kanjiBrowser?.studyGating?.slotsHelper ||
+                          'Unlocked kanji can always be studied again'
+                        }
+                        guestMessage={
+                          strings.kanjiBrowser?.studyGating?.guestSlotsHelper ||
+                          'Sign in to unlock kanji for study'
+                        }
+                        unlimitedLabel={
+                          strings.kanjiBrowser?.studyGating?.unlimited || 'Unlimited kanji study'
+                        }
+                        unlockedLabel={strings.kanjiBrowser?.studyGating?.unlockedLabel || 'unlocked'}
+                        remainingLabel={strings.kanjiBrowser?.studyGating?.remainingLabel || 'remaining'}
+                        usedLabel={strings.kanjiBrowser?.studyGating?.usedLabel || 'used'}
+                      />
+                    </div>
+                  )}
+                  <button
+                    onClick={() => setMasteredDashboardExpanded(!masteredDashboardExpanded)}
+                    className="hidden sm:block p-2 hover:bg-green-200 dark:hover:bg-green-900/40 rounded-lg transition-colors flex-shrink-0"
+                    title={masteredDashboardExpanded ? 'Collapse' : 'Expand'}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      className={`w-5 h-5 text-green-700 dark:text-green-300 transform transition-transform ${masteredDashboardExpanded ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1179,14 +1826,16 @@ function KanjiBrowserContent() {
               <div className="px-4 sm:px-6 py-6 space-y-6">
                 {/* Action Buttons - Only visible when expanded */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pb-2 border-b border-green-200 dark:border-green-800">
-                  <button
-                    onClick={handleStudyAllMastered}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-                    title={strings.kanjiBrowser?.collection?.studyAllTooltip || 'Study all learned kanji'}
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    <span>{strings.kanjiBrowser?.collection?.studyAll || 'Study All'}</span>
-                  </button>
+                  {isKanjiBrowserStudyEnabled && (
+                    <button
+                      onClick={handleStudyAllMastered}
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                      title={strings.kanjiBrowser?.collection?.studyAllTooltip || 'Study all learned kanji'}
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>{strings.kanjiBrowser?.collection?.studyAll || 'Study All'}</span>
+                    </button>
+                  )}
                   <button
                     onClick={handleReviewAllMastered}
                     className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -1292,7 +1941,7 @@ function KanjiBrowserContent() {
               Search Results
               {!isSearching && (
                 <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                  ({searchResults.length} found)
+                  ({filterKanjiList(searchResults).length} found)
                 </span>
               )}
             </h3>
@@ -1300,11 +1949,13 @@ function KanjiBrowserContent() {
               <div className="text-center py-8">
                 <LoadingSpinner size="medium" />
               </div>
-            ) : searchResults.length > 0 ? (
-              renderKanjiGrid(searchResults)
+            ) : filterKanjiList(searchResults).length > 0 ? (
+              renderKanjiGrid(filterKanjiList(searchResults))
             ) : (
               <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                No kanji found matching &quot;{searchQuery}&quot;
+                {browseFilter === 'all'
+                  ? `No kanji found matching "${searchQuery}"`
+                  : `No ${browseFilter} kanji found matching "${searchQuery}"`}
               </p>
             )}
           </motion.div>
@@ -1337,7 +1988,7 @@ function KanjiBrowserContent() {
         {/* Kanji by Level */}
         <div className="space-y-6">
           {(['N5', 'N4', 'N3', 'N2', 'N1'] as JLPTLevel[]).map(level => {
-            const kanji = kanjiData[level] || []
+            const kanji = filterKanjiList(kanjiData[level] || [])
             const isExpanded = expandedLevels.has(level)
             const info = levelInfo[level]
 

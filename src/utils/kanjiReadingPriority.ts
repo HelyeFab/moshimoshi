@@ -7,9 +7,11 @@ const PRIMARY_KUNYOMI_LIMIT = 3
 type ReadingKind = 'onyomi' | 'kunyomi'
 
 interface ReadingCandidate {
+  raw: string
   original: string
   normalized: string
   kind: ReadingKind
+  familyKey: string
   score: number
 }
 
@@ -28,16 +30,57 @@ function cleanReading(reading: string): string {
   return reading.replace(/[\.\-]/g, '').trim()
 }
 
+function isStandaloneStudyReading(reading: string): boolean {
+  const trimmed = reading.trim()
+  if (!trimmed) return false
+
+  // Dictionary-style affix forms like おお- or -てき should not become
+  // standalone study targets in vocabulary-first mode.
+  if (trimmed.startsWith('-') || trimmed.endsWith('-')) {
+    return false
+  }
+
+  return true
+}
+
 function normalizeKana(text: string): string {
   return toHiragana(cleanReading(text))
+}
+
+function getReadingFamilyKey(reading: string, kind: ReadingKind): string {
+  const trimmed = reading.trim()
+  if (kind === 'onyomi') {
+    return cleanReading(trimmed)
+  }
+
+  const base = trimmed.split('.')[0] || trimmed
+  return cleanReading(base)
+}
+
+function dedupeKunyomiFamilies(readings: string[]): string[] {
+  const deduped: string[] = []
+  const seenFamilies = new Set<string>()
+
+  for (const reading of readings) {
+    const familyKey = getReadingFamilyKey(reading, 'kunyomi')
+    if (!familyKey || seenFamilies.has(familyKey)) continue
+    seenFamilies.add(familyKey)
+    deduped.push(reading)
+  }
+
+  return deduped
 }
 
 function createFallbackReadings(
   onyomi: string[],
   kunyomi: string[]
 ): PrioritizedKanjiReadings {
-  const cleanedOnyomi = Array.from(new Set(onyomi.map(cleanReading).filter(Boolean)))
-  const cleanedKunyomi = Array.from(new Set(kunyomi.map(cleanReading).filter(Boolean)))
+  const cleanedOnyomi = Array.from(
+    new Set(onyomi.filter(isStandaloneStudyReading).map(cleanReading).filter(Boolean))
+  )
+  const cleanedKunyomi = dedupeKunyomiFamilies(Array.from(
+    new Set(kunyomi.filter(isStandaloneStudyReading).map(cleanReading).filter(Boolean))
+  ))
 
   return {
     onyomi: cleanedOnyomi.slice(0, PRIMARY_ONYOMI_LIMIT),
@@ -54,29 +97,35 @@ function buildCandidates(onyomi: string[], kunyomi: string[]): ReadingCandidate[
   const seen = new Set<string>()
 
   for (const reading of onyomi) {
+    if (!isStandaloneStudyReading(reading)) continue
     const cleaned = cleanReading(reading)
     if (!cleaned) continue
     const key = `onyomi:${cleaned}`
     if (seen.has(key)) continue
     seen.add(key)
     candidates.push({
+      raw: reading,
       original: cleaned,
       normalized: normalizeKana(cleaned),
       kind: 'onyomi',
+      familyKey: getReadingFamilyKey(reading, 'onyomi'),
       score: 0,
     })
   }
 
   for (const reading of kunyomi) {
+    if (!isStandaloneStudyReading(reading)) continue
     const cleaned = cleanReading(reading)
     if (!cleaned) continue
     const key = `kunyomi:${cleaned}`
     if (seen.has(key)) continue
     seen.add(key)
     candidates.push({
+      raw: reading,
       original: cleaned,
       normalized: normalizeKana(cleaned),
       kind: 'kunyomi',
+      familyKey: getReadingFamilyKey(reading, 'kunyomi'),
       score: 0,
     })
   }
@@ -199,6 +248,9 @@ export async function getPrioritizedKanjiReadings(
     const rankedKunyomi = candidates
       .filter(candidate => candidate.kind === 'kunyomi')
       .sort((a, b) => b.score - a.score)
+      .filter((candidate, index, list) =>
+        list.findIndex(other => other.familyKey === candidate.familyKey) === index
+      )
       .map(candidate => candidate.original)
 
     const result: PrioritizedKanjiReadings = {

@@ -52,6 +52,7 @@
     "tatoeba:start": "node scripts/backfill-tatoeba-audio.js --limit 200 --batch-size 20 --auto-resume --sleep-ms 1000",
     "tatoeba:retry": "node scripts/backfill-tatoeba-audio.js --retry-failed --batch-size 20 --sleep-ms 1000",
     "build:kanji-cache": "node scripts/generate-kanji-sentence-cache.js",
+    "build:jlpt-word-index": "node scripts/generate-jlpt-word-index.mjs",
     "grammar:lite": "node scripts/grammar/generate-exercise-lite.js",
     "prepare": "husky"
   },

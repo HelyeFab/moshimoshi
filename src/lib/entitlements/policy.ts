@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-02-26T11:13:48.287Z
+ * Generated at: 2026-03-25T10:26:23.769Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -63,6 +63,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcard_decks": 0,
           "anki_imports": 0,
           "kanji_connection": 0,
+          "kanji_browser_study": 0,
           "textbook_vocabulary": 0,
           "books": 0,
           "comics": 0
@@ -113,6 +114,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcard_decks": 0,
           "anki_imports": 0,
           "kanji_connection": 1,
+          "kanji_browser_study": 10,
           "textbook_vocabulary": 1,
           "books": 1,
           "comics": 1
@@ -163,6 +165,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcard_decks": 10,
           "anki_imports": 10,
           "kanji_connection": -1,
+          "kanji_browser_study": -1,
           "textbook_vocabulary": -1,
           "books": -1,
           "comics": -1
@@ -213,6 +216,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcard_decks": 10,
           "anki_imports": 10,
           "kanji_connection": -1,
+          "kanji_browser_study": -1,
           "textbook_vocabulary": -1,
           "books": -1,
           "comics": -1

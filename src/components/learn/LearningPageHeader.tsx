@@ -31,6 +31,7 @@ interface LearningPageHeaderProps {
   // Mode controls (optional for pages that don't need mode switching)
   mode?: ViewMode
   onModeChange?: (mode: ViewMode) => void
+  availableModes?: ViewMode[]
 
   // Selection controls
   selectionMode?: boolean
@@ -65,6 +66,7 @@ export default function LearningPageHeader({
   stats,
   mode,
   onModeChange,
+  availableModes = ['browse', 'study', 'review'],
   selectionMode = false,
   onToggleSelection,
   selectedCount = 0,
@@ -115,7 +117,7 @@ export default function LearningPageHeader({
 
     return (
       <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
-        {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
+        {availableModes.map(viewMode => (
           <button
             key={viewMode}
             onClick={() => onModeChange(viewMode)}
@@ -176,6 +178,7 @@ export default function LearningPageHeader({
   }
 
   const showBottomModeBar = Boolean(mode)
+  const reserveBottomBarSpace = showBottomModeBar && !hideBottomBar && mode !== 'browse'
 
   return (
     <>
@@ -552,7 +555,7 @@ export default function LearningPageHeader({
       {/* Hidden on mobile when search is focused to avoid keyboard pushing it up */}
       {showBottomModeBar && !hideBottomBar && (
         <>
-          <div className="h-24 sm:h-20" aria-hidden="true" />
+          {reserveBottomBarSpace && <div className="h-24 sm:h-20" aria-hidden="true" />}
           <div className="fixed left-1/2 -translate-x-1/2 bottom-[6rem] sm:bottom-8 w-[calc(100%-2.5rem)] max-w-[420px] z-50 pointer-events-none">
             <div
               className="pointer-events-auto rounded-[22px] px-3.5 py-2.5 shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-2xl border bg-dark-900/90 border-white/10"

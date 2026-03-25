@@ -6,6 +6,9 @@
 import { BaseContentAdapter } from './base.adapter';
 import { ReviewableContent } from '../core/interfaces';
 import { ReviewMode, ContentTypeConfig } from '../core/types';
+import { getCuratedVocabularyCandidates } from '@/data/kanjiVocabularyOverrides';
+import type { KanjiExample } from '@/types/kanji';
+import type { KanjiStudyCard, KanjiStudySequence, ReadingExample, ReadingMatchPair } from '@/types/kanji-study';
 
 export interface KanjiContent {
   id: string;
@@ -673,6 +676,397 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+  }
+
+  /**
+   * Generate vocabulary-first study cards for a kanji
+   * Returns a sequence of cards: meaning -> vocabulary cards -> reading summary
+   *
+   * Performance: Uses indexed lookup, O(m) per reading where m = words containing kanji
+   * Caches results to avoid redundant work
+   */
+  async generateVocabularyFirstCards(kanji: KanjiContent | any): Promise<{
+    cards: KanjiStudyCard[]
+    sources: { curated: number; jmdict: number; fallback: number }
+  }> {
+    const {
+      findWordsForKanjiReading,
+      getBestVocabularyMatch,
+      normalizeKana, // Import canonical normalization
+    } = await import('@/utils/kanjiVocabularyLookup')
+    const { getPrioritizedKanjiReadings } = await import('@/utils/kanjiReadingPriority')
+    const { DEFAULT_VOCABULARY_CRITERIA } = await import('@/types/kanji-study')
+
+    const cards: KanjiStudyCard[] = []
+    const kanjiChar = kanji.character || kanji.kanji
+    const meanings = kanji.meanings || (kanji.meaning ? [kanji.meaning] : [])
+    const primaryMeaning = meanings[0] || 'Unknown'
+
+    // Track vocabulary sources for accurate metadata
+    let curatedCardCount = 0
+    let jmdictCardCount = 0
+    let fallbackCardCount = 0
+
+    // 1. Meaning card (always first)
+    const meaningCard: KanjiStudyCard = {
+      id: `${kanjiChar}-meaning`,
+      type: 'meaning',
+      kanjiCharacter: kanjiChar,
+      primaryMeaning,
+      allMeanings: meanings,
+      strokeCount: kanji.strokeCount,
+      jlptLevel: kanji.jlpt || (kanji.jlptLevel ? `N${kanji.jlptLevel}` : undefined),
+    }
+    cards.push(meaningCard)
+
+    // 2. Get prioritized readings
+    const prioritized = await getPrioritizedKanjiReadings(
+      kanjiChar,
+      kanji.onyomi || [],
+      kanji.kunyomi || []
+    )
+
+    const readingsWithExamples: ReadingExample[] = []
+    const criteria = { ...DEFAULT_VOCABULARY_CRITERIA }
+    const examples = kanji.examples || []
+    const coveredReadings = new Set<string>() // Track which readings got cards
+
+    // 3. Generate vocabulary cards for prioritized readings
+    // Support mixed-source: JMdict for some readings, fallback for others
+
+    // Try kunyomi first (usually more concrete/beginner-friendly)
+    for (const reading of prioritized.kunyomi) {
+      const curatedCandidates = getCuratedVocabularyCandidates(kanjiChar, reading, 'kunyomi')
+      const curatedCandidate = curatedCandidates[0]
+      if (curatedCandidate) {
+        curatedCardCount++
+        coveredReadings.add(reading)
+
+        const vocabCard: KanjiStudyCard = {
+          id: `${kanjiChar}-vocab-kun-curated-${reading}`,
+          type: 'vocabulary',
+          kanjiCharacter: kanjiChar,
+          word: curatedCandidate.word,
+          wordReading: curatedCandidate.wordReading,
+          wordMeaning: curatedCandidate.meaning,
+          targetReading: reading,
+          readingType: 'kunyomi',
+          isCommonWord: curatedCandidate.isCommonWord ?? true,
+          wordTags: ['curated'],
+          source: 'curated',
+          patternHint: curatedCandidate.word.length === 1
+            ? 'This word is just the kanji by itself'
+            : undefined,
+        }
+        cards.push(vocabCard)
+
+        readingsWithExamples.push({
+          reading,
+          readingType: 'kunyomi',
+          exampleWord: curatedCandidate.word,
+          exampleReading: curatedCandidate.wordReading,
+          exampleMeaning: curatedCandidate.meaning,
+        })
+        continue
+      }
+
+      const result = await findWordsForKanjiReading(
+        kanjiChar,
+        reading,
+        'kunyomi',
+        criteria,
+        kanji.jlpt
+      )
+
+      const bestMatch = getBestVocabularyMatch(result)
+      if (bestMatch) {
+        jmdictCardCount++ // Track JMdict source
+        coveredReadings.add(reading)
+
+        // Create vocabulary card from JMdict
+        const vocabCard: KanjiStudyCard = {
+          id: `${kanjiChar}-vocab-kun-${reading}`,
+          type: 'vocabulary',
+          kanjiCharacter: kanjiChar,
+          word: bestMatch.word,
+          wordReading: bestMatch.wordReading,
+          wordMeaning: bestMatch.meaning,
+          targetReading: reading,
+          readingType: 'kunyomi',
+          isCommonWord: bestMatch.isCommon,
+          wordTags: bestMatch.tags,
+          source: 'jmdict',
+          patternHint: bestMatch.word.length === 1
+            ? 'This word is just the kanji by itself'
+            : undefined,
+        }
+        cards.push(vocabCard)
+
+        // Track for reading summary
+        readingsWithExamples.push({
+          reading,
+          readingType: 'kunyomi',
+          exampleWord: bestMatch.word,
+          exampleReading: bestMatch.wordReading,
+          exampleMeaning: bestMatch.meaning,
+        })
+      } else if (examples.length > 0) {
+        // Fallback: try to find example for this specific reading
+        const matchingExample = examples.find((ex: KanjiExample) =>
+          normalizeKana(ex.reading).includes(normalizeKana(reading))
+        )
+        if (matchingExample) {
+          fallbackCardCount++ // Track fallback source
+          coveredReadings.add(reading)
+
+          const vocabCard: KanjiStudyCard = {
+            id: `${kanjiChar}-vocab-kun-fallback-${reading}`,
+            type: 'vocabulary',
+            kanjiCharacter: kanjiChar,
+            word: matchingExample.word,
+            wordReading: matchingExample.reading,
+            wordMeaning: matchingExample.meaning,
+            targetReading: reading,
+            readingType: 'kunyomi',
+            isCommonWord: false,
+            wordTags: [],
+            source: 'fallback',
+          }
+          cards.push(vocabCard)
+
+          readingsWithExamples.push({
+            reading,
+            readingType: 'kunyomi',
+            exampleWord: matchingExample.word,
+            exampleReading: matchingExample.reading,
+            exampleMeaning: matchingExample.meaning,
+          })
+        }
+      }
+    }
+
+    // Try onyomi
+    for (const reading of prioritized.onyomi) {
+      const curatedCandidates = getCuratedVocabularyCandidates(kanjiChar, reading, 'onyomi')
+      const curatedCandidate = curatedCandidates[0]
+      if (curatedCandidate) {
+        curatedCardCount++
+        coveredReadings.add(reading)
+
+        const vocabCard: KanjiStudyCard = {
+          id: `${kanjiChar}-vocab-on-curated-${reading}`,
+          type: 'vocabulary',
+          kanjiCharacter: kanjiChar,
+          word: curatedCandidate.word,
+          wordReading: curatedCandidate.wordReading,
+          wordMeaning: curatedCandidate.meaning,
+          targetReading: reading,
+          readingType: 'onyomi',
+          isCommonWord: curatedCandidate.isCommonWord ?? true,
+          wordTags: ['curated'],
+          source: 'curated',
+          patternHint: curatedCandidate.word.length > 1
+            ? 'On\'yomi readings usually appear in compound words'
+            : undefined,
+        }
+        cards.push(vocabCard)
+
+        readingsWithExamples.push({
+          reading,
+          readingType: 'onyomi',
+          exampleWord: curatedCandidate.word,
+          exampleReading: curatedCandidate.wordReading,
+          exampleMeaning: curatedCandidate.meaning,
+        })
+        continue
+      }
+
+      const result = await findWordsForKanjiReading(
+        kanjiChar,
+        reading,
+        'onyomi',
+        criteria,
+        kanji.jlpt
+      )
+
+      const bestMatch = getBestVocabularyMatch(result)
+      if (bestMatch) {
+        jmdictCardCount++ // Track JMdict source
+        coveredReadings.add(reading)
+
+        // Create vocabulary card from JMdict
+        const vocabCard: KanjiStudyCard = {
+          id: `${kanjiChar}-vocab-on-${reading}`,
+          type: 'vocabulary',
+          kanjiCharacter: kanjiChar,
+          word: bestMatch.word,
+          wordReading: bestMatch.wordReading,
+          wordMeaning: bestMatch.meaning,
+          targetReading: reading,
+          readingType: 'onyomi',
+          isCommonWord: bestMatch.isCommon,
+          wordTags: bestMatch.tags,
+          source: 'jmdict',
+          patternHint: bestMatch.word.length > 1
+            ? 'On\'yomi readings usually appear in compound words'
+            : undefined,
+        }
+        cards.push(vocabCard)
+
+        // Track for reading summary
+        readingsWithExamples.push({
+          reading,
+          readingType: 'onyomi',
+          exampleWord: bestMatch.word,
+          exampleReading: bestMatch.wordReading,
+          exampleMeaning: bestMatch.meaning,
+        })
+      } else if (examples.length > 0) {
+        // Fallback: try to find example for this specific reading
+        const matchingExample = examples.find((ex: KanjiExample) =>
+          normalizeKana(ex.reading).includes(normalizeKana(reading))
+        )
+        if (matchingExample) {
+          fallbackCardCount++ // Track fallback source
+          coveredReadings.add(reading)
+
+          const vocabCard: KanjiStudyCard = {
+            id: `${kanjiChar}-vocab-on-fallback-${reading}`,
+            type: 'vocabulary',
+            kanjiCharacter: kanjiChar,
+            word: matchingExample.word,
+            wordReading: matchingExample.reading,
+            wordMeaning: matchingExample.meaning,
+            targetReading: reading,
+            readingType: 'onyomi',
+            isCommonWord: false,
+            wordTags: [],
+            source: 'fallback',
+          }
+          cards.push(vocabCard)
+
+          readingsWithExamples.push({
+            reading,
+            readingType: 'onyomi',
+            exampleWord: matchingExample.word,
+            exampleReading: matchingExample.reading,
+            exampleMeaning: matchingExample.meaning,
+          })
+        }
+      }
+    }
+
+    // Final fallback: if NO vocabulary cards at all, use first example
+    if (cards.length === 1 && examples.length > 0) {
+      fallbackCardCount++
+      const firstExample = examples[0]
+      const vocabCard: KanjiStudyCard = {
+        id: `${kanjiChar}-vocab-fallback-any`,
+        type: 'vocabulary',
+        kanjiCharacter: kanjiChar,
+        word: firstExample.word,
+        wordReading: firstExample.reading,
+        wordMeaning: firstExample.meaning,
+        targetReading: prioritized.primaryReading || '',
+        readingType: prioritized.kunyomi.length > 0 ? 'kunyomi' : 'onyomi',
+        isCommonWord: false,
+        wordTags: [],
+        source: 'fallback',
+      }
+      cards.push(vocabCard)
+
+      readingsWithExamples.push({
+        reading: prioritized.primaryReading || '',
+        readingType: prioritized.kunyomi.length > 0 ? 'kunyomi' : 'onyomi',
+        exampleWord: firstExample.word,
+        exampleReading: firstExample.reading,
+        exampleMeaning: firstExample.meaning,
+      })
+    }
+
+    // 4. Reading summary card (always last)
+    // Note: Uses canonical normalizeKana imported from kanjiVocabularyLookup
+    // for consistent matching behavior between JMdict and fallback paths
+    const summaryCard: KanjiStudyCard = {
+      id: `${kanjiChar}-summary`,
+      type: 'reading-summary',
+      kanjiCharacter: kanjiChar,
+      onyomi: prioritized.onyomi,
+      kunyomi: prioritized.kunyomi,
+      primaryReading: prioritized.primaryReading,
+      readingsWithExamples,
+    }
+    cards.push(summaryCard)
+
+    const readingMatchPairs: ReadingMatchPair[] = []
+    const seenPairKeys = new Set<string>()
+    for (const example of readingsWithExamples) {
+      const pairKey = `${example.exampleWord}::${example.exampleReading}`
+      if (seenPairKeys.has(pairKey)) continue
+      seenPairKeys.add(pairKey)
+      readingMatchPairs.push({
+        word: example.exampleWord,
+        reading: example.exampleReading,
+        readingType: example.readingType,
+      })
+      if (readingMatchPairs.length >= 4) break
+    }
+
+    if (readingMatchPairs.length >= 2) {
+      cards.push({
+        id: `${kanjiChar}-reading-match`,
+        type: 'reading-match',
+        kanjiCharacter: kanjiChar,
+        pairs: readingMatchPairs,
+      })
+    }
+
+    return {
+      cards,
+      sources: {
+        curated: curatedCardCount,
+        jmdict: jmdictCardCount,
+        fallback: fallbackCardCount,
+      },
+    }
+  }
+
+  /**
+   * Generate a complete study sequence for a kanji
+   * Determines source based on actual vocabulary card origins
+   */
+  async generateStudySequence(kanji: KanjiContent | any): Promise<KanjiStudySequence> {
+    const result = await this.generateVocabularyFirstCards(kanji)
+    const kanjiChar = kanji.character || kanji.kanji
+
+    // Determine source based on actual card origins
+    let source: 'jmdict' | 'fallback' | 'mixed' | 'curated'
+    const sourceKinds = [
+      result.sources.curated > 0,
+      result.sources.jmdict > 0,
+      result.sources.fallback > 0,
+    ].filter(Boolean).length
+
+    if (result.sources.curated > 0 && sourceKinds === 1) {
+      source = 'curated'
+    } else if (result.sources.jmdict > 0 && result.sources.fallback === 0 && result.sources.curated === 0) {
+      source = 'jmdict'
+    } else if (result.sources.fallback > 0 && result.sources.jmdict === 0 && result.sources.curated === 0) {
+      source = 'fallback'
+    } else if (sourceKinds > 1) {
+      source = 'mixed'
+    } else {
+      source = 'fallback'
+    }
+
+    return {
+      kanjiCharacter: kanjiChar,
+      cards: result.cards,
+      totalCards: result.cards.length,
+      vocabularyCardCount: result.sources.curated + result.sources.jmdict + result.sources.fallback,
+      createdAt: Date.now(),
+      source,
+    }
   }
 }
 
