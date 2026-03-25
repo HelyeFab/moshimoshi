@@ -43,21 +43,7 @@
     color: var(--color-primary-400);
     font-weight: 800;
     letter-spacing: 0.02em;
-  }
-
-  .target-reading-ruby {
-    position: relative;
-  }
-
-  .target-reading-ruby rt::after,
-  .target-reading-rt::after {
-    content: '';
-    display: block;
-    height: 0.12rem;
-    width: 100%;
-    margin-top: 0.08rem;
-    border-radius: 9999px;
-    background: color-mix(in srgb, var(--color-primary-400) 75%, transparent);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--color-primary-400) 18%, transparent);
   }
 
   /* Japanese aesthetic color utilities */

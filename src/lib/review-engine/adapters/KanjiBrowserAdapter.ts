@@ -1019,20 +1019,40 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
       })
     }
 
-    // 4. Reading summary card (always last)
+    // 4. Reading summary card
     // Note: Uses canonical normalizeKana imported from kanjiVocabularyLookup
     // for consistent matching behavior between JMdict and fallback paths
     const summaryCard: KanjiStudyCard = {
       id: `${kanjiChar}-summary`,
       type: 'reading-summary',
       kanjiCharacter: kanjiChar,
-      onyomi: prioritized.onyomi.filter(reading => coveredReadings.has(reading)),
-      kunyomi: prioritized.kunyomi.filter(reading => coveredReadings.has(reading)),
+      onyomi: prioritized.onyomi,
+      kunyomi: prioritized.kunyomi,
       primaryReading: prioritized.primaryReading,
       readingsWithExamples,
     }
     cards.push(summaryCard)
 
+    // 5. Reading recall card (if we have vocabulary examples)
+    // Interactive recall test - shows after summary, before match
+    if (readingsWithExamples.length > 0) {
+      const recallItems = readingsWithExamples.map(example => ({
+        reading: example.reading,
+        readingType: example.readingType,
+        word: example.exampleWord,
+        wordReading: example.exampleReading,
+        wordMeaning: example.exampleMeaning,
+      }))
+
+      cards.push({
+        id: `${kanjiChar}-reading-recall`,
+        type: 'reading-recall',
+        kanjiCharacter: kanjiChar,
+        items: recallItems,
+      })
+    }
+
+    // 6. Reading match card (if we have enough pairs)
     const readingMatchPairs: ReadingMatchPair[] = []
     const seenPairKeys = new Set<string>()
     for (const example of readingsWithExamples) {

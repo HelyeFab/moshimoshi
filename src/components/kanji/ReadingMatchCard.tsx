@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
 import type { ReadingMatchCard as ReadingMatchCardType } from '@/types/kanji-study'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface ReadingMatchCardProps {
   card: ReadingMatchCardType
@@ -104,6 +105,8 @@ export default function ReadingMatchCard({
     const matchedWord = readingToWord.get(reading)
     const isMatched = matchedWord ? matchedWords.includes(matchedWord) : false
     const isSelected = selectedReading === reading
+    const pair = card.pairs.find(p => p.reading === reading)
+    const isOnyomi = pair?.readingType === 'onyomi'
 
     return (
       <button
@@ -111,37 +114,54 @@ export default function ReadingMatchCard({
         type="button"
         disabled={isMatched}
         onClick={() => setSelectedReading(reading)}
-        className={`block w-full rounded-xl border px-3 py-2.5 sm:py-3 text-center text-base sm:text-xl font-bold transition-all ${
+        className={`block w-full rounded-xl border-2 px-4 py-3 text-center text-xl sm:text-2xl font-bold transition-all transform hover:scale-105 active:scale-95 ${
           isMatched
-            ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-900/20 dark:text-green-300'
+            ? 'border-green-400 bg-white dark:bg-dark-800 text-green-700 dark:text-green-300 shadow-lg cursor-default'
             : isSelected
-              ? 'border-violet-400 bg-violet-50 text-violet-700 dark:border-violet-500 dark:bg-violet-900/20 dark:text-violet-300'
-              : 'border-gray-200 bg-gray-50 text-gray-900 hover:border-violet-300 hover:bg-violet-50 dark:border-dark-600 dark:bg-dark-700 dark:text-gray-100 dark:hover:border-violet-700 dark:hover:bg-dark-600'
-        } ${isMatched ? 'cursor-default' : ''}`}
+              ? `${isOnyomi
+                  ? 'border-blue-500 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
+                  : 'border-purple-500 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
+                } shadow-xl scale-105`
+              : `border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 ${
+                  isOnyomi
+                    ? 'hover:border-blue-400 dark:hover:border-blue-600'
+                    : 'hover:border-purple-400 dark:hover:border-purple-600'
+                } hover:shadow-lg`
+        }`}
+        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
       >
         {reading}
+        {isMatched && (
+          <div className="mt-1 text-sm text-green-600 dark:text-green-400 font-semibold">✓</div>
+        )}
       </button>
     )
   }
 
   return (
     <div
-      className="w-full h-full overflow-y-auto scrollbar-hide bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border-2 border-teal-300 dark:border-teal-600 p-3 sm:p-5 md:p-6 flex flex-col"
+      className="w-full overflow-y-auto scrollbar-hide py-8 px-4 sm:px-8 flex flex-col"
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
-      <div className="text-center mb-3 sm:mb-4">
-        <div className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-teal-500 dark:text-teal-300">
-          {readingMatchStrings?.title || 'Match Words to Readings'}
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-100 dark:bg-teal-900/30 mb-3">
+          <div className="w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400 animate-pulse"></div>
+          <span className="text-xs font-bold text-teal-700 dark:text-teal-300 uppercase tracking-wider">
+            {readingMatchStrings?.title || 'Match Words to Readings'}
+          </span>
         </div>
-        <p className="mt-2 text-xs sm:text-base text-gray-600 dark:text-gray-400">
+        <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
           {readingMatchStrings?.subtitle || 'Pair each word with the reading you just learned'}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
-        <div className="flex flex-col gap-2">
-          <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-            {readingMatchStrings?.words || 'Words'}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 max-w-5xl mx-auto w-full">
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-1 w-6 bg-gradient-to-r from-teal-500 to-teal-400 rounded-full"></div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300">
+              {readingMatchStrings?.words || 'Words'}
+            </h3>
           </div>
           {card.pairs.map(pair => {
             const isMatched = matchedWords.includes(pair.word)
@@ -153,75 +173,109 @@ export default function ReadingMatchCard({
                 type="button"
                 disabled={isMatched}
                 onClick={() => setSelectedWord(pair.word)}
-                className={`block w-full rounded-xl border px-3 py-2.5 sm:py-3 text-left transition-all ${
+                className={`block w-full rounded-2xl border-2 px-4 py-4 text-center transition-all transform hover:scale-105 active:scale-95 ${
                   isMatched
-                    ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-900/20 dark:text-green-300'
+                    ? 'border-green-400 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 text-green-700 dark:text-green-300 shadow-lg cursor-default'
                     : isSelected
-                      ? 'border-teal-400 bg-teal-50 text-teal-700 dark:border-teal-500 dark:bg-teal-900/20 dark:text-teal-300'
-                      : 'border-gray-200 bg-gray-50 text-gray-900 hover:border-teal-300 hover:bg-teal-50 dark:border-dark-600 dark:bg-dark-700 dark:text-gray-100 dark:hover:border-teal-700 dark:hover:bg-dark-600'
-                } ${isMatched ? 'cursor-default' : ''}`}
+                      ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/30 dark:to-cyan-900/30 text-teal-700 dark:text-teal-300 shadow-xl scale-105'
+                      : 'border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 hover:border-teal-400 dark:hover:border-teal-600 hover:shadow-lg'
+                }`}
               >
                 <div
-                  className="text-xl sm:text-3xl font-bold leading-none"
+                  className="text-3xl sm:text-4xl font-bold leading-none"
                   style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                 >
                   {pair.word}
                 </div>
+                {isMatched && (
+                  <div className="mt-2 text-sm text-green-600 dark:text-green-400 font-semibold">✓</div>
+                )}
               </button>
             )
           })}
         </div>
 
-        <div className="flex flex-col gap-2">
-          <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-            {readingMatchStrings?.readings || 'Readings'}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-1 w-6 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full"></div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">
+              {readingMatchStrings?.readings || 'Readings'}
+            </h3>
           </div>
           {onyomiReadings.length > 0 && (
-            <div className="space-y-2 rounded-2xl border border-blue-200/70 bg-blue-50/70 px-3 py-3 dark:border-blue-900/40 dark:bg-blue-950/20">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-300">
-                {vocabularyCardStrings?.onyomi || "On'yomi"}
+            <div className="space-y-3 rounded-2xl border-2 border-blue-300 dark:border-blue-700 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 px-4 py-4 shadow-md">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-4 bg-blue-500 rounded-full"></div>
+                <div className="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
+                  {vocabularyCardStrings?.onyomi || "On'yomi"}
+                </div>
               </div>
-              {onyomiReadings.map(renderReadingButton)}
+              <div className="space-y-2">
+                {onyomiReadings.map(renderReadingButton)}
+              </div>
             </div>
           )}
           {kunyomiReadings.length > 0 && (
-            <div className="space-y-2 rounded-2xl border border-violet-200/70 bg-violet-50/70 px-3 py-3 dark:border-violet-900/40 dark:bg-violet-950/20">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-violet-600 dark:text-violet-300">
-                {vocabularyCardStrings?.kunyomi || "Kun'yomi"}
+            <div className="space-y-3 rounded-2xl border-2 border-purple-300 dark:border-purple-700 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 px-4 py-4 shadow-md">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-4 bg-purple-500 rounded-full"></div>
+                <div className="text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">
+                  {vocabularyCardStrings?.kunyomi || "Kun'yomi"}
+                </div>
               </div>
-              {kunyomiReadings.map(renderReadingButton)}
+              <div className="space-y-2">
+                {kunyomiReadings.map(renderReadingButton)}
+              </div>
             </div>
           )}
         </div>
       </div>
 
       <div
-        className={`mt-3 sm:mt-4 min-h-[2.75rem] rounded-xl border px-3 py-2 text-center text-xs sm:text-sm transition-all ${
+        className={`mt-6 min-h-[3.5rem] rounded-2xl border-2 px-6 py-3 text-center text-base transition-all flex items-center justify-center ${
           matchStatus === 'incorrect'
-            ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900/40 dark:bg-red-950/20'
+            ? 'border-red-400 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 text-red-700 dark:text-red-300 shadow-lg'
             : matchStatus === 'correct'
-              ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-900/40 dark:bg-green-950/20'
-              : 'border-dashed border-gray-200 dark:border-dark-600'
+              ? 'border-green-400 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 text-green-700 dark:text-green-300 shadow-lg'
+              : 'border-dashed border-gray-300 dark:border-dark-600 bg-gray-50/50 dark:bg-dark-800/50'
         }`}
       >
         {allMatched ? (
-          <span className="font-semibold text-green-600 dark:text-green-300">
-            {readingMatchStrings?.completed || 'All pairs matched'}
-          </span>
+          <div className="flex items-center gap-2">
+            <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-bold text-green-700 dark:text-green-300">
+              {readingMatchStrings?.completed || 'All pairs matched'}
+            </span>
+          </div>
         ) : matchStatus === 'incorrect' ? (
-          <span className="text-red-600 dark:text-red-300">
-            Not quite. Try a different pairing.
-          </span>
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span className="font-semibold text-red-700 dark:text-red-300">
+              Not quite. Try a different pairing.
+            </span>
+          </div>
         ) : matchStatus === 'correct' ? (
-          <span className="text-green-600 dark:text-green-300">
-            Correct.
-          </span>
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="font-semibold text-green-700 dark:text-green-300">
+              Correct
+            </span>
+          </div>
         ) : (
-          <span className="text-gray-500 dark:text-gray-400">
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
             {readingMatchStrings?.instructions || 'Tap a word, then tap its reading'}
           </span>
         )}
       </div>
+
+      {/* Mobile Navigation Spacer */}
+      <MobileNavSpacer />
     </div>
   )
 }

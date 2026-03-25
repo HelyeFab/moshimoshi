@@ -3,7 +3,7 @@
  * Types for vocabulary-first kanji study mode
  */
 
-export type KanjiStudyCardType = 'meaning' | 'vocabulary' | 'reading-summary' | 'reading-match'
+export type KanjiStudyCardType = 'meaning' | 'vocabulary' | 'reading-summary' | 'reading-recall' | 'reading-match'
 
 /**
  * Base card interface - all study cards extend this
@@ -73,9 +73,29 @@ export interface ReadingMatchCard extends BaseStudyCard {
 }
 
 /**
+ * Reading recall item - tests memory of vocabulary for each reading
+ */
+export interface ReadingRecallItem {
+  reading: string
+  readingType: 'onyomi' | 'kunyomi'
+  word: string
+  wordReading: string
+  wordMeaning: string
+}
+
+/**
+ * Reading recall card - interactive recall test for vocabulary-reading pairs
+ * Shows after summary, before match game
+ */
+export interface ReadingRecallCard extends BaseStudyCard {
+  type: 'reading-recall'
+  items: ReadingRecallItem[]
+}
+
+/**
  * Union type for all study cards
  */
-export type KanjiStudyCard = MeaningCard | VocabularyCard | ReadingSummaryCard | ReadingMatchCard
+export type KanjiStudyCard = MeaningCard | VocabularyCard | ReadingSummaryCard | ReadingRecallCard | ReadingMatchCard
 
 /**
  * Complete study sequence for one kanji

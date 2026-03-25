@@ -887,12 +887,25 @@ function KanjiBrowserContent() {
       return { allowed: false, reason: 'guest' }
     }
 
+    const sanitizedKanji = Array.from(
+      new Set(
+        kanjiCharacters.filter(
+          (value): value is string => typeof value === 'string' && Array.from(value).length === 1
+        )
+      )
+    )
+
+    if (sanitizedKanji.length === 0) {
+      console.warn('[Kanji Browser] Skipping study access check because no valid kanji characters were provided')
+      return { allowed: false, reason: 'error' }
+    }
+
     try {
       // Call batch access API to check all kanji together
       const response = await fetch('/api/kanji-browser/study/access/batch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kanji: kanjiCharacters })
+        body: JSON.stringify({ kanji: sanitizedKanji })
       })
 
       if (!response.ok) {
@@ -992,20 +1005,16 @@ function KanjiBrowserContent() {
       }
     }
 
-    // Get all learned kanji IDs
-    const learnedKanjiIds = new Set(
-      Array.from(kanjiProgress.entries())
-        .filter(([, progress]) => progress.status === 'learned')
-        .map(([kanjiId]) => kanjiId)
-    )
+    const learnedKanji = (Object.values(masteredKanjiByLevel).flat() as Kanji[])
+      .filter((item, index, array) => array.findIndex(existing => existing.kanji === item.kanji) === index)
 
-    if (learnedKanjiIds.size === 0) {
+    if (learnedKanji.length === 0) {
       showToast(strings.kanjiBrowser?.collection?.noLearnedKanji || 'No learned kanji to study', 'warning')
       return
     }
 
     // Check study access for all learned kanji
-    const accessCheckResult = await checkKanjiStudyAccess(Array.from(learnedKanjiIds))
+    const accessCheckResult = await checkKanjiStudyAccess(learnedKanji.map(item => item.kanji))
     if (!accessCheckResult.allowed) {
       // Show appropriate error message based on the reason
       if (accessCheckResult.reason === 'guest') {
@@ -1037,7 +1046,6 @@ function KanjiBrowserContent() {
       return
     }
 
-    const learnedKanji = buildKanjiSelectionData(learnedKanjiIds)
     await loadKanjiStudySlotsStatus()
     const didStart = await startStudySession(learnedKanji, 'collection')
     if (!didStart) return

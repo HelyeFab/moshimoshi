@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // 1. Parse and validate request
     const body = await request.json().catch(() => null);
-    if (!body || typeof body.kanji !== 'string' || body.kanji.length !== 1) {
+    if (!body || typeof body.kanji !== 'string' || Array.from(body.kanji).length !== 1) {
       return NextResponse.json(
         { error: 'Invalid request. Expected { kanji: string } with single character' },
         { status: 400 }

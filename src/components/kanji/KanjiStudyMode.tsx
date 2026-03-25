@@ -19,9 +19,11 @@ import { useFeature } from '@/hooks/useFeature'
 import { IoCheckmarkCircle, IoPlayForward, IoBookOutline, IoClose } from 'react-icons/io5'
 import { usePrioritizedKanjiReadings } from '@/hooks/usePrioritizedKanjiReadings'
 import type { KanjiStudyCard, StudyMode } from '@/types/kanji-study'
+import { BOTTOM_NAV_HEIGHT } from '@/lib/constants/layout'
 import MeaningCard from './MeaningCard'
 import VocabularyCard from './VocabularyCard'
 import ReadingSummaryCard from './ReadingSummaryCard'
+import ReadingRecallCard from './ReadingRecallCard'
 import ReadingMatchCard from './ReadingMatchCard'
 
 type StudyKanjiStatus = 'not-started' | 'learning' | 'learned'
@@ -350,65 +352,91 @@ export default function KanjiStudyMode({
       : totalKanji > 1 && currentIndex < totalKanji
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 pb-6 relative">
-      {/* Exit Button - Top Right */}
-      <button
-        onClick={onBack}
-        className="absolute top-4 right-4 p-3 rounded-xl bg-gray-100 dark:bg-dark-700
-                 hover:bg-gray-200 dark:hover:bg-dark-600
-                 text-gray-600 dark:text-gray-400
-                 transition-all transform hover:scale-105 active:scale-95 z-10"
-        title="Exit Study"
-      >
-        <IoClose className="w-6 h-6" />
-      </button>
-
-      {/* Progress Indicator */}
-      <div className="w-full max-w-2xl mb-4 mt-2">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {studyMode === 'vocabulary-first' && totalCards !== undefined
-              ? (strings.vocabularyFirstStudy?.progress?.cardProgress || 'Card {current} of {total} • Kanji {kanjiCurrent} / {kanjiTotal}')
-                  .replace('{current}', ((cardIndex ?? 0) + 1).toString())
-                  .replace('{total}', (totalCards ?? 1).toString())
-                  .replace('{kanjiCurrent}', currentIndex.toString())
-                  .replace('{kanjiTotal}', totalKanji.toString())
-              : `${currentIndex} / ${totalKanji}`
-            }
-          </span>
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {statusLabel}
-          </span>
-        </div>
-        <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-primary-400 to-primary-600 transition-all duration-300"
-            style={{
-              width: studyMode === 'vocabulary-first' && totalCards !== undefined
-                ? `${(((cardIndex ?? 0) + 1) / (totalCards ?? 1)) * 100}%`
-                : `${(currentIndex / totalKanji) * 100}%`
-            }}
-          />
+    <div className="min-h-screen flex flex-col relative">
+      {/* Header with Progress Bar */}
+      <div className="w-full border-b border-gray-200 dark:border-dark-700 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {studyMode === 'vocabulary-first' && totalCards !== undefined
+                  ? (strings.vocabularyFirstStudy?.progress?.cardProgress || 'Card {current} of {total} • Kanji {kanjiCurrent} / {kanjiTotal}')
+                      .replace('{current}', ((cardIndex ?? 0) + 1).toString())
+                      .replace('{total}', (totalCards ?? 1).toString())
+                      .replace('{kanjiCurrent}', currentIndex.toString())
+                      .replace('{kanjiTotal}', totalKanji.toString())
+                  : `Kanji ${currentIndex} / ${totalKanji}`
+                }
+              </span>
+              <span className="hidden sm:inline px-2.5 py-1 text-xs font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                {statusLabel}
+              </span>
+            </div>
+            <button
+              onClick={onBack}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700
+                       text-gray-600 dark:text-gray-400
+                       transition-all"
+              title="Exit Study"
+            >
+              <IoClose className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="h-1.5 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-primary-500 via-primary-600 to-primary-500 transition-all duration-500 ease-out"
+              style={{
+                width: studyMode === 'vocabulary-first' && totalCards !== undefined
+                  ? `${(((cardIndex ?? 0) + 1) / (totalCards ?? 1)) * 100}%`
+                  : `${(currentIndex / totalKanji) * 100}%`
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Main Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="relative flex-shrink-0"
-      >
-        {/* Vocabulary-First Mode: Render specific card types */}
-        {studyMode === 'vocabulary-first' && currentCard ? (
-          <div
-            key={currentCard.id}
-            className={`relative w-72 sm:w-80 md:w-96 ${
-              currentCard.type === 'reading-match'
-                ? 'h-[28rem] sm:h-[30rem] md:h-[31rem]'
-                : 'h-[24rem] sm:h-[27rem] md:h-[31rem]'
-            }`}
-          >
+      {/* Main Content Area */}
+      <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 px-4 sm:px-8">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+            {/* Persistent Kanji Reference Card - Only show after meaning card */}
+            {studyMode === 'vocabulary-first' && currentCard && currentCard.type !== 'meaning' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="hidden lg:block lg:static lg:w-48 lg:sticky lg:top-24 flex-shrink-0"
+              >
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-800 dark:to-dark-700
+                              rounded-full lg:rounded-2xl px-3 py-1.5 lg:p-4 shadow-md lg:shadow-lg border border-gray-200 dark:border-dark-600 whitespace-nowrap lg:whitespace-normal">
+                  <div className="flex lg:flex-col items-center lg:text-center gap-2 lg:gap-0">
+                    <div className="text-xl lg:text-6xl font-bold lg:mb-3 text-gray-800 dark:text-gray-100"
+                         style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                      {currentCard.kanjiCharacter}
+                    </div>
+                    <div className="flex items-center gap-1 lg:flex-col lg:gap-0">
+                      <div className="text-[0.5rem] lg:text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 lg:mb-1 font-semibold">
+                        {strings.vocabularyFirstStudy?.meaningCard?.meaning || 'Meaning'}
+                      </div>
+                      <div className="text-[0.625rem] lg:text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {kanji.meaning}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Main Card Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex-1 w-full"
+            >
+              {/* Vocabulary-First Mode: Render specific card types */}
+              {studyMode === 'vocabulary-first' && currentCard ? (
+                <div key={currentCard.id} className="w-full max-w-3xl mx-auto">
             {currentCard.type === 'meaning' && (
               <MeaningCard
                 card={currentCard}
@@ -425,6 +453,11 @@ export default function KanjiStudyMode({
               <ReadingSummaryCard
                 card={currentCard}
                 onAudioPlay={handlePlayAudio}
+              />
+            )}
+            {currentCard.type === 'reading-recall' && (
+              <ReadingRecallCard
+                card={currentCard}
               />
             )}
             {currentCard.type === 'reading-match' && (
@@ -453,14 +486,14 @@ export default function KanjiStudyMode({
                   })
                 }}
               />
-            )}
-          </div>
-        ) : (
-          /* Traditional Mode: Flip card */
-          <div
-            className="relative w-72 h-[24rem] sm:w-80 sm:h-[27rem] md:w-96 md:h-[31rem] cursor-pointer"
-            onClick={() => setIsFlipped(!isFlipped)}
-          >
+                  )}
+                </div>
+              ) : (
+                /* Traditional Mode: Flip card */
+                <div
+                  className="relative w-full max-w-2xl mx-auto min-h-[28rem] cursor-pointer"
+                  onClick={() => setIsFlipped(!isFlipped)}
+                >
           <AnimatePresence mode="wait">
             {!isFlipped ? (
               <motion.div
@@ -793,18 +826,22 @@ export default function KanjiStudyMode({
                 </div>
               </motion.div>
             )}
-          </AnimatePresence>
+                </AnimatePresence>
+              </div>
+            )}
+          </motion.div>
         </div>
-        )}
-      </motion.div>
+      </div>
+    </div>
 
-
-      {/* Action Buttons - Icon only */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+      {/* Action Buttons - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-center gap-3">
         <button
           onClick={handleSkip}
           disabled={isReadingMatchCard && !isReadingMatchCompleted}
-          className={`p-4 rounded-xl
+          className={`p-2.5 rounded-lg
                    transition-all transform hover:scale-105 active:scale-95 disabled:bg-gray-100/60 disabled:dark:bg-dark-700/60 disabled:text-gray-400 disabled:dark:text-gray-600 disabled:cursor-not-allowed disabled:hover:scale-100"
             ${
               isFinalVocabularyFirstCard
@@ -820,27 +857,27 @@ export default function KanjiStudyMode({
           }
         >
           {isFinalVocabularyFirstCard ? (
-            <IoCheckmarkCircle className="w-6 h-6" />
+            <IoCheckmarkCircle className="w-4 h-4" />
           ) : (
-            <IoPlayForward className="w-6 h-6" />
+            <IoPlayForward className="w-4 h-4" />
           )}
         </button>
 
         <button
           onClick={() => setShowExamplesModal(true)}
-          className="p-4 rounded-xl bg-purple-100 dark:bg-purple-900/30
+          className="p-2.5 rounded-lg bg-purple-100 dark:bg-purple-900/30
                    hover:bg-purple-200 dark:hover:bg-purple-900/40
                    border border-purple-200 dark:border-purple-800
                    text-purple-700 dark:text-purple-400
                    transition-all transform hover:scale-105 active:scale-95"
           title="Examples"
         >
-          <IoBookOutline className="w-6 h-6" />
+          <IoBookOutline className="w-4 h-4" />
         </button>
 
         <button
           onClick={handleToggleLearned}
-          className={`p-4 rounded-xl text-white transition-all shadow-lg
+          className={`p-2.5 rounded-lg text-white transition-all shadow-lg
                    transform hover:scale-105 active:scale-95 ${
                      isLearned
                        ? 'bg-green-500 hover:bg-green-600 shadow-green-500/30'
@@ -848,41 +885,40 @@ export default function KanjiStudyMode({
                    }`}
           title={isLearned ? 'Reset Progress' : 'Mark as Learned'}
         >
-          <IoCheckmarkCircle className="w-6 h-6" />
+          <IoCheckmarkCircle className="w-4 h-4" />
         </button>
-      </div>
+            {/* Navigation */}
+            <button
+              onClick={onPrevious}
+              disabled={!canGoPrevious}
+              className={`p-3 rounded-xl transition-all transform active:scale-95 ${
+                canGoPrevious
+                  ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 text-gray-700 dark:text-gray-300'
+                  : 'bg-gray-100/40 dark:bg-dark-700/40 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+              }`}
+              title="Previous"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
 
-      {/* Navigation */}
-      <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-3">
-        <button
-          onClick={onPrevious}
-          disabled={!canGoPrevious}
-          className={`p-3 rounded-xl transition-all transform active:scale-95 ${
-            canGoPrevious
-              ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 hover:scale-105'
-              : 'bg-gray-100/60 dark:bg-dark-700/60 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-          }`}
-          title="Previous"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        <button
-          onClick={onNext}
-          disabled={!canGoNext}
-          className={`p-3 rounded-xl transition-all transform active:scale-95 ${
-            canGoNext
-              ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 hover:scale-105'
-              : 'bg-gray-100/60 dark:bg-dark-700/60 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-          }`}
-          title="Next"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+            <button
+              onClick={onNext}
+              disabled={!canGoNext}
+              className={`p-3 rounded-xl transition-all transform active:scale-95 ${
+                canGoNext
+                  ? 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 text-gray-700 dark:text-gray-300'
+                  : 'bg-gray-100/40 dark:bg-dark-700/40 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+              }`}
+              title="Next"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Modals */}

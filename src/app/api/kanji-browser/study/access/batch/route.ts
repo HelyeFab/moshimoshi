@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const { kanji: kanjiList } = body as BatchAccessRequest;
 
     // Validate each kanji is a single character
-    if (kanjiList.some(k => typeof k !== 'string' || k.length !== 1)) {
+    if (kanjiList.some(k => typeof k !== 'string' || Array.from(k).length !== 1)) {
       return NextResponse.json(
         { error: 'Invalid request. Each kanji must be a single character' },
         { status: 400 }

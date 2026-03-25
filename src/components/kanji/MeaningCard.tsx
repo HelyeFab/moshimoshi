@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import type { MeaningCard as MeaningCardType } from '@/types/kanji-study'
 import AudioButton from '@/components/ui/AudioButton'
 import { useI18n } from '@/i18n/I18nContext'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface MeaningCardProps {
   card: MeaningCardType
@@ -20,13 +21,11 @@ export default function MeaningCard({ card, onAudioPlay }: MeaningCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.2 }}
-      className="w-full h-full bg-white dark:bg-dark-800 rounded-2xl shadow-2xl
-                 border-2 border-gray-200 dark:border-dark-600
-                 flex flex-col items-center justify-center p-8 relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="w-full flex flex-col items-center justify-center py-12 px-4 sm:px-8 relative"
     >
       {/* Audio Button - Top Left */}
       <div className="absolute top-4 left-4">
@@ -58,18 +57,24 @@ export default function MeaningCard({ card, onAudioPlay }: MeaningCardProps) {
         </div>
       )}
 
-      {/* Kanji Character */}
-      <div className="text-9xl sm:text-[10rem] font-bold text-gray-800 dark:text-gray-200 mb-6"
-           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
-        {card.kanjiCharacter}
+      {/* Kanji Character - Hero Display */}
+      <div className="relative mb-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 via-primary-400/20 to-primary-500/20 blur-3xl"></div>
+        <div className="relative text-[12rem] sm:text-[14rem] font-bold bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900 dark:from-gray-100 dark:via-gray-300 dark:to-gray-100 bg-clip-text text-transparent leading-none"
+             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
+          {card.kanjiCharacter}
+        </div>
       </div>
 
       {/* Primary Meaning */}
-      <div className="text-center mb-6">
-        <div className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-2">
-          {t?.meaning || 'Meaning'}
+      <div className="text-center mb-8 max-w-2xl">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-3">
+          <div className="w-2 h-2 rounded-full bg-purple-500 dark:bg-purple-400"></div>
+          <span className="text-xs font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">
+            {t?.meaning || 'Meaning'}
+          </span>
         </div>
-        <div className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200">
+        <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">
           {card.primaryMeaning}
         </div>
       </div>
@@ -92,6 +97,9 @@ export default function MeaningCard({ card, onAudioPlay }: MeaningCardProps) {
       <div className="absolute bottom-4 text-xs text-gray-400 dark:text-gray-600">
         {t?.introduction || 'Introduction'}
       </div>
+
+      {/* Mobile Navigation Spacer */}
+      <MobileNavSpacer />
     </motion.div>
   )
 }

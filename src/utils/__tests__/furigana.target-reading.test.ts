@@ -4,7 +4,7 @@ describe('generateTargetKanjiRuby', () => {
   it('renders the target kanji with the card target reading instead of inferred whole-word furigana', () => {
     const html = generateTargetKanjiRuby('日本人', '人', 'じん')
 
-    expect(html).toContain('<ruby>人<rp>(</rp><rt>じん</rt><rp>)</rp></ruby>')
+    expect(html).toContain('<ruby class="target-reading-ruby">人<rp>(</rp><rt class="target-reading-rt">じん</rt><rp>)</rp></ruby>')
     expect(html).toContain('日')
     expect(html).toContain('本')
     expect(html).not.toContain('<rt>ひと</rt>')
@@ -13,7 +13,7 @@ describe('generateTargetKanjiRuby', () => {
   it('supports irregular whole-word readings by teaching the target reading only', () => {
     const html = generateTargetKanjiRuby('9日', '日', 'か')
 
-    expect(html).toBe('9<ruby>日<rp>(</rp><rt>か</rt><rp>)</rp></ruby>')
+    expect(html).toBe('9<ruby class="target-reading-ruby">日<rp>(</rp><rt class="target-reading-rt">か</rt><rp>)</rp></ruby>')
     expect(html).not.toContain('<rt>にち</rt>')
   })
 
@@ -21,14 +21,20 @@ describe('generateTargetKanjiRuby', () => {
     const html = generateTargetKanjiRuby('人人', '人', 'にん')
 
     expect(html).toBe(
-      '<ruby>人<rp>(</rp><rt>にん</rt><rp>)</rp></ruby><ruby>人<rp>(</rp><rt>にん</rt><rp>)</rp></ruby>'
+      '<ruby class="target-reading-ruby">人<rp>(</rp><rt class="target-reading-rt">にん</rt><rp>)</rp></ruby><ruby class="target-reading-ruby">人<rp>(</rp><rt class="target-reading-rt">にん</rt><rp>)</rp></ruby>'
     )
   })
 
   it('escapes non-target text while still rendering ruby for the target kanji', () => {
     const html = generateTargetKanjiRuby('人<', '人', 'じん')
 
-    expect(html).toBe('<ruby>人<rp>(</rp><rt>じん</rt><rp>)</rp></ruby>&lt;')
+    expect(html).toBe('<ruby class="target-reading-ruby">人<rp>(</rp><rt class="target-reading-rt">じん</rt><rp>)</rp></ruby>&lt;')
+  })
+
+  it('strips okurigana from the highlighted target reading when the word makes it explicit', () => {
+    const html = generateTargetKanjiRuby('一つ', '一', 'ひとつ')
+
+    expect(html).toBe('<ruby class="target-reading-ruby">一<rp>(</rp><rt class="target-reading-rt">ひと</rt><rp>)</rp></ruby>つ')
   })
 
   it('falls back to escaped plain text when required inputs are missing', () => {

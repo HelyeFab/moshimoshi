@@ -18,6 +18,48 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;')
 }
 
+function normalizeKanaForRuby(text: string): string {
+  return text.replace(/[\.\-]/g, '').trim()
+}
+
+function isKanaChar(char: string): boolean {
+  return /[ぁ-んァ-ンー]/.test(char)
+}
+
+function stripAdjacentKanaFromReading(
+  word: string,
+  targetKanji: string,
+  targetReading: string
+): string {
+  const chars = Array.from(word)
+  const targetIndices = chars
+    .map((char, index) => (char === targetKanji ? index : -1))
+    .filter(index => index >= 0)
+
+  if (targetIndices.length !== 1) {
+    return targetReading
+  }
+
+  const targetIndex = targetIndices[0]
+  let derived = normalizeKanaForRuby(targetReading)
+
+  const suffixKana = chars.slice(targetIndex + 1).join('')
+  const prefixKana = chars.slice(0, targetIndex).join('')
+
+  const normalizedSuffix = normalizeKanaForRuby(suffixKana)
+  const normalizedPrefix = normalizeKanaForRuby(prefixKana)
+
+  if (normalizedSuffix && Array.from(suffixKana).every(isKanaChar) && derived.endsWith(normalizedSuffix)) {
+    derived = derived.slice(0, Math.max(0, derived.length - normalizedSuffix.length))
+  }
+
+  if (normalizedPrefix && Array.from(prefixKana).every(isKanaChar) && derived.startsWith(normalizedPrefix)) {
+    derived = derived.slice(Math.min(normalizedPrefix.length, derived.length))
+  }
+
+  return derived || normalizeKanaForRuby(targetReading)
+}
+
 /**
  * Generate ruby markup for the target kanji only.
  *
@@ -39,7 +81,7 @@ export function generateTargetKanjiRuby(
     return escapeHtml(word)
   }
 
-  const escapedReading = escapeHtml(targetReading)
+  const escapedReading = escapeHtml(stripAdjacentKanaFromReading(word, targetKanji, targetReading))
 
   return Array.from(word)
     .map(char => {
