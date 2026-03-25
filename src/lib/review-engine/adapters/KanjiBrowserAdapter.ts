@@ -7,6 +7,7 @@ import { BaseContentAdapter } from './base.adapter';
 import { ReviewableContent } from '../core/interfaces';
 import { ReviewMode, ContentTypeConfig } from '../core/types';
 import { getCuratedVocabularyCandidates } from '@/data/kanjiVocabularyOverrides';
+import { getJLPTEntriesForExpression } from '@/utils/jlptWordIndex';
 import type { KanjiExample } from '@/types/kanji';
 import type { KanjiStudyCard, KanjiStudySequence, ReadingExample, ReadingMatchPair } from '@/types/kanji-study';
 
@@ -117,6 +118,37 @@ const KANJI_BROWSER_CONFIG: ContentTypeConfig = {
 export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
   constructor(config: ContentTypeConfig = KANJI_BROWSER_CONFIG) {
     super(config);
+  }
+
+  private getJlptDifficultyRank(level?: string): number | null {
+    if (!level) return null
+    const match = level.match(/^N([1-5])$/)
+    if (!match) return null
+    return Number(match[1])
+  }
+
+  private isTooAdvancedForTeaching(
+    kanjiJlpt: string | undefined,
+    word: string
+  ): boolean {
+    const kanjiRank = this.getJlptDifficultyRank(kanjiJlpt)
+    if (!kanjiRank) return false
+
+    const entries = getJLPTEntriesForExpression(word)
+    if (entries.length === 0) return false
+
+    const easiestRank = entries
+      .map(entry => this.getJlptDifficultyRank(entry.jlpt))
+      .filter((rank): rank is number => rank !== null)
+      .reduce<number | null>((best, rank) => {
+        if (best === null) return rank
+        return Math.max(best, rank)
+      }, null)
+
+    if (easiestRank === null) return false
+
+    // Keep examples within the kanji's level or one band harder.
+    return easiestRank < kanjiRank - 1
   }
 
   /**
@@ -701,6 +733,9 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
     const kanjiChar = kanji.character || kanji.kanji
     const meanings = kanji.meanings || (kanji.meaning ? [kanji.meaning] : [])
     const primaryMeaning = meanings[0] || 'Unknown'
+    const kanjiJlptLevel = typeof kanji.jlpt === 'string'
+      ? kanji.jlpt.toUpperCase()
+      : (typeof kanji.jlptLevel === 'number' ? `N${kanji.jlptLevel}` : undefined)
 
     // Track vocabulary sources for accurate metadata
     let curatedCardCount = 0
@@ -775,11 +810,11 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
         reading,
         'kunyomi',
         criteria,
-        kanji.jlpt
+        kanjiJlptLevel
       )
 
       const bestMatch = getBestVocabularyMatch(result)
-      if (bestMatch) {
+      if (bestMatch && !this.isTooAdvancedForTeaching(kanjiJlptLevel, bestMatch.word)) {
         jmdictCardCount++ // Track JMdict source
         coveredReadings.add(reading)
 
@@ -886,11 +921,11 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
         reading,
         'onyomi',
         criteria,
-        kanji.jlpt
+        kanjiJlptLevel
       )
 
       const bestMatch = getBestVocabularyMatch(result)
-      if (bestMatch) {
+      if (bestMatch && !this.isTooAdvancedForTeaching(kanjiJlptLevel, bestMatch.word)) {
         jmdictCardCount++ // Track JMdict source
         coveredReadings.add(reading)
 
@@ -991,8 +1026,8 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
       id: `${kanjiChar}-summary`,
       type: 'reading-summary',
       kanjiCharacter: kanjiChar,
-      onyomi: prioritized.onyomi,
-      kunyomi: prioritized.kunyomi,
+      onyomi: prioritized.onyomi.filter(reading => coveredReadings.has(reading)),
+      kunyomi: prioritized.kunyomi.filter(reading => coveredReadings.has(reading)),
       primaryReading: prioritized.primaryReading,
       readingsWithExamples,
     }

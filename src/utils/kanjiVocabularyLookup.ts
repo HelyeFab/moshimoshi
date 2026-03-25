@@ -541,7 +541,9 @@ function calculateReadingMatchScore(
     // Onyomi: often embedded in compounds
     if (kanjiIndex === 0 && kanaNorm.startsWith(targetNorm)) return 160
     if (kanjiIndex === wordKanji.length - 1 && kanaNorm.endsWith(targetNorm)) return 140
-    if (kanaNorm.includes(targetNorm)) return 120
+    if (kanjiIndex > 0 && kanjiIndex < wordKanji.length - 1 && kanaNorm.includes(targetNorm)) {
+      return 120
+    }
   }
 
   return 0

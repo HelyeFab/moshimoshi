@@ -48,7 +48,7 @@ export function generateTargetKanjiRuby(
       }
 
       const escapedChar = escapeHtml(char)
-      return `<ruby>${escapedChar}<rp>(</rp><rt>${escapedReading}</rt><rp>)</rp></ruby>`
+      return `<ruby class="target-reading-ruby">${escapedChar}<rp>(</rp><rt class="target-reading-rt">${escapedReading}</rt><rp>)</rp></ruby>`
     })
     .join('')
 }

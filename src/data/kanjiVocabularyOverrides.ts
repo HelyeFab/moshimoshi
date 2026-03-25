@@ -228,19 +228,7 @@ export const kanjiVocabularyOverrides: KanjiVocabularyOverrideMap = {
   },
   一: {
     jlpt: 'N5',
-    notes: 'Live QA override: avoid abstract イツ compounds like 均一 when a simpler lexical item exists.',
-    onyomi: {
-      いつ: [
-        {
-          word: '唯一',
-          wordReading: 'ゆいいつ',
-          meaning: 'only; unique',
-          reason: 'A clearer and more usable first イツ example than highly abstract alternatives like 均一.',
-          confidence: 'medium',
-          isCommonWord: true,
-        },
-      ],
-    },
+    notes: 'No forced イツ override: do not teach this reading through a word where 一 is not actually read as イツ.',
   },
   度: {
     jlpt: 'N4',

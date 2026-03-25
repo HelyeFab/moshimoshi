@@ -45,11 +45,11 @@ const GOLDEN_SET: GoldenReadingExpectation[] = [
   {
     kanji: '一',
     jlpt: 'N5',
-    reading: 'イツ',
+    reading: 'イチ',
     readingType: 'onyomi',
-    expectedWord: '唯一',
-    expectedReading: 'ゆいいつ',
-    expectedMeaningIncludes: 'only',
+    expectedWord: '一番',
+    expectedReading: 'いちばん',
+    expectedMeaningIncludes: 'first',
   },
   {
     kanji: '日',
@@ -332,7 +332,7 @@ const ANTI_REGRESSION_SET: AntiRegressionExpectation[] = [
   {
     kanji: '一',
     jlpt: 'N5',
-    reading: 'イツ',
+    reading: 'イチ',
     readingType: 'onyomi',
     forbiddenWord: '均一',
     forbiddenMeaningIncludes: 'uniformity',
@@ -410,7 +410,14 @@ async function loadKanji(level: GoldenReadingExpectation['jlpt'], character: str
   const filePath = path.join(process.cwd(), 'public', 'data', 'kanji', `jlpt_${levelNumber}.json`)
   const raw = await fs.readFile(filePath, 'utf8')
   const list = JSON.parse(raw) as Array<{ kanji: string }>
-  return list.find(item => item.kanji === character)
+  const entry = list.find(item => item.kanji === character)
+  if (!entry) return entry
+
+  return {
+    ...entry,
+    jlpt: level,
+    jlptLevel: Number(levelNumber),
+  }
 }
 
 function findVocabularyCard(
@@ -474,6 +481,16 @@ describe('KanjiBrowserAdapter vocabulary-first golden set', () => {
       }
     }
   )
+
+  it('does not surface a bad N5 onyomi anchor for 一 / イツ', async () => {
+    const kanji = await loadKanji('N5', '一')
+    expect(kanji).toBeDefined()
+
+    const sequence = await adapter.generateStudySequence(kanji)
+    const card = findVocabularyCard(sequence.cards, 'イツ', 'onyomi')
+
+    expect(card).toBeUndefined()
+  })
 
   it('adds a reading-match reinforcement card after the summary when multiple vocabulary cards exist', async () => {
     const kanji = await loadKanji('N5', '見')

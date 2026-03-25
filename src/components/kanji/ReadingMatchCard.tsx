@@ -125,7 +125,10 @@ export default function ReadingMatchCard({
   }
 
   return (
-    <div className="w-full h-full overflow-y-auto bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border-2 border-teal-300 dark:border-teal-600 p-3 sm:p-5 md:p-6 flex flex-col">
+    <div
+      className="w-full h-full overflow-y-auto scrollbar-hide bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border-2 border-teal-300 dark:border-teal-600 p-3 sm:p-5 md:p-6 flex flex-col"
+      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+    >
       <div className="text-center mb-3 sm:mb-4">
         <div className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-teal-500 dark:text-teal-300">
           {readingMatchStrings?.title || 'Match Words to Readings'}
