@@ -1180,3 +1180,286 @@ describe('C2.5: Sheldon-Style Duplicate + Fragment Sequences', () => {
     expect(result[0].text).not.toBe('今日も一緒に一緒にたくさん話し')
   })
 })
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Stage C2.5+: Cluster Boundary Hardening Tests
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('C2.5+: Cluster Boundary Hardening', () => {
+  it('prevents local overlaps from consuming later clean lines', () => {
+    // Scenario: Intro has overlaps, but should not merge with unrelated later content
+    const rawUnits: RawTranscriptUnit[] = [
+      // Overlap region at start
+      {
+        id: 'raw-0',
+        start: 0,
+        end: 3,
+        duration: 3,
+        text: '今日も一緒に',
+        source: 'test',
+      },
+      {
+        id: 'raw-1',
+        start: 3,
+        end: 6,
+        duration: 3,
+        text: '一緒にたくさん話し', // Overlaps with previous
+        source: 'test',
+      },
+      // Clean unrelated content
+      {
+        id: 'raw-2',
+        start: 6,
+        end: 10,
+        duration: 4,
+        text: 'こんにちは、皆さん。',
+        source: 'test',
+      },
+      {
+        id: 'raw-3',
+        start: 10,
+        end: 14,
+        duration: 4,
+        text: '今日は良い天気ですね。',
+        source: 'test',
+      },
+    ]
+
+    const result = reconstructSegments(rawUnits)
+
+    // Should produce at least 2 segments (overlap cluster + later content)
+    // NOT one giant merged segment
+    expect(result.length).toBeGreaterThanOrEqual(2)
+
+    // Verify later clean content is preserved separately
+    const hasCleanSegment = result.some(
+      (s) => s.text.includes('こんにちは、皆さん') || s.text.includes('今日は良い天気ですね'),
+    )
+    expect(hasCleanSegment).toBe(true)
+  })
+
+  it('handles duplicate+fragment repair then stops at clean cluster boundary', () => {
+    // Scenario: Duplicate + fragments should merge, then clean line starts new cluster
+    const rawUnits: RawTranscriptUnit[] = [
+      // Duplicate + fragment region
+      {
+        id: 'raw-0',
+        start: 0,
+        end: 5,
+        duration: 5,
+        text: '私は韓国人の友達が欲しいです。',
+        source: 'test',
+      },
+      {
+        id: 'raw-1',
+        start: 5,
+        end: 10,
+        duration: 5,
+        text: '私は韓国人の友達が欲しいです。', // Duplicate
+        source: 'test',
+      },
+      {
+        id: 'raw-2',
+        start: 10,
+        end: 13,
+        duration: 3,
+        text: '私は韓国人の', // Fragment
+        source: 'test',
+      },
+      // Clean unrelated line
+      {
+        id: 'raw-3',
+        start: 13,
+        end: 18,
+        duration: 5,
+        text: 'こんにちは、皆さん。',
+        source: 'test',
+      },
+    ]
+
+    const result = reconstructSegments(rawUnits)
+
+    // Should produce 2 segments: merged duplicate+fragment cluster + clean line
+    expect(result.length).toBe(2)
+
+    // First segment: duplicate+fragment merged
+    expect(result[0].text).toBe('私は韓国人の友達が欲しいです。')
+    expect(result[0].sourceIds.length).toBe(3)
+    expect(result[0].strategy).toBe('merge')
+
+    // Second segment: clean line preserved
+    expect(result[1].text).toBe('こんにちは、皆さん。')
+    expect(result[1].sourceIds.length).toBe(1)
+    expect(result[1].strategy).toBe('preserve')
+  })
+
+  it('regression test: 45fMrqfNIXA-style intro should not collapse entire transcript', () => {
+    // Approximates 45fMrqfNIXA: bad intro fragments followed by good content
+    const rawUnits: RawTranscriptUnit[] = [
+      // Bad intro (continuation breaks)
+      {
+        id: 'raw-0',
+        start: 0,
+        end: 3,
+        duration: 3,
+        text: 'こんにちは、こんばんは、おはようござい',
+        source: 'sheldon',
+      },
+      {
+        id: 'raw-1',
+        start: 3,
+        end: 6,
+        duration: 3,
+        text: 'ます。黒猫ママです。',
+        source: 'sheldon',
+      },
+      // More good content
+      {
+        id: 'raw-2',
+        start: 6,
+        end: 9,
+        duration: 3,
+        text: '日本語の勉強頑張ってますか？',
+        source: 'sheldon',
+      },
+      {
+        id: 'raw-3',
+        start: 9,
+        end: 12,
+        duration: 3,
+        text: '今日も一緒にたくさん話しましょう。',
+        source: 'sheldon',
+      },
+      {
+        id: 'raw-4',
+        start: 12,
+        end: 15,
+        duration: 3,
+        text: 'ビデオの終わりにクイズがありますよ。',
+        source: 'sheldon',
+      },
+    ]
+
+    const result = reconstructSegments(rawUnits)
+
+    // CRITICAL: Should produce multiple segments, NOT collapse into 1
+    expect(result.length).toBeGreaterThan(1)
+
+    // Should be closer to 3-4 segments, not 1
+    expect(result.length).toBeGreaterThanOrEqual(2)
+    expect(result.length).toBeLessThanOrEqual(5)
+  })
+
+  it('preservation test: 9LW9DpmhrPE-style good transcript should produce many segments', () => {
+    // Approximates 9LW9DpmhrPE: already-good lineation should preserve 1:1
+    const rawUnits: RawTranscriptUnit[] = [
+      {
+        id: 'raw-0',
+        start: 0,
+        end: 5,
+        duration: 5,
+        text: '君の中にある赤と青き線',
+        source: 'youtube',
+      },
+      {
+        id: 'raw-1',
+        start: 5,
+        end: 10,
+        duration: 5,
+        text: '届ける言葉を今は育ててる',
+        source: 'youtube',
+      },
+      {
+        id: 'raw-2',
+        start: 10,
+        end: 15,
+        duration: 5,
+        text: 'もしかしたら',
+        source: 'youtube',
+      },
+      {
+        id: 'raw-3',
+        start: 15,
+        end: 20,
+        duration: 5,
+        text: '君と手を取りたい',
+        source: 'youtube',
+      },
+      {
+        id: 'raw-4',
+        start: 20,
+        end: 25,
+        duration: 5,
+        text: '風の中でも負けないような声で',
+        source: 'youtube',
+      },
+    ]
+
+    const result = reconstructSegments(rawUnits)
+
+    // Should preserve most segments (4-5 out of 5)
+    expect(result.length).toBeGreaterThanOrEqual(4)
+
+    // Count preserved strategies
+    const preservedCount = result.filter((s) => s.strategy === 'preserve').length
+    expect(preservedCount).toBeGreaterThanOrEqual(3)
+  })
+
+  it('enforces max cluster size hard limit', () => {
+    // Create 12 units that all look incomplete (would merge without limit)
+    const rawUnits: RawTranscriptUnit[] = Array.from({ length: 12 }, (_, i) => ({
+      id: `raw-${i}`,
+      start: i * 2,
+      end: (i + 1) * 2,
+      duration: 2,
+      text: `短い${i}`, // Very short fragments
+      source: 'test',
+    }))
+
+    const result = reconstructSegments(rawUnits)
+
+    // Should NOT merge all 12 into one segment due to MAX_CLUSTER_SIZE
+    expect(result.length).toBeGreaterThan(1)
+
+    // No single segment should have more than 8 sources
+    const maxSources = Math.max(...result.map((s) => s.sourceIds.length))
+    expect(maxSources).toBeLessThanOrEqual(8)
+  })
+
+  it('enforces max text length hard limit', () => {
+    // Create units with long text that would exceed MAX_CLUSTER_TEXT_LENGTH
+    const longText = '非常に長いテキストです。'.repeat(10) // ~120 chars
+    const rawUnits: RawTranscriptUnit[] = [
+      {
+        id: 'raw-0',
+        start: 0,
+        end: 5,
+        duration: 5,
+        text: longText,
+        source: 'test',
+      },
+      {
+        id: 'raw-1',
+        start: 5,
+        end: 10,
+        duration: 5,
+        text: longText, // Would be duplicate, but also triggers length limit
+        source: 'test',
+      },
+      {
+        id: 'raw-2',
+        start: 10,
+        end: 15,
+        duration: 5,
+        text: longText,
+        source: 'test',
+      },
+    ]
+
+    const result = reconstructSegments(rawUnits)
+
+    // Should NOT merge all into one segment due to MAX_CLUSTER_TEXT_LENGTH
+    // At ~120 chars each, 3 units = ~360 chars, exceeds 250 limit
+    expect(result.length).toBeGreaterThan(1)
+  })
+})

@@ -437,6 +437,22 @@ interface ProviderEntry {
   fn: (videoId: string) => Promise<TranscriptResult | null>
 }
 
+const MIN_ACCEPTABLE_SEGMENTS = 2
+const MIN_ACCEPTABLE_TOTAL_DURATION_SECONDS = 10
+
+/**
+ * Reject obviously unusable transcript payloads in normal waterfall mode.
+ *
+ * Example: a long video that yields only one short manual caption line from a
+ * provider should not block later fallbacks. Forced-provider mode bypasses this
+ * gate so debugging can still inspect the raw provider output.
+ */
+function isUsableTranscriptResult(result: TranscriptSuccess): boolean {
+  if (result.totalSegments < MIN_ACCEPTABLE_SEGMENTS) return false
+  if (result.totalDuration < MIN_ACCEPTABLE_TOTAL_DURATION_SECONDS) return false
+  return true
+}
+
 const PROVIDERS: ProviderEntry[] = [
   { name: 'youtubei-api', fn: tryYouTubeiTranscriptApi },
   { name: 'youtubei-timedtext', fn: tryYouTubeiTimedtext },
@@ -502,6 +518,19 @@ export async function runTranscriptWaterfall(
       }
 
       if (result.available) {
+        if (!isUsableTranscriptResult(result)) {
+          console.log(
+            `[moshi-player] Provider ${provider.name}: rejected low-quality result (${result.totalSegments} segments, ${result.totalDuration.toFixed(3)}s)`,
+          )
+          lastUnavailable = {
+            available: false,
+            videoId,
+            error: `Provider ${provider.name} returned an insufficient transcript (${result.totalSegments} segments, ${result.totalDuration.toFixed(3)}s)`,
+            source: provider.name,
+          }
+          continue
+        }
+
         console.log(
           `[moshi-player] Provider ${provider.name}: SUCCESS (${result.totalSegments} segments)`,
         )

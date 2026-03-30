@@ -446,6 +446,59 @@ export function hasSignificantOverlap(
 // ─── Merging strategy ───────────────────────────────────────────────────────
 
 /**
+ * Merge strength classification for cluster boundary control.
+ * STRONG merges (continuations) can chain indefinitely.
+ * WEAK merges (overlap/duplicates) should stop at sentence boundaries.
+ */
+export type MergeStrength = 'strong' | 'weak' | 'none'
+
+/**
+ * Determine merge strength between two consecutive units.
+ * Returns the strength of the merge signal, or 'none' if units should not merge.
+ *
+ * Stage C2.5+: Distinguishes between STRONG (continuation) and WEAK (overlap/duplicate)
+ * to prevent transitive over-merging across sentence boundaries.
+ */
+export function getMergeStrength(
+  current: RawTranscriptUnit,
+  next: RawTranscriptUnit,
+): MergeStrength {
+  // STRONG: Current is incomplete and next is a continuation
+  // These MUST merge to repair broken sentences
+  if (looksLikeContinuation(current.text, next.text)) return 'strong'
+
+  // STRONG: Both are very short AND at least one is incomplete — likely fragmented
+  // Don't merge if both have proper sentence endings
+  if (current.text.length < 10 && next.text.length < 10) {
+    // Only merge if at least one looks incomplete
+    if (
+      looksLikeIncompleteFragment(current.text) ||
+      looksLikeIncompleteFragment(next.text)
+    ) {
+      return 'strong'
+    }
+  }
+
+  // STRONG: Current doesn't end with boundary and looks incomplete
+  if (
+    !endsWithSentenceBoundary(current.text) &&
+    looksLikeIncompleteFragment(current.text)
+  ) {
+    return 'strong'
+  }
+
+  // WEAK: Detect duplicates (Sheldon-style repeated lines)
+  // These can merge, but shouldn't chain across sentence boundaries
+  if (areDuplicates(current, next)) return 'weak'
+
+  // WEAK: Detect overlapping text (Sheldon-style redundancy)
+  // These can merge, but shouldn't chain across sentence boundaries
+  if (hasSignificantOverlap(current, next)) return 'weak'
+
+  return 'none'
+}
+
+/**
  * Determine if two consecutive units should be merged.
  *
  * Stage C2.5: Extended to handle overlap and duplication patterns.
@@ -454,34 +507,5 @@ export function shouldMergeUnits(
   current: RawTranscriptUnit,
   next: RawTranscriptUnit,
 ): boolean {
-  // Current is incomplete and next is a continuation
-  if (looksLikeContinuation(current.text, next.text)) return true
-
-  // Stage C2.5: Detect duplicates (Sheldon-style repeated lines)
-  if (areDuplicates(current, next)) return true
-
-  // Stage C2.5: Detect overlapping text (Sheldon-style redundancy)
-  if (hasSignificantOverlap(current, next)) return true
-
-  // Both are very short AND at least one is incomplete — likely fragmented
-  // Don't merge if both have proper sentence endings
-  if (current.text.length < 10 && next.text.length < 10) {
-    // Only merge if at least one looks incomplete
-    if (
-      looksLikeIncompleteFragment(current.text) ||
-      looksLikeIncompleteFragment(next.text)
-    ) {
-      return true
-    }
-  }
-
-  // Current doesn't end with boundary and looks incomplete
-  if (
-    !endsWithSentenceBoundary(current.text) &&
-    looksLikeIncompleteFragment(current.text)
-  ) {
-    return true
-  }
-
-  return false
+  return getMergeStrength(current, next) !== 'none'
 }

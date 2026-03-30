@@ -14,11 +14,15 @@
 import type { RawTranscriptUnit, ReconstructedTextSegment } from './transcript-types'
 import {
   shouldMergeUnits,
+  getMergeStrength,
   endsWithSentenceBoundary,
   looksLikeIncompleteFragment,
+  looksLikeContinuation,
   cleanContamination,
   shouldPreserveCluster,
+  isGoodLineation,
 } from './reconstruction-heuristics'
+import type { MergeStrength } from './reconstruction-heuristics'
 
 /**
  * Reconstruct learner-facing text segments from raw units.
@@ -110,21 +114,78 @@ function reconstructWithLocalClusters(
 /**
  * Build a cluster of units that should be evaluated together.
  * Groups units that have merge signals between them.
+ *
+ * Stage C2.5+: Adds hard stop conditions to prevent transitive over-merging:
+ * 1. Max cluster size (8 units)
+ * 2. Max accumulated text length (250 chars)
+ * 3. Strong boundary detection: after weak merges, stop at complete sentence boundaries
  */
 function buildCluster(rawUnits: RawTranscriptUnit[], startIndex: number): RawTranscriptUnit[] {
   const cluster: RawTranscriptUnit[] = [rawUnits[startIndex]]
   let i = startIndex
+  let lastMergeStrength: MergeStrength = 'none'
+
+  // Hard limits to prevent runaway clustering
+  const MAX_CLUSTER_SIZE = 8
+  const MAX_CLUSTER_TEXT_LENGTH = 250
 
   while (i < rawUnits.length - 1) {
     const current = rawUnits[i]
     const next = rawUnits[i + 1]
 
-    if (shouldMergeUnits(current, next)) {
-      cluster.push(next)
-      i++
-    } else {
+    // Check merge strength
+    const mergeStrength = getMergeStrength(current, next)
+
+    if (mergeStrength === 'none') {
+      // No merge signal - stop cluster
       break
     }
+
+    // Hard stop 1: Max cluster size reached
+    if (cluster.length >= MAX_CLUSTER_SIZE) {
+      break
+    }
+
+    // Hard stop 2: Max accumulated text length
+    const accumulatedLength = cluster.reduce((sum, u) => sum + u.text.length, 0)
+    if (accumulatedLength + next.text.length > MAX_CLUSTER_TEXT_LENGTH) {
+      break
+    }
+
+    // Hard stop 3: Prevent weak merges from chaining into unrelated content
+    // After weak merges (overlap/duplicate), if cluster already has complete sentence
+    // and next is a clean unrelated unit, stop the cluster
+    if (lastMergeStrength === 'weak' && cluster.length >= 2) {
+      // Check if the last unit in cluster forms a complete sentence
+      const lastUnit = cluster[cluster.length - 1]
+      const hasCompleteSentence = endsWithSentenceBoundary(lastUnit.text)
+
+      // If we have a complete sentence and next is a good unit, stop
+      if (hasCompleteSentence && isGoodLineation(next)) {
+        // Cluster is complete, next is clean - stop here
+        break
+      }
+    }
+
+    // Hard stop 4: Prevent fragments from pulling in unrelated clean content
+    // If current cluster contains weak merges and next is a completely unrelated good unit
+    if (lastMergeStrength === 'weak' && mergeStrength === 'strong') {
+      // Weak merge followed by strong merge signal - check if next is actually related
+      if (isGoodLineation(next) && cluster.length >= 2) {
+        // Next is good unit - only merge if there's actual text continuity
+        // Check: does current end incompletely in a way that next continues?
+        const lastUnit = cluster[cluster.length - 1]
+        if (!looksLikeContinuation(lastUnit.text, next.text)) {
+          // No actual continuation - strong signal is spurious, stop cluster
+          break
+        }
+      }
+    }
+
+    // Add to cluster
+    cluster.push(next)
+    lastMergeStrength = mergeStrength
+    i++
   }
 
   return cluster
