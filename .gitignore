@@ -90,3 +90,7 @@ new-key
 
 # Local git worktree
 .worktree-notification/
+
+# Temporary and local config files
+.CURL
+.sfdx/
