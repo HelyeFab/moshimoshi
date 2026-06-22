@@ -4450,6 +4450,10 @@ export const strings = {
     title: 'YouTube Shadowing',
     description: 'Practice Japanese with YouTube videos and media files',
     watchOnYouTube: 'Watch on YouTube',
+    beta: {
+      label: 'Beta',
+      tooltip: 'Shadowing tools are improving while we refine transcript sync.',
+    },
 
     hero: {
       title: 'Master Japanese with YouTube Videos',

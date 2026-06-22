@@ -3910,6 +3910,10 @@ export const strings = {
   youtubeShadowing: {
     title: 'YouTube Shadowing',
     description: 'Übe Japanisch mit YouTube-Videos und Audiodateien',
+    beta: {
+      label: 'Beta',
+      tooltip: 'Shadowing-Tools werden verbessert, während wir die Transkript-Synchronisierung verfeinern.',
+    },
     header: {
       eyebrow: 'Shadowing-Player',
       title: 'MoshiPlayer',

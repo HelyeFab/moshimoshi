@@ -10,6 +10,7 @@ interface TooltipProps {
   delay?: number;
   className?: string;
   disabled?: boolean;
+  clickable?: boolean;
 }
 
 export default function Tooltip({
@@ -19,6 +20,7 @@ export default function Tooltip({
   delay = 200,
   className = '',
   disabled = false,
+  clickable = false,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
@@ -128,6 +130,26 @@ export default function Tooltip({
     }, 4000); // Auto-hide after 4s on mobile for better readability
   };
 
+  const handleClick = () => {
+    if (!clickable || disabled) return;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    const nextVisible = !isVisible;
+    setIsVisible(nextVisible);
+
+    if (nextVisible) {
+      requestAnimationFrame(() => {
+        calculatePosition();
+      });
+      timeoutRef.current = setTimeout(() => {
+        setIsVisible(false);
+      }, 4000);
+    }
+  };
+
   const getArrowClasses = () => {
     const arrows = {
       top: 'bottom-[-4px] left-1/2 -translate-x-1/2 border-t-gray-900 dark:border-t-gray-700 border-x-transparent border-b-transparent',
@@ -172,6 +194,7 @@ export default function Tooltip({
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onClickCapture={clickable ? handleClick : undefined}
         className="inline-block"
       >
         {children}

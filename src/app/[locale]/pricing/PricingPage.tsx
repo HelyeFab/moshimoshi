@@ -11,6 +11,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { LoadingButton } from '@/components/ui/Loading';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast';
+import BetaPill from '@/components/common/BetaPill';
 // Navigation is now global via NavigationWrapper in root layout;
 
 export default function PricingPage() {
@@ -148,6 +149,12 @@ export default function PricingPage() {
                   <p className="mt-2 text-gray-600 dark:text-gray-400">
                     {t(plan.description)}
                   </p>
+                  {plan.id !== 'free' && (
+                    <div className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span>{t('youtubeShadowing.title')}</span>
+                      <BetaPill />
+                    </div>
+                  )}
                   <div className="mt-6">
                     <span className="text-4xl font-bold text-gray-900 dark:text-white">
                       {PRICING_CONFIG.currencySymbol}{plan.price}

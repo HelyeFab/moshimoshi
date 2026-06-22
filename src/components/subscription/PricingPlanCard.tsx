@@ -5,6 +5,7 @@ import { PRICING_CONFIG } from '@/config/pricing';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { LoadingButton } from '@/components/ui/Loading';
 import { useI18n } from '@/i18n/I18nContext';
+import BetaPill from '@/components/common/BetaPill';
 
 interface PricingPlanCardProps {
   plan: PricingPlan;
@@ -48,6 +49,7 @@ export function PricingPlanCard({
   };
 
   const currencySymbol = PRICING_CONFIG.currencySymbol;
+  const showShadowingBeta = plan.id !== 'free';
 
   return (
     <div
@@ -81,6 +83,12 @@ export function PricingPlanCard({
         <p className={`${variant === 'compact' ? 'mt-1' : 'mt-2'} text-gray-600 dark:text-gray-400`}>
           {t(plan.description)}
         </p>
+        {showShadowingBeta && (
+          <div className={`${variant === 'compact' ? 'mt-2' : 'mt-3'} inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300`}>
+            <span>{t('youtubeShadowing.title')}</span>
+            <BetaPill />
+          </div>
+        )}
         <div className={variant === 'compact' ? 'mt-2' : 'mt-6'}>
           <span className={`${variant === 'compact' ? 'text-3xl' : 'text-4xl'} font-bold text-gray-900 dark:text-white`}>
             {currencySymbol}{plan.price}

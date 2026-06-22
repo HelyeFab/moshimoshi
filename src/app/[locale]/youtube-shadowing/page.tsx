@@ -31,6 +31,7 @@ import { hasSeenWordLookup } from "@/utils/wordLookupSeen";
 import { useSubscription } from "@/hooks/useSubscription";
 import { isFeatureEnabled } from "@/lib/features/featureFlags";
 import { verifySeekLanding, calculateSegmentBuffers } from "@/utils/youtubePlayerUtils";
+import BetaPill from "@/components/common/BetaPill";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -1148,20 +1149,22 @@ function YouTubeShadowingContent() {
       <Navbar user={user} showUserMenu={true} />
 
       <PageHeader
-
         title={t('youtubeShadowing.header.title')}
         description={t('youtubeShadowing.header.subtitle')}
         subtitle={t('youtubeShadowing.header.eyebrow')}
         backHref="/dashboard"
         actions={
-          usageData.hasData ? (
-            <DesktopCircularIndicator
-              remaining={usageData.remaining}
-              limitCount={usageData.limitCount}
-              usedCount={usageData.usedCount}
-              color={usageData.color}
-            />
-          ) : null
+          <div className="flex items-center gap-3">
+            <BetaPill />
+            {usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null}
+          </div>
         }
       />
 

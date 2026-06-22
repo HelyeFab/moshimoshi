@@ -26,6 +26,7 @@ import Tooltip from '@/components/ui/Tooltip'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import StallBadge from '@/components/learning-village/StallBadge'
 import { shouldShowBadge } from '@/lib/learning-village/badgeUtils'
+import BetaPill from '@/components/common/BetaPill'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -235,6 +236,7 @@ function StallCard({
 
   const isFeatured = isPopular
   const isCompact = compactIds.includes(stall.id)
+  const showBetaPill = stall.id === 'youtube-shadowing'
 
   const heightClass = isFeatured ? 'min-h-[280px]' : isCompact ? 'min-h-[200px]' : 'min-h-[240px]'
   const spacingClass = isFeatured ? 'space-y-6' : isCompact ? 'space-y-2' : 'space-y-4'
@@ -321,22 +323,25 @@ function StallCard({
           </div>
 
           {/* Title */}
-          <h3
-            className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}
-          >
-            {/* Split title if it contains multiple words */}
-            {stall.title.split(' ').length > 1 ? (
-              <>
-                {stall.title.split(' ').map((word: string, index: number) => (
-                  <span key={index} className="block">
-                    {word}
-                  </span>
-                ))}
-              </>
-            ) : (
-              stall.title
-            )}
-          </h3>
+          <div className="flex flex-wrap items-start gap-2">
+            <h3
+              className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}
+            >
+              {/* Split title if it contains multiple words */}
+              {stall.title.split(' ').length > 1 ? (
+                <>
+                  {stall.title.split(' ').map((word: string, index: number) => (
+                    <span key={index} className="block">
+                      {word}
+                    </span>
+                  ))}
+                </>
+              ) : (
+                stall.title
+              )}
+            </h3>
+            {showBetaPill && <BetaPill className="mt-0.5" />}
+          </div>
 
           {/* Subtitle */}
           {!isCompact && (
@@ -404,6 +409,7 @@ function MobileStallCard({
   // Get offline support level for this stall
   const offlineSupport = STALL_OFFLINE_SUPPORT[stall.id] || 'partial'
   const showOfflineWarning = !isOnline && offlineSupport === 'none'
+  const showBetaPill = stall.id === 'youtube-shadowing'
 
   return (
     <Link href={stall.href} className="block w-full group">
@@ -465,9 +471,12 @@ function MobileStallCard({
           </div>
 
           <div className="flex-grow min-w-0 overflow-hidden">
-            <h3 className="font-bold text-gray-900 dark:text-white leading-tight text-base sm:text-lg truncate">
-              {stall.title}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-gray-900 dark:text-white leading-tight text-base sm:text-lg truncate">
+                {stall.title}
+              </h3>
+              {showBetaPill && <BetaPill className="flex-shrink-0" />}
+            </div>
             <p className="text-sm text-gray-700 dark:text-gray-300 truncate">{stall.subtitle}</p>
           </div>
         </div>

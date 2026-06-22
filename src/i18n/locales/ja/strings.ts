@@ -4184,6 +4184,10 @@ export const strings = {
   youtubeShadowing: {
     title: 'YouTubeシャドーイング',
     description: 'YouTube動画と音声ファイルで日本語を練習',
+    beta: {
+      label: 'Beta',
+      tooltip: '文字起こしの同期を磨きながら、シャドーイング機能を改善しています。',
+    },
     header: {
       eyebrow: 'シャドーイングプレイヤー',
       title: 'MoshiPlayer',

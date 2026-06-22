@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
+import BetaPill from '@/components/common/BetaPill'
 
 interface CompetitorApp {
   name: string
@@ -14,6 +15,19 @@ interface CompetitorApp {
   features: string[]
   missing: string[]
   logoUrl: string
+}
+
+function isShadowingFeature(feature: string) {
+  return /MoshiPlayer|YouTube shadowing|YouTube-Shadowing|YouTubeシャドーイング|シャドーイング/i.test(feature)
+}
+
+function PricingFeatureText({ feature, className = '' }: { feature: string; className?: string }) {
+  return (
+    <span className={`inline-flex flex-wrap items-center gap-2 ${className}`}>
+      <span>{feature}</span>
+      {isShadowingFeature(feature) && <BetaPill />}
+    </span>
+  )
 }
 
 export default function PricingComparison() {
@@ -294,7 +308,7 @@ export default function PricingComparison() {
                 {(moshimoshiPricing.free?.features || []).map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                    <PricingFeatureText feature={feature} className="text-gray-700 dark:text-gray-300" />
                   </li>
                 ))}
                 {(moshimoshiPricing.free?.limitations || []).map((limitation, idx) => (
@@ -373,7 +387,7 @@ export default function PricingComparison() {
                 ]).map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <CheckIcon className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
-                    <span className={idx === 0 ? "font-semibold" : ""}>{feature}</span>
+                    <PricingFeatureText feature={feature} className={idx === 0 ? "font-semibold" : ""} />
                   </li>
                 ))}
               </ul>
@@ -417,7 +431,7 @@ export default function PricingComparison() {
                 <ul className="space-y-3">
                   {category.items.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                      <PricingFeatureText feature={item} className="text-gray-700 dark:text-gray-300" />
                     </li>
                   ))}
                 </ul>
