@@ -13,7 +13,7 @@ import VocabularySearch from './components/VocabularySearch'
 import WordDetailsModal from './components/WordDetailsModal'
 import SearchHistory from './components/SearchHistory'
 import { searchWords, initWanikaniApi } from '@/utils/api'
-import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
+import { searchDictionary } from '@/utils/dictionaryClient'
 import type { JapaneseWord } from '@/types/vocabulary'
 import { useSubscription } from '@/hooks/useSubscription'
 import { vocabularyHistoryManager } from '@/utils/vocabularyHistoryManager'
@@ -92,13 +92,12 @@ function VocabularyContent() {
     }
   }, [])
 
-  // Initialize APIs on mount
+  // Initialize APIs on mount. JMDict is now searched server-side via
+  // /api/dictionary/search, so we no longer eagerly download the ~15 MB
+  // dictionary JSON into the browser.
   useEffect(() => {
     initWanikaniApi()
-    if (searchSource === 'jmdict') {
-      loadJMdictData()
-    }
-  }, [searchSource])
+  }, [])
 
   // Load search history using the manager
   useEffect(() => {
@@ -152,7 +151,7 @@ function VocabularyContent() {
           // Fallback to JMDict if no results
           if (results.length === 0) {
             showToast('No results from WaniKani, trying JMDict...', 'info')
-            results = await searchJMdictWords(term, 30)
+            results = await searchDictionary(term, 30)
             actualSource = 'jmdict' // Update actual source
             usedFallback = true
           }
@@ -162,14 +161,14 @@ function VocabularyContent() {
 
           // Always fallback to JMDict on error
           showToast('WaniKani unavailable, trying JMDict...', 'info')
-          results = await searchJMdictWords(term, 30)
+          results = await searchDictionary(term, 30)
           actualSource = 'jmdict' // Update actual source
           usedFallback = true
         }
       } else {
         // Using JMDict as primary
         try {
-          results = await searchJMdictWords(term, 30)
+          results = await searchDictionary(term, 30)
 
           // Fallback to WaniKani if no results
           if (results.length === 0) {
@@ -319,7 +318,7 @@ function VocabularyContent() {
                         : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
                     }`}
                   >
-                    JMDict (Offline)
+                    JMDict
                   </button>
                   <button
                     onClick={() => setSearchSource('wanikani')}
