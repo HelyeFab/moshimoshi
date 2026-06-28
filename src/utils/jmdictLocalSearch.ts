@@ -1,39 +1,22 @@
 import { JapaneseWord, WordType, JLPTLevel } from '@/types/vocabulary'
 import { ValidationUtils } from '@/lib/review-engine/validation/validation-utils'
 import { getJLPTLevel, isN5Word, isN4Word } from '@/data/jlpt-conjugatable-words'
+import { deinflect, looksInflected } from '@/utils/japaneseDeinflector'
 import * as fs from 'fs'
 import * as path from 'path'
 
-interface JMDictGloss {
-  lang: string
-  text: string
-}
+// Entry shapes come from the official jmdict-simplified schema package so the
+// structure stays in sync with the data file we ship and any schema drift is
+// caught at compile time. Aliased to the names used throughout this module.
+import type {
+  JMdictWord as JMDictWord,
+  JMdictKanji as JMDictKanji,
+  JMdictKana as JMDictKana,
+  JMdictSense as JMDictSense,
+  JMdictGloss as JMDictGloss,
+} from '@scriptin/jmdict-simplified-types'
 
-interface JMDictSense {
-  gloss?: JMDictGloss[]
-  partOfSpeech?: string[]
-}
-
-interface JMDictKanji {
-  text?: string
-  tags?: string[]
-  common?: boolean
-}
-
-interface JMDictKana {
-  text?: string
-  tags?: string[]
-  common?: boolean
-  appliesToKanji?: string[]
-}
-
-interface JMDictWord {
-  id: string
-  kanji?: JMDictKanji[]
-  kana?: JMDictKana[]
-  sense?: JMDictSense[]
-}
-
+// Minimal container type (the loader also tolerates an empty fallback).
 interface JMDictData {
   words: JMDictWord[]
 }
@@ -89,6 +72,174 @@ export async function loadJMdictData(): Promise<void> {
   return loadPromise
 }
 
+// ---------------------------------------------------------------------------
+// Corpus frequency bands (id → band; 1 = most frequent ~500 words, ascending).
+//
+// This is the data-driven replacement for the old hardcoded COMMON_WORDS table.
+// It is precomputed (scripts/build-jmdict-freq) from the upstream EDRDG JMdict
+// priority data (nfXX frequency bands + the news1/ichi1/spec1/gai1 "(P)"
+// markers) — the same dictionary, same licence — into a compact ~370 KB sidecar
+// keyed by JMdict entry id. The common-only JMDict JSON we ship has these tags
+// stripped, which is why the table existed in the first place.
+// ---------------------------------------------------------------------------
+let freqData: Record<string, number> | null = null
+let freqPromise: Promise<void> | null = null
+
+export async function loadFreqData(): Promise<void> {
+  if (freqData) return
+  if (freqPromise) return freqPromise
+
+  freqPromise = (async () => {
+    try {
+      if (typeof window === 'undefined') {
+        const filePath = path.join(process.cwd(), 'public', 'data', 'dictionary', 'jmdict-freq.json')
+        freqData = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+      } else {
+        const res = await fetch('/data/dictionary/jmdict-freq.json')
+        freqData = await res.json()
+      }
+    } catch (error) {
+      console.error('Failed to load JMDict frequency data:', error)
+      freqData = {}
+    }
+  })()
+
+  return freqPromise
+}
+
+/** Frequency band for an entry (lower = more common), or undefined if unranked. */
+function getFreqBand(id: string): number | undefined {
+  return freqData ? freqData[id] : undefined
+}
+
+// ---------------------------------------------------------------------------
+// Inverted search index
+//
+// Building this once turns each query from an O(n) scan of every entry (with
+// per-entry array flattening + regex) into a lookup that returns a small
+// candidate set. The scorer then runs over only those candidates, so ranking
+// is unchanged — we just avoid touching entries that can't possibly match.
+// ---------------------------------------------------------------------------
+interface SearchIndex {
+  /** Every JP character appearing in kanji[0]/kana[0] → entry indices. */
+  byJpChar: Map<string, number[]>
+  /** Exact kanji[0]/kana[0] text → entry indices (deinflected + common forms). */
+  jpExact: Map<string, number[]>
+  /** Unique lowercased English gloss tokens (scanned for prefix/substring). */
+  glossTokens: string[]
+  /** English token → entry indices. */
+  tokenToEntries: Map<string, number[]>
+}
+
+let searchIndex: SearchIndex | null = null
+
+function pushTo(map: Map<string, number[]>, key: string, idx: number): void {
+  const arr = map.get(key)
+  if (arr) {
+    if (arr[arr.length - 1] !== idx) arr.push(idx)
+  } else {
+    map.set(key, [idx])
+  }
+}
+
+function getSearchIndex(): SearchIndex {
+  if (searchIndex) return searchIndex
+
+  const byJpChar = new Map<string, number[]>()
+  const jpExact = new Map<string, number[]>()
+  const tokenToEntries = new Map<string, number[]>()
+
+  const words = jmdictData?.words || []
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i]
+    const kanjiText = word.kanji?.[0]?.text || ''
+    const kanaText = word.kana?.[0]?.text || ''
+
+    for (const text of [kanjiText, kanaText]) {
+      if (!text) continue
+      // Index every character so "term is a substring of text" is captured by
+      // the first character of the term (a guaranteed superset).
+      const chars = new Set(text)
+      for (const c of chars) pushTo(byJpChar, c, i)
+      pushTo(jpExact, text, i)
+    }
+
+    // Index all English gloss tokens across all senses.
+    for (const sense of word.sense || []) {
+      for (const gloss of sense.gloss || []) {
+        if (gloss.lang && gloss.lang !== 'eng') continue
+        const tokens = gloss.text.toLowerCase().split(/[^a-z0-9]+/)
+        for (const tok of tokens) {
+          if (tok) pushTo(tokenToEntries, tok, i)
+        }
+      }
+    }
+  }
+
+  searchIndex = {
+    byJpChar,
+    jpExact,
+    glossTokens: Array.from(tokenToEntries.keys()),
+    tokenToEntries,
+  }
+  return searchIndex
+}
+
+const HAS_JP_CHAR = /[぀-ヿ一-龯]/
+const HAS_LATIN = /[a-z0-9]/i
+
+/**
+ * Resolve the candidate entries for a query from the index. Guaranteed to be a
+ * superset of everything the scorer would score > 0, so ranking is preserved.
+ * Falls back to a full scan for multi-word English queries (which can match on
+ * whole-gloss substrings the token index doesn't bound) and as a safety net.
+ */
+function collectCandidateWords(
+  index: SearchIndex,
+  q: {
+    term: string
+    lowerTerm: string
+    isShortTerm: boolean
+    deinflectSet: Set<string>
+  }
+): JMDictWord[] {
+  const words = jmdictData?.words || []
+  const { term, lowerTerm, isShortTerm, deinflectSet } = q
+
+  // Multi-word / punctuated English queries: the scorer matches against whole
+  // glosses (e.g. "get on"), which a single-token index can't bound. Full scan.
+  const isMultiToken = HAS_LATIN.test(lowerTerm) && /[^a-z0-9]/.test(lowerTerm.trim())
+  if (isMultiToken) return words
+
+  const candidates = new Set<number>()
+
+  // Japanese: "text contains term" ⊆ entries containing term's first char.
+  if (HAS_JP_CHAR.test(term) && term.length > 0) {
+    for (const idx of index.byJpChar.get(term[0]) || []) candidates.add(idx)
+  }
+  // Deinflected dictionary forms (exact JP writing).
+  for (const form of deinflectSet) {
+    for (const idx of index.jpExact.get(form) || []) candidates.add(idx)
+  }
+
+  // English: exact + word-start (short terms) / substring (longer terms) all
+  // reduce to "some gloss token startsWith/includes the term".
+  if (HAS_LATIN.test(lowerTerm)) {
+    for (const tok of index.glossTokens) {
+      const hit = isShortTerm ? tok.startsWith(lowerTerm) : tok.includes(lowerTerm)
+      if (hit) {
+        for (const idx of index.tokenToEntries.get(tok) || []) candidates.add(idx)
+      }
+    }
+  }
+
+  // Safety net: if the index produced nothing, fall back to a full scan so we
+  // never silently return fewer results than the exhaustive scan would.
+  if (candidates.size === 0) return words
+
+  return Array.from(candidates, idx => words[idx])
+}
+
 // Priority tags indicating common usage - higher weight for more common tags
 const PRIORITY_SCORES: Record<string, number> = {
   'news1': 500,
@@ -116,161 +267,6 @@ const POS_SCORES: Record<string, number> = {
   'compound': -20, // Penalty for compounds
   'technical': -30, // Penalty for technical terms
   'obscure': -40 // Penalty for obscure terms
-}
-
-// Common words that should be prioritized
-const COMMON_WORDS: Record<string, string[]> = {
-  // Animals
-  'pig': ['豚', 'ぶた'],
-  'cat': ['猫', 'ねこ'],
-  'dog': ['犬', 'いぬ'],
-  'bird': ['鳥', 'とり'],
-  'fish': ['魚', 'さかな'],
-  'horse': ['馬', 'うま'],
-  'cow': ['牛', 'うし'],
-  'chicken': ['鶏', 'にわとり'],
-  'mouse': ['鼠', 'ねずみ'],
-  'rat': ['鼠', 'ねずみ'],
-  'rabbit': ['兎', 'うさぎ'],
-  'tiger': ['虎', 'とら'],
-  'lion': ['獅子', 'しし'],
-  'bear': ['熊', 'くま'],
-  'elephant': ['象', 'ぞう'],
-  // Transportation
-  'car': ['車', 'くるま'],
-  'train': ['電車', 'でんしゃ'],
-  'bus': ['バス', 'ばす'],
-  'bicycle': ['自転車', 'じてんしゃ'],
-  'airplane': ['飛行機', 'ひこうき'],
-  'ship': ['船', 'ふね'],
-  'taxi': ['タクシー', 'たくしー'],
-  // Common verbs
-  'eat': ['食べる', 'たべる'],
-  'drink': ['飲む', 'のむ'],
-  'sleep': ['寝る', 'ねる'],
-  'wake': ['起きる', 'おきる'],
-  'go': ['行く', 'いく'],
-  'come': ['来る', 'くる'],
-  'see': ['見る', 'みる'],
-  'hear': ['聞く', 'きく'],
-  'speak': ['話す', 'はなす'],
-  'read': ['読む', 'よむ'],
-  'write': ['書く', 'かく'],
-  'study': ['勉強', 'べんきょう'],
-  'work': ['働く', 'はたらく'],
-  'play': ['遊ぶ', 'あそぶ'],
-  'buy': ['買う', 'かう'],
-  'sell': ['売る', 'うる'],
-  'walk': ['歩く', 'あるく'],
-  'run': ['走る', 'はしる'],
-  'stop': ['止まる', 'とまる'],
-  'start': ['始まる', 'はじまる'],
-  'end': ['終わる', 'おわる'],
-  'open': ['開く', 'あく', '開ける', 'あける'],
-  'close': ['閉じる', 'とじる', '閉める', 'しめる'],
-  'sit': ['座る', 'すわる'],
-  'stand': ['立つ', 'たつ'],
-  'give': ['あげる', 'くれる', '与える', 'あたえる'],
-  'take': ['取る', 'とる'],
-  'make': ['作る', 'つくる'],
-  'think': ['思う', 'おもう', '考える', 'かんがえる'],
-  'know': ['知る', 'しる'],
-  'want': ['欲しい', 'ほしい'],
-  'need': ['必要', 'ひつよう', 'いる'],
-  'like': ['好き', 'すき'],
-  'love': ['愛', 'あい', '愛する', 'あいする'],
-  'hate': ['嫌い', 'きらい'],
-  // Common objects/school items
-  'pen': ['ペン', 'ぺん'],
-  'pencil': ['鉛筆', 'えんぴつ'],
-  'book': ['本', 'ほん'],
-  'notebook': ['ノート', 'のーと'],
-  'paper': ['紙', 'かみ'],
-  'desk': ['机', 'つくえ'],
-  'chair': ['椅子', 'いす'],
-  'table': ['テーブル', 'てーぶる', '卓', 'たく'],
-  'door': ['ドア', 'どあ', '戸', 'と'],
-  'window': ['窓', 'まど'],
-  'room': ['部屋', 'へや'],
-  'house': ['家', 'いえ', 'うち'],
-  'school': ['学校', 'がっこう'],
-  'classroom': ['教室', 'きょうしつ'],
-  'teacher': ['先生', 'せんせい'],
-  'student': ['学生', 'がくせい', '生徒', 'せいと'],
-  'friend': ['友達', 'ともだち', '友', 'とも'],
-  'bag': ['鞄', 'かばん', 'バッグ', 'ばっぐ'],
-  'computer': ['コンピューター', 'こんぴゅーたー', 'パソコン', 'ぱそこん'],
-  'phone': ['電話', 'でんわ'],
-  'television': ['テレビ', 'てれび'],
-  'watch': ['時計', 'とけい'],
-  'clock': ['時計', 'とけい'],
-  'key': ['鍵', 'かぎ'],
-  'money': ['お金', 'おかね', '金', 'かね'],
-  'wallet': ['財布', 'さいふ'],
-  // Food items
-  'food': ['食べ物', 'たべもの'],
-  'rice': ['ご飯', 'ごはん', '米', 'こめ'],
-  'bread': ['パン', 'ぱん'],
-  'water': ['水', 'みず'],
-  'tea': ['お茶', 'おちゃ', '茶', 'ちゃ'],
-  'coffee': ['コーヒー', 'こーひー'],
-  'milk': ['牛乳', 'ぎゅうにゅう', 'ミルク', 'みるく'],
-  'meat': ['肉', 'にく'],
-  'vegetable': ['野菜', 'やさい'],
-  'fruit': ['果物', 'くだもの'],
-  'apple': ['りんご', 'リンゴ'],
-  'orange': ['オレンジ', 'おれんじ', 'みかん'],
-  'banana': ['バナナ', 'ばなな'],
-  // Time
-  'time': ['時間', 'じかん', '時', 'とき'],
-  'day': ['日', 'ひ', 'にち'],
-  'week': ['週', 'しゅう', '週間', 'しゅうかん'],
-  'month': ['月', 'つき', 'げつ'],
-  'year': ['年', 'ねん', 'とし'],
-  'today': ['今日', 'きょう'],
-  'tomorrow': ['明日', 'あした', 'あす'],
-  'yesterday': ['昨日', 'きのう'],
-  'morning': ['朝', 'あさ'],
-  'afternoon': ['午後', 'ごご'],
-  'evening': ['夕方', 'ゆうがた'],
-  'night': ['夜', 'よる'],
-  // People & family
-  'person': ['人', 'ひと'],
-  'man': ['男', 'おとこ'],
-  'woman': ['女', 'おんな'],
-  'child': ['子供', 'こども', '子', 'こ'],
-  'mother': ['母', 'はは', 'お母さん', 'おかあさん'],
-  'father': ['父', 'ちち', 'お父さん', 'おとうさん'],
-  'parent': ['親', 'おや'],
-  'baby': ['赤ちゃん', 'あかちゃん'],
-  // Body parts
-  'hand': ['手', 'て'],
-  'foot': ['足', 'あし'],
-  'head': ['頭', 'あたま'],
-  'eye': ['目', 'め'],
-  'ear': ['耳', 'みみ'],
-  'mouth': ['口', 'くち'],
-  'nose': ['鼻', 'はな'],
-  // Colors
-  'color': ['色', 'いろ'],
-  'red': ['赤', 'あか', '赤い', 'あかい'],
-  'blue': ['青', 'あお', '青い', 'あおい'],
-  'green': ['緑', 'みどり', '緑の', 'みどりの'],
-  'yellow': ['黄色', 'きいろ', '黄色い', 'きいろい'],
-  'black': ['黒', 'くろ', '黒い', 'くろい'],
-  'white': ['白', 'しろ', '白い', 'しろい'],
-  // Numbers & basic concepts
-  'one': ['一', 'いち', 'ひとつ'],
-  'two': ['二', 'に', 'ふたつ'],
-  'three': ['三', 'さん', 'みっつ'],
-  'big': ['大きい', 'おおきい'],
-  'small': ['小さい', 'ちいさい'],
-  'hot': ['暑い', 'あつい', '熱い'],
-  'cold': ['寒い', 'さむい', '冷たい', 'つめたい'],
-  'new': ['新しい', 'あたらしい'],
-  'old': ['古い', 'ふるい'],
-  'good': ['良い', 'よい', 'いい'],
-  'bad': ['悪い', 'わるい']
 }
 
 // Helper function to get priority score from tags
@@ -385,6 +381,21 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
   // Get word type from first sense
   const wordType = determineWordType(entry.sense?.[0]?.partOfSpeech)
 
+  // JLPT level: the common-only JMDict distribution carries no JLPT data, so
+  // we can only assign a reliable level for conjugatable words via our curated
+  // N5/N4 lists. Everything else is left undefined so the UI doesn't render a
+  // misleading badge (previously every result was hardcoded to "N5").
+  let jlpt: JLPTLevel | undefined
+  const conjType =
+    wordType === 'verb' ? 'verb'
+    : wordType === 'i-adjective' ? 'i-adjective'
+    : wordType === 'na-adjective' ? 'na-adjective'
+    : null
+  if (conjType) {
+    const level = getJLPTLevel(kanji, kana, conjType)
+    if (level === 'N5' || level === 'N4') jlpt = level
+  }
+
   // Check if common
   const isCommon = entry.kanji?.[0]?.common || entry.kana?.[0]?.common || false
 
@@ -402,7 +413,7 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     romaji: '', // Not provided by JMDict
     meaning: meanings.join(', '),
     type: wordType,
-    jlpt: 'N5' as JLPTLevel, // Would need separate mapping
+    jlpt, // Only set for known N5/N4 conjugatable words; otherwise undefined
     tags: tags,
     partsOfSpeech
   }
@@ -411,6 +422,7 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
 // Search JMDict words
 export async function searchJMdictWords(term: string, limit = 30): Promise<JapaneseWord[]> {
   await loadJMdictData()
+  await loadFreqData()
   if (!jmdictData) return []
 
   const lowerTerm = term.toLowerCase().trim()
@@ -422,122 +434,107 @@ export async function searchJMdictWords(term: string, limit = 30): Promise<Japan
   // Escape special regex characters
   const escapedTerm = lowerTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-  // Check if this is a common word we know about
-  const commonWord = COMMON_WORDS[lowerTerm]
+  // Precompile the English-gloss matchers ONCE per search instead of rebuilding
+  // them inside the per-entry loop (previously ~22k recompiles per query).
+  const wordBoundaryRegex = new RegExp(`\\b${escapedTerm}\\b`, 'i')
+  const startsWordRegex = new RegExp(`\\b${escapedTerm}`, 'i')
 
-  for (const word of jmdictData.words) {
+  // Deinflect conjugated Japanese input (e.g. 乗った→乗る, 食べたい→食べる) so
+  // searches for inflected forms recover their dictionary entry. For
+  // non-inflected / non-Japanese input this is just [term], so behaviour for
+  // ordinary searches is unchanged.
+  const deinflectedForms = looksInflected(term) ? deinflect(term) : [term]
+  const deinflectSet = new Set(deinflectedForms.filter(f => f !== term))
+
+  // Gather candidate entries via the inverted index (superset-safe; far less
+  // work than scanning all ~22.5k entries).
+  const candidateWords = collectCandidateWords(getSearchIndex(), {
+    term,
+    lowerTerm,
+    isShortTerm,
+    deinflectSet,
+  })
+
+  for (const word of candidateWords) {
     let score = 0
 
     // Check kanji and kana matches
     const kanjiText = word.kanji?.[0]?.text || ''
     const kanaText = word.kana?.[0]?.text || ''
 
-    // Boost score for known common words
-    if (commonWord) {
-      if (commonWord.includes(kanjiText) || commonWord.includes(kanaText)) {
-        score += 3000 // Huge boost for known common words
-      }
-    }
-
-    // Exact match on Japanese text
+    // --- Japanese-text match -----------------------------------------------
     if (kanjiText === term || kanaText === term) {
       score += 1500
+    } else if (deinflectSet.has(kanjiText) || deinflectSet.has(kanaText)) {
+      // Dictionary form recovered from a conjugated query (e.g. 乗った→乗る).
+      score += 1300
     } else if (kanjiText.includes(term) || kanaText.includes(term)) {
       score += 300
     }
 
-    // English gloss match
-    let glossMatch = false
-    for (const sense of word.sense || []) {
-      for (const gloss of sense.gloss || []) {
-        if (gloss.lang === 'eng' || !gloss.lang) {
-          const glossText = gloss.text.toLowerCase()
+    // --- English-gloss match (position-aware) ------------------------------
+    // Find the BEST match across all senses, weighted by *position*: a match in
+    // the primary sense/gloss is the word's main meaning (本→"book", 食べる→
+    // "to eat", 猫→"cat …"), which is what users want; a match in a later sense
+    // (頂く's humble "to eat") is incidental. Parenthetical qualifiers and the
+    // English infinitive "to " are stripped so they don't block exact matches.
+    let bestGlossScore = 0
+    const senses = word.sense || []
+    for (let si = 0; si < senses.length; si++) {
+      const glosses = senses[si].gloss || []
+      for (let gi = 0; gi < glosses.length; gi++) {
+        const gloss = glosses[gi]
+        if (gloss.lang && gloss.lang !== 'eng') continue
 
-          // Check for exact match
-          if (glossText === lowerTerm) {
-            score += 1200
-            // Bonus for single-word definitions (more common/basic)
-            if (!glossText.includes(' ') && !glossText.includes(',')) {
-              score += 300
-            }
-            glossMatch = true
-            break
-          }
+        const glossText = gloss.text.toLowerCase()
+        // Strip parenthetical qualifiers inside-out so nested parens like
+        // "dog (Canis (lupus) familiaris)" reduce all the way to "dog".
+        let glossClean = glossText
+        let prevClean
+        do {
+          prevClean = glossClean
+          glossClean = glossClean.replace(/\([^()]*\)/g, '')
+        } while (glossClean !== prevClean)
+        glossClean = glossClean.replace(/\s+/g, ' ').trim()
+        const normGloss = glossClean.replace(/^to\s+/, '')
 
-          // Check if any part matches exactly (split by common delimiters)
-          const parts = glossText.split(/[,;\/]/).map(p => p.trim())
-          const exactPartMatch = parts.find(part => part === lowerTerm)
-          if (exactPartMatch) {
-            score += 1000
-            // Bonus if the matching part is the first one (primary meaning)
-            if (parts[0] === lowerTerm) {
-              score += 200
-            }
-            // Bonus for single-word definitions
-            if (!exactPartMatch.includes(' ')) {
-              score += 150
-            }
-            glossMatch = true
-            break
-          }
-
-          // Check for whole word match
-          const wordBoundaryRegex = new RegExp(`\\b${escapedTerm}\\b`, 'i')
-          if (wordBoundaryRegex.test(glossText)) {
-            score += 600
-            glossMatch = true
+        let base = 0
+        let singleWordBonus = 0
+        if (glossClean === lowerTerm || normGloss === lowerTerm) {
+          base = 1000
+          if (!normGloss.includes(' ') && !normGloss.includes(',')) singleWordBonus = 300
+        } else {
+          const parts = glossClean.split(/[,;\/]/).map(p => p.trim().replace(/^to\s+/, ''))
+          if (parts[0] === lowerTerm) {
+            // First listed meaning = the primary meaning; score it as strongly
+            // as a standalone gloss so 家 ("house, residence, …") isn't beaten
+            // by a loanword whose gloss is just "house".
+            base = 1000
+            if (!lowerTerm.includes(' ')) singleWordBonus = 300
+          } else if (parts.includes(lowerTerm)) {
+            base = 800
+            if (!lowerTerm.includes(' ')) singleWordBonus = 150
+          } else if (wordBoundaryRegex.test(glossText)) {
+            base = 400
           } else if (glossText.includes(lowerTerm)) {
-            // Substring match - lowest priority
-            if (isShortTerm) {
-              // For short terms, only allow if it starts a word
-              const startsWordRegex = new RegExp(`\\b${escapedTerm}`, 'i')
-              if (!startsWordRegex.test(glossText)) {
-                continue
-              }
-            }
-            score += 30
-            glossMatch = true
+            if (isShortTerm && !startsWordRegex.test(glossText)) continue
+            base = 30
           }
         }
+
+        if (base > 0) {
+          const sensePos = si === 0 ? 400 : si === 1 ? 150 : si === 2 ? 50 : 0
+          const glossPos = gi === 0 ? 300 : gi <= 2 ? 100 : 0
+          const total = base + singleWordBonus + sensePos + glossPos
+          if (total > bestGlossScore) bestGlossScore = total
+        }
       }
-      if (glossMatch && score >= 900) break // Stop if we found a good match
     }
+    score += bestGlossScore
 
     // Add to results if we have any match
     if (score > 0) {
-      // Get tags and part of speech for scoring
-      const tags = [
-        ...(word.kanji?.flatMap(k => k.tags || []) || []),
-        ...(word.kana?.flatMap(k => k.tags || []) || [])
-      ]
       const pos = word.sense?.flatMap((s) => s.partOfSpeech || []) || []
-
-      // Extra boost for exact matches on short common words
-      if (isShortTerm && score >= 900 && commonWord) {
-        score += 800 // Additional boost to ensure common words appear first
-      }
-
-      // Additional boost for words in our common words dictionary regardless of search term
-      // This helps prioritize "pen" over "pencil case", "book" over "bookshelf", etc.
-      if (score >= 600) { // Only if we have a decent match
-        // Check if this word matches any entry in COMMON_WORDS
-        for (const [engWord, jpWords] of Object.entries(COMMON_WORDS)) {
-          if (jpWords.includes(kanjiText) || jpWords.includes(kanaText)) {
-            // Found in common words - give it a boost based on relevance
-            if (engWord === lowerTerm) {
-              score += 1000 // Exact English match to common word
-            } else if (lowerTerm.includes(engWord) || engWord.includes(lowerTerm)) {
-              score += 200 // Partial match to common word
-            } else {
-              score += 50 // It's a common word even if not directly searched
-            }
-            break
-          }
-        }
-      }
-
-      // Priority tag score
-      score += getPriorityScore(tags)
 
       // Part of speech score
       score += getPosScore(pos)
@@ -550,14 +547,15 @@ export async function searchJMdictWords(term: string, limit = 30): Promise<Japan
         score -= isShortTerm ? 400 : 200
       }
 
-      // Penalty for words with too many senses (likely less common)
-      if (word.sense && word.sense.length > 5) {
-        score -= 50 * (word.sense.length - 5)
-      }
-
-      // Boost common words
-      if (word.kanji?.[0]?.common || word.kana?.[0]?.common) {
-        score += 100
+      // Frequency — the data-driven replacement for the old COMMON_WORDS table.
+      // Uses JMdict's own corpus frequency bands as a TIEBREAKER among
+      // similar-quality matches (本 beats 書籍, 猫 beats 山猫). Kept small enough
+      // (≤160) that it never overrides a clearly better textual match.
+      const band = getFreqBand(word.id)
+      if (band) {
+        score += Math.max(0, 160 - (band - 1) * 3)
+      } else if (word.kanji?.[0]?.common || word.kana?.[0]?.common) {
+        score += 40 // common but unranked
       }
 
       results.push({ word, score })
@@ -663,6 +661,7 @@ export async function getCommonJMdictWords(limit = 100): Promise<JapaneseWord[]>
 // Preload conjugatable words cache
 export async function preloadConjugatableWords(): Promise<void> {
   await loadJMdictData()
+  await loadFreqData()
   if (!jmdictData) return
 
   // Check if cache is still valid
@@ -709,14 +708,9 @@ export async function preloadConjugatableWords(): Promise<void> {
       score -= 100
     }
 
-    const kanjiText = word.kanji?.[0]?.text || ''
-    const kanaText = word.kana?.[0]?.text || ''
-    for (const jpWords of Object.values(COMMON_WORDS)) {
-      if (jpWords.includes(kanjiText) || jpWords.includes(kanaText)) {
-        score += 500
-        break
-      }
-    }
+    // Frequency boost from JMdict corpus bands (replaces old COMMON_WORDS).
+    const band = getFreqBand(word.id)
+    if (band) score += Math.max(0, 500 - (band - 1) * 10)
 
     const converted = convertJMDictToWord(word)
     converted.partsOfSpeech = pos
