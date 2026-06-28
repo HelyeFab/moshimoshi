@@ -52,6 +52,7 @@
     "tatoeba:start": "node scripts/backfill-tatoeba-audio.js --limit 200 --batch-size 20 --auto-resume --sleep-ms 1000",
     "tatoeba:retry": "node scripts/backfill-tatoeba-audio.js --retry-failed --batch-size 20 --sleep-ms 1000",
     "build:kanji-cache": "node scripts/generate-kanji-sentence-cache.js",
+    "build:jmdict-freq": "node scripts/build-jmdict-freq.mjs",
     "build:jlpt-word-index": "node scripts/generate-jlpt-word-index.mjs",
     "export:kanji-browser:flutter": "tsx scripts/kanji-browser-export/export-flutter-content.ts",
     "grammar:lite": "node scripts/grammar/generate-exercise-lite.js",
@@ -161,6 +162,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
+    "@scriptin/jmdict-simplified-types": "^3.6.1",
     "@netlify/plugin-nextjs": "^5.15.3",
     "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^6.8.0",

@@ -45,7 +45,7 @@ class KanjiEnrichmentService {
     if (this.jmdictData) return this.jmdictData
 
     try {
-      const dictPath = path.join(process.cwd(), 'src/data/dictionary/jmdict-eng-common.json')
+      const dictPath = path.join(process.cwd(), 'public/data/dictionary/jmdict-eng-common.json')
       const content = fs.readFileSync(dictPath, 'utf8')
       this.jmdictData = JSON.parse(content).words || []
       console.log(`Loaded ${this.jmdictData!.length} JMDict entries`)
