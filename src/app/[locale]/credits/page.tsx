@@ -36,6 +36,13 @@ export default function CreditsPage() {
       icon: '📚'
     },
     {
+      name: 'BCCWJ (NINJAL)',
+      description: strings.credits?.sources?.bccwj || 'Word-frequency data from the Balanced Corpus of Contemporary Written Japanese, by the National Institute for Japanese Language and Linguistics (NINJAL), used to rank dictionary search results.',
+      url: 'https://clrd.ninjal.ac.jp/bccwj/en/',
+      license: 'Free for research/educational use',
+      icon: '📈'
+    },
+    {
       name: 'WaniKani',
       description: t('credits.sources.wanikani'),
       url: 'https://www.wanikani.com',
