@@ -37,7 +37,7 @@ export default function CreditsPage() {
     },
     {
       name: 'BCCWJ (NINJAL)',
-      description: strings.credits?.sources?.bccwj || 'Word-frequency data from the Balanced Corpus of Contemporary Written Japanese, by the National Institute for Japanese Language and Linguistics (NINJAL), used to rank dictionary search results.',
+      description: 'Word-frequency data from the Balanced Corpus of Contemporary Written Japanese, by the National Institute for Japanese Language and Linguistics (NINJAL), used to rank dictionary search results.',
       url: 'https://clrd.ninjal.ac.jp/bccwj/en/',
       license: 'Free for research/educational use',
       icon: '📈'
