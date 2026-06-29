@@ -41,6 +41,10 @@ export interface JapaneseWord {
   // Parts of speech (from dictionaries)
   partsOfSpeech?: string[];
 
+  // Structured senses (dictionary), when available — lets result rows show
+  // numbered, POS-grouped meanings instead of one flattened string.
+  senses?: DictionarySenseDetail[];
+
   // Example sentences
   examples?: {
     japanese: string;

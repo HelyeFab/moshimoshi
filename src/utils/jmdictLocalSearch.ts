@@ -415,6 +415,21 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
   ]
   const partsOfSpeech = entry.sense?.flatMap(s => s.partOfSpeech || []) || []
 
+  // Structured senses (capped for list payloads) so result rows can show
+  // numbered, POS-grouped meanings rather than the flattened `meaning` string.
+  const senses = (entry.sense || [])
+    .map(s => ({
+      partsOfSpeech: (s.partOfSpeech || []) as string[],
+      glosses: (s.gloss || [])
+        .filter(g => g.lang === 'eng' || !g.lang)
+        .map(g => g.text),
+      field: s.field && s.field.length ? (s.field as string[]) : undefined,
+      misc: s.misc && s.misc.length ? (s.misc as string[]) : undefined,
+      info: s.info && s.info.length ? (s.info as string[]) : undefined,
+    }))
+    .filter(s => s.glosses.length > 0)
+    .slice(0, 12)
+
   return {
     id: `jmdict-${entry.id}`,
     kanji: kanji,
@@ -424,7 +439,8 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     type: wordType,
     jlpt, // Only set for known N5/N4 conjugatable words; otherwise undefined
     tags: tags,
-    partsOfSpeech
+    partsOfSpeech,
+    senses,
   }
 }
 
