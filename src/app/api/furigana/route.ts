@@ -58,6 +58,62 @@ function hasKanji(text: string): boolean {
   return /[\u4e00-\u9faf]/.test(text);
 }
 
+const isKanjiChar = (ch: string): boolean => /[\u4e00-\u9faf]/.test(ch);
+
+/**
+ * Build ruby that annotates ONLY the kanji, leaving \u043e\u043aurigana/kana plain \u2014 so
+ * \u5408\u3046 \u2192 \u5408(\u3042)\u3046, not \u5408\u3046(\u3042\u3046). For the common single-kanji-run token we strip
+ * the matching leading/trailing kana from the reading and wrap just the kanji
+ * run; anything more complex (multiple kanji runs, mismatched kana) falls back
+ * to wrapping the whole token, which is the previous behaviour.
+ */
+function buildRubyHtml(surface: string, reading: string): string {
+  const whole = `<ruby>${surface}<rp>(</rp><rt>${reading}</rt><rp>)</rp></ruby>`;
+  const toHira = (s: string) => s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+
+  // Segment the surface into consecutive kanji / non-kanji runs.
+  const segs: { kanji: boolean; text: string }[] = [];
+  for (const ch of surface) {
+    const k = isKanjiChar(ch);
+    const last = segs[segs.length - 1];
+    if (last && last.kanji === k) last.text += ch;
+    else segs.push({ kanji: k, text: ch });
+  }
+  if (!segs.some(s => s.kanji)) return surface;
+
+  // Walk left→right, fitting the reading to each run. Kana runs must match the
+  // reading; a kanji run takes the reading up to the next kana run. Any mismatch
+  // bails to the whole-token ruby (safe).
+  const rd = toHira(reading);
+  let out = '';
+  let pos = 0;
+  for (let idx = 0; idx < segs.length; idx++) {
+    const seg = segs[idx];
+    if (!seg.kanji) {
+      const segH = toHira(seg.text);
+      if (rd.slice(pos, pos + segH.length) !== segH) return whole;
+      out += seg.text;
+      pos += segH.length;
+    } else {
+      const next = segs[idx + 1]; // always a kana run when present
+      let kr: string;
+      if (next) {
+        const found = rd.indexOf(toHira(next.text), pos);
+        if (found <= pos) return whole;
+        kr = reading.slice(pos, found);
+        pos = found;
+      } else {
+        kr = reading.slice(pos);
+        pos = rd.length;
+      }
+      if (!kr) return whole;
+      out += `<ruby>${seg.text}<rp>(</rp><rt>${kr}</rt><rp>)</rp></ruby>`;
+    }
+  }
+  if (pos !== rd.length) return whole;
+  return out;
+}
+
 const PARTICLE_FORMS = new Set(['の', 'は', 'が', 'を', 'で', 'に', 'と', 'へ', 'も']);
 const KUNYOMI_OVERRIDES: Record<string, string> = {
   '風': 'かぜ',
@@ -134,7 +190,8 @@ function generateFurigana(tokens: KuromojiToken[]): string {
         if (hiraganaReading === surface_form) {
           wordHtml = surface_form;
         } else {
-          wordHtml = `<ruby>${surface_form}<rp>(</rp><rt>${hiraganaReading}</rt><rp>)</rp></ruby>`;
+          // Annotate only the kanji, leaving okurigana/kana plain.
+          wordHtml = buildRubyHtml(surface_form, hiraganaReading);
         }
       } else {
         wordHtml = surface_form;

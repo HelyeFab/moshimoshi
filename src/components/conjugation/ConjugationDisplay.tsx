@@ -14,6 +14,7 @@ import { HelpIcon } from '@/components/conjugation-help/HelpIcon'
 import { HelpModal } from '@/components/conjugation-help/HelpModal'
 import { getHelpByFormType, getHelpByWordType } from '@/data/conjugation-help'
 import { formatConjugationForm } from '@/utils/formatConjugationForm'
+import FuriganaText from '@/components/grammar/FuriganaText'
 
 interface ConjugationDisplayProps {
   word: JapaneseWord
@@ -265,12 +266,16 @@ export function ConjugationDisplay({
                                 </div>
                               )}
                               <div className="flex items-center gap-3">
-                                <span className="text-lg font-medium text-gray-900 dark:text-gray-100 japanese-text">
-                                  {value}
-                                </span>
-                                {showFurigana && word.kana && (
-                                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                                    {/* Here you could add furigana logic */}
+                                {showFurigana ? (
+                                  <FuriganaText
+                                    text={value}
+                                    showFurigana
+                                    as="span"
+                                    className="text-lg font-medium text-gray-900 dark:text-gray-100 japanese-text"
+                                  />
+                                ) : (
+                                  <span className="text-lg font-medium text-gray-900 dark:text-gray-100 japanese-text">
+                                    {value}
                                   </span>
                                 )}
                                 {/* Help icon for this form */}
