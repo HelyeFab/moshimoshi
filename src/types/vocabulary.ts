@@ -50,6 +50,35 @@ export interface JapaneseWord {
 }
 
 /**
+ * Rich, structured single-entry detail for the dictionary word page.
+ * Unlike JapaneseWord (which flattens every gloss into one `meaning` string),
+ * this preserves JMdict's per-sense structure and variant writings.
+ */
+export interface DictionarySenseDetail {
+  partsOfSpeech: string[];   // JMdict POS codes for this sense (e.g. ['v1','vt'])
+  glosses: string[];         // English glosses for this sense
+  field?: string[];          // domain tags (e.g. ['comp'])
+  misc?: string[];           // misc tags (e.g. ['uk','col'])
+  info?: string[];           // freeform sense notes
+}
+
+export interface DictionaryEntryDetail {
+  id: string;                // "jmdict-{id}"
+  kanji: { text: string; common: boolean }[];   // all kanji writings (variants included)
+  kana: { text: string; common: boolean }[];     // all kana readings (variants included)
+  senses: DictionarySenseDetail[];
+  common: boolean;
+  freqBand?: number;         // corpus frequency band (1 = most frequent)
+
+  // Convenience fields for reuse (conjugation, badges, audio)
+  primaryKanji: string;
+  primaryKana: string;
+  type: WordType;
+  jlpt?: JLPTLevel;
+  partsOfSpeech: string[];   // flattened POS across senses (for type detection)
+}
+
+/**
  * Vocabulary Word - Extended type for saved vocabulary
  */
 export interface VocabularyWord extends JapaneseWord {

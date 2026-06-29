@@ -6,7 +6,7 @@
  * query and receives only the matched results.
  */
 
-import type { JapaneseWord } from '@/types/vocabulary'
+import type { JapaneseWord, DictionaryEntryDetail } from '@/types/vocabulary'
 
 export async function searchDictionary(term: string, limit = 30): Promise<JapaneseWord[]> {
   const res = await fetch(
@@ -17,4 +17,15 @@ export async function searchDictionary(term: string, limit = 30): Promise<Japane
   }
   const data = await res.json()
   return (data.results ?? []) as JapaneseWord[]
+}
+
+/** Fetch the full structured entry for the word-detail page. Returns null on 404. */
+export async function getWordDetail(id: string): Promise<DictionaryEntryDetail | null> {
+  const res = await fetch(`/api/dictionary/word/${encodeURIComponent(id)}`)
+  if (res.status === 404) return null
+  if (!res.ok) {
+    throw new Error(`Word lookup failed: ${res.status}`)
+  }
+  const data = await res.json()
+  return (data.entry ?? null) as DictionaryEntryDetail | null
 }

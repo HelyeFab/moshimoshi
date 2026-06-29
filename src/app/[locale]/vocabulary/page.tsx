@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, useParams } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
@@ -10,7 +10,6 @@ import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
-import WordDetailsModal from './components/WordDetailsModal'
 import SearchHistory from './components/SearchHistory'
 import { searchWords, initWanikaniApi } from '@/utils/api'
 import { searchDictionary } from '@/utils/dictionaryClient'
@@ -21,6 +20,7 @@ import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 function VocabularyContent() {
   const router = useRouter()
+  const locale = (useParams().locale as string) || 'en'
   const searchParams = useSearchParams()
   const { strings } = useI18n()
   const { showToast } = useToast()
@@ -35,7 +35,6 @@ function VocabularyContent() {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<JapaneseWord[]>([])
   const [searching, setSearching] = useState(false)
-  const [selectedWord, setSelectedWord] = useState<JapaneseWord | null>(null)
   const [searchHistory, setSearchHistory] = useState<
     Array<{
       term: string
@@ -227,17 +226,21 @@ function VocabularyContent() {
   }
 
   const handleWordClick = async (word: JapaneseWord) => {
-    setSelectedWord(word)
-
-    // Track clicked result for premium users
+    // Track clicked result for premium users (analytics)
     if (searchTerm && user && isPremium) {
-      await vocabularyHistoryManager.trackResultClick(
-        searchTerm,
-        word.kanji || word.kana,
-        user,
-        isPremium ?? false
-      )
+      try {
+        await vocabularyHistoryManager.trackResultClick(
+          searchTerm,
+          word.kanji || word.kana,
+          user,
+          isPremium ?? false
+        )
+      } catch (e) {
+        console.error('Failed to track result click:', e)
+      }
     }
+    // Navigate to the full word page (entitlement is checked there)
+    router.push(`/${locale}/vocabulary/${encodeURIComponent(word.id)}`)
   }
 
   const handleSearchHistoryClick = (term: string) => {
@@ -442,16 +445,6 @@ function VocabularyContent() {
           />
         </div>
       </div>
-
-      {/* Word Details Modal */}
-      {selectedWord && (
-        <WordDetailsModal
-          word={selectedWord}
-          isOpen={!!selectedWord}
-          onClose={() => setSelectedWord(null)}
-          user={user}
-        />
-      )}
 
       {/* Delete Confirmation Modal */}
       <Modal

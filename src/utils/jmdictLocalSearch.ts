@@ -1,4 +1,4 @@
-import { JapaneseWord, WordType, JLPTLevel } from '@/types/vocabulary'
+import { JapaneseWord, WordType, JLPTLevel, DictionaryEntryDetail } from '@/types/vocabulary'
 import { ValidationUtils } from '@/lib/review-engine/validation/validation-utils'
 import { getJLPTLevel, isN5Word, isN4Word } from '@/data/jlpt-conjugatable-words'
 import { deinflect, looksInflected } from '@/utils/japaneseDeinflector'
@@ -425,6 +425,81 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     jlpt, // Only set for known N5/N4 conjugatable words; otherwise undefined
     tags: tags,
     partsOfSpeech
+  }
+}
+
+// Lazy id → array-index map for O(1) single-entry lookup.
+let idIndex: Map<string, number> | null = null
+function getIdIndex(): Map<string, number> {
+  if (idIndex) return idIndex
+  const m = new Map<string, number>()
+  const words = jmdictData?.words || []
+  for (let i = 0; i < words.length; i++) m.set(words[i].id, i)
+  idIndex = m
+  return m
+}
+
+/**
+ * Fetch a single dictionary entry by id with its FULL structure preserved
+ * (every sense kept separate, all variant kanji/kana writings, tags), for the
+ * word-detail page. Accepts either "jmdict-1234567" or the bare "1234567".
+ */
+export async function getWordDetailById(rawId: string): Promise<DictionaryEntryDetail | null> {
+  await loadJMdictData()
+  await loadFreqData()
+  if (!jmdictData) return null
+
+  const id = String(rawId).replace(/^jmdict-/, '')
+  const idx = getIdIndex().get(id)
+  if (idx === undefined) return null
+  const entry = jmdictData.words[idx]
+
+  const kanji = (entry.kanji || [])
+    .map(k => ({ text: k.text || '', common: !!k.common }))
+    .filter(k => k.text)
+  const kana = (entry.kana || [])
+    .map(k => ({ text: k.text || '', common: !!k.common }))
+    .filter(k => k.text)
+
+  const senses = (entry.sense || [])
+    .map(s => ({
+      partsOfSpeech: (s.partOfSpeech || []) as string[],
+      glosses: (s.gloss || [])
+        .filter(g => g.lang === 'eng' || !g.lang)
+        .map(g => g.text),
+      field: s.field && s.field.length ? (s.field as string[]) : undefined,
+      misc: s.misc && s.misc.length ? (s.misc as string[]) : undefined,
+      info: s.info && s.info.length ? (s.info as string[]) : undefined,
+    }))
+    .filter(s => s.glosses.length > 0)
+
+  const primaryKanji = kanji[0]?.text || ''
+  const primaryKana = kana[0]?.text || ''
+  const wordType = determineWordType(entry.sense?.[0]?.partOfSpeech)
+
+  let jlpt: JLPTLevel | undefined
+  const conjType =
+    wordType === 'verb' ? 'verb'
+    : wordType === 'i-adjective' ? 'i-adjective'
+    : wordType === 'na-adjective' ? 'na-adjective'
+    : null
+  if (conjType) {
+    const level = getJLPTLevel(primaryKanji, primaryKana, conjType)
+    if (level === 'N5' || level === 'N4') jlpt = level
+  }
+
+  return {
+    id: `jmdict-${entry.id}`,
+    kanji,
+    kana,
+    senses,
+    common: kanji.some(k => k.common) || kana.some(k => k.common),
+    freqBand: getFreqBand(entry.id),
+    primaryKanji,
+    primaryKana,
+    type: wordType,
+    jlpt,
+    partsOfSpeech: senses.flatMap(s => s.partsOfSpeech),
   }
 }
 
