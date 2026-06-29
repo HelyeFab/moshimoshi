@@ -11,7 +11,7 @@
 import { useEffect, useState } from 'react'
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
-import FuriganaText from '@/components/grammar/FuriganaText'
+import { generateFuriganaWithCache } from '@/utils/furigana'
 import { useTTS } from '@/hooks/useTTS'
 import type { JapaneseWord } from '@/types/vocabulary'
 import type { ExtendedConjugationForms } from '@/types/conjugation'
@@ -70,18 +70,35 @@ const GRID: Cell[] = [
 
 export default function ConjugationGrid({ word, showFurigana = true }: { word: JapaneseWord; showFurigana?: boolean }) {
   const [forms, setForms] = useState<ExtendedConjugationForms | null>(null)
+  const [furiMap, setFuriMap] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const { play } = useTTS({ cacheFirst: true })
 
   useEffect(() => {
     let active = true
-    setLoading(true); setError(false)
+    setLoading(true); setError(false); setForms(null); setFuriMap({})
     ;(async () => {
       try {
         const enhanced = enhanceWordWithType(word)
         const result = await ExtendedConjugationEngine.conjugate(enhanced)
-        if (active) setForms(result)
+        if (!active) return
+
+        // Precompute furigana for every displayed form in one batched pass, so
+        // the grid renders complete instead of popping in cell-by-cell.
+        if (showFurigana) {
+          const values = Array.from(new Set(
+            GRID.flatMap(c => c.rows)
+              .map(r => (result as unknown as Record<string, string>)[r.key])
+              .filter(Boolean)
+          ))
+          const htmls = await Promise.all(values.map(v => generateFuriganaWithCache(v).catch(() => v)))
+          if (!active) return
+          const map: Record<string, string> = {}
+          values.forEach((v, i) => { map[v] = htmls[i] })
+          setFuriMap(map)
+        }
+        setForms(result)
       } catch (e) {
         console.error('Conjugation failed:', e)
         if (active) setError(true)
@@ -90,7 +107,7 @@ export default function ConjugationGrid({ word, showFurigana = true }: { word: J
       }
     })()
     return () => { active = false }
-  }, [word])
+  }, [word, showFurigana])
 
   const speak = (text: string) => {
     play(text, { voice: '23', speed: 0.85 }).catch(() => {
@@ -134,7 +151,9 @@ export default function ConjugationGrid({ word, showFurigana = true }: { word: J
                     className="text-right flex-1 text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                     style={{ fontFamily: '"Noto Sans JP","Hiragino Sans","Yu Gothic","Meiryo",sans-serif' }}
                   >
-                    {showFurigana ? <FuriganaText text={value} showFurigana as="span" /> : value}
+                    {showFurigana && furiMap[value]
+                      ? <span dangerouslySetInnerHTML={{ __html: furiMap[value] }} />
+                      : value}
                   </button>
                 </div>
               )
