@@ -159,6 +159,12 @@ for (const suffix of POLITE_SUFFIXES) {
 
 const HAS_JAPANESE = /[぀-ヿ一-龯]/
 
+// Trailing grammatical particles that attach to a dictionary headword, e.g.
+// 意外と / 意外に ("unexpectedly") = 意外 + と/に. Stripping them recovers the
+// base entry. Candidates are validated against real dictionary entries by the
+// caller, so an over-strip simply matches nothing.
+const TRAILING_PARTICLES = ['と', 'に', 'な', 'の', 'は', 'が', 'を', 'へ', 'で', 'も', 'や', 'か']
+
 /**
  * Return candidate dictionary forms for a (possibly conjugated) term.
  * The original term is always included first. Results are de-duplicated and
@@ -173,6 +179,12 @@ export function deinflect(term: string, maxCandidates = 40): string[] {
   }
 
   const seen = new Set<string>([trimmed])
+  const add = (candidate: string) => {
+    if (candidate && !seen.has(candidate)) {
+      seen.add(candidate)
+      candidates.push(candidate)
+    }
+  }
 
   for (const rule of RULES) {
     if (!trimmed.endsWith(rule.from)) continue
@@ -181,13 +193,15 @@ export function deinflect(term: string, maxCandidates = 40): string[] {
     if (stem.length === 0) continue
 
     for (const ending of rule.to) {
-      const candidate = stem + ending
-      if (!seen.has(candidate)) {
-        seen.add(candidate)
-        candidates.push(candidate)
-        if (candidates.length >= maxCandidates) return candidates
-      }
+      add(stem + ending)
+      if (candidates.length >= maxCandidates) return candidates
     }
+  }
+
+  // Strip a single trailing grammatical particle (意外と→意外, 本当に→本当).
+  // Require ≥2 chars to remain so we don't reduce short words to noise.
+  if (trimmed.length >= 3 && TRAILING_PARTICLES.includes(trimmed.slice(-1))) {
+    add(trimmed.slice(0, -1))
   }
 
   return candidates
