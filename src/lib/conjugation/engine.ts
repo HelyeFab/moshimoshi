@@ -454,11 +454,11 @@ export class ExtendedConjugationEngine {
       return this.conjugateSuru(word);
     }
     
-    // Handle 来る
-    if (kanji === '来る' || kana === 'くる') {
+    // Handle 来る and 〜くる compounds (e.g. 持ってくる, 連れてくる)
+    if (kanji.endsWith('来る') || kanji.endsWith('くる') || kana.endsWith('くる')) {
       return this.conjugateKuru(word);
     }
-    
+
     return this.getEmptyConjugations();
   }
 
@@ -603,9 +603,11 @@ export class ExtendedConjugationEngine {
     };
   }
 
-  // Helper: Conjugate 来る
+  // Helper: Conjugate 来る (and 〜くる compounds like 持ってくる — prefix-aware)
   private static conjugateKuru(word: EnhancedJapaneseWord): ExtendedConjugationForms {
-    return {
+    const base = word.kanji || word.kana || '';
+    const prefix = (base.endsWith('来る') || base.endsWith('くる')) ? base.slice(0, -2) : '';
+    const forms: ExtendedConjugationForms = {
       // ============= BASIC FORMS =============
       present: '来る',
       masuStem: '来',
@@ -739,6 +741,17 @@ export class ExtendedConjugationEngine {
       presumptivePolite: '来るでしょう',
       presumptivePoliteNegative: '来ないでしょう',
     };
+
+    if (!prefix) return forms;
+
+    // Compound kuru verb (e.g. 持ってくる): prepend the stem to every form so
+    // 来る→持って来る, 来ます→持って来ます, etc.
+    const prefixed = {} as Record<string, string>;
+    for (const key of Object.keys(forms)) {
+      const v = (forms as unknown as Record<string, string>)[key];
+      prefixed[key] = typeof v === 'string' ? prefix + v : v;
+    }
+    return prefixed as unknown as ExtendedConjugationForms;
   }
 
   // Helper: Generate TAI forms (treating as i-adjective)
