@@ -412,26 +412,5 @@ export { cleanupEmailSendJournal } from './scheduled/emailSendJournalCleanup'
  */
 export { backfillSentenceData } from './admin/backfillSentenceData'
 
-/**
- * Export Q&A moderation functions
- * Automatically moderates questions and answers using AI when created or updated
- * Checks for hate speech, spam, off-topic content, etc.
- */
-export {
-  moderateQuestion,
-  moderateQuestionOnUpdate,
-  moderateAnswer,
-  moderateAnswerOnUpdate,
-} from './qa-moderation';
-
-/**
- * Export Q&A voting functions
- * Server-side vote counting for questions and answers
- * Automatically updates vote counts when votes are created/deleted
- */
-export {
-  onQuestionVoteCreated,
-  onQuestionVoteDeleted,
-  onAnswerVoteCreated,
-  onAnswerVoteDeleted,
-} from './qa-voting';
+// Q&A forum functions (qa-moderation.ts, qa-voting.ts) were retired 2026-10-04:
+// the forum never shipped as a real feature and their warm instances cost ~£60/month.
